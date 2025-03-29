@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Game Config", menuName = "Scriptable Object/Game Config")]
-
-public class GameConfig : ScriptableObject
+public static class GameConfig
 {
     [Header("Dialogue")]
-    public float timeBetweenChars = 0.1f;
+    public static float TimeBetweenChars = 0.1f;
+    public static float TimeBeforeNextLine = 1f;
 }

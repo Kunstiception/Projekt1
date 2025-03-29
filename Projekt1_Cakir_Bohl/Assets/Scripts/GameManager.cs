@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private Coroutine _textCoroutine;
     private int _currentString = 0;
-    private string[] _text = { "Hello, World! Witness the glory of Projekt 1!", 
+    private string[] _texts = { "Hello, World! Witness the glory of Projekt 1!", 
         "Created by Zara Cakir and Lukas Bohl.", 
         "Let us send the hero on his very first quest!" };
     
@@ -33,39 +32,46 @@ public class GameManager : MonoBehaviour
                 _textCoroutine = null;
                 _promptSkip.enabled = false;
 
-                DialogueUtil.ShowFullLine(_text[_currentString], _uiElement);
-
-                _currentString++;
+                DialogueUtil.ShowFullLine(_texts[_currentString], _uiElement);
             }
         }
     }
 
     IEnumerator Dialogue()
     {
-        while(true)
+        for (int i = 0; i < _texts.Length; i++)
         {
-            for (int i = 0; i < _text.Length; i++)
+            if (!_promptSkip.isActiveAndEnabled)
             {
-                if (!_promptSkip.isActiveAndEnabled)
-                {
-                    _promptSkip.enabled = true;
-                }
-
-                _currentString = i;
-
-                yield return _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(_text[_currentString], _uiElement));
-
-                _promptSkip.enabled = false;
-                _promptContinue.enabled = true;
-
-                while (!Input.GetKeyDown(KeyCode.Space))
-                {
-                    yield return null;
-                }
-
-                _promptContinue.enabled = false;
                 _promptSkip.enabled = true;
             }
+
+            _currentString = i;
+
+            _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(_texts[_currentString], _uiElement));
+
+            //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
+            yield return new WaitUntil(() => _texts[_currentString] == _uiElement.text);
+
+            _promptSkip.enabled = false;
+
+            // wait one frame to not trigger following GetKeyDown event
+            yield return new WaitForSeconds(GameConfig.TimeBeforeNextLine);
+
+            if(_currentString == _texts.Length - 1)
+            {
+                break;
+            }
+
+            _promptContinue.enabled = true;
+
+            while (!Input.GetKeyDown(KeyCode.Space))
+            {
+                yield return null;
+            }
+
+            _promptContinue.enabled = false;
+            _promptSkip.enabled = true;
         }
     }
 }

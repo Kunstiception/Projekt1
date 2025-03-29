@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public static class DialogueUtil
@@ -14,12 +12,15 @@ public static class DialogueUtil
 
         for(int i = 0; i < chars.Length; i++)
         {
+            if(currentString.Length == chars.Length)
+            {
+                yield break;
+            }
+
             currentString = currentString + chars[i];
             uiElement.text = currentString;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(GameConfig.TimeBetweenChars);
         }
-
-        yield return new WaitForSeconds(1f);
     }
 
     public static void ShowFullLine(string line, TextMeshProUGUI uiElement)
