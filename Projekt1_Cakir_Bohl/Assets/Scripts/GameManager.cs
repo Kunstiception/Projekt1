@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        StartCoroutine(Dialogue());
+        StartCoroutine(Dialogue(_texts));
 
         _promptContinue.enabled = false;
     }
@@ -37,9 +37,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator Dialogue()
+    IEnumerator Dialogue(string[] strings)
     {
-        for (int i = 0; i < _texts.Length; i++)
+        for (int i = 0; i < strings.Length; i++)
         {
             if (!_promptSkip.isActiveAndEnabled)
             {
@@ -48,17 +48,17 @@ public class GameManager : MonoBehaviour
 
             _currentString = i;
 
-            _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(_texts[_currentString], _uiElement));
+            _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(strings[_currentString], _uiElement));
 
             //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
-            yield return new WaitUntil(() => _texts[_currentString] == _uiElement.text);
+            yield return new WaitUntil(() => strings[_currentString] == _uiElement.text);
 
             _promptSkip.enabled = false;
 
             // wait one frame to not trigger following GetKeyDown event
             yield return new WaitForSeconds(GameConfig.TimeBeforeNextLine);
 
-            if(_currentString == _texts.Length - 1)
+            if(_currentString == strings.Length - 1)
             {
                 break;
             }
