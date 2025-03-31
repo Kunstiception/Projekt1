@@ -1,42 +1,90 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using static Unity.Collections.Unicode;
 
 public class MapManager : MonoBehaviour
 {
-    [SerializeField] private Transform _player;
-    [SerializeField] private Transform[] _level1;
-    [SerializeField] private Transform[] _level2;
-    [SerializeField] private Transform[] _level3;
     
+    
+    [SerializeField] private Transform _player;
+
     private float _movementLength;
     private float _timer;
-    private Coroutine _movementCoroutine;
+    private string _interactableTag = "Interactable";
+    private string _nonInteractableTag = "Non_Interactable";
     private Transform _nextPosition;
+    private Coroutine _movementCoroutine;
     
+    private KeyValuePair<Transform, int> _currentPositionAndLevel;
+    private Dictionary<Transform, int> _wayPoints = new Dictionary<Transform, int>();
+
     void Start()
     {
-        EvaluateCurrentPosition();
+        GetWayPoints();
+        SetCurrentPosition();
+        SetWayPointsTag();
     }
 
     private void OnEnable()
     {      
-        MapPoint.clickAction += GetNextPosition;
+        WayPoint.clickAction += SetNextPosition;
     }
 
     private void OnDisable()
     {
-        MapPoint.clickAction -= GetNextPosition;
+        WayPoint.clickAction -= SetNextPosition;
     }
 
-    private void EvaluateCurrentPosition()
+    private void GetWayPoints()
     {
-        transform.position = _level1[0].position;
+        var foundWayPoints = FindObjectsByType<WayPoint>(FindObjectsSortMode.None);
+
+        foreach(var wayPoint in foundWayPoints)
+        {
+            _wayPoints.Add(wayPoint.transform, wayPoint.level);
+        }
     }
 
-    private void GetNextPosition(Transform transform)
+    private void SetCurrentPosition()
     {
+        if (_currentPositionAndLevel.Key == null)
+        {
+            //https://stackoverflow.com/questions/2444033/get-dictionary-key-by-value
+            _currentPositionAndLevel = new KeyValuePair<Transform, int>(_wayPoints.FirstOrDefault(x => x.Value == 0).Key, 0);
+        }
+
+        _player.position = _currentPositionAndLevel.Key.position;
+    }
+
+    private void IncrementCurrentPosition()
+    {
+        _currentPositionAndLevel = new KeyValuePair<Transform, int>(_nextPosition, _currentPositionAndLevel.Value + 1);
+
+    }
+
+    private void SetWayPointsTag()
+    {
+        foreach(var wayPoint in _wayPoints)
+        {
+            if(wayPoint.Value == _currentPositionAndLevel.Value + 1)
+            {
+                wayPoint.Key.gameObject.tag = _interactableTag;
+            }
+            else
+            {
+                wayPoint.Key.gameObject.tag = _nonInteractableTag;
+            }
+        }
+    }
+
+    private void SetNextPosition(Transform transform)
+    {
+        if(_movementCoroutine != null)
+        {
+            return;
+        }
+
         _nextPosition = transform;
         _movementCoroutine = StartCoroutine(MovementCoroutine(_player.position, _nextPosition.position));
     }
@@ -61,5 +109,8 @@ public class MapManager : MonoBehaviour
         _timer = 0;
         transform.position = finalPosition;
         _movementCoroutine = null;
+        
+        IncrementCurrentPosition();
+        SetWayPointsTag();
     }
 }
