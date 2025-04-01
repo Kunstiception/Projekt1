@@ -1,24 +1,24 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private string[] _texts;
+    [SerializeField] private string _nextScene;
     [SerializeField] private TextMeshProUGUI _uiElement;
     [SerializeField] private TextMeshProUGUI _promptSkip;
     [SerializeField] private TextMeshProUGUI _promptContinue;
 
     private Coroutine _textCoroutine;
     private int _currentString = 0;
-    private string[] _texts = { "Hello, World! Witness the glory of Projekt 1!", 
-        "Created by Zara Cakir and Lukas Bohl.", 
-        "Let us send the hero on his very first quest!" };
     
     void Start()
     {
-        StartCoroutine(Dialogue(_texts));
-
         _promptContinue.enabled = false;
+
+        StartCoroutine(Dialogue(_texts));
     }
 
     void Update()
@@ -73,5 +73,9 @@ public class GameManager : MonoBehaviour
             _promptContinue.enabled = false;
             _promptSkip.enabled = true;
         }
+
+        yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
+
+        SceneManager.LoadScene(_nextScene);
     }
 }

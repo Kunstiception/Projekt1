@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapManager : MonoBehaviour
 {
@@ -15,7 +15,6 @@ public class MapManager : MonoBehaviour
     private Transform _nextWaypoint;
     private Coroutine _movementCoroutine;
     
-    //private KeyValuePair<Transform, int> _currentPositionAndLevel;
     private Transform _currentWaypoint;
     private Dictionary<Transform, int> _wayPoints = new Dictionary<Transform, int>();
 
@@ -48,9 +47,19 @@ public class MapManager : MonoBehaviour
 
     private void SetCurrentPosition()
     {
-        if(_currentWaypoint == null)
+        if(MainManager.Instance == null)
+        {
+            return;
+        }
+        
+        //public string scheinbar nie null?
+        if(MainManager.Instance.WayPoint.Length == 0)
         {
             _currentWaypoint = _firstWaypoint;
+        }
+        else
+        {
+            _currentWaypoint = GameObject.Find(MainManager.Instance.WayPoint).transform;
         }
 
         _player.position = _currentWaypoint.position;
@@ -105,7 +114,9 @@ public class MapManager : MonoBehaviour
         _timer = 0;
         transform.position = finalPosition;
         _movementCoroutine = null;
-        
-        SetWayPointsTag();
+        _currentWaypoint = _nextWaypoint;
+        MainManager.Instance.WayPoint = _currentWaypoint.name;
+
+        SceneManager.LoadScene("CombatTest");
     }
 }
