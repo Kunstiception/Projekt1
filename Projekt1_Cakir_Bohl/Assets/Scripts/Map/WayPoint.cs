@@ -10,6 +10,7 @@ public class WayPoint : MonoBehaviour
     public static event Action OnClicked;
 
     [SerializeField] public int level;
+    [SerializeField] public Transform[] adjacentWaypoints;
 
     private Color _originalColor;
     private Color _hoverColor = Color.red;

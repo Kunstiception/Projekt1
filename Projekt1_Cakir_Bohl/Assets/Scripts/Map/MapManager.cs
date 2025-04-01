@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    
-    
     [SerializeField] private Transform _player;
+    [SerializeField] private Transform _firstWaypoint;
 
     private float _movementLength;
     private float _timer;
     private string _interactableTag = "Interactable";
     private string _nonInteractableTag = "Non_Interactable";
-    private Transform _nextPosition;
+    private Transform _nextWaypoint;
     private Coroutine _movementCoroutine;
     
-    private KeyValuePair<Transform, int> _currentPositionAndLevel;
+    //private KeyValuePair<Transform, int> _currentPositionAndLevel;
+    private Transform _currentWaypoint;
     private Dictionary<Transform, int> _wayPoints = new Dictionary<Transform, int>();
 
     void Start()
@@ -48,33 +48,29 @@ public class MapManager : MonoBehaviour
 
     private void SetCurrentPosition()
     {
-        if (_currentPositionAndLevel.Key == null)
+        if(_currentWaypoint == null)
         {
-            //https://stackoverflow.com/questions/2444033/get-dictionary-key-by-value
-            _currentPositionAndLevel = new KeyValuePair<Transform, int>(_wayPoints.FirstOrDefault(x => x.Value == 0).Key, 0);
+            _currentWaypoint = _firstWaypoint;
         }
 
-        _player.position = _currentPositionAndLevel.Key.position;
-    }
-
-    private void IncrementCurrentPosition()
-    {
-        _currentPositionAndLevel = new KeyValuePair<Transform, int>(_nextPosition, _currentPositionAndLevel.Value + 1);
-
+        _player.position = _currentWaypoint.position;
     }
 
     private void SetWayPointsTag()
     {
-        foreach(var wayPoint in _wayPoints)
+        if(_nextWaypoint == null)
         {
-            if(wayPoint.Value == _currentPositionAndLevel.Value + 1)
+            foreach(Transform wayPoint in _currentWaypoint.GetComponent<WayPoint>().adjacentWaypoints)
             {
-                wayPoint.Key.gameObject.tag = _interactableTag;
+                wayPoint.gameObject.tag = _interactableTag;
             }
-            else
-            {
-                wayPoint.Key.gameObject.tag = _nonInteractableTag;
-            }
+
+            return;
+        }
+
+        foreach(Transform wayPoint in _nextWaypoint.GetComponent<WayPoint>().adjacentWaypoints)
+        {
+            wayPoint.gameObject.tag = _interactableTag;
         }
     }
 
@@ -85,8 +81,8 @@ public class MapManager : MonoBehaviour
             return;
         }
 
-        _nextPosition = transform;
-        _movementCoroutine = StartCoroutine(MovementCoroutine(_player.position, _nextPosition.position));
+        _nextWaypoint = transform;
+        _movementCoroutine = StartCoroutine(MovementCoroutine(_player.position, _nextWaypoint.position));
     }
 
     private IEnumerator MovementCoroutine(Vector2 startPosition, Vector2 targetPosition)
@@ -110,7 +106,6 @@ public class MapManager : MonoBehaviour
         transform.position = finalPosition;
         _movementCoroutine = null;
         
-        IncrementCurrentPosition();
         SetWayPointsTag();
     }
 }
