@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class GameConfig
@@ -9,5 +10,6 @@ public static class GameConfig
 
     [Header("Map")]
     public static float MovementSpeed = 1.5f;
+    public static string[] WayPointTypes = { "Empty", "Fight", "Loot", "Interaction" };
 
 }

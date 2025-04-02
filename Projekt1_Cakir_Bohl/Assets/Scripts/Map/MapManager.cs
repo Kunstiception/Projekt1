@@ -16,7 +16,7 @@ public class MapManager : MonoBehaviour
     private Coroutine _movementCoroutine;
     
     private Transform _currentWaypoint;
-    private Dictionary<Transform, int> _wayPoints = new Dictionary<Transform, int>();
+    private List<Transform> _wayPoints = new List<Transform>();
 
     void Start()
     {
@@ -41,7 +41,8 @@ public class MapManager : MonoBehaviour
 
         foreach(var wayPoint in foundWayPoints)
         {
-            _wayPoints.Add(wayPoint.transform, wayPoint.level);
+            _wayPoints.Add(wayPoint.transform);
+            wayPoint.SetEnum(Random.Range(0, 3));
         }
     }
 
@@ -53,13 +54,13 @@ public class MapManager : MonoBehaviour
         }
         
         //public string scheinbar nie null?
-        if(MainManager.Instance.WayPoint.Length == 0)
+        if(MainManager.Instance.LastWayPoint.Length == 0)
         {
             _currentWaypoint = _firstWaypoint;
         }
         else
         {
-            _currentWaypoint = GameObject.Find(MainManager.Instance.WayPoint).transform;
+            _currentWaypoint = GameObject.Find(MainManager.Instance.LastWayPoint).transform;
         }
 
         _player.position = _currentWaypoint.position;
@@ -115,7 +116,11 @@ public class MapManager : MonoBehaviour
         transform.position = finalPosition;
         _movementCoroutine = null;
         _currentWaypoint = _nextWaypoint;
-        MainManager.Instance.WayPoint = _currentWaypoint.name;
+        // Object id ändert sich mit jeder Session, daher name
+        MainManager.Instance.LastWayPoint = _currentWaypoint.name;
+        MainManager.Instance.VisitedWayPoints.Add(_currentWaypoint.name);
+
+        MainManager.Instance.SaveAll();
 
         SceneManager.LoadScene("CombatTest");
     }
