@@ -22,7 +22,7 @@ public class MapManager : MonoBehaviour
     {
         GetWayPoints();
         SetCurrentPosition();
-        SetWayPointsTag();
+        SetNextWayPointsTag();
     }
 
     private void OnEnable()
@@ -42,7 +42,14 @@ public class MapManager : MonoBehaviour
         foreach(var wayPoint in foundWayPoints)
         {
             _wayPoints.Add(wayPoint.transform);
-            wayPoint.SetEnum(Random.Range(0, 3));
+            //https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.contains?view=net-9.0
+            if (MainManager.Instance.VisitedWayPoints.Contains(wayPoint.gameObject.transform.name))
+            {
+                wayPoint.SetEnum(0);
+                continue;
+            }
+
+            wayPoint.SetEnum(Random.Range(1, 4));
         }
     }
 
@@ -66,7 +73,7 @@ public class MapManager : MonoBehaviour
         _player.position = _currentWaypoint.position;
     }
 
-    private void SetWayPointsTag()
+    private void SetNextWayPointsTag()
     {
         if(_nextWaypoint == null)
         {

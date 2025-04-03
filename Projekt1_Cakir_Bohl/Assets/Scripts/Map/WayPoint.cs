@@ -72,22 +72,22 @@ public class WayPoint : MonoBehaviour
         {
             case 0:
                 _wayPointType = _possibleWayPointTypes[0];
-                Debug.Log("I'm an empty waypoint");
+                Debug.Log($"{gameObject.name}: I'm an empty waypoint");
                 break;
             case 1:
                 _wayPointType = _possibleWayPointTypes[0];
-                Debug.Log("I'm a fight waypoint");
+                Debug.Log($"{gameObject.name}: I'm a fight waypoint");
                 break;
             case 2:
                 _wayPointType = _possibleWayPointTypes[0];
-                Debug.Log("I'm a loot waypoint");
+                Debug.Log($"{gameObject.name}: I'm a loot waypoint");
                 break;
             case 3:
                 _wayPointType = _possibleWayPointTypes[0];
-                Debug.Log("I'm an interaction waypoint");
+                Debug.Log($"{gameObject.name}: I'm an interaction waypoint");
                 break;
             default:
-                Debug.Log("You guys have a type?");
+                Debug.Log($"{gameObject.name}: You guys have a type?");
                 break;
         }
     }
