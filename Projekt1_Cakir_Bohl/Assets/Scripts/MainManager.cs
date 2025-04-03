@@ -22,7 +22,7 @@ public class MainManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        LoadAll();
+        //LoadAll();
     }
 
     [System.Serializable]
