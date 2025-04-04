@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,11 +8,16 @@ public class MapManager : MonoBehaviour
 {
     [SerializeField] private Transform _player;
     [SerializeField] private Transform _firstWaypoint;
+    [SerializeField] private SceneAsset _emptyScene;
+    [SerializeField] private SceneAsset _fightScene;
+    [SerializeField] private SceneAsset _lootScene;
+    [SerializeField] private SceneAsset _interactionScene;
 
     private float _movementLength;
     private float _timer;
     private string _interactableTag = "Interactable";
     private string _nonInteractableTag = "Non_Interactable";
+    private string _nextScene;
     private Transform _nextWaypoint;
     private Coroutine _movementCoroutine;
     
@@ -45,11 +51,11 @@ public class MapManager : MonoBehaviour
             //https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.contains?view=net-9.0
             if (MainManager.Instance.VisitedWayPoints.Contains(wayPoint.gameObject.transform.name))
             {
-                wayPoint.SetEnum(0);
+                wayPoint.SetType(0);
                 continue;
             }
 
-            wayPoint.SetEnum(Random.Range(1, 4));
+            wayPoint.SetType(Random.Range(1, 4));
         }
     }
 
@@ -77,7 +83,7 @@ public class MapManager : MonoBehaviour
     {
         if(_nextWaypoint == null)
         {
-            foreach(Transform wayPoint in _currentWaypoint.GetComponent<WayPoint>().adjacentWaypoints)
+            foreach(Transform wayPoint in _currentWaypoint.GetComponent<WayPoint>().AdjacentWaypoints)
             {
                 wayPoint.gameObject.tag = _interactableTag;
             }
@@ -85,7 +91,7 @@ public class MapManager : MonoBehaviour
             return;
         }
 
-        foreach(Transform wayPoint in _nextWaypoint.GetComponent<WayPoint>().adjacentWaypoints)
+        foreach(Transform wayPoint in _nextWaypoint.GetComponent<WayPoint>().AdjacentWaypoints)
         {
             wayPoint.gameObject.tag = _interactableTag;
         }
@@ -123,12 +129,32 @@ public class MapManager : MonoBehaviour
         transform.position = finalPosition;
         _movementCoroutine = null;
         _currentWaypoint = _nextWaypoint;
+
+        switch (_nextWaypoint.GetComponent<WayPoint>().WayPointType)
+        {
+            case "Empty":
+                _nextScene = _emptyScene.name;
+                break;
+            case "Fight":
+                _nextScene = _fightScene.name;
+                break;
+            case "Loot":
+                _nextScene = _lootScene.name;
+                break;
+            case "Interaction":
+                _nextScene = _interactionScene.name;
+                break;
+            default:
+                Debug.LogError("No scene found!");
+                break;
+        }
+
         // Object id ändert sich mit jeder Session, daher name
         MainManager.Instance.LastWayPoint = _currentWaypoint.name;
         MainManager.Instance.VisitedWayPoints.Add(_currentWaypoint.name);
 
         MainManager.Instance.SaveAll();
 
-        SceneManager.LoadScene("CombatTest");
+        SceneManager.LoadScene(_nextScene);
     }
 }

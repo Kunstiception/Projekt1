@@ -10,15 +10,14 @@ public class WayPoint : MonoBehaviour
 
     public static event Action OnClicked;
 
-    [SerializeField] public int type;
-    [SerializeField] public Transform[] adjacentWaypoints;
+    public string WayPointType;
+    [SerializeField] public Transform[] AdjacentWaypoints;
 
     private Color _originalColor;
     private Color _hoverColor = Color.red;
     private string _interactableTag = "Interactable";
     private string _nonInteractableTag = "Non_Interactable";
     private string[] _possibleWayPointTypes = GameConfig.WayPointTypes;
-    private string _wayPointType;
 
     void Start()
     {
@@ -66,24 +65,24 @@ public class WayPoint : MonoBehaviour
         transform.GetComponent<Renderer>().material.color = _originalColor;
     }
 
-    public void SetEnum(int type)
+    public void SetType(int type)
     {
         switch (type)
         {
             case 0:
-                _wayPointType = _possibleWayPointTypes[0];
+                WayPointType = _possibleWayPointTypes[0];
                 Debug.Log($"{gameObject.name}: I'm an empty waypoint");
                 break;
             case 1:
-                _wayPointType = _possibleWayPointTypes[0];
+                WayPointType = _possibleWayPointTypes[1];
                 Debug.Log($"{gameObject.name}: I'm a fight waypoint");
                 break;
             case 2:
-                _wayPointType = _possibleWayPointTypes[0];
+                WayPointType = _possibleWayPointTypes[2];
                 Debug.Log($"{gameObject.name}: I'm a loot waypoint");
                 break;
             case 3:
-                _wayPointType = _possibleWayPointTypes[0];
+                WayPointType = _possibleWayPointTypes[3];
                 Debug.Log($"{gameObject.name}: I'm an interaction waypoint");
                 break;
             default:
