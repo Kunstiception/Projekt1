@@ -2,15 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager: MonoBehaviour
+public class PlayerManager: Combatant
 {
     public static PlayerManager Instance;
-    
-    public int HealthPoints = 10;
-    public int MinAttackStrength = 4;
-    public int MaxAttackStrength = 7;
-    public int ArmorStrength = 10;
-    public int Initiative = 10;
 
     public Dictionary<string, int> Inventory = new Dictionary<string, int>();
 
