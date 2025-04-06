@@ -77,8 +77,6 @@ public class CombatManager : MonoBehaviour
                 yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
             }
 
-            if (_combatantHealth2 <= 0) continue;
-
             _rawDamage = PerformAttack(_combatant2, _combatant1);
             print($"{_combatant1.Name} Damage: {_rawDamage}");
             if (_rawDamage <= 0)
