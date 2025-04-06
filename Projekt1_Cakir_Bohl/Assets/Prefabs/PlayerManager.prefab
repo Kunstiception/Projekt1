@@ -50,4 +50,5 @@ MonoBehaviour:
   MaxAttackStrength: 7
   ArmorStrength: 10
   Initiative: 10
+  Accuracy: 8
   Evasion: 10

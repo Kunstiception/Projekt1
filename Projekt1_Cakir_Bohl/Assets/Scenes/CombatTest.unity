@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c14d43ae11f294f9bc9d958f3975be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 11400000, guid: d4044d458d4c00843bb5c4b1f4c6f22b, type: 2}
+  _enemy: {fileID: 5804950414488173639}
   _uiElement: {fileID: 1647918672}
 --- !u!4 &500892711
 Transform:
@@ -507,6 +507,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1082420863187593242, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
+      propertyPath: Accuracy
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1082420863187593242, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
+      propertyPath: Initiative
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1451417646648548203, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
       propertyPath: m_Name
       value: Boar
@@ -556,6 +564,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
+--- !u!114 &5804950414488173639 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -1082420863187593242, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
+  m_PrefabInstance: {fileID: 5804950414488173638}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be12544651f4e874faa87de10468cd75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7984303411487365527
 PrefabInstance:
   m_ObjectHideFlags: 0
