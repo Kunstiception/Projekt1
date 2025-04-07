@@ -8,12 +8,25 @@ public class SelectionMenu : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI[] _menuPoints;
     [SerializeField] private Image[] _pointers;
+    [SerializeField] private GameObject _connectedScript;
 
     private int _currentMenuPoint;
+    private ISelectable _iSelectable;
 
     void Start()
     {
+        _iSelectable = _connectedScript.GetComponent<ISelectable>();
         SetInitialPointer();
+    }
+
+    private void OnEnable()
+    {
+        CombatManager.OnFightFinished += SetInitialPointer;
+    }
+
+    private void OnDisable()
+    {
+        CombatManager.OnFightFinished -= SetInitialPointer;
     }
 
     // Update is called once per frame
@@ -36,6 +49,10 @@ public class SelectionMenu : MonoBehaviour
             }
 
             ChangePosition(isUp: true);
+        }
+        else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+        {
+            _iSelectable.HandleSelectedItem(_currentMenuPoint);
         }
     }
 

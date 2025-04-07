@@ -51,4 +51,4 @@ MonoBehaviour:
   ArmorStrength: 10
   Initiative: 10
   Accuracy: 8
-  Evasion: 10
+  Evasion: 8

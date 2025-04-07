@@ -219,6 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemy: {fileID: 5804950414488173639}
   _uiElement: {fileID: 1647918672}
+  _selectionMenuCanvas: {fileID: 606613458}
 --- !u!4 &500892711
 Transform:
   m_ObjectHideFlags: 0
@@ -274,6 +275,7 @@ MonoBehaviour:
   - {fileID: 1328794283}
   - {fileID: 1581509324}
   - {fileID: 1684898035}
+  _connectedScript: {fileID: 500892709}
 --- !u!114 &606613456
 MonoBehaviour:
   m_ObjectHideFlags: 0
