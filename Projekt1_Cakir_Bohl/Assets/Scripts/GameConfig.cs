@@ -13,5 +13,4 @@ public static class GameConfig
     public static string[] WayPointTypes = { "Empty", "Fight", "Loot", "Interaction" };
 
     //Combat
-    public static float TimeBetweenCombatLogs = 2f;
 }

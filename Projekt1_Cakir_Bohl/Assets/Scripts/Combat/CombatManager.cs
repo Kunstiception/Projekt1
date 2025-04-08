@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,8 +9,10 @@ public class CombatManager : MonoBehaviour, ISelectable
 {
     [SerializeField] private Combatant _enemy;
     [SerializeField] private TextMeshProUGUI _uiElement;
+    [SerializeField] private TextMeshProUGUI _promptSkip;
+    [SerializeField] private TextMeshProUGUI _promptContinue;
     [SerializeField] private Canvas _selectionMenuCanvas;
-    
+
     private int _playerRoll;
     private int _enemyRoll;
     private int _combatantHealth1;
@@ -19,9 +22,12 @@ public class CombatManager : MonoBehaviour, ISelectable
     private int _accuracy;
     private int _evasion;
     private bool _hasFightStarted;
+    private string _currentLine;
     private Combatant _combatant1;
     private Combatant _combatant2;
     private Coroutine _combatCoroutine;
+    private Coroutine _textCoroutine;
+    private Coroutine _waitForContinueCoroutine;
 
     public static event Action OnFightFinished;
 
@@ -29,11 +35,27 @@ public class CombatManager : MonoBehaviour, ISelectable
     {
         _hasFightStarted = false;
         _uiElement.enabled = false;
+        _promptSkip.enabled = false;
+        _promptContinue.enabled = false;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (_textCoroutine != null)
+            {
+                _promptSkip.enabled = false;
+                StopCoroutine(_textCoroutine);
+                _textCoroutine = null;
+                DialogueUtil.ShowFullLine(_currentLine, _uiElement, _promptSkip);
+            }
+        }
     }
 
     private IEnumerator RollInitiative(bool isDisadvantage)
     {
-        if(isDisadvantage)
+        if (isDisadvantage)
         {
             _combatant1 = _enemy;
             _combatant2 = PlayerManager.Instance;
@@ -52,9 +74,9 @@ public class CombatManager : MonoBehaviour, ISelectable
         _combatantHealth1 = _combatant1.HealthPoints;
         _combatantHealth2 = _combatant2.HealthPoints;
 
-        DialogueUtil.ShowFullLine($"{_combatant1.Name} strikes first!", _uiElement);
+        _currentLine = $"{_combatant1.Name} strikes first!";
 
-        yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
+        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
     }
 
     private IEnumerator CombatCoroutine(bool isDisadvantage)
@@ -70,9 +92,11 @@ public class CombatManager : MonoBehaviour, ISelectable
         _rawDamage = PerformAttack(_combatant1, _combatant2);
         print($"{_combatant1.Name} Damage: {_rawDamage}");
 
-        if(_rawDamage <= 0)
+        if (_rawDamage <= 0)
         {
-            yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
+            _currentLine = $"{_combatant2.Name} has evaded the attack!";
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
         CalculateDamage(_rawDamage, _combatant2, _combatantHealth2);
@@ -88,20 +112,21 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (_finalDamage > 0)
         {
-            DialogueUtil.ShowFullLine($"{_combatant2.Name} was attacked and lost {_finalDamage} health and now has {_combatantHealth2} health!", _uiElement);
-            yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
+            _currentLine = $"{_combatant2.Name} was attacked and lost {_finalDamage} health and now has {_combatantHealth2} health!";
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
-        if(_combatantHealth2 <= 0)
+        if (_combatantHealth2 <= 0)
         {
             StartCoroutine(EndFight(_combatant1));
             yield break;
         }
 
-        if(isDisadvantage)
+        if (isDisadvantage)
         {
             isDisadvantage = false;
-            
+
             StartCoroutine(EndFight(null));
             yield break;
         }
@@ -111,7 +136,9 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (_rawDamage <= 0)
         {
-            yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
+            _currentLine = $"{_combatant1.Name} has evaded the attack!";
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
         CalculateDamage(_rawDamage, _combatant1, _combatantHealth1);
@@ -127,8 +154,9 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (_finalDamage > 0)
         {
-            DialogueUtil.ShowFullLine($"{_combatant1.Name} was attacked and lost {_finalDamage} health and now has {_combatantHealth1} health!", _uiElement);
-            yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
+            _currentLine = $"{_combatant1.Name} was attacked and lost {_finalDamage} health and now has {_combatantHealth1} health!";
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
         }
 
         if (_combatantHealth1 <= 0)
@@ -148,10 +176,8 @@ public class CombatManager : MonoBehaviour, ISelectable
         _evasion = defender.RollEvasion();
         print($"{defender.Name} Evasion: {_evasion}");
 
-        if(_evasion >= _accuracy)
+        if (_evasion >= _accuracy)
         {
-            DialogueUtil.ShowFullLine($"{defender.Name} has evaded the attack!", _uiElement);
-            
             return 0;
         }
 
@@ -160,13 +186,13 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     private void CalculateDamage(int damage, Combatant defender, int defenderHealth)
     {
-        if(defender.ArmorStrength <= 0)
+        if (defender.ArmorStrength <= 0)
         {
             _finalDamage = _rawDamage;
             return;
         }
 
-        int damageReduction = (damage/defender.ArmorStrength);
+        int damageReduction = (damage / defender.ArmorStrength);
         print($"{defender.Name} Damage Reduction: {damageReduction}");
 
         _finalDamage = _rawDamage - damageReduction;
@@ -179,21 +205,20 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (winner)
         {
-            DialogueUtil.ShowFullLine($"{winner.Name} has won the fight!", _uiElement);
-            yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
+            _currentLine = $"{winner.Name} has won the fight!";
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
 
             StopAllCoroutines();
             SceneManager.LoadScene("MapTest");
             yield break;
         }
-        
-        if(PlayerManager.Instance.HealthPoints <= 0)
-        {
-            DialogueUtil.ShowFullLine($"The hero has died.", _uiElement);
-            yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
 
-            DialogueUtil.ShowFullLine($"His quest has ended.", _uiElement);
-            yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
+        if (PlayerManager.Instance.HealthPoints <= 0)
+        {
+            _currentLine = "You have died. Your quest has ended.";
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
 
             StopAllCoroutines();
             SceneManager.LoadScene("StartMenu");
@@ -214,8 +239,9 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (_playerRoll >= _enemy.Initiative)
         {
-            DialogueUtil.ShowFullLine($"You manage to escape!", _uiElement);
-            yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
+            _currentLine = "You manage to escape!";
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
 
             StopAllCoroutines();
             SceneManager.LoadScene("MapTest");
@@ -223,8 +249,9 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
         else
         {
-            DialogueUtil.ShowFullLine($"The {_enemy.Name} is too fast for you to escape!", _uiElement);
-            yield return new WaitForSeconds(GameConfig.TimeBetweenCombatLogs);
+            _currentLine = $"The {_enemy.Name} is too fast for you to escape!";
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
 
             if (_combatCoroutine == null)
             {
@@ -245,7 +272,7 @@ public class CombatManager : MonoBehaviour, ISelectable
                 break;
 
             case 1:
-                if(_combatCoroutine == null)
+                if (_combatCoroutine == null)
                 {
                     _combatCoroutine = StartCoroutine(CombatCoroutine(isDisadvantage: false));
                 }
@@ -255,5 +282,23 @@ public class CombatManager : MonoBehaviour, ISelectable
                 StartCoroutine(TryRetreat());
                 break;
         }
+    }
+
+    private IEnumerator HandleTextOutput(string line, bool isLastLine)
+    {
+        _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _uiElement, _promptSkip, _promptContinue));
+
+        //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
+        yield return new WaitUntil(() => _currentLine == _uiElement.text);
+
+        if (isLastLine)
+        {
+            yield break;
+        }
+
+        // Einen Frame warten, damit Input nicht beide GetKeyDown-Events triggert
+        yield return null;
+
+        yield return StartCoroutine(DialogueUtil.WaitForContinue(_promptContinue));
     }
 }
