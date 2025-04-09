@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CombatManager : MonoBehaviour, ISelectable
 {
@@ -11,6 +12,8 @@ public class CombatManager : MonoBehaviour, ISelectable
     [SerializeField] private TextMeshProUGUI _uiElement;
     [SerializeField] private TextMeshProUGUI _promptSkip;
     [SerializeField] private TextMeshProUGUI _promptContinue;
+    [SerializeField] private Slider _enemyHealthBar;
+    [SerializeField] private Slider _playerHealthBar;
     [SerializeField] private Canvas _selectionMenuCanvas;
 
     private int _playerRoll;
@@ -137,6 +140,8 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _currentLine = DialogueUtil.CreateCombatLog(_combatant2, "takes", $"{_finalDamage} damage!");
 
+            StartCoroutine(UpdateHealthbar(combatant: _combatant2, damage: _finalDamage, currentHealth: _combatantHealth2));
+
             if (isDisadvantage)
             {
                 yield return StartCoroutine(HandleTextOutput(_currentLine, true));
@@ -191,6 +196,8 @@ public class CombatManager : MonoBehaviour, ISelectable
         if (_finalDamage > 0)
         {
             _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "takes", $"{_finalDamage} damage!");
+
+            StartCoroutine(UpdateHealthbar(combatant: _combatant1, damage: _finalDamage, currentHealth: _combatantHealth1));
 
             yield return StartCoroutine(HandleTextOutput(_currentLine, true));
         }
@@ -339,5 +346,23 @@ public class CombatManager : MonoBehaviour, ISelectable
         yield return null;
 
         yield return StartCoroutine(DialogueUtil.WaitForContinue(_promptContinue));
+    }
+
+    private IEnumerator UpdateHealthbar(Combatant combatant, int damage, int currentHealth)
+    {
+        Slider slider = combatant.Name == PlayerManager.Instance.Name ? _playerHealthBar : _enemyHealthBar;
+        float currentValue = slider.value;
+        float hitValue = (float)damage / (float)combatant.HealthPoints;
+        float nextValue = currentValue - hitValue;
+        float lerpValue = 0;
+
+        while (lerpValue <= 1 && lerpValue >= 0)
+        {
+            lerpValue += GameConfig.BarsLerpSpeed * Time.deltaTime;
+            slider.value = Mathf.Lerp(currentValue, nextValue, lerpValue / hitValue);
+            yield return null;
+        }
+
+        slider.value = nextValue;
     }
 }

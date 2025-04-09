@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 public static class GameConfig
 {
     //Dialogue
@@ -13,4 +10,5 @@ public static class GameConfig
     public static string[] WayPointTypes = { "Empty", "Fight", "Loot", "Interaction" };
 
     //Combat
+    public static float BarsLerpSpeed = 0.75f;
 }
