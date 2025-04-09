@@ -27,7 +27,6 @@ public class CombatManager : MonoBehaviour, ISelectable
     private Combatant _combatant2;
     private Coroutine _combatCoroutine;
     private Coroutine _textCoroutine;
-    private Coroutine _waitForContinueCoroutine;
 
     public static event Action OnFightFinished;
 
@@ -69,24 +68,41 @@ public class CombatManager : MonoBehaviour, ISelectable
 
             _combatant1 = _playerRoll >= _enemyRoll ? PlayerManager.Instance : _enemy;
             _combatant2 = _playerRoll >= _enemyRoll ? _enemy : PlayerManager.Instance;
+            
+            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "goes", "first!");
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
         _combatantHealth1 = _combatant1.HealthPoints;
         _combatantHealth2 = _combatant2.HealthPoints;
-
-        _currentLine = $"{_combatant1.Name} strikes first!";
-
-        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
     }
 
     private IEnumerator CombatCoroutine(bool isDisadvantage)
     {
         _uiElement.enabled = true;
 
-        if (!_hasFightStarted || !isDisadvantage)
+        if (!_hasFightStarted)
         {
             yield return StartCoroutine(RollInitiative(isDisadvantage));
-            _hasFightStarted = true;
+
+            if(!isDisadvantage)
+            {
+                _hasFightStarted = true;
+            }
+        }
+        
+        if(isDisadvantage)
+        {
+            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "attacks", "you!");
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        }
+        else
+        {
+            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "prepares", "to strike!");
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
         _rawDamage = PerformAttack(_combatant1, _combatant2);
@@ -94,9 +110,16 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (_rawDamage <= 0)
         {
-            _currentLine = $"{_combatant2.Name} has evaded the attack!";
+            _currentLine = DialogueUtil.CreateCombatLog(_combatant2, "has", "evaded the attack!");
 
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            if (isDisadvantage)
+            {
+                yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+            }
+            else
+            {
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            }
         }
 
         CalculateDamage(_rawDamage, _combatant2, _combatantHealth2);
@@ -112,9 +135,16 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (_finalDamage > 0)
         {
-            _currentLine = $"{_combatant2.Name} was attacked and lost {_finalDamage} health and now has {_combatantHealth2} health!";
+            _currentLine = DialogueUtil.CreateCombatLog(_combatant2, "takes", $"{_finalDamage} damage!");
 
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            if (isDisadvantage)
+            {
+                yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+            }
+            else
+            {
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            }
         }
 
         if (_combatantHealth2 <= 0)
@@ -131,6 +161,10 @@ public class CombatManager : MonoBehaviour, ISelectable
             yield break;
         }
 
+        _currentLine = DialogueUtil.CreateCombatLog(_combatant2, "prepares", "to strike!");
+
+        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
         _rawDamage = PerformAttack(_combatant2, _combatant1);
         print($"{_combatant1.Name} Damage: {_rawDamage}");
 
@@ -138,7 +172,9 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _currentLine = $"{_combatant1.Name} has evaded the attack!";
 
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "has", "evaded the attack!");
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
         }
 
         CalculateDamage(_rawDamage, _combatant1, _combatantHealth1);
@@ -154,7 +190,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (_finalDamage > 0)
         {
-            _currentLine = $"{_combatant1.Name} was attacked and lost {_finalDamage} health and now has {_combatantHealth1} health!";
+            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "takes", $"{_finalDamage} damage!");
 
             yield return StartCoroutine(HandleTextOutput(_currentLine, true));
         }
@@ -207,6 +243,8 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _currentLine = $"{winner.Name} has won the fight!";
 
+            _currentLine = DialogueUtil.CreateCombatLog(winner, "has", "won the fight!");
+
             yield return StartCoroutine(HandleTextOutput(_currentLine, true));
 
             StopAllCoroutines();
@@ -251,7 +289,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _currentLine = $"The {_enemy.Name} is too fast for you to escape!";
 
-            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
             if (_combatCoroutine == null)
             {
@@ -293,6 +331,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (isLastLine)
         {
+            yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
             yield break;
         }
 

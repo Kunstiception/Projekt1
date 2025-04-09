@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -33,7 +32,6 @@ public static class DialogueUtil
         }
 
         promptSkip.enabled = false;
-        //promptContinue.enabled = true;
     }
 
     public static IEnumerator WaitForContinue(TextMeshProUGUI promptContinue)
@@ -54,5 +52,37 @@ public static class DialogueUtil
     {
         uiElement.text = line;
         promptSkip.enabled = false;
+    }
+
+    public static string CreateCombatLog(Combatant combatant, string verb, string lineEnding)
+    {
+        string name = combatant.Name != PlayerManager.Instance.Name ? combatant.Name : "You";
+        string newVerb;
+
+        if (name =="You")
+        {
+            newVerb = ManageVerb(verb);
+        }
+        else
+        {
+            newVerb = verb;
+        }
+
+        return name + " " + newVerb + " " + lineEnding;
+    }
+
+    public static string ManageVerb(string verb)
+    {       
+        switch (verb)
+        {
+            case "has":
+                return "have";
+            case "was":
+                return "were";
+            case "goes":
+                return "go";
+            default:
+                return verb.TrimEnd('s');
+        }
     }
 }
