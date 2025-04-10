@@ -52,7 +52,7 @@ public class SelectionMenu : MonoBehaviour
         }
         else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            _iSelectable.HandleSelectedItem(_currentMenuPoint);
+            _iSelectable.HandleSelectedItem(_currentMenuPoint, isFirstLayer: true);
         }
     }
 

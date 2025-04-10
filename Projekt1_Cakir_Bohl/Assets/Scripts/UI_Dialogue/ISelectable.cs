@@ -4,5 +4,5 @@ using UnityEngine;
 
 interface ISelectable
 {
-    void HandleSelectedItem(int index);
+    void HandleSelectedItem(int index, bool isFirstLayer);
 }

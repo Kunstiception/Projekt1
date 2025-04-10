@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,12 +10,15 @@ using UnityEngine.UI;
 public class CombatManager : MonoBehaviour, ISelectable
 {
     [SerializeField] private Combatant _enemy;
-    [SerializeField] private TextMeshProUGUI _uiElement;
+    [SerializeField] private TextMeshProUGUI _textBox;
     [SerializeField] private TextMeshProUGUI _promptSkip;
     [SerializeField] private TextMeshProUGUI _promptContinue;
-    [SerializeField] private Slider _enemyHealthBar;
-    [SerializeField] private Slider _playerHealthBar;
+    [SerializeField] private Slider _enemyHealthBarBelow;
+    [SerializeField] private Slider _playerHealthBarBelow;
+    [SerializeField] private Slider _enemyEgoBarTop;
+    [SerializeField] private Slider _playerEgohBarTop;
     [SerializeField] private Canvas _selectionMenuCanvas;
+    [SerializeField] private Canvas _persuasionMenuCanvas;
 
     private int _playerRoll;
     private int _enemyRoll;
@@ -30,15 +34,20 @@ public class CombatManager : MonoBehaviour, ISelectable
     private Combatant _combatant2;
     private Coroutine _combatCoroutine;
     private Coroutine _textCoroutine;
+    private List<string> _wrongInsults = new List<string>();
+    private List<string> _correctInsults = new List<string>();
 
     public static event Action OnFightFinished;
 
     void Start()
     {
         _hasFightStarted = false;
-        _uiElement.enabled = false;
+        _textBox.enabled = false;
         _promptSkip.enabled = false;
         _promptContinue.enabled = false;
+        _persuasionMenuCanvas.enabled = false;
+        _wrongInsults = _enemy.PersuasionLines.WrongInsults;
+        _correctInsults = _enemy.PersuasionLines.CorrectInsults;
     }
 
     void Update()
@@ -50,9 +59,29 @@ public class CombatManager : MonoBehaviour, ISelectable
                 _promptSkip.enabled = false;
                 StopCoroutine(_textCoroutine);
                 _textCoroutine = null;
-                DialogueUtil.ShowFullLine(_currentLine, _uiElement, _promptSkip);
+                DialogueUtil.ShowFullLine(_currentLine, _textBox, _promptSkip);
             }
         }
+    }
+
+    private void DisplayPersuasionOptions()
+    {
+        _textBox.enabled = true;
+        _persuasionMenuCanvas.enabled = true;
+
+        TextMeshProUGUI[] options = _persuasionMenuCanvas.GetComponentsInChildren<TextMeshProUGUI>();
+
+        int orderSeed = UnityEngine.Random.Range(0, 2);
+        int insultSeed = UnityEngine.Random.Range(0, _correctInsults.Count - 1);
+
+        for (int i = 0; i < options.Length; i++)
+        {
+            options[i].text = orderSeed == 0 ? _correctInsults[insultSeed] :
+                _wrongInsults[insultSeed];
+        }
+
+        _correctInsults.RemoveAt(insultSeed);
+        _wrongInsults.RemoveAt(insultSeed);
     }
 
     private IEnumerator RollInitiative(bool isDisadvantage)
@@ -83,7 +112,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     private IEnumerator CombatCoroutine(bool isDisadvantage)
     {
-        _uiElement.enabled = true;
+        _textBox.enabled = true;
 
         if (!_hasFightStarted)
         {
@@ -140,7 +169,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _currentLine = DialogueUtil.CreateCombatLog(_combatant2, "takes", $"{_finalDamage} damage!");
 
-            StartCoroutine(UpdateHealthbar(combatant: _combatant2, damage: _finalDamage, currentHealth: _combatantHealth2));
+            StartCoroutine(UpdateHealthbar(combatant: _combatant2, damage: _finalDamage, currentHealth: _combatantHealth2, isHealthDamage: true));
 
             if (isDisadvantage)
             {
@@ -197,7 +226,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "takes", $"{_finalDamage} damage!");
 
-            StartCoroutine(UpdateHealthbar(combatant: _combatant1, damage: _finalDamage, currentHealth: _combatantHealth1));
+            StartCoroutine(UpdateHealthbar(combatant: _combatant1, damage: _finalDamage, currentHealth: _combatantHealth1, isHealthDamage: true));
 
             yield return StartCoroutine(HandleTextOutput(_currentLine, true));
         }
@@ -248,8 +277,6 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (winner)
         {
-            _currentLine = $"{winner.Name} has won the fight!";
-
             _currentLine = DialogueUtil.CreateCombatLog(winner, "has", "won the fight!");
 
             yield return StartCoroutine(HandleTextOutput(_currentLine, true));
@@ -270,14 +297,14 @@ public class CombatManager : MonoBehaviour, ISelectable
             yield break;
         }
 
-        _uiElement.enabled = false;
+        _textBox.enabled = false;
         _selectionMenuCanvas.enabled = true;
         OnFightFinished?.Invoke();
     }
 
     private IEnumerator TryRetreat()
     {
-        _uiElement.enabled = true;
+        _textBox.enabled = true;
         _playerRoll = PlayerManager.Instance.Initiative - DiceUtil.D6();
         print($"Player Initiative: {_playerRoll}");
         print($"Enemy Initiative: {_enemy.Initiative}");
@@ -305,36 +332,58 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
     }
 
-    public void HandleSelectedItem(int index)
+    public void HandleSelectedItem(int index, bool isFirstLayer)
     {
-        _selectionMenuCanvas.enabled = false;
-
-        // 0 = Talk, 1 = Fight, 2 = Retreat
-        switch (index)
+        if(!isFirstLayer)
         {
-            case 0:
-                Debug.LogError("Feature awaiting implementation");
-                break;
+            _selectionMenuCanvas.enabled = false; 
+            // 0 = Talk, 1 = Fight, 2 = Retreat
+            switch (index)
+            {
+                case 0:
+                    _textBox.enabled = true;
+                    _persuasionMenuCanvas.enabled = true;
+                    break;
 
-            case 1:
-                if (_combatCoroutine == null)
-                {
-                    _combatCoroutine = StartCoroutine(CombatCoroutine(isDisadvantage: false));
-                }
-                break;
+                case 1:
+                    if (_combatCoroutine == null)
+                    {
+                        _combatCoroutine = StartCoroutine(CombatCoroutine(isDisadvantage: false));
+                    }
+                    break;
 
-            case 2:
-                StartCoroutine(TryRetreat());
-                break;
+                case 2:
+                    StartCoroutine(TryRetreat());
+                    break;
+            }
         }
-    }
+        else
+        {
+            // 0 = , 1 = Flirt, 2 = Return
+            switch (index)
+            {
+                case 0:
+                    //TryPersuasion(0);
+                    break;
+
+                case 1:
+                    //TryPersuasion(1);
+                    break;
+
+                case 2:
+                    //TryPersuasion(2);
+                    break;
+            }
+        }
+    }         
+
 
     private IEnumerator HandleTextOutput(string line, bool isLastLine)
     {
-        _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _uiElement, _promptSkip, _promptContinue));
+        _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _textBox, _promptSkip, _promptContinue));
 
         //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
-        yield return new WaitUntil(() => _currentLine == _uiElement.text);
+        yield return new WaitUntil(() => _currentLine == _textBox.text);
 
         if (isLastLine)
         {
@@ -348,13 +397,29 @@ public class CombatManager : MonoBehaviour, ISelectable
         yield return StartCoroutine(DialogueUtil.WaitForContinue(_promptContinue));
     }
 
-    private IEnumerator UpdateHealthbar(Combatant combatant, int damage, int currentHealth)
+    private IEnumerator UpdateHealthbar(Combatant combatant, int damage, int currentHealth, bool isHealthDamage)
     {
-        Slider slider = combatant.Name == PlayerManager.Instance.Name ? _playerHealthBar : _enemyHealthBar;
+        Slider slider = combatant.Name == PlayerManager.Instance.Name ? _playerHealthBarBelow : _enemyHealthBarBelow;
         float currentValue = slider.value;
-        float hitValue = (float)damage / (float)combatant.HealthPoints;
+        float hitValue = 0;
+
+        if (isHealthDamage)
+        {
+            hitValue = (float)damage / (float)combatant.HealthPoints;
+        }
+        else
+        {
+            hitValue = (float)damage / (float)combatant.EgoPoints;
+        }
+        
         float nextValue = currentValue - hitValue;
         float lerpValue = 0;
+
+        // Weiﬂe Healthbar setzen
+        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(slider.gameObject);
+        childSlider.GetComponent<Slider>().value = nextValue;
+
+        yield return new WaitForSeconds(GameConfig.TimeBeforeHealthbarUpdate);
 
         while (lerpValue <= 1 && lerpValue >= 0)
         {

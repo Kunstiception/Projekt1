@@ -11,4 +11,5 @@ public static class GameConfig
 
     //Combat
     public static float BarsLerpSpeed = 0.75f;
+    public static float TimeBeforeHealthbarUpdate = 0.25f;
 }

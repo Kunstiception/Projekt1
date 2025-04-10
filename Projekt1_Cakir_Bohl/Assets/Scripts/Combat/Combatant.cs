@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Combatant : MonoBehaviour
 {
+    [SerializeField] public PersuasionLines PersuasionLines;
     public string Name;
     public int HealthPoints;
+    public int EgoPoints;
     public int MinAttackStrength;
     public int MaxAttackStrength;
     public int ArmorStrength;

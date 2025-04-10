@@ -44,8 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be12544651f4e874faa87de10468cd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _persuasionLines: {fileID: 11400000, guid: a8d7605d1bb932e429365c36671db5fd, type: 2}
   Name: Boar
   HealthPoints: 8
+  EgoPoints: 0
   MinAttackStrength: 2
   MaxAttackStrength: 5
   ArmorStrength: 0
