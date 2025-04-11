@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Combatant : MonoBehaviour
 {
-    [SerializeField] public PersuasionLines PersuasionLines;
+    [SerializeField] public InsultLines InsultLines;
     public string Name;
     public int HealthPoints;
     public int EgoPoints;
@@ -12,6 +12,7 @@ public class Combatant : MonoBehaviour
     public int Initiative;
     public int Accuracy;
     public int Evasion;
+    public int InsultResistance;
 
 
     public int RollInitiative()

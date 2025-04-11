@@ -1,20 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SelectionMenu : MonoBehaviour
 {
+    public enum MenuLayer
+    {
+        First  = 0,
+        Second  = 1
+    }
+
+    public MenuLayer menuLayer;
+       
     [SerializeField] private TextMeshProUGUI[] _menuPoints;
     [SerializeField] private Image[] _pointers;
     [SerializeField] private GameObject _connectedScript;
 
     private int _currentMenuPoint;
+    private bool _isFirstLayer;
     private ISelectable _iSelectable;
 
     void Start()
     {
+        _isFirstLayer = menuLayer == MenuLayer.First ? true : false;
         _iSelectable = _connectedScript.GetComponent<ISelectable>();
         SetInitialPointer();
     }
@@ -52,7 +60,7 @@ public class SelectionMenu : MonoBehaviour
         }
         else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            _iSelectable.HandleSelectedItem(_currentMenuPoint, isFirstLayer: true);
+            _iSelectable.HandleSelectedItem(_currentMenuPoint, isFirstLayer: _isFirstLayer);
         }
     }
 

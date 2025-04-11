@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,8 +16,8 @@ public class CombatManager : MonoBehaviour, ISelectable
     [SerializeField] private TextMeshProUGUI _promptContinue;
     [SerializeField] private Slider _enemyHealthBarBelow;
     [SerializeField] private Slider _playerHealthBarBelow;
-    [SerializeField] private Slider _enemyEgoBarTop;
-    [SerializeField] private Slider _playerEgohBarTop;
+    [SerializeField] private Slider _enemyEgoBarBelow;
+    [SerializeField] private Slider _playerEgohBarBelow;
     [SerializeField] private Canvas _selectionMenuCanvas;
     [SerializeField] private Canvas _persuasionMenuCanvas;
 
@@ -28,14 +29,19 @@ public class CombatManager : MonoBehaviour, ISelectable
     private int _finalDamage;
     private int _accuracy;
     private int _evasion;
+    private int _currentInsultIndex;
+    private int _enemyEgoPoints;
     private bool _hasFightStarted;
     private string _currentLine;
+    private string _egoHitLine;
+    private string _egoResistLine;
     private Combatant _combatant1;
     private Combatant _combatant2;
     private Coroutine _combatCoroutine;
     private Coroutine _textCoroutine;
-    private List<string> _wrongInsults = new List<string>();
-    private List<string> _correctInsults = new List<string>();
+    private Coroutine _insultCoroutine;
+    private Dictionary<string, int> _insultsAndValues = new Dictionary<string, int>();
+    private Dictionary<string, int> _currentInsultsAndValues = new Dictionary<string, int>();
 
     public static event Action OnFightFinished;
 
@@ -46,8 +52,13 @@ public class CombatManager : MonoBehaviour, ISelectable
         _promptSkip.enabled = false;
         _promptContinue.enabled = false;
         _persuasionMenuCanvas.enabled = false;
-        _wrongInsults = _enemy.PersuasionLines.WrongInsults;
-        _correctInsults = _enemy.PersuasionLines.CorrectInsults;
+        _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+        _enemyEgoPoints = _enemy.EgoPoints;
+        
+        for (int i = 0; i < _enemy.InsultLines.Insults.Length; i++)
+        {
+            _insultsAndValues.Add(_enemy.InsultLines.Insults[i], _enemy.InsultLines.Values[i]);
+        }
     }
 
     void Update()
@@ -64,24 +75,115 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
     }
 
-    private void DisplayPersuasionOptions()
+    private IEnumerator DisplayInsultOptions()
     {
-        _textBox.enabled = true;
+        _selectionMenuCanvas.enabled = false;
+        _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
         _persuasionMenuCanvas.enabled = true;
+        _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = true;
+
+        if (_insultsAndValues.Count < 2)
+        {
+            _currentLine = "You can't think of anything else to say!";
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+          
+            //StartCoroutine(EndFight());
+        }
 
         TextMeshProUGUI[] options = _persuasionMenuCanvas.GetComponentsInChildren<TextMeshProUGUI>();
 
-        int orderSeed = UnityEngine.Random.Range(0, 2);
-        int insultSeed = UnityEngine.Random.Range(0, _correctInsults.Count - 1);
-
-        for (int i = 0; i < options.Length; i++)
+        for (int i = 0; i < options.Length - 1; i++)
         {
-            options[i].text = orderSeed == 0 ? _correctInsults[insultSeed] :
-                _wrongInsults[insultSeed];
+            int index = UnityEngine.Random.Range(0, _insultsAndValues.Count - 1);
+
+            options[i].text = _insultsAndValues.ElementAt(index).Key;
+
+            _currentInsultsAndValues.Add(options[i].text, _insultsAndValues.ElementAt(index).Value);
+
+            _insultsAndValues.Remove(options[i].text);
+        }
+    }
+
+    private IEnumerator InsultCoroutine(int optionIndex)
+    {
+        string line = "";
+        int value = 0;
+
+        _textBox.enabled = true;
+
+        switch(optionIndex)
+        {
+            case 0:
+                line = $"{PlayerManager.Instance.Name}: '{_currentInsultsAndValues.ElementAt(0).Key}'";
+                value = _currentInsultsAndValues.ElementAt(0).Value;
+                _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _currentInsultsAndValues.ElementAt(0).Key)];
+                _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _currentInsultsAndValues.ElementAt(0).Key)];
+                break;
+
+            case 1:
+                line = $"{PlayerManager.Instance.Name}: '{_currentInsultsAndValues.ElementAt(1).Key}'";
+                value = _currentInsultsAndValues.ElementAt(1).Value;
+                _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _currentInsultsAndValues.ElementAt(1).Key)];
+                _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _currentInsultsAndValues.ElementAt(1).Key)];
+                break;
+
+            case 2:
+                _textBox.enabled = false;
+                _persuasionMenuCanvas.enabled = false;
+                break;
+
+            default:
+                Debug.LogError("Insult index not set correctly!");
+                break;
         }
 
-        _correctInsults.RemoveAt(insultSeed);
-        _wrongInsults.RemoveAt(insultSeed);
+        if(line.Length > 0)
+        {
+            _playerRoll = value + DiceUtil.D4();
+
+            _currentLine = line;
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                
+            _finalDamage = _playerRoll - _enemy.InsultResistance;
+
+            if (_finalDamage > 0)
+            {
+                _currentLine = $"{_enemy.Name}: '{_egoHitLine}'";
+
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+                StartCoroutine(UpdateHealthbar(combatant: _enemy, damage: _finalDamage, currentHealth: _enemyEgoPoints, isHealthDamage: false));
+
+                _currentLine = $"{_enemy.Name} took {_finalDamage} ego damage!";
+
+                yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+
+                _enemyEgoPoints = -_finalDamage;
+            }
+            else
+            {
+                _currentLine = $"{_enemy.Name}: '{_egoResistLine}'";
+
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+                _currentLine = $"{_enemy.Name} has resisted your insult!";
+
+                yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+            }
+        }
+
+        _currentInsultsAndValues.Clear();
+
+        _textBox.enabled = false;
+        _selectionMenuCanvas.enabled = true;
+        _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = true;
+        _persuasionMenuCanvas.enabled = false;
+        _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+
+        _insultCoroutine = null;
+        //StartCoroutine(EndFight());
     }
 
     private IEnumerator RollInitiative(bool isDisadvantage)
@@ -169,7 +271,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _currentLine = DialogueUtil.CreateCombatLog(_combatant2, "takes", $"{_finalDamage} damage!");
 
-            StartCoroutine(UpdateHealthbar(combatant: _combatant2, damage: _finalDamage, currentHealth: _combatantHealth2, isHealthDamage: true));
+            StartCoroutine(UpdateHealthbar(combatant: _combatant2, damage: _finalDamage, currentHealth: _enemyEgoPoints, isHealthDamage: true));
 
             if (isDisadvantage)
             {
@@ -183,6 +285,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (_combatantHealth2 <= 0)
         {
+            _combatCoroutine = null;
             StartCoroutine(EndFight(_combatant1));
             yield break;
         }
@@ -191,6 +294,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             isDisadvantage = false;
 
+            _combatCoroutine = null;
             StartCoroutine(EndFight(null));
             yield break;
         }
@@ -233,6 +337,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if (_combatantHealth1 <= 0)
         {
+            _combatCoroutine = null;
             StartCoroutine(EndFight(_combatant2));
             yield break;
         }
@@ -272,8 +377,16 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     private IEnumerator EndFight(Combatant winner)
     {
-        StopCoroutine(_combatCoroutine);
-        _combatCoroutine = null;
+        if(_combatCoroutine != null)
+        {
+            StopCoroutine(_combatCoroutine);
+
+        }
+
+        if(_insultCoroutine != null)
+        {
+            StopCoroutine(_insultCoroutine);
+        }
 
         if (winner)
         {
@@ -334,15 +447,14 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     public void HandleSelectedItem(int index, bool isFirstLayer)
     {
-        if(!isFirstLayer)
+        if(isFirstLayer)
         {
             _selectionMenuCanvas.enabled = false; 
-            // 0 = Talk, 1 = Fight, 2 = Retreat
+            // 0 = Insult, 1 = Fight, 2 = Retreat
             switch (index)
             {
                 case 0:
-                    _textBox.enabled = true;
-                    _persuasionMenuCanvas.enabled = true;
+                    StartCoroutine(DisplayInsultOptions());
                     break;
 
                 case 1:
@@ -359,19 +471,19 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
         else
         {
-            // 0 = , 1 = Flirt, 2 = Return
+            // 0 = Option 1, 1 = Option 2, 2 = Return
             switch (index)
             {
                 case 0:
-                    //TryPersuasion(0);
+                    _insultCoroutine = StartCoroutine(InsultCoroutine(0));
                     break;
 
                 case 1:
-                    //TryPersuasion(1);
+                    _insultCoroutine = StartCoroutine(InsultCoroutine(1));
                     break;
 
                 case 2:
-                    //TryPersuasion(2);
+                    _insultCoroutine = StartCoroutine(InsultCoroutine(2));
                     break;
             }
         }
@@ -399,7 +511,17 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     private IEnumerator UpdateHealthbar(Combatant combatant, int damage, int currentHealth, bool isHealthDamage)
     {
-        Slider slider = combatant.Name == PlayerManager.Instance.Name ? _playerHealthBarBelow : _enemyHealthBarBelow;
+        Slider slider = null;
+        
+        if (isHealthDamage)
+        {
+            slider = combatant.Name == PlayerManager.Instance.Name ? _playerHealthBarBelow : _enemyHealthBarBelow;
+        }
+        else
+        {
+            slider = _enemyEgoBarBelow;
+        }
+
         float currentValue = slider.value;
         float hitValue = 0;
 
