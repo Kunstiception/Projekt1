@@ -13,6 +13,10 @@ public class CombatManager : MonoBehaviour, ISelectable
     [SerializeField] private TextMeshProUGUI _textBox;
     [SerializeField] private TextMeshProUGUI _promptSkip;
     [SerializeField] private TextMeshProUGUI _promptContinue;
+    [SerializeField] private TextMeshProUGUI _playerHealth;
+    [SerializeField] private TextMeshProUGUI _playerEgo;
+    [SerializeField] private TextMeshProUGUI _enemyHealth;
+    [SerializeField] private TextMeshProUGUI _enemyEgo;
     [SerializeField] private Slider _enemyHealthBarBelow;
     [SerializeField] private Slider _playerHealthBarBelow;
     [SerializeField] private Slider _enemyEgoBarBelow;
@@ -52,13 +56,19 @@ public class CombatManager : MonoBehaviour, ISelectable
         _promptContinue.enabled = false;
         _persuasionMenuCanvas.enabled = false;
         _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
-        _enemyEgoPoints = _enemy.EgoPoints;
-        
+
+        SetInitialStats();
+
         // Alle Insult Lines und Values des jeweiligen Gegners holen
         for (int i = 0; i < _enemy.InsultLines.Insults.Length; i++)
         {
             _insultsAndValues.Add(_enemy.InsultLines.Insults[i], _enemy.InsultLines.Values[i]);
         }
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     void Update()
@@ -74,6 +84,20 @@ public class CombatManager : MonoBehaviour, ISelectable
                 DialogueUtil.ShowFullLine(_currentLine, _textBox, _promptSkip);
             }
         }
+    }
+
+    private void SetInitialStats()
+    {
+        _enemyEgoPoints = _enemy.EgoPoints;
+        _playerHealth.text = $"{PlayerManager.Instance.HealthPoints}/{GameConfig.PlayerStartingHealth}";
+        _playerEgo.text = $"{PlayerManager.Instance.EgoPoints}/{PlayerManager.Instance.EgoPoints}";
+        _enemyHealth.text = $"{_enemy.HealthPoints}/{_enemy.HealthPoints}";
+        _enemyEgo.text = $"{_enemy.EgoPoints}/{_enemy.EgoPoints}";
+        _playerHealthBarBelow.value = (float)GameConfig.PlayerStartingHealth / (float)PlayerManager.Instance.HealthPoints;
+
+        // Weiße Healthbar setzen
+        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerHealthBarBelow.gameObject);
+        childSlider.GetComponent<Slider>().value = (float)GameConfig.PlayerStartingHealth / (float)PlayerManager.Instance.HealthPoints;
     }
 
     private IEnumerator DisplayInsultOptions()
@@ -167,12 +191,13 @@ public class CombatManager : MonoBehaviour, ISelectable
                 _currentLine = $"{_enemy.Name}: '{_egoHitLine}'";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-                StartCoroutine(UpdateBars(combatant: _enemy, damage: _finalDamage, currentHealth: _enemyEgoPoints, isHealthDamage: false));
+                _enemyEgoPoints -= _finalDamage;
+
+                StartCoroutine(UpdateUIStats(combatant: _enemy, damage: _finalDamage, currentHealth: _enemyEgoPoints, isHealthDamage: false, currentEgo: _enemyEgoPoints));
 
                 _currentLine = $"{_enemy.Name} took {_finalDamage} ego damage!";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, true));
 
-                _enemyEgoPoints = -_finalDamage;
             }
             else
             {
@@ -182,6 +207,13 @@ public class CombatManager : MonoBehaviour, ISelectable
                 _currentLine = $"{_enemy.Name} has resisted your insult!";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, true));
             }
+        }
+
+        if (_enemyEgoPoints <= 0)
+        {
+            _insultCoroutine = null;
+            StartCoroutine(EndFight(PlayerManager.Instance));
+            yield break;
         }
 
         //Insult-Kampf abwickeln
@@ -275,7 +307,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         if (_finalDamage > 0)
         {
             _currentLine = DialogueUtil.CreateCombatLog(_combatant2, "takes", $"{_finalDamage} damage!");
-            StartCoroutine(UpdateBars(combatant: _combatant2, damage: _finalDamage, currentHealth: _enemyEgoPoints, isHealthDamage: true));
+            StartCoroutine(UpdateUIStats(combatant: _combatant2, damage: _finalDamage, currentHealth: _combatantHealth2, isHealthDamage: true));
 
             if (isDisadvantage)
             {
@@ -290,7 +322,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         if (_combatantHealth2 <= 0)
         {
             _combatCoroutine = null;
-            StartCoroutine(EndFight(_combatant1));
+            StartCoroutine(EndFight(_combatant1, _combatantHealth1));
             yield break;
         }
 
@@ -329,7 +361,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         if (_finalDamage > 0)
         {
             _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "takes", $"{_finalDamage} damage!");
-            StartCoroutine(UpdateBars(combatant: _combatant1, damage: _finalDamage, currentHealth: _combatantHealth1, isHealthDamage: true));
+            StartCoroutine(UpdateUIStats(combatant: _combatant1, damage: _finalDamage, currentHealth: _combatantHealth1, isHealthDamage: true));
 
             yield return StartCoroutine(HandleTextOutput(_currentLine, true));
         }
@@ -337,7 +369,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         if (_combatantHealth1 <= 0)
         {
             _combatCoroutine = null;
-            StartCoroutine(EndFight(_combatant2));
+            StartCoroutine(EndFight(_combatant2, _combatantHealth2));
             yield break;
         }
 
@@ -375,7 +407,7 @@ public class CombatManager : MonoBehaviour, ISelectable
     }
 
     // Je nach Ausgang Kampf abwickeln
-    private IEnumerator EndFight(Combatant winner)
+    private IEnumerator EndFight(Combatant winner, int healthPoints = 0)
     {
         if(_combatCoroutine != null)
         {
@@ -394,9 +426,13 @@ public class CombatManager : MonoBehaviour, ISelectable
             _currentLine = DialogueUtil.CreateCombatLog(winner, "has", "won the fight!");
             yield return StartCoroutine(HandleTextOutput(_currentLine, true));
 
-            StopAllCoroutines();
-            SceneManager.LoadScene("MapTest");
-            yield break;
+            if(winner == PlayerManager.Instance)
+            {
+                PlayerManager.Instance.HealthPoints = healthPoints;
+                
+                SceneManager.LoadScene("MapTest");
+                yield break;
+            }
         }
 
         if (PlayerManager.Instance.HealthPoints <= 0)
@@ -404,7 +440,6 @@ public class CombatManager : MonoBehaviour, ISelectable
             _currentLine = "You have died. Your quest has ended.";
             yield return StartCoroutine(HandleTextOutput(_currentLine, true));
 
-            StopAllCoroutines();
             SceneManager.LoadScene("StartMenu");
             yield break;
         }
@@ -511,33 +546,43 @@ public class CombatManager : MonoBehaviour, ISelectable
     }
 
     // Zeigt visuelles Feedback bei den Health- und Ego-Balken an, zuerst wird ein Balken auf den Zielwert gesetzt und der andere gelerpt
-    private IEnumerator UpdateBars(Combatant combatant, int damage, int currentHealth, bool isHealthDamage)
+    private IEnumerator UpdateUIStats(Combatant combatant, int damage, int currentHealth, bool isHealthDamage, int currentEgo = 0)
     {
+        float hitValue = 0;
         Slider slider = null;
+        TextMeshProUGUI text = null;
         
         if (isHealthDamage)
         {
             slider = combatant.Name == PlayerManager.Instance.Name ? _playerHealthBarBelow : _enemyHealthBarBelow;
+            hitValue = (float)damage / (float)combatant.HealthPoints;
+            text = combatant.Name == PlayerManager.Instance.Name ? _playerHealth : _enemyHealth;
+
+            if(currentHealth <= 0)
+            {
+                currentHealth = 0;
+            }
+
+            text.text = $"{currentHealth}/{combatant.HealthPoints}";
         }
         else
         {
             slider = _enemyEgoBarBelow;
-        }
-
-        float currentValue = slider.value;
-        float hitValue = 0;
-
-        if (isHealthDamage)
-        {
-            hitValue = (float)damage / (float)combatant.HealthPoints;
-        }
-        else
-        {
             hitValue = (float)damage / (float)combatant.EgoPoints;
+            text = combatant.Name == PlayerManager.Instance.Name ? _playerEgo : _enemyEgo;
+
+            if (currentEgo <= 0)
+            {
+                currentEgo = 0;
+            }
+
+            text.text = $"{currentEgo}/{combatant.EgoPoints}";
         }
-        
+
+        float currentValue = slider.value;       
         float nextValue = currentValue - hitValue;
         float lerpValue = 0;
+
 
         // Weiße Healthbar setzen
         var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(slider.gameObject);
