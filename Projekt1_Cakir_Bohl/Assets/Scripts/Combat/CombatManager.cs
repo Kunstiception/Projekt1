@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class CombatManager : MonoBehaviour, ISelectable
 {
@@ -20,7 +21,7 @@ public class CombatManager : MonoBehaviour, ISelectable
     [SerializeField] private Slider _enemyHealthBarBelow;
     [SerializeField] private Slider _playerHealthBarBelow;
     [SerializeField] private Slider _enemyEgoBarBelow;
-    [SerializeField] private Slider _playerEgohBarBelow;
+    [SerializeField] private Slider _playerEgoBarBelow;
     [SerializeField] private Canvas _selectionMenuCanvas;
     [SerializeField] private Canvas _persuasionMenuCanvas;
 
@@ -28,42 +29,65 @@ public class CombatManager : MonoBehaviour, ISelectable
     private int _enemyRoll;
     private int _combatantHealth1;
     private int _combatantHealth2;
+    private int _attackerHealth;
+    private int _defenderHealth;
+    private int _defenderEgoPoints;
     private int _rawDamage;
     private int _finalDamage;
     private int _accuracy;
     private int _evasion;
     private int _currentInsultIndex;
     private int _enemyEgoPoints;
+    private int _playerEgoPoints;
     private bool _hasFightStarted;
+    private bool _isFighting;
+    private bool _hasDisadvantage;
+    private bool _isFirstCombatant;
     private string _currentLine;
     private string _egoHitLine;
     private string _egoResistLine;
+    private Combatant _attackingCombatant;
+    private Combatant _defendingCombatant;
     private Combatant _combatant1;
     private Combatant _combatant2;
-    private Coroutine _combatCoroutine;
+    private Coroutine _turnCoroutine;
     private Coroutine _textCoroutine;
-    private Coroutine _insultCoroutine;
-    private Dictionary<string, int> _insultsAndValues = new Dictionary<string, int>();
-    private Dictionary<string, int> _currentInsultsAndValues = new Dictionary<string, int>();
+    private Coroutine _insultTurn;
+    private Dictionary<string, int> _enemyInsultsAndValues = new Dictionary<string, int>();
+    private Dictionary<string, int> _enemyCurrentInsultsAndValues = new Dictionary<string, int>();
+    private Dictionary<string, int> _playerInsultsAndValues = new Dictionary<string, int>();
+    //private Dictionary<string, int> _playerCurrentInsultsAndValues = new Dictionary<string, int>();
+
 
     public static event Action OnFightFinished;
 
-    void Start()
+    IEnumerator Start()
     {
         _hasFightStarted = false;
-        _textBox.enabled = false;
-        _promptSkip.enabled = false;
+        _isFighting = true;
+        _textBox.enabled = true;
+        _promptSkip.enabled = true;
         _promptContinue.enabled = false;
+        _selectionMenuCanvas.enabled = false;
+        _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
         _persuasionMenuCanvas.enabled = false;
         _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
-
-        SetInitialStats();
+        _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
 
         // Alle Insult Lines und Values des jeweiligen Gegners holen
         for (int i = 0; i < _enemy.InsultLines.Insults.Length; i++)
         {
-            _insultsAndValues.Add(_enemy.InsultLines.Insults[i], _enemy.InsultLines.Values[i]);
+            _enemyInsultsAndValues.Add(_enemy.InsultLines.Insults[i], _enemy.InsultLines.Values[i]);
         }
+
+        for(int i = 0; i < PlayerManager.Instance.InsultLines.Insults.Length; i++)
+        {
+            _playerInsultsAndValues.Add(PlayerManager.Instance.InsultLines.Insults[i], PlayerManager.Instance.InsultLines.Values[i]);
+        }
+
+        SetInitialStats();
+
+        yield return StartCoroutine(RollInitiative(_hasDisadvantage));
     }
 
     void OnDisable()
@@ -86,9 +110,37 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
     }
 
+    private IEnumerator RollInitiative(bool isDisadvantage)
+    {
+        if (isDisadvantage)
+        {
+            _combatant1 = _enemy;
+            _combatant2 = PlayerManager.Instance;
+        }
+        else
+        {
+            _playerRoll = PlayerManager.Instance.RollInitiative();
+            _enemyRoll = _enemy.RollInitiative();
+
+            _combatant1 = _playerRoll >= _enemyRoll ? PlayerManager.Instance : _enemy;
+            _combatant2 = _playerRoll >= _enemyRoll ? _enemy : PlayerManager.Instance;
+            
+            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "goes", "first!");
+            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+        }
+
+        _combatantHealth1 = _combatant1.HealthPoints;
+        _combatantHealth2 = _combatant2.HealthPoints;
+
+        _isFirstCombatant = true;
+
+        StartCoroutine(CombatCoroutine());
+    }
+
     private void SetInitialStats()
     {
         _enemyEgoPoints = _enemy.EgoPoints;
+        _playerEgoPoints = PlayerManager.Instance.EgoPoints;
         _playerHealth.text = $"{PlayerManager.Instance.HealthPoints}/{GameConfig.PlayerStartingHealth}";
         _playerEgo.text = $"{PlayerManager.Instance.EgoPoints}/{PlayerManager.Instance.EgoPoints}";
         _enemyHealth.text = $"{_enemy.HealthPoints}/{_enemy.HealthPoints}";
@@ -100,13 +152,78 @@ public class CombatManager : MonoBehaviour, ISelectable
         childSlider.GetComponent<Slider>().value = (float)GameConfig.PlayerStartingHealth / (float)PlayerManager.Instance.HealthPoints;
     }
 
+    private IEnumerator CombatCoroutine()
+    {
+        // Checken wer ist dran, falls Player Optionen geben, falls Enemy Aktion zufällig wählen
+        while (true)
+        {
+            CreateTurn();
+
+            // https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
+            yield return new WaitUntil(() => _isFighting == false);
+        }
+
+        // Aktion 1
+
+        // Aktion 2 usw...
+    }
+
+    private void CreateTurn()
+    {
+        Debug.LogError("Reached");
+        if (_isFirstCombatant)
+        {
+            _attackingCombatant = _combatant1;
+            _defendingCombatant = _combatant2;
+            _attackerHealth = _combatantHealth1;
+            _defenderHealth = _combatantHealth2;
+            _isFirstCombatant = false;
+        }
+        else
+        {
+            _attackingCombatant = _combatant2;
+            _defendingCombatant = _combatant1;
+            _attackerHealth = _combatantHealth2;
+            _defenderHealth = _combatantHealth1;
+            _isFirstCombatant = true;
+        }
+
+        if (_attackingCombatant == PlayerManager.Instance)
+        {
+            _selectionMenuCanvas.enabled = true;
+            _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = true;
+            _defenderEgoPoints = _enemyEgoPoints;
+            _isFighting = true;
+            return;
+        }
+        else
+        {
+            _defenderEgoPoints = _playerEgoPoints;
+        }
+
+        var random = UnityEngine.Random.Range(0, 1);
+
+        switch (random)
+        {
+            case 0:
+                _turnCoroutine = StartCoroutine(InsultTurn(_attackingCombatant, _defendingCombatant, _defenderEgoPoints));
+                break;
+
+            //case 1:
+            //    _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance));
+            //    break;
+        }
+
+        _isFighting = true;
+    }
+
     private IEnumerator DisplayInsultOptions()
     {
         _selectionMenuCanvas.enabled = false;
         _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
         
         // Wenn keine 2 Optionen mehr gegeben werden können: Ende
-        if (_insultsAndValues.Count < 2)
+        if (_enemyInsultsAndValues.Count < 2)
         {
             _textBox.enabled = true;
             _currentLine = "You can't think of anything else to say!";
@@ -127,48 +244,62 @@ public class CombatManager : MonoBehaviour, ISelectable
         // Zwei zufällige Optionen und Werte zuweisen, danach jeweils aus dem Original-Dictionary entfernen, damit nicht zweimal dieselbe Option angezeigt wird
         for (int i = 0; i < options.Length - 1; i++)
         {
-            int index = UnityEngine.Random.Range(0, _insultsAndValues.Count - 1);
+            int index = UnityEngine.Random.Range(0, _enemyInsultsAndValues.Count - 1);
 
-            options[i].text = _insultsAndValues.ElementAt(index).Key;
-            _currentInsultsAndValues.Add(options[i].text, _insultsAndValues.ElementAt(index).Value);
-            _insultsAndValues.Remove(options[i].text);
+            options[i].text = _enemyInsultsAndValues.ElementAt(index).Key;
+            _enemyCurrentInsultsAndValues.Add(options[i].text, _enemyInsultsAndValues.ElementAt(index).Value);
+            _enemyInsultsAndValues.Remove(options[i].text);
         }
     }
 
-    private IEnumerator InsultCoroutine(int optionIndex)
+    private IEnumerator InsultTurn(Combatant attacker, Combatant defender, int defenderEgoPoints, int optionIndex = 0)
     {
         string line = "";
         int value = 0;
 
         _textBox.enabled = true;
 
-        // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden, nicht gewählte Optionen wieder ins Original-Dictionary einfügen
-        switch(optionIndex)
+        if(attacker == PlayerManager.Instance)
         {
-            case 0:
-                line = $"{PlayerManager.Instance.Name}: '{_currentInsultsAndValues.ElementAt(0).Key}'";
-                value = _currentInsultsAndValues.ElementAt(0).Value;
-                _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _currentInsultsAndValues.ElementAt(0).Key)];
-                _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _currentInsultsAndValues.ElementAt(0).Key)];
-                _insultsAndValues.Add( _currentInsultsAndValues.ElementAt(1).Key, _currentInsultsAndValues.ElementAt(1).Value);
-                break;
+            yield return StartCoroutine(DisplayInsultOptions());
+            
+            // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden, nicht gewählte Optionen wieder ins Original-Dictionary einfügen
+            switch(optionIndex)
+            {
+                case 0:
+                    line = $"{PlayerManager.Instance.Name}: '{_enemyCurrentInsultsAndValues.ElementAt(0).Key}'";
+                    value = _enemyCurrentInsultsAndValues.ElementAt(0).Value;
+                    _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
+                    _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
+                    _enemyInsultsAndValues.Add( _enemyCurrentInsultsAndValues.ElementAt(1).Key, _enemyCurrentInsultsAndValues.ElementAt(1).Value);
+                    break;
 
-            case 1:
-                line = $"{PlayerManager.Instance.Name}: '{_currentInsultsAndValues.ElementAt(1).Key}'";
-                value = _currentInsultsAndValues.ElementAt(1).Value;
-                _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _currentInsultsAndValues.ElementAt(1).Key)];
-                _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _currentInsultsAndValues.ElementAt(1).Key)];
-                _insultsAndValues.Add(_currentInsultsAndValues.ElementAt(0).Key, _currentInsultsAndValues.ElementAt(0).Value);
-                break;
+                case 1:
+                    line = $"{PlayerManager.Instance.Name}: '{_enemyCurrentInsultsAndValues.ElementAt(1).Key}'";
+                    value = _enemyCurrentInsultsAndValues.ElementAt(1).Value;
+                    _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
+                    _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
+                    _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(0).Key, _enemyCurrentInsultsAndValues.ElementAt(0).Value);
+                    break;
 
-            case 2:
-                _textBox.enabled = false;
-                _persuasionMenuCanvas.enabled = false;
-                break;
+                case 2:
+                    _textBox.enabled = false;
+                    _persuasionMenuCanvas.enabled = false;
+                    break;
 
-            default:
-                Debug.LogError("Insult index not set correctly!");
-                break;
+                default:
+                    Debug.LogError("Insult index not set correctly!");
+                    break;
+            }
+        }
+        else
+        {
+            var random = UnityEngine.Random.Range(0, _playerInsultsAndValues.Count - 1);         
+            line = $"{_enemy.Name}: '{_playerInsultsAndValues.ElementAt(random).Key}'";
+            value = _playerInsultsAndValues.ElementAt(random).Value;
+            _egoHitLine = PlayerManager.Instance.InsultLines.AnswersWhenHit[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
+            _egoResistLine = PlayerManager.Instance.InsultLines.AnswersWhenResisted[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
+            _playerInsultsAndValues.Remove(_playerInsultsAndValues.ElementAt(random).Key);
         }
 
         _textBox.enabled = true;
@@ -179,21 +310,21 @@ public class CombatManager : MonoBehaviour, ISelectable
             _persuasionMenuCanvas.enabled = false;
             _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
 
-            _playerRoll = value + DiceUtil.D4();
+            var attackRoll = value + DiceUtil.D4();
 
             _currentLine = line;
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
                 
-            _finalDamage = _playerRoll - _enemy.InsultResistance;
+            _finalDamage = attackRoll - defender.InsultResistance;
 
             if (_finalDamage > 0)
             {
-                _currentLine = $"{_enemy.Name}: '{_egoHitLine}'";
+                _currentLine = $"{defender.Name}: '{_egoHitLine}'";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-                _enemyEgoPoints -= _finalDamage;
+                defenderEgoPoints -= _finalDamage;
 
-                StartCoroutine(UpdateUIStats(combatant: _enemy, damage: _finalDamage, currentHealth: _enemyEgoPoints, isHealthDamage: false, currentEgo: _enemyEgoPoints));
+                StartCoroutine(UpdateUIStats(combatant: defender, damage: _finalDamage, currentHealth: defenderEgoPoints, isHealthDamage: false, currentEgo: _enemyEgoPoints));
 
                 _currentLine = $"{_enemy.Name} took {_finalDamage} ego damage!";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, true));
@@ -201,179 +332,159 @@ public class CombatManager : MonoBehaviour, ISelectable
             }
             else
             {
-                _currentLine = $"{_enemy.Name}: '{_egoResistLine}'";
+                _currentLine = $"{defender.Name}: '{_egoResistLine}'";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-                _currentLine = $"{_enemy.Name} has resisted your insult!";
+                _currentLine = $"{defender.Name} has resisted the insult!";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, true));
             }
         }
 
-        if (_enemyEgoPoints <= 0)
+        if (defenderEgoPoints <= 0)
         {
-            _insultCoroutine = null;
-            StartCoroutine(EndFight(PlayerManager.Instance));
+            _insultTurn = null;
+            StartCoroutine(EndFight(attacker));
             yield break;
         }
 
         //Insult-Kampf abwickeln
-        _currentInsultsAndValues.Clear();
-
+        _enemyCurrentInsultsAndValues.Clear();
         _textBox.text = "";
         _textBox.enabled = false;
-        _selectionMenuCanvas.enabled = true;
-        _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = true;
-        _insultCoroutine = null;
+        _insultTurn = null;
+        StartCoroutine(EndFight(null));
     }
 
     // Festlegen, wer zuerst angreift
-    private IEnumerator RollInitiative(bool isDisadvantage)
-    {
-        if (isDisadvantage)
-        {
-            _combatant1 = _enemy;
-            _combatant2 = PlayerManager.Instance;
-        }
-        else
-        {
-            _playerRoll = PlayerManager.Instance.RollInitiative();
-            _enemyRoll = _enemy.RollInitiative();
 
-            _combatant1 = _playerRoll >= _enemyRoll ? PlayerManager.Instance : _enemy;
-            _combatant2 = _playerRoll >= _enemyRoll ? _enemy : PlayerManager.Instance;
-            
-            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "goes", "first!");
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-        }
-
-        _combatantHealth1 = _combatant1.HealthPoints;
-        _combatantHealth2 = _combatant2.HealthPoints;
-    }
-
-    private IEnumerator CombatCoroutine(bool isDisadvantage)
+    private IEnumerator CombatTurn(Combatant attacker, Combatant defender, int defenderHealth, bool isDisadvantage)
     {
         _textBox.enabled = true;
 
-        if (!_hasFightStarted)
-        {
-            yield return StartCoroutine(RollInitiative(isDisadvantage));
+        //if (!_hasFightStarted)
+        //{
+        //    yield return StartCoroutine(RollInitiative(isDisadvantage));
 
-            // Nach Disadvantage-Angriff neues Zuweisen der Reihenfolge möglich
-            if(!isDisadvantage)
-            {
-                _hasFightStarted = true;
-            }
-        }
+        //    // Nach Disadvantage-Angriff neues Zuweisen der Reihenfolge möglich
+        //    if(!isDisadvantage)
+        //    {
+        //        _hasFightStarted = true;
+        //    }
+        //}
         
-        if(isDisadvantage)
-        {
-            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "attacks", "you!");
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-        }
-        else
-        {
-            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "prepares", "to strike!");
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-        }
+        //if(isDisadvantage)
+        //{
+        //    _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "attacks", "you!");
+        //    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        //}
+        //else
+        //{
+        //    _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "prepares", "to strike!");
+        //    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        //}
 
-        _rawDamage = PerformAttack(_combatant1, _combatant2);
-        print($"{_combatant1.Name} Damage: {_rawDamage}");
+        _rawDamage = PerformAttack(attacker, defender);
+        print($"{attacker.Name} Damage: {_rawDamage}");
 
         if (_rawDamage <= 0)
         {
-            _currentLine = DialogueUtil.CreateCombatLog(_combatant2, "has", "evaded the attack!");
+            _currentLine = DialogueUtil.CreateCombatLog(defender, "has", "evaded the attack!");
 
-            if (isDisadvantage)
-            {
-                yield return StartCoroutine(HandleTextOutput(_currentLine, true));
-            }
-            else
-            {
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-            }
+            //if (isDisadvantage)
+            //{
+            //    yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+            //}
+            //else
+            //{
+            //    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            //}
         }
 
-        CalculateDamage(_rawDamage, _combatant2, _combatantHealth2);
+        CalculateDamage(_rawDamage, defender, defenderHealth);
 
-        if (_finalDamage >= _combatantHealth2)
+        if (_finalDamage >= defenderHealth)
         {
-            _combatantHealth2 = 0;
+            defenderHealth = 0;
         }
         else
         {
-            _combatantHealth2 -= _finalDamage;
+            defenderHealth -= _finalDamage;
         }
 
         if (_finalDamage > 0)
         {
-            _currentLine = DialogueUtil.CreateCombatLog(_combatant2, "takes", $"{_finalDamage} damage!");
-            StartCoroutine(UpdateUIStats(combatant: _combatant2, damage: _finalDamage, currentHealth: _combatantHealth2, isHealthDamage: true));
+            _currentLine = DialogueUtil.CreateCombatLog(defender, "takes", $"{_finalDamage} damage!");
+            StartCoroutine(UpdateUIStats(combatant: defender, damage: _finalDamage, currentHealth: defenderHealth, isHealthDamage: true));
 
-            if (isDisadvantage)
-            {
-                yield return StartCoroutine(HandleTextOutput(_currentLine, true));
-            }
-            else
-            {
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-            }
+            //if (isDisadvantage)
+            //{
+            //    yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+            //}
+            //else
+            //{
+            //    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            //}
         }
 
-        if (_combatantHealth2 <= 0)
+        if (defenderHealth <= 0)
         {
-            _combatCoroutine = null;
-            StartCoroutine(EndFight(_combatant1, _combatantHealth1));
+            _turnCoroutine = null;
+
+            if(attacker == PlayerManager.Instance)
+            {
+                StartCoroutine(EndFight(attacker, defenderHealth));
+            }
             yield break;
         }
 
         if (isDisadvantage)
         {
             isDisadvantage = false;
-
-            _combatCoroutine = null;
+            _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = true;
+            _turnCoroutine = null;
             StartCoroutine(EndFight(null));
             yield break;
         }
 
-        _currentLine = DialogueUtil.CreateCombatLog(_combatant2, "prepares", "to strike!");
-        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        //_currentLine = DialogueUtil.CreateCombatLog(_combatant2, "prepares", "to strike!");
+        //yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-        _rawDamage = PerformAttack(_combatant2, _combatant1);
-        print($"{_combatant1.Name} Damage: {_rawDamage}");
+        //_rawDamage = PerformAttack(_combatant2, _combatant1);
+        //print($"{_combatant1.Name} Damage: {_rawDamage}");
 
-        if (_rawDamage <= 0)
-        {
-            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "has", "evaded the attack!");
-            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
-        }
+        //if (_rawDamage <= 0)
+        //{
+        //    _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "has", "evaded the attack!");
+        //    yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+        //}
 
-        CalculateDamage(_rawDamage, _combatant1, _combatantHealth1);
+        //CalculateDamage(_rawDamage, _combatant1, _combatantHealth1);
 
-        if (_finalDamage >= _combatantHealth1)
-        {
-            _combatantHealth1 = 0;
-        }
-        else
-        {
-            _combatantHealth1 -= _finalDamage;
-        }
+        //if (_finalDamage >= _combatantHealth1)
+        //{
+        //    _combatantHealth1 = 0;
+        //}
+        //else
+        //{
+        //    _combatantHealth1 -= _finalDamage;
+        //}
 
-        if (_finalDamage > 0)
-        {
-            _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "takes", $"{_finalDamage} damage!");
-            StartCoroutine(UpdateUIStats(combatant: _combatant1, damage: _finalDamage, currentHealth: _combatantHealth1, isHealthDamage: true));
+        //if (_finalDamage > 0)
+        //{
+        //    _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "takes", $"{_finalDamage} damage!");
+        //    StartCoroutine(UpdateUIStats(combatant: _combatant1, damage: _finalDamage, currentHealth: _combatantHealth1, isHealthDamage: true));
 
-            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
-        }
+        //    yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+        //}
 
-        if (_combatantHealth1 <= 0)
-        {
-            _combatCoroutine = null;
-            StartCoroutine(EndFight(_combatant2, _combatantHealth2));
-            yield break;
-        }
+        //if (_combatantHealth1 <= 0)
+        //{
+        //    _combatCoroutine = null;
+        //    StartCoroutine(EndFight(_combatant2, _combatantHealth2));
+        //    yield break;
+        //}
 
-        StartCoroutine(EndFight(null));
+        //StartCoroutine(EndFight(null));
     }
 
     // Berechnen, ob Angriff trifft und mit welcher Stärke
@@ -409,16 +520,10 @@ public class CombatManager : MonoBehaviour, ISelectable
     // Je nach Ausgang Kampf abwickeln
     private IEnumerator EndFight(Combatant winner, int healthPoints = 0)
     {
-        if(_combatCoroutine != null)
+        if(_turnCoroutine != null)
         {
-            StopCoroutine(_combatCoroutine);
-            _combatCoroutine = null;
-        }
-
-        if(_insultCoroutine != null)
-        {
-            StopCoroutine(_insultCoroutine);
-            _insultCoroutine = null;
+            StopCoroutine(_turnCoroutine);
+            _turnCoroutine = null;
         }
 
         if (winner)
@@ -447,6 +552,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _textBox.enabled = false;
             _selectionMenuCanvas.enabled = true;
+            _isFighting = false;
             OnFightFinished?.Invoke();
         }
 
@@ -471,12 +577,16 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
         else
         {
+            _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+
             _currentLine = $"The {_enemy.Name} is too fast for you to escape!";
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-            if (_combatCoroutine == null)
+            if (_turnCoroutine == null)
             {
-                _combatCoroutine = StartCoroutine(CombatCoroutine(isDisadvantage: true));
+                //yield return StartCoroutine(RollInitiative(_hasDisadvantage));
+                _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance, 
+                    defenderHealth: _combatantHealth2, isDisadvantage: true));
             }
         }
     }
@@ -490,13 +600,13 @@ public class CombatManager : MonoBehaviour, ISelectable
             switch (index)
             {
                 case 0:
-                    StartCoroutine(DisplayInsultOptions());
+                    _turnCoroutine = StartCoroutine(DisplayInsultOptions());
                     break;
 
                 case 1:
-                    if (_combatCoroutine == null)
+                    if (_turnCoroutine == null)
                     {
-                        _combatCoroutine = StartCoroutine(CombatCoroutine(isDisadvantage: false));
+                        //_turnCoroutine = StartCoroutine(CombatTurn(attacker: PlayerManager.Instance, defender: _enemy, defenderHealth: isDisadvantage: false));
                     }
                     break;
 
@@ -511,15 +621,15 @@ public class CombatManager : MonoBehaviour, ISelectable
             switch (index)
             {
                 case 0:
-                    _insultCoroutine = StartCoroutine(InsultCoroutine(0));
+                    _insultTurn = StartCoroutine(InsultTurn(PlayerManager.Instance, _enemy, _enemyEgoPoints, 0));
                     break;
 
                 case 1:
-                    _insultCoroutine = StartCoroutine(InsultCoroutine(1));
+                    _insultTurn = StartCoroutine(InsultTurn(PlayerManager.Instance, _enemy, _enemyEgoPoints, 1));
                     break;
 
                 case 2:
-                    _insultCoroutine = StartCoroutine(InsultCoroutine(2));
+                    _insultTurn = StartCoroutine(InsultTurn(PlayerManager.Instance, _enemy, _enemyEgoPoints, 2));
                     break;
             }
         }
@@ -528,14 +638,16 @@ public class CombatManager : MonoBehaviour, ISelectable
     // Umfasst mehrere Methoden der Dalogue.Util-Klasse, händelt z.B. auch das Beenden eines Abschnitts wenn isLastLine == true
     private IEnumerator HandleTextOutput(string line, bool isLastLine)
     {
+        _textBox.enabled = true;
         _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _textBox, _promptSkip, _promptContinue));
 
         //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
         yield return new WaitUntil(() => _currentLine == _textBox.text);
 
         if (isLastLine)
-        {
+        {          
             yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
+            _textBox.enabled = false;
             yield break;
         }
 
@@ -543,6 +655,8 @@ public class CombatManager : MonoBehaviour, ISelectable
         yield return null;
 
         yield return StartCoroutine(DialogueUtil.WaitForContinue(_promptContinue));
+
+        _textBox.enabled = false;
     }
 
     // Zeigt visuelles Feedback bei den Health- und Ego-Balken an, zuerst wird ein Balken auf den Zielwert gesetzt und der andere gelerpt
@@ -555,7 +669,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         if (isHealthDamage)
         {
             slider = combatant.Name == PlayerManager.Instance.Name ? _playerHealthBarBelow : _enemyHealthBarBelow;
-            hitValue = (float)damage / (float)combatant.HealthPoints;
+            hitValue = combatant.Name == PlayerManager.Instance.Name ? (float)damage / (float)GameConfig.PlayerStartingHealth : (float)damage / (float)_enemy.HealthPoints;
             text = combatant.Name == PlayerManager.Instance.Name ? _playerHealth : _enemyHealth;
 
             if(currentHealth <= 0)
@@ -567,7 +681,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
         else
         {
-            slider = _enemyEgoBarBelow;
+            slider = combatant.Name == PlayerManager.Instance.Name ? _playerEgoBarBelow : _enemyEgoBarBelow;
             hitValue = (float)damage / (float)combatant.EgoPoints;
             text = combatant.Name == PlayerManager.Instance.Name ? _playerEgo : _enemyEgo;
 

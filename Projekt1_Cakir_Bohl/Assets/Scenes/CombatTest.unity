@@ -5114,15 +5114,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1082420863187593242, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
       propertyPath: Accuracy
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: -1082420863187593242, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
-      propertyPath: Initiative
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -1082420863187593242, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
+      propertyPath: Initiative
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -1082420863187593242, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
       propertyPath: InsultResistance
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1451417646648548203, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
       propertyPath: m_Name
@@ -5237,8 +5237,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6756921904829407263, guid: e9eff370a657595478071e9f97e2e8b2, type: 3}
+      propertyPath: EgoPoints
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6756921904829407263, guid: e9eff370a657595478071e9f97e2e8b2, type: 3}
       propertyPath: Initiative
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6756921904829407263, guid: e9eff370a657595478071e9f97e2e8b2, type: 3}
+      propertyPath: InsultLines
+      value: 
+      objectReference: {fileID: 11400000, guid: 93afba84a9dd81f41904213dccd976c3, type: 2}
+    - target: {fileID: 6756921904829407263, guid: e9eff370a657595478071e9f97e2e8b2, type: 3}
+      propertyPath: InsultResistance
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

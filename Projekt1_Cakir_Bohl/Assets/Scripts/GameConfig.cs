@@ -3,7 +3,7 @@ public static class GameConfig
     // Player
     public static int PlayerStartingHealth = 10;
     public static int PlayerStartingEgo = 10;
-    
+
     //Dialogue
     public static float TimeBetweenChars = 0.075f;
     public static float TimeBeforeNextLine = 0.75f;
