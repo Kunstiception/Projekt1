@@ -1111,7 +1111,7 @@ MonoBehaviour:
   _enemyHealthBarBelow: {fileID: 1747707866}
   _playerHealthBarBelow: {fileID: 177705172}
   _enemyEgoBarBelow: {fileID: 245327520}
-  _playerEgohBarBelow: {fileID: 727210411}
+  _playerEgoBarBelow: {fileID: 0}
   _selectionMenuCanvas: {fileID: 606613458}
   _persuasionMenuCanvas: {fileID: 1713258031}
 --- !u!4 &500892711
@@ -5118,11 +5118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1082420863187593242, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
       propertyPath: Initiative
-      value: 20
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -1082420863187593242, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
       propertyPath: InsultResistance
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1451417646648548203, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
       propertyPath: m_Name
