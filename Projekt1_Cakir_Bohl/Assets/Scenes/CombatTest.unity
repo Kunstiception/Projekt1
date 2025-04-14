@@ -1104,14 +1104,14 @@ MonoBehaviour:
   _textBox: {fileID: 1647918672}
   _promptSkip: {fileID: 1647918671}
   _promptContinue: {fileID: 1647918670}
-  _playerUIHealth: {fileID: 0}
-  _playerUIEgo: {fileID: 0}
-  _enemyUIHealth: {fileID: 0}
-  _enemyUIEgo: {fileID: 0}
+  _playerUIHealth: {fileID: 1055674593}
+  _playerUIEgo: {fileID: 1150253321}
+  _enemyUIHealth: {fileID: 1713162020}
+  _enemyUIEgo: {fileID: 1187929111}
   _enemyHealthBarBelow: {fileID: 1747707866}
   _playerHealthBarBelow: {fileID: 177705172}
   _enemyEgoBarBelow: {fileID: 245327520}
-  _playerEgoBarBelow: {fileID: 0}
+  _playerEgoBarBelow: {fileID: 727210411}
   _selectionMenuCanvas: {fileID: 606613458}
   _persuasionMenuCanvas: {fileID: 1713258031}
 --- !u!4 &500892711
