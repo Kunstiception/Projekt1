@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _promptContinue;
 
     private Coroutine _textCoroutine;
-    private int _currentString = 0;
+    private Coroutine _waitForContinueCoroutine;
+    private int _currentStringIndex = 0;
     
     void Start()
     {
@@ -27,12 +29,10 @@ public class GameManager : MonoBehaviour
         {
             if(_textCoroutine != null)
             {
-                StopCoroutine(_textCoroutine);
-
-                _textCoroutine = null;
                 _promptSkip.enabled = false;
-
-                DialogueUtil.ShowFullLine(_texts[_currentString], _uiElement);
+                StopCoroutine(_textCoroutine);
+                _textCoroutine = null;
+                DialogueUtil.ShowFullLine(_texts[_currentStringIndex], _uiElement, _promptSkip);
             }
         }
     }
@@ -46,36 +46,38 @@ public class GameManager : MonoBehaviour
                 _promptSkip.enabled = true;
             }
 
-            _currentString = i;
+            _currentStringIndex = i;
 
-            _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(strings[_currentString], _uiElement));
-
-            //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
-            yield return new WaitUntil(() => strings[_currentString] == _uiElement.text);
-
-            _promptSkip.enabled = false;
-
-            // wait one frame to not trigger following GetKeyDown event
-            yield return new WaitForSeconds(GameConfig.TimeBeforeNextLine);
-
-            if(_currentString == strings.Length - 1)
+            if(i != strings.Length - 1)
             {
-                break;
+                yield return StartCoroutine(HandleTextOutput(strings[_currentStringIndex], false));
             }
-
-            _promptContinue.enabled = true;
-
-            while (!Input.GetKeyDown(KeyCode.Space))
+            else
             {
-                yield return null;
+                yield return StartCoroutine(HandleTextOutput(strings[_currentStringIndex], true));
             }
-
-            _promptContinue.enabled = false;
-            _promptSkip.enabled = true;
         }
 
         yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
 
         SceneManager.LoadScene(_nextScene);
+    }
+
+    private IEnumerator HandleTextOutput(string line, bool isLastLine)
+    {
+        _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _uiElement, _promptSkip, _promptContinue));
+
+        //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
+        yield return new WaitUntil(() => _texts[_currentStringIndex] == _uiElement.text);
+
+        if (isLastLine)
+        {
+            yield break;
+        }
+
+        // Einen Frame warten, damit Input nicht beide GetKeyDown-Events triggert
+        yield return null;
+
+        yield return StartCoroutine(DialogueUtil.WaitForContinue(_promptContinue));
     }
 }

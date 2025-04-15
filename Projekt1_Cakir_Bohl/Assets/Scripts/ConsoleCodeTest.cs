@@ -6,44 +6,44 @@ using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCou
 
 public class ConsoleCodeTest : MonoBehaviour
 {
-    int combatantHealth1 = 0;
-    string combatant1 = "";
+    //int combatantHealth1 = 0;
+    //string combatant1 = "";
 
-    int combatantHealth2 = 0;
-    string combatant2 = "";
+    //int combatantHealth2 = 0;
+    //string combatant2 = "";
 
 
-    int maxPlayerHealth = 10;
-    int currentPlayerHealth = 10;
+    //int maxPlayerHealth = 10;
+    //int currentPlayerHealth = 10;
 
-    int playerInitiative = 5;
+    //int playerInitiative = 5;
 
-    int maxEnemyHealth = 6;
-    int enemyHealth = 6;
+    //int maxEnemyHealth = 6;
+    //int enemyHealth = 6;
 
-    int enemyInitiative = 2;
+    //int enemyInitiative = 2;
 
-    System.Random random = new System.Random();
+    //System.Random random = new System.Random();
 
-    int damage = 0;
+    //int damage = 0;
 
-    bool isMoving = true;
+    //bool isMoving = true;
 
-    bool isFighting = false;
+    //bool isFighting = false;
 
-    bool isRunning = true;
+    //bool isRunning = true;
 
-    bool isResting = false;
+    //bool isResting = false;
 
-    bool isAmbushed = false;
+    //bool isAmbushed = false;
 
-    int totalMovement = 0;
+    //int totalMovement = 0;
 
-    string? readResult;
+    //string? readResult;
 
     //string[] possibleItems = ["Health Potion", "Ring of Life", "Ring of Protection"];
 
-    string[] currentItems = new string[10];
+    //string[] currentItems = new string[10];
 
     //// Only run through loops while the game is running
     //while(isRunning)

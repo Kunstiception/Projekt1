@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8edae58ba3a75b844bb07dde9ec9e432, type: 3}
+  m_Name: PlayerInsults
+  m_EditorClassIdentifier: 
+  Insults:
+  - Your helmet has a dent!
+  - Your blade is dull!
+  - Your armor is rusty!
+  Values: 020000000200000003000000
+  AnswersWhenHit:
+  - Impossible!
+  - I must have forgotten to sharpen it...
+  - It has been raining lately...
+  AnswersWhenResisted:
+  - It only shows how many battles I have fought in. I wear it proudly.
+  - Is it really? Why don't you come here and check?
+  - Those are blood stains, my friend!
