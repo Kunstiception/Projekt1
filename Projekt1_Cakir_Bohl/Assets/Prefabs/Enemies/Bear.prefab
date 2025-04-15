@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -1082420863187593242}
   - component: {fileID: 1091708616443416226}
   m_Layer: 0
-  m_Name: Boar
+  m_Name: Bear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,16 +46,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: a8d7605d1bb932e429365c36671db5fd, type: 2}
-  Name: Boar
-  HealthPoints: 8
+  Name: Bear
+  HealthPoints: 12
   EgoPoints: 10
-  MinAttackStrength: 2
-  MaxAttackStrength: 5
+  MinAttackStrength: 3
+  MaxAttackStrength: 6
   ArmorStrength: 0
-  Initiative: 6
-  Accuracy: 6
-  Evasion: 5
-  InsultResistance: 6
+  Initiative: 5
+  Accuracy: 20
+  Evasion: 6
+  InsultResistance: 7
 --- !u!212 &1091708616443416226
 SpriteRenderer:
   m_ObjectHideFlags: 0
