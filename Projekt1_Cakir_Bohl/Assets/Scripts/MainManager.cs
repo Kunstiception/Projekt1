@@ -21,8 +21,6 @@ public class MainManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        //LoadAll();
     }
 
     [System.Serializable]

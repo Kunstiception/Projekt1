@@ -17,7 +17,7 @@ public class StartMenu : MonoBehaviour
         _buttonLoad.enabled = false;
         _buttonNew.enabled = false;
 
-        yield return DialogueUtil.DisplayTextOverTime(_question, _uiTextElement);
+        yield return DialogueUtil.DisplayTextOverTime(_question, _uiTextElement, null, null);
 
         _buttonLoad.enabled = true;
         _buttonNew.enabled = true;

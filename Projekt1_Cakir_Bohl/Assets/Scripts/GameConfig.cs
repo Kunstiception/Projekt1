@@ -1,15 +1,19 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 public static class GameConfig
 {
-    [Header("Dialogue")]
+    // Player
+    public static int PlayerStartingHealth = 10;
+    public static int PlayerStartingEgo = 10;
+
+    //Dialogue
     public static float TimeBetweenChars = 0.075f;
     public static float TimeBeforeNextLine = 0.75f;
     public static float TimeBeforeLevelLoad = 0.75f;
 
-    [Header("Map")]
+    //Map
     public static float MovementSpeed = 1.5f;
     public static string[] WayPointTypes = { "Empty", "Fight", "Loot", "Interaction" };
 
+    //Combat
+    public static float BarsLerpSpeed = 0.75f;
+    public static float TimeBeforeHealthbarUpdate = 0.25f;
 }
