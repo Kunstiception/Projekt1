@@ -26,9 +26,16 @@ public class MapManager : MonoBehaviour
 
     void Start()
     {
+        if(MainManager.Instance.LastWayPoint != null)
+        {
+            MainManager.Instance.VisitedWayPoints.Add(MainManager.Instance.LastWayPoint);
+        }
+
+        MainManager.Instance.SaveAll();
+
         GetWayPoints();
         SetCurrentPosition();
-        SetNextWayPointsTag();
+        SetNextWayPointsTag();      
     }
 
     private void OnEnable()
@@ -151,9 +158,9 @@ public class MapManager : MonoBehaviour
 
         // Object id ändert sich mit jeder Session, daher name
         MainManager.Instance.LastWayPoint = _currentWaypoint.name;
-        MainManager.Instance.VisitedWayPoints.Add(_currentWaypoint.name);
+        //MainManager.Instance.VisitedWayPoints.Add(_currentWaypoint.name);
 
-        MainManager.Instance.SaveAll();
+        //MainManager.Instance.SaveAll();
 
         SceneManager.LoadScene(_nextScene);
     }

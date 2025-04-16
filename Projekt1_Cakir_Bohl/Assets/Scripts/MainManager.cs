@@ -8,6 +8,8 @@ public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
 
+    public int PlayerHealthPoints;
+    public int PlayerEgoPoints;
     public string LastWayPoint;
     public List<string> VisitedWayPoints;
 
@@ -26,6 +28,8 @@ public class MainManager : MonoBehaviour
     [System.Serializable]
     class SaveData
     {
+        public int PlayerHealthPoints;
+        public int PlayerEgoPoints;
         public string LastWayPoint;
         public List<string> VisitedWayPoints;
     }
@@ -33,6 +37,9 @@ public class MainManager : MonoBehaviour
     public void SaveAll()
     {
         SaveData data = new SaveData();
+
+        data.PlayerHealthPoints = PlayerManager.Instance.HealthPoints;
+        data.PlayerEgoPoints = PlayerManager.Instance.EgoPoints;
         data.LastWayPoint = LastWayPoint;
         data.VisitedWayPoints = VisitedWayPoints;
 
@@ -53,8 +60,16 @@ public class MainManager : MonoBehaviour
 
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
+            PlayerHealthPoints = data.PlayerHealthPoints;
+            PlayerEgoPoints = data.PlayerEgoPoints;
             LastWayPoint = data.LastWayPoint;
             VisitedWayPoints = data.VisitedWayPoints;
+
+            if(PlayerManager.Instance != null)
+            {
+                PlayerManager.Instance.InitializeStatsOnLoad();
+            }
+
             Debug.Log(json);
         }
         

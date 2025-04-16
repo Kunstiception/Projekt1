@@ -44,11 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e53dd1aad8113d4887edd2ef2912eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InsultLines: {fileID: 11400000, guid: 93afba84a9dd81f41904213dccd976c3, type: 2}
   Name: Hero
   HealthPoints: 10
+  EgoPoints: 10
   MinAttackStrength: 4
   MaxAttackStrength: 7
   ArmorStrength: 10
   Initiative: 10
   Accuracy: 8
   Evasion: 8
+  InsultResistance: 8
+  HasDisadvantage: 0

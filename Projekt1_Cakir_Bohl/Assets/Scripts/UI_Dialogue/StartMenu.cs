@@ -32,6 +32,9 @@ public class StartMenu : MonoBehaviour
 
     public void LoadNew()
     {
+        MainManager.Instance.PlayerHealthPoints = GameConfig.PlayerStartingHealth;
+        MainManager.Instance.PlayerEgoPoints = GameConfig.PlayerStartingEgo;
+        
         SceneManager.LoadScene("DialogueTest");
     }
 }

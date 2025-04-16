@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class PlayerManager: Combatant
 {
@@ -19,5 +17,11 @@ public class PlayerManager: Combatant
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void InitializeStatsOnLoad()
+    {
+        HealthPoints = MainManager.Instance.PlayerHealthPoints;
+        EgoPoints = MainManager.Instance.PlayerEgoPoints;
     }
 }
