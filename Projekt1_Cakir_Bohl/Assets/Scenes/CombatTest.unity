@@ -2135,6 +2135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc434dac5e71276408c4f1eaab6f76cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerHealthPoints: 0
+  PlayerEgoPoints: 0
   LastWayPoint: 
   VisitedWayPoints: []
 --- !u!4 &905784663
@@ -5356,20 +5358,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6756921904829407263, guid: e9eff370a657595478071e9f97e2e8b2, type: 3}
-      propertyPath: EgoPoints
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6756921904829407263, guid: e9eff370a657595478071e9f97e2e8b2, type: 3}
-      propertyPath: Initiative
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6756921904829407263, guid: e9eff370a657595478071e9f97e2e8b2, type: 3}
-      propertyPath: InsultLines
-      value: 
-      objectReference: {fileID: 11400000, guid: 93afba84a9dd81f41904213dccd976c3, type: 2}
-    - target: {fileID: 6756921904829407263, guid: e9eff370a657595478071e9f97e2e8b2, type: 3}
       propertyPath: InsultResistance
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

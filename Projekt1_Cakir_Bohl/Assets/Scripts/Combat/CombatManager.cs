@@ -100,7 +100,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     void Update()
     {
-        // Ermöglicht sofortiges Anzeigen der gesamten derzeitigen Line
+        // Ermï¿½glicht sofortiges Anzeigen der gesamten derzeitigen Line
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (_textCoroutine != null)
@@ -158,11 +158,11 @@ public class CombatManager : MonoBehaviour, ISelectable
         _combatant1EgoPoints = _combatant1.EgoPoints;
         _combatant2EgoPoints = _combatant2.EgoPoints;
         _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{GameConfig.PlayerStartingHealth}";
-        _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{PlayerManager.Instance.EgoPoints}";
+        _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{GameConfig.PlayerStartingEgo}";
         _enemyUIHealth.text = $"{_enemy.HealthPoints}/{_enemy.HealthPoints}";
         _enemyUIEgo.text = $"{_enemy.EgoPoints}/{_enemy.EgoPoints}";
 
-        // Weiße Healthbar setzen
+        // Weiï¿½e Healthbar setzen
         _playerHealthBarBelow.value = (float)PlayerManager.Instance.HealthPoints / (float)GameConfig.PlayerStartingHealth;
         var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerHealthBarBelow.gameObject);
         childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.HealthPoints / (float)GameConfig.PlayerStartingHealth;
@@ -174,7 +174,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     private IEnumerator CombatCoroutine()
     {
-        // Checken wer ist dran, falls Player Optionen geben, falls Enemy Aktion zufällig wählen
+        // Checken wer ist dran, falls Player Optionen geben, falls Enemy Aktion zufï¿½llig wï¿½hlen
         while (true)
         {
             yield return StartCoroutine(CreateTurn());
@@ -195,6 +195,7 @@ public class CombatManager : MonoBehaviour, ISelectable
             _defendingCombatant = _combatant2;
             _attackerHealth = _combatantHealth1;
             _defenderHealth = _combatantHealth2;
+            _defenderEgoPoints = _combatant2EgoPoints;
             _isFirstCombatant = false;
         }
         else
@@ -203,6 +204,7 @@ public class CombatManager : MonoBehaviour, ISelectable
             _defendingCombatant = _combatant1;
             _attackerHealth = _combatantHealth2;
             _defenderHealth = _combatantHealth1;
+            _defenderEgoPoints = _combatant1EgoPoints;
             _isFirstCombatant = true;
         }
 
@@ -217,7 +219,6 @@ public class CombatManager : MonoBehaviour, ISelectable
             _textBox.enabled = false;
             _selectionMenuCanvas.enabled = true;
             _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = true;
-            _defenderEgoPoints = _combatant1EgoPoints;
             _isFighting = true;
             _hasFightStarted = true;
 
@@ -225,8 +226,6 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
         else
         {
-            _defenderEgoPoints = _combatant2EgoPoints;
-
             if (_hasFightStarted)
             {
                 _currentLine = $"{_enemy.Name}'s turn!";
@@ -236,7 +235,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         var randomIndex = 0;
 
-        // wenn keine Insults mehr übrig, bleibt nur Angriff
+        // wenn keine Insults mehr ï¿½brig, bleibt nur Angriff
         if (_playerInsultsAndValues.Count < 1)
         {
             randomIndex = UnityEngine.Random.Range(1, 2);
@@ -249,11 +248,11 @@ public class CombatManager : MonoBehaviour, ISelectable
         switch (randomIndex)
         {
             case 0:
-                _turnCoroutine = StartCoroutine(InsultTurn(_attackingCombatant, _defendingCombatant, _defenderEgoPoints));
+                _turnCoroutine = StartCoroutine(InsultTurn(attacker: _enemy, defender: PlayerManager.Instance, _defenderEgoPoints));
                 break;
 
             case 1:
-                _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance, defenderHealth: _defenderHealth, isDisadvantage: false));
+                 _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance, defenderHealth: _defenderHealth, isDisadvantage: false));
                 break;
         }
 
@@ -266,7 +265,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         _selectionMenuCanvas.enabled = false;
         _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
         
-        // Wenn keine 2 Optionen mehr gegeben werden können: Ende
+        // Wenn keine 2 Optionen mehr gegeben werden kï¿½nnen: Ende
         if (_enemyInsultsAndValues.Count < 2)
         {
             _textBox.enabled = true;
@@ -285,7 +284,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         TextMeshProUGUI[] options = _persuasionMenuCanvas.GetComponentsInChildren<TextMeshProUGUI>();
 
-        // Zwei zufällige Optionen und Werte zuweisen, danach jeweils aus dem Original-Dictionary entfernen, damit nicht zweimal dieselbe Option angezeigt wird
+        // Zwei zufï¿½llige Optionen und Werte zuweisen, danach jeweils aus dem Original-Dictionary entfernen, damit nicht zweimal dieselbe Option angezeigt wird
         for (int i = 0; i < options.Length - 1; i++)
         {
             int index = UnityEngine.Random.Range(0, _enemyInsultsAndValues.Count - 1);
@@ -305,7 +304,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if(attacker == PlayerManager.Instance)
         {        
-            // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden, nicht gewählte Optionen wieder ins Original-Dictionary einfügen
+            // Je nach ausgewï¿½hlter Option Line und Value zuweisen sowie mï¿½gliche Antworten bereits laden, nicht gewï¿½hlte Optionen wieder ins Original-Dictionary einfï¿½gen
             switch(optionIndex)
             {
                 case 0:
@@ -349,16 +348,16 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         _textBox.enabled = true;
 
-        // Insult-Kampf nur ausführen, wenn eine Option ausgewählt wurde
+        // Insult-Kampf nur ausfï¿½hren, wenn eine Option ausgewï¿½hlt wurde
         if (line.Length > 0)
         {
             _persuasionMenuCanvas.enabled = false;
             _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
 
-            _currentLine = $"{attacker.Name} attempts to insult {defender.Name}!";
+            _currentLine = DialogueUtil.CreateCombatLog(attacker, "attempts", $"to insult {defender.Name}!");
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-            var attackRoll = value + DiceUtil.D4();
+            var attackRoll = value + DiceUtil.D6();
 
             _currentLine = line;
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
@@ -376,7 +375,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
                 UpdateStats(defender: defender, newValue: defenderEgoPoints, false);
 
-                _currentLine = $"{_enemy.Name} takes {_finalDamage} ego damage!";
+                _currentLine = DialogueUtil.CreateCombatLog(defender, "takes", $"{_finalDamage} ego damage!");
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));
             }
             else
@@ -384,7 +383,7 @@ public class CombatManager : MonoBehaviour, ISelectable
                 _currentLine = $"{defender.Name}: '{_egoResistLine}'";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-                _currentLine = $"{defender.Name} has resisted the insult!";
+                _currentLine = DialogueUtil.CreateCombatLog(defender, "has", "resisted the insult!");
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));
             }
         }
@@ -468,7 +467,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         StartCoroutine(EndFight(null));
     }
 
-    // Berechnen, ob Angriff trifft und mit welcher Stärke
+    // Berechnen, ob Angriff trifft und mit welcher Stï¿½rke
     private int PerformAttack(Combatant attacker, Combatant defender)
     {
         _accuracy = attacker.RollAccuracy();
@@ -551,6 +550,9 @@ public class CombatManager : MonoBehaviour, ISelectable
     private IEnumerator TryRetreat()
     {
         _textBox.enabled = true;
+        _selectionMenuCanvas.enabled = false;
+         _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+
         _playerRoll = PlayerManager.Instance.Initiative - DiceUtil.D6();
         print($"Player Initiative: {_playerRoll}");
         print($"Enemy Initiative: {_enemy.Initiative}");
@@ -569,8 +571,6 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
         else
         {
-            _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
-
             _currentLine = $"The {_enemy.Name} is too fast for you to escape!";
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
@@ -618,15 +618,19 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
         else
         {
+            
+            var enemyEgo = _combatant2 == _enemy ? _combatant2EgoPoints : _combatant1EgoPoints;
+
             // 0 = Option 1, 1 = Option 2, 2 = Return
             switch (index)
             {
                 case 0:
-                    _turnCoroutine = StartCoroutine(InsultTurn(PlayerManager.Instance, _enemy, _combatant1EgoPoints, 0));
+
+                    _turnCoroutine = StartCoroutine(InsultTurn(PlayerManager.Instance, _enemy, enemyEgo, 0));
                     break;
 
                 case 1:
-                    _turnCoroutine = StartCoroutine(InsultTurn(PlayerManager.Instance, _enemy, _combatant1EgoPoints, 1));
+                    _turnCoroutine = StartCoroutine(InsultTurn(PlayerManager.Instance, _enemy, enemyEgo, 1));
                     break;
 
                 case 2:
@@ -640,7 +644,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
     }         
 
-    // Umfasst mehrere Methoden der Dalogue.Util-Klasse, händelt z.B. auch das Beenden eines Abschnitts wenn isLastLine == true
+    // Umfasst mehrere Methoden der Dalogue.Util-Klasse, hï¿½ndelt z.B. auch das Beenden eines Abschnitts wenn isLastLine == true
     private IEnumerator HandleTextOutput(string line, bool isLastLine)
     {
         _textBox.enabled = true;
@@ -702,7 +706,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         float nextValue = currentValue - hitValue;
         float lerpValue = 0;
 
-        // Weiße Healthbar setzen
+        // Weiï¿½e Healthbar setzen
         var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(slider.gameObject);
         childSlider.GetComponent<Slider>().value = nextValue;
 

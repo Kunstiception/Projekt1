@@ -56,10 +56,10 @@ public static class DialogueUtil
 
     public static string CreateCombatLog(Combatant combatant, string verb, string lineEnding)
     {
-        string name = combatant.Name != PlayerManager.Instance.Name ? combatant.Name : "You";
+        string name = combatant.Name != PlayerManager.Instance.Name ? combatant.Name : PlayerManager.Instance.Name;
         string newVerb;
 
-        if (name =="You")
+        if (name == PlayerManager.Instance.Name)
         {
             newVerb = ManageVerb(verb);
         }

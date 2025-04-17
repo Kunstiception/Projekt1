@@ -62,7 +62,7 @@ public class MapManager : MonoBehaviour
                 continue;
             }
 
-            wayPoint.SetType(Random.Range(1, 4));
+            wayPoint.SetType(Random.Range(1, 2));
         }
     }
 
@@ -156,7 +156,7 @@ public class MapManager : MonoBehaviour
                 break;
         }
 
-        // Object id ändert sich mit jeder Session, daher name
+        // Object id ï¿½ndert sich mit jeder Session, daher name
         MainManager.Instance.LastWayPoint = _currentWaypoint.name;
         //MainManager.Instance.VisitedWayPoints.Add(_currentWaypoint.name);
 

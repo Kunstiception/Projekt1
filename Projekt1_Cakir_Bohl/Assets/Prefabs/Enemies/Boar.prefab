@@ -49,11 +49,11 @@ MonoBehaviour:
   Name: Boar
   HealthPoints: 8
   EgoPoints: 10
-  MinAttackStrength: 2
-  MaxAttackStrength: 5
+  MinAttackStrength: 1
+  MaxAttackStrength: 3
   ArmorStrength: 0
   Initiative: 7
-  Accuracy: 20
+  Accuracy: 7
   Evasion: 6
   InsultResistance: 6
 --- !u!212 &1091708616443416226

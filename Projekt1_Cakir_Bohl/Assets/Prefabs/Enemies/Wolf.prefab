@@ -49,11 +49,11 @@ MonoBehaviour:
   Name: Wolf
   HealthPoints: 9
   EgoPoints: 9
-  MinAttackStrength: 3
-  MaxAttackStrength: 6
+  MinAttackStrength: 2
+  MaxAttackStrength: 4
   ArmorStrength: 0
   Initiative: 6
-  Accuracy: 20
+  Accuracy: 8
   Evasion: 5
   InsultResistance: 7
 --- !u!212 &1091708616443416226

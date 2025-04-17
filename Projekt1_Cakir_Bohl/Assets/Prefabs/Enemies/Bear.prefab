@@ -49,11 +49,11 @@ MonoBehaviour:
   Name: Bear
   HealthPoints: 12
   EgoPoints: 10
-  MinAttackStrength: 3
-  MaxAttackStrength: 6
+  MinAttackStrength: 2
+  MaxAttackStrength: 5
   ArmorStrength: 0
   Initiative: 5
-  Accuracy: 20
+  Accuracy: 7
   Evasion: 6
   InsultResistance: 7
 --- !u!212 &1091708616443416226

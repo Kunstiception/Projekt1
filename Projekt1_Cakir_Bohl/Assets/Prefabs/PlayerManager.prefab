@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: 93afba84a9dd81f41904213dccd976c3, type: 2}
-  Name: Hero
+  Name: You
   HealthPoints: 10
   EgoPoints: 10
-  MinAttackStrength: 4
-  MaxAttackStrength: 7
+  MinAttackStrength: 3
+  MaxAttackStrength: 6
   ArmorStrength: 10
   Initiative: 10
   Accuracy: 8
