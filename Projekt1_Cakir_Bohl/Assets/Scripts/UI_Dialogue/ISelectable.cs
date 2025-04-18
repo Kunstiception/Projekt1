@@ -5,4 +5,6 @@ using UnityEngine;
 interface ISelectable
 {
     void HandleSelectedItem(int index, bool isFirstLayer);
+
+    void ToggleCanvas(Canvas canvas, bool isActive);
 }

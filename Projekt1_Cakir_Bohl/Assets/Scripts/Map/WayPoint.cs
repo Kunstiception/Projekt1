@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class WayPoint : MonoBehaviour
 { 
+        public enum IsRestingWayPoint
+    {
+        IsResting  = 0,
+        IsAction  = 1
+    }
+    
     //https://gamedevbeginner.com/events-and-delegates-in-unity/
     public delegate void ClickAction(Transform transform);
     public static ClickAction clickAction;
@@ -11,7 +17,6 @@ public class WayPoint : MonoBehaviour
 
     public string WayPointType;
     [SerializeField] public Transform[] AdjacentWaypoints;
-
     private Color _originalColor;
     private Color _hoverColor = Color.red;
     private string _interactableTag = "Interactable";

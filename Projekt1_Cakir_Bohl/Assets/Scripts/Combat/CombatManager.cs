@@ -59,7 +59,6 @@ public class CombatManager : MonoBehaviour, ISelectable
     private Dictionary<string, int> _enemyCurrentInsultsAndValues = new Dictionary<string, int>();
     private Dictionary<string, int> _playerInsultsAndValues = new Dictionary<string, int>();
 
-
     public static event Action OnFightFinished;
 
     IEnumerator Start()
@@ -74,6 +73,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         _persuasionMenuCanvas.enabled = false;
         _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
+        PlayerManager.Instance.HasDisadvantage = false;
 
         var randomIndex = UnityEngine.Random.Range(0, _enemies.Length);
         _enemy = _enemies[randomIndex].GetComponent<Combatant>();
@@ -100,7 +100,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     void Update()
     {
-        // Erm�glicht sofortiges Anzeigen der gesamten derzeitigen Line
+        // Ermöglicht sofortiges Anzeigen der gesamten derzeitigen Line
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (_textCoroutine != null)
@@ -113,9 +113,9 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
     }
 
+    // Initiative würfeln, Reihenfolge festlegen
     private IEnumerator RollInitiative(bool isDisadvantage)
     {
-
         if (isDisadvantage)
         {
             _combatant1 = _enemy;
@@ -151,6 +151,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         StartCoroutine(CombatCoroutine());
     }
 
+    // Anfangswerte zuweisen
     private void SetInitialStats()
     {
         _combatantHealth1 = _combatant1.HealthPoints;
@@ -162,7 +163,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         _enemyUIHealth.text = $"{_enemy.HealthPoints}/{_enemy.HealthPoints}";
         _enemyUIEgo.text = $"{_enemy.EgoPoints}/{_enemy.EgoPoints}";
 
-        // Wei�e Healthbar setzen
+        // Weiße Healthbar setzen
         _playerHealthBarBelow.value = (float)PlayerManager.Instance.HealthPoints / (float)GameConfig.PlayerStartingHealth;
         var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerHealthBarBelow.gameObject);
         childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.HealthPoints / (float)GameConfig.PlayerStartingHealth;
@@ -174,7 +175,6 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     private IEnumerator CombatCoroutine()
     {
-        // Checken wer ist dran, falls Player Optionen geben, falls Enemy Aktion zuf�llig w�hlen
         while (true)
         {
             yield return StartCoroutine(CreateTurn());
@@ -184,10 +184,11 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
     }
 
+    // Legt Angreifer und Vertreidiger fest
+    // Gibt falls Player an der Reihe die Auswahlmöglichkeit, wenn Enemy wird Aktion zufälig ausgewürfelt
     private IEnumerator CreateTurn()
     {
-        _selectionMenuCanvas.enabled = false;
-        _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+        ToggleCanvas(_selectionMenuCanvas, false);
 
         if (_isFirstCombatant)
         {
@@ -217,8 +218,7 @@ public class CombatManager : MonoBehaviour, ISelectable
             }
 
             _textBox.enabled = false;
-            _selectionMenuCanvas.enabled = true;
-            _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = true;
+            ToggleCanvas(_selectionMenuCanvas, true);       
             _isFighting = true;
             _hasFightStarted = true;
 
@@ -235,7 +235,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         var randomIndex = 0;
 
-        // wenn keine Insults mehr �brig, bleibt nur Angriff
+        // wenn keine Insults mehr übrig, bleibt nur Angriff
         if (_playerInsultsAndValues.Count < 1)
         {
             randomIndex = UnityEngine.Random.Range(1, 2);
@@ -262,10 +262,9 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     private IEnumerator DisplayInsultOptions()
     {
-        _selectionMenuCanvas.enabled = false;
-        _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+        ToggleCanvas(_selectionMenuCanvas, false);
         
-        // Wenn keine 2 Optionen mehr gegeben werden k�nnen: Ende
+        // Wenn keine 2 Optionen mehr gegeben werden können: Ende
         if (_enemyInsultsAndValues.Count < 2)
         {
             _textBox.enabled = true;
@@ -279,12 +278,11 @@ public class CombatManager : MonoBehaviour, ISelectable
             yield break;
         }
 
-        _persuasionMenuCanvas.enabled = true;
-        _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = true;
+        ToggleCanvas(_persuasionMenuCanvas, true);
 
         TextMeshProUGUI[] options = _persuasionMenuCanvas.GetComponentsInChildren<TextMeshProUGUI>();
 
-        // Zwei zuf�llige Optionen und Werte zuweisen, danach jeweils aus dem Original-Dictionary entfernen, damit nicht zweimal dieselbe Option angezeigt wird
+        // Zwei zufällige Optionen und Werte zuweisen, danach jeweils aus dem Original-Dictionary entfernen, damit nicht zweimal dieselbe Option angezeigt wird
         for (int i = 0; i < options.Length - 1; i++)
         {
             int index = UnityEngine.Random.Range(0, _enemyInsultsAndValues.Count - 1);
@@ -295,6 +293,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
     }
 
+    // Eine Runde Insult-Kampf, variiert je nachdem ob Player oder Enemy Angreifer ist
     private IEnumerator InsultTurn(Combatant attacker, Combatant defender, int defenderEgoPoints, int optionIndex = 0)
     {
         string line = "";
@@ -304,7 +303,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         if(attacker == PlayerManager.Instance)
         {        
-            // Je nach ausgew�hlter Option Line und Value zuweisen sowie m�gliche Antworten bereits laden, nicht gew�hlte Optionen wieder ins Original-Dictionary einf�gen
+            // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden, nicht gewählte Optionen wieder ins Original-Dictionary einfügen
             switch(optionIndex)
             {
                 case 0:
@@ -335,8 +334,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
         else
         {
-            _selectionMenuCanvas.enabled = false;
-            _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+            ToggleCanvas(_selectionMenuCanvas, false);
 
             var random = UnityEngine.Random.Range(0, _playerInsultsAndValues.Count - 1);         
             line = $"{_enemy.Name}: '{_playerInsultsAndValues.ElementAt(random).Key}'";
@@ -348,11 +346,10 @@ public class CombatManager : MonoBehaviour, ISelectable
 
         _textBox.enabled = true;
 
-        // Insult-Kampf nur ausf�hren, wenn eine Option ausgew�hlt wurde
+        // Insult-Kampf nur ausführen, wenn eine Option ausgewählt wurde
         if (line.Length > 0)
         {
-            _persuasionMenuCanvas.enabled = false;
-            _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+            ToggleCanvas(_persuasionMenuCanvas, false);
 
             _currentLine = DialogueUtil.CreateCombatLog(attacker, "attempts", $"to insult {defender.Name}!");
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
@@ -401,18 +398,15 @@ public class CombatManager : MonoBehaviour, ISelectable
         _textBox.enabled = false;
         _insultTurn = null;
 
-        _selectionMenuCanvas.enabled = false;
-        _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+        ToggleCanvas(_selectionMenuCanvas, false);
 
         StartCoroutine(EndFight(null));
     }
 
-    // Festlegen, wer zuerst angreift
-
+    // Eine Runde Kampf
     private IEnumerator CombatTurn(Combatant attacker, Combatant defender, int defenderHealth, bool isDisadvantage)
     {
-        _selectionMenuCanvas.enabled = false;
-        _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+        ToggleCanvas(_selectionMenuCanvas, false);
 
         _textBox.enabled = true;
 
@@ -467,7 +461,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         StartCoroutine(EndFight(null));
     }
 
-    // Berechnen, ob Angriff trifft und mit welcher St�rke
+    // Berechnen, ob Angriff trifft und mit welcher Stärke
     private int PerformAttack(Combatant attacker, Combatant defender)
     {
         _accuracy = attacker.RollAccuracy();
@@ -484,6 +478,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         return attacker.RollDamge();
     }
 
+    // Schaden berechnen, falls vorhanden Rüstung beachten
     private void CalculateDamage(int damage, Combatant defender, int defenderHealth)
     {
         if (defender.ArmorStrength <= 0)
@@ -547,11 +542,12 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
     }
 
+    // Wenn erfolgreich, dann aus Kampf geflohen, wenn nicht, Gegner greift einmal an
     private IEnumerator TryRetreat()
     {
         _textBox.enabled = true;
-        _selectionMenuCanvas.enabled = false;
-         _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+
+        ToggleCanvas(_selectionMenuCanvas, false);
 
         _playerRoll = PlayerManager.Instance.Initiative - DiceUtil.D6();
         print($"Player Initiative: {_playerRoll}");
@@ -590,11 +586,13 @@ public class CombatManager : MonoBehaviour, ISelectable
         }
     }
 
+    // Bestimmt, was die Auswahl im Menü auslöst, zwei Menü-Ebenen möglich
     public void HandleSelectedItem(int index, bool isFirstLayer)
     {
         if(isFirstLayer)
         {
             _selectionMenuCanvas.enabled = false; 
+
             // 0 = Insult, 1 = Fight, 2 = Retreat
             switch (index)
             {
@@ -617,8 +615,7 @@ public class CombatManager : MonoBehaviour, ISelectable
             }
         }
         else
-        {
-            
+        {      
             var enemyEgo = _combatant2 == _enemy ? _combatant2EgoPoints : _combatant1EgoPoints;
 
             // 0 = Option 1, 1 = Option 2, 2 = Return
@@ -634,17 +631,15 @@ public class CombatManager : MonoBehaviour, ISelectable
                     break;
 
                 case 2:
-                    _persuasionMenuCanvas.enabled = false;
-                    _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+                    ToggleCanvas(_persuasionMenuCanvas, false);
 
-                    _selectionMenuCanvas.enabled = true;
-                    _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = true;
+                    ToggleCanvas(_selectionMenuCanvas, true);
                     break;
             }
         }
     }         
 
-    // Umfasst mehrere Methoden der Dalogue.Util-Klasse, h�ndelt z.B. auch das Beenden eines Abschnitts wenn isLastLine == true
+    // Umfasst mehrere Methoden der Dalogue.Util-Klasse, händelt z.B. auch das Beenden eines Abschnitts wenn isLastLine == true
     private IEnumerator HandleTextOutput(string line, bool isLastLine)
     {
         _textBox.enabled = true;
@@ -706,7 +701,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         float nextValue = currentValue - hitValue;
         float lerpValue = 0;
 
-        // Wei�e Healthbar setzen
+        // Weiße Healthbar setzen
         var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(slider.gameObject);
         childSlider.GetComponent<Slider>().value = nextValue;
 
@@ -722,6 +717,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         slider.value = nextValue;
     }
 
+    // Stats im Hintergrund wieder korrekt setzen
     private void UpdateStats(Combatant defender, int newValue, bool isHealthDamage)
     {      
         if(defender == _combatant1)
@@ -746,5 +742,12 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _combatant2EgoPoints = newValue;
         }       
+    }
+
+    // Übergebenen Canvas und Skript an- oder ausschalten
+    public void ToggleCanvas(Canvas canvas, bool isActive)
+    {
+        canvas.enabled = isActive;
+        canvas.GetComponent<SelectionMenu>().enabled = isActive;
     }
 }

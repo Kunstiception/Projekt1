@@ -6,7 +6,7 @@ public class SelectionMenu : MonoBehaviour
 {
     public enum MenuLayer
     {
-        First  = 0,
+        First = 0,
         Second  = 1
     }
 
