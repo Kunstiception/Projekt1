@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class RestingManager : MonoBehaviour, ISelectable
 {
@@ -168,25 +169,35 @@ public class RestingManager : MonoBehaviour, ISelectable
         
         if(isAmbush)
         {
+            int healthHeal;
+            healthHeal = PlayerManager.Instance.HealthPoints < GameConfig.PlayerStartingHealth ?
+                Random.Range(1, GameConfig.PlayerStartingHealth - PlayerManager.Instance.HealthPoints) : 0;
+            
+
+            int egoHeal;
+            egoHeal = PlayerManager.Instance.EgoPoints < GameConfig.PlayerStartingEgo ?
+                Random.Range(1, GameConfig.PlayerStartingEgo - PlayerManager.Instance.EgoPoints) : 0;
+
+            PlayerManager.Instance.HealthPoints += healthHeal;
+            PlayerManager.Instance.EgoPoints += egoHeal;
+
             //Wait for anim
             yield return new WaitForSeconds(5);
 
-            if (PlayerManager.Instance.HealthPoints < GameConfig.PlayerStartingHealth)
+            if(healthHeal == 0 && egoHeal == 0)
             {
-                int heal;
-                heal = Random.Range(1, GameConfig.PlayerStartingHealth - PlayerManager.Instance.HealthPoints);
-
-                _currentLine = $"You have recovered {heal} health...";
+                _currentLine = $"You sleep well...";
                 yield return HandleTextOutput(_currentLine, false);
-
-                _currentLine = "... before being ambushed!";
-                yield return HandleTextOutput(_currentLine, true);
             }
             else
             {
-                _currentLine = $"You are already at full health.";
+                _currentLine = $"You have recovered {healthHeal} health and {egoHeal} ego...";
                 yield return HandleTextOutput(_currentLine, false);
             }
+
+            _currentLine = "... before being ambushed!";
+            yield return HandleTextOutput(_currentLine, true);
+            
 
             PlayerManager.Instance.HasDisadvantage = true;
 
@@ -199,6 +210,7 @@ public class RestingManager : MonoBehaviour, ISelectable
             yield return new WaitForSeconds(5);
             
             PlayerManager.Instance.HealthPoints = GameConfig.PlayerStartingHealth;
+            PlayerManager.Instance.EgoPoints = GameConfig.PlayerStartingEgo;
             
             _currentLine = "You have slept through the night and are now fully recovered!";
             yield return HandleTextOutput(_currentLine, true);

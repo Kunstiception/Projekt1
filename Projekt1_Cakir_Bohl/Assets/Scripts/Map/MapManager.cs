@@ -26,12 +26,18 @@ public class MapManager : MonoBehaviour
 
     void Start()
     {
-        if(MainManager.Instance.LastWayPoint != null)
+        // Public string nie null
+        if(MainManager.Instance.LastWayPoint.Length != 0)
         {
             MainManager.Instance.VisitedWayPoints.Add(MainManager.Instance.LastWayPoint);
+
+            MainManager.Instance.SaveAll();
+        }
+        else
+        {
+            PlayerManager.Instance.InitializeDefaultStats();
         }
 
-        MainManager.Instance.SaveAll();
 
         GetWayPoints();
         SetCurrentPosition();

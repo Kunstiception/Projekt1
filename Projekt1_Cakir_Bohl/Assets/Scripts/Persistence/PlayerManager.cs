@@ -19,7 +19,7 @@ public class PlayerManager: Combatant
         DontDestroyOnLoad(gameObject);
     }
 
-    public void InitializeStatsOnLoad()
+    public void InitializeDefaultStats()
     {
         HealthPoints = MainManager.Instance.PlayerHealthPoints;
         EgoPoints = MainManager.Instance.PlayerEgoPoints;

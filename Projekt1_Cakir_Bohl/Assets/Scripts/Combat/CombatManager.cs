@@ -681,12 +681,12 @@ public class CombatManager : MonoBehaviour, ISelectable
                 currentHealth = 0;
             }
 
-            text.text = $"{currentHealth}/{combatant.HealthPoints}";
+            text.text = combatant.Name == PlayerManager.Instance.Name ? $"{currentHealth}/{GameConfig.PlayerStartingHealth}" : $"{currentHealth}/{combatant.HealthPoints}";
         }
         else
         {
             slider = combatant.Name == PlayerManager.Instance.Name ? _playerEgoBarBelow : _enemyEgoBarBelow;
-            hitValue = (float)damage / (float)combatant.EgoPoints;
+            hitValue = combatant.Name == PlayerManager.Instance.Name ? (float)damage / (float)GameConfig.PlayerStartingEgo : (float)damage / (float)_enemy.EgoPoints;
             text = combatant.Name == PlayerManager.Instance.Name ? _playerUIEgo : _enemyUIEgo;
 
             if (currentEgo <= 0)
@@ -694,7 +694,7 @@ public class CombatManager : MonoBehaviour, ISelectable
                 currentEgo = 0;
             }
 
-            text.text = $"{currentEgo}/{combatant.EgoPoints}";
+            text.text = combatant.Name == PlayerManager.Instance.Name ? $"{currentEgo}/{GameConfig.PlayerStartingEgo}" : $"{currentEgo}/{combatant.EgoPoints}";
         }
 
         float currentValue = slider.value;       

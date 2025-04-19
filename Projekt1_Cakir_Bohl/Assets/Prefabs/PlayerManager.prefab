@@ -53,6 +53,6 @@ MonoBehaviour:
   ArmorStrength: 10
   Initiative: 10
   Accuracy: 8
-  Evasion: 8
-  InsultResistance: 8
+  Evasion: 7
+  InsultResistance: 6
   HasDisadvantage: 0

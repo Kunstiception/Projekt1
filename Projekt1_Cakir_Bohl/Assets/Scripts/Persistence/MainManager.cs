@@ -67,7 +67,7 @@ public class MainManager : MonoBehaviour
 
             if(PlayerManager.Instance != null)
             {
-                PlayerManager.Instance.InitializeStatsOnLoad();
+                PlayerManager.Instance.InitializeDefaultStats();
             }
 
             Debug.Log(json);
