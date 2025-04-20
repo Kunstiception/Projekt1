@@ -11,9 +11,13 @@ public static class GameConfig
 
     //Map
     public static float MovementSpeed = 1.5f;
-    public static string[] WayPointTypes = { "Empty", "Fight", "Loot", "Interaction" };
+    public static string[] WayPointTypes = { "Empty", "Fight", "Loot", "Interaction", "Resting" };
 
     //Combat
     public static float BarsLerpSpeed = 0.75f;
     public static float TimeBeforeHealthbarUpdate = 0.25f;
+
+    //Items
+    public static int MinimumHeal;
+    public static int MaximumHeal;
 }

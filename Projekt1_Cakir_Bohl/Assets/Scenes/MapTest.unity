@@ -350,7 +350,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0c9ca680ff66a4d9731558f4d737d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  WayPointType: 
+  isRestingWayPoint: 1
   AdjacentWaypoints:
   - {fileID: 901556946}
   - {fileID: 1627865046}
@@ -554,7 +555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0c9ca680ff66a4d9731558f4d737d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  WayPointType: 
+  isRestingWayPoint: 1
   AdjacentWaypoints:
   - {fileID: 329921199}
   - {fileID: 1131134140}
@@ -701,7 +703,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0c9ca680ff66a4d9731558f4d737d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  WayPointType: 
+  isRestingWayPoint: 1
   AdjacentWaypoints:
   - {fileID: 1949182522}
   - {fileID: 1131134140}
@@ -912,7 +915,7 @@ GameObject:
   - component: {fileID: 562478463}
   - component: {fileID: 562478462}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: MapManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -936,6 +939,7 @@ MonoBehaviour:
   _fightScene: {fileID: 102900000, guid: 5c3e34c7bb563bb40a370400c84036ee, type: 3}
   _lootScene: {fileID: 102900000, guid: b610409e92e7bfd4ab389979f0f1e618, type: 3}
   _interactionScene: {fileID: 102900000, guid: a3f1fc1bdb39ffd43a332b3e791aa990, type: 3}
+  _restingScene: {fileID: 102900000, guid: 32899a41f5be69f439e66052a17872ec, type: 3}
 --- !u!4 &562478463
 Transform:
   m_ObjectHideFlags: 0
@@ -1178,7 +1182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0c9ca680ff66a4d9731558f4d737d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  WayPointType: 
+  isRestingWayPoint: 1
   AdjacentWaypoints:
   - {fileID: 1627865046}
 --- !u!1 &901556944
@@ -1324,7 +1329,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0c9ca680ff66a4d9731558f4d737d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  WayPointType: 
+  isRestingWayPoint: 1
   AdjacentWaypoints:
   - {fileID: 329921199}
 --- !u!1 &1035898532
@@ -1524,6 +1530,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc434dac5e71276408c4f1eaab6f76cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerHealthPoints: 0
+  PlayerEgoPoints: 0
   LastWayPoint: 
   VisitedWayPoints: []
 --- !u!4 &1085002351
@@ -1572,7 +1580,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0c9ca680ff66a4d9731558f4d737d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  WayPointType: 
+  isRestingWayPoint: 0
   AdjacentWaypoints: []
 --- !u!61 &1131134138
 BoxCollider2D:
@@ -2205,7 +2214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0c9ca680ff66a4d9731558f4d737d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  WayPointType: 
+  isRestingWayPoint: 1
   AdjacentWaypoints:
   - {fileID: 329921199}
   - {fileID: 809908492}
@@ -2353,7 +2363,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0c9ca680ff66a4d9731558f4d737d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  WayPointType: 
+  isRestingWayPoint: 1
   AdjacentWaypoints:
   - {fileID: 901556946}
   - {fileID: 809908492}
@@ -2500,7 +2511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0c9ca680ff66a4d9731558f4d737d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  WayPointType: 
+  isRestingWayPoint: 1
   AdjacentWaypoints:
   - {fileID: 1627865046}
   - {fileID: 462772299}

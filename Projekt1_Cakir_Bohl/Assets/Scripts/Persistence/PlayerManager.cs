@@ -5,7 +5,7 @@ public class PlayerManager: Combatant
     public static PlayerManager Instance;
 
     public bool HasDisadvantage = false;
-    public Dictionary<string, int> Inventory = new Dictionary<string, int>();
+    public Dictionary<Item, int> Inventory = new Dictionary<Item, int>();
 
     private void Awake()
     {
@@ -23,5 +23,30 @@ public class PlayerManager: Combatant
     {
         HealthPoints = MainManager.Instance.PlayerHealthPoints;
         EgoPoints = MainManager.Instance.PlayerEgoPoints;
+    }
+
+    public void ManageInventory(Item item, int count, bool isAdding)
+    {
+        if(Inventory.ContainsKey(item))
+        {
+            int currentCount = Inventory[item];
+
+            if(isAdding)
+            {
+                Inventory[item] = currentCount + count;
+                return;
+            }
+
+            Inventory[item] = currentCount - count;
+
+            if(Inventory[item] <= 0)
+            {
+                Inventory.Remove(item);
+            }
+            
+            return;
+        }
+
+        Inventory.Add(item, count);
     }
 }

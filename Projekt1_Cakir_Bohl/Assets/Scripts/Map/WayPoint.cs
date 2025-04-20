@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WayPoint : MonoBehaviour
 { 
-        public enum IsRestingWayPoint
+    public enum IsRestingWayPoint
     {
         IsResting  = 0,
         IsAction  = 1
@@ -12,10 +12,9 @@ public class WayPoint : MonoBehaviour
     //https://gamedevbeginner.com/events-and-delegates-in-unity/
     public delegate void ClickAction(Transform transform);
     public static ClickAction clickAction;
-
     public static event Action OnClicked;
-
     public string WayPointType;
+    public IsRestingWayPoint isRestingWayPoint;
     [SerializeField] public Transform[] AdjacentWaypoints;
     private Color _originalColor;
     private Color _hoverColor = Color.red;
@@ -77,18 +76,27 @@ public class WayPoint : MonoBehaviour
                 WayPointType = _possibleWayPointTypes[0];
                 Debug.Log($"{gameObject.name}: I'm an empty waypoint");
                 break;
+
             case 1:
                 WayPointType = _possibleWayPointTypes[1];
                 Debug.Log($"{gameObject.name}: I'm a fight waypoint");
                 break;
+
             case 2:
                 WayPointType = _possibleWayPointTypes[2];
                 Debug.Log($"{gameObject.name}: I'm a loot waypoint");
                 break;
+
             case 3:
                 WayPointType = _possibleWayPointTypes[3];
                 Debug.Log($"{gameObject.name}: I'm an interaction waypoint");
                 break;
+
+            case 4:
+                WayPointType = _possibleWayPointTypes[4];
+                Debug.Log($"{gameObject.name}: I'm a resting waypoint");
+                break;
+
             default:
                 Debug.Log($"{gameObject.name}: You guys have a type?");
                 break;
