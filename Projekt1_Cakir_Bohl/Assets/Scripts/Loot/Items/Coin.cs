@@ -1,11 +1,8 @@
-using UnityEngine;
-
-public class Coin : MonoBehaviour, IConsumable
+public class Coin : Item, IConsumable
 {
-    public string[] ConsumeAndApplyEffect()
+    public string[] UseItem()
     {
-        string[] lines = {"You struggle, but in the end you manage to swallow the coin.", "You don't feel good.", 
-            "That was stupid, but at least you don't have to face the consequences right away."};
+        string[] lines = {"You hold the coin in your hand. It shines brightly.", "It is weirdly light... too light?"};
 
         return lines;
     }

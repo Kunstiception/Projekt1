@@ -4,7 +4,7 @@ public class HealthPotion : Item, IConsumable
 {
     private int _healingAmount;
 
-    public string[] ConsumeAndApplyEffect()
+    public string[] UseItem()
     {
         _healingAmount = Random.Range(GameConfig.MinimumHeal, GameConfig.MaximumHeal + 1);
 

@@ -25,7 +25,7 @@ public class PlayerManager: Combatant
         EgoPoints = MainManager.Instance.PlayerEgoPoints;
     }
 
-    public void ManageInventory(Item item, int count, bool isAdding)
+    public void ManageInventory(Item item, int amount, bool isAdding)
     {
         if(Inventory.ContainsKey(item))
         {
@@ -33,11 +33,11 @@ public class PlayerManager: Combatant
 
             if(isAdding)
             {
-                Inventory[item] = currentCount + count;
+                Inventory[item] = currentCount + amount;
                 return;
             }
 
-            Inventory[item] = currentCount - count;
+            Inventory[item] = currentCount - amount;
 
             if(Inventory[item] <= 0)
             {
@@ -47,6 +47,6 @@ public class PlayerManager: Combatant
             return;
         }
 
-        Inventory.Add(item, count);
+        Inventory.Add(item, amount);
     }
 }

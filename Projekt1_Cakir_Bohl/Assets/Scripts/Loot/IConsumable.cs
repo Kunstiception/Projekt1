@@ -1,4 +1,4 @@
 public interface IConsumable
 {
-    string[] ConsumeAndApplyEffect();
+    string[] UseItem();
 }

@@ -1,6 +1,6 @@
 public static class GameConfig
 {
-    // Player
+    //Player
     public static int PlayerStartingHealth = 10;
     public static int PlayerStartingEgo = 10;
 
@@ -17,7 +17,12 @@ public static class GameConfig
     public static float BarsLerpSpeed = 0.75f;
     public static float TimeBeforeHealthbarUpdate = 0.25f;
 
+    //Looting
+    public static int[] LootableItems = {1, 2, 3};
+    public static int MinimumLootCount = 1;
+    public static int MaximumLootCount = 3;
+
     //Items
-    public static int MinimumHeal;
-    public static int MaximumHeal;
+    public static int MinimumHeal = 4;
+    public static int MaximumHeal = 7;
 }
