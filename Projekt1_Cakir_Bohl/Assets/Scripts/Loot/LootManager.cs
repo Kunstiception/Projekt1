@@ -12,15 +12,23 @@ public class LootManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _promptContinue;
     [SerializeField] private TextMeshProUGUI _textBox;
     [SerializeField] private SceneAsset _nextScene;
-    //[SerializeField] private Canvas _selectionMenuCanvas;
 
     private Item _item;
     private string _currentLine;
     private Coroutine _textCoroutine;
-    private Dictionary<Item, int> _selectedItemsAndAmounts = new Dictionary<Item, int>();
+    private List<Item> _tempItemsAndAmounts = new List<Item>();
 
     void Start()
     {
+        _textBox.enabled = true;
+        _promptSkip.enabled = true;
+        _promptContinue.enabled = false;
+
+        foreach(Item item in _possibleItems)
+        {
+            _tempItemsAndAmounts.Add(item);
+        }
+        
         int lootCount = UnityEngine.Random.Range(1, GameConfig.LootableItems.Length);
 
         StartCoroutine(SelectRandomItemsAndAmounts(lootCount));
@@ -47,7 +55,8 @@ public class LootManager : MonoBehaviour
         int randomAmount = 0;
         bool isLastItem = false;
 
-        yield return HandleTextOutput($"There is a treasure chest!", false);
+        _currentLine = "There is a treasure chest!";
+        yield return HandleTextOutput(_currentLine, false);
 
         for(int i = 1; i <= lootCount; i++)
         {
@@ -56,11 +65,13 @@ public class LootManager : MonoBehaviour
                 isLastItem = true;
             }
 
-            randomIndex = UnityEngine.Random.Range(0, _possibleItems.Length);
+            randomIndex = UnityEngine.Random.Range(0, _tempItemsAndAmounts.Count);
 
-            _item = _possibleItems[randomIndex];
+            _item = _tempItemsAndAmounts[randomIndex];
 
             randomAmount = UnityEngine.Random.Range(_item.MinimumAmountOnLoot, _item.MaximumAmountOnLoot + 1);
+
+            _tempItemsAndAmounts.RemoveAt(randomIndex);
 
             PlayerManager.Instance.ManageInventory(_item, randomAmount, true);
 
@@ -69,7 +80,7 @@ public class LootManager : MonoBehaviour
             yield return HandleTextOutput(_currentLine, isLastItem);
         }
 
-        foreach(Item key in PlayerManager.Instance.Inventory.Keys)
+        foreach(string key in PlayerManager.Instance.Inventory.Keys)
         {
             Debug.Log(key);
             Debug.Log(PlayerManager.Instance.Inventory[key]);
@@ -111,11 +122,4 @@ public class LootManager : MonoBehaviour
 
         _textBox.enabled = false;
     }
-
-    // Übergebenen Canvas und Skript an- oder ausschalten
-    // public void ToggleCanvas(Canvas canvas, bool isActive)
-    // {
-    //     canvas.enabled = isActive;
-    //     canvas.GetComponent<SelectionMenu>().enabled = isActive;
-    // }
 }

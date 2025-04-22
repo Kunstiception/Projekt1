@@ -48,4 +48,4 @@ MonoBehaviour:
   Description: A small golden coin with the ever grinning of face of the dark king
     on it.
   MinimumAmountOnLoot: 1
-  MaximumAmountOnLoot: 20
+  MaximumAmountOnLoot: 10

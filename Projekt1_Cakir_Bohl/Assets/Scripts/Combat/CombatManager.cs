@@ -68,10 +68,8 @@ public class CombatManager : MonoBehaviour, ISelectable
         _textBox.enabled = true;
         _promptSkip.enabled = true;
         _promptContinue.enabled = false;
-        _selectionMenuCanvas.enabled = false;
-        _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
-        _persuasionMenuCanvas.enabled = false;
-        _persuasionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+        ToggleCanvas(_selectionMenuCanvas, false);
+        ToggleCanvas(_persuasionMenuCanvas, false);
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
         PlayerManager.Instance.HasDisadvantage = false;
 

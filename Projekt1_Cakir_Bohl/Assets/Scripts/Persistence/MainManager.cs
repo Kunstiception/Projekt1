@@ -12,6 +12,8 @@ public class MainManager : MonoBehaviour
     public int PlayerEgoPoints;
     public string LastWayPoint;
     public List<string> VisitedWayPoints;
+    public List<string> InventoryNames;
+    public List<int> InventoryAmounts;
 
     private void Awake()
     {
@@ -32,6 +34,8 @@ public class MainManager : MonoBehaviour
         public int PlayerEgoPoints;
         public string LastWayPoint;
         public List<string> VisitedWayPoints;
+        public List<string> InventoryNames;
+        public List<int> InventoryAmounts;
     }
 
     public void SaveAll()
@@ -42,6 +46,18 @@ public class MainManager : MonoBehaviour
         data.PlayerEgoPoints = PlayerManager.Instance.EgoPoints;
         data.LastWayPoint = LastWayPoint;
         data.VisitedWayPoints = VisitedWayPoints;
+
+        InventoryNames.Clear();
+        InventoryAmounts.Clear();
+
+        foreach(string name in PlayerManager.Instance.Inventory.Keys)
+        {
+            InventoryNames.Add(name);
+            InventoryAmounts.Add(PlayerManager.Instance.Inventory[name]);
+        }
+        
+        data.InventoryNames = InventoryNames;
+        data.InventoryAmounts = InventoryAmounts;
 
         string json = JsonUtility.ToJson(data);
 
@@ -64,10 +80,17 @@ public class MainManager : MonoBehaviour
             PlayerEgoPoints = data.PlayerEgoPoints;
             LastWayPoint = data.LastWayPoint;
             VisitedWayPoints = data.VisitedWayPoints;
+            InventoryNames = data.InventoryNames;
+            InventoryAmounts = data.InventoryAmounts;
+
+            for(int i = 0; i < data.InventoryNames.Count; i++)
+            {
+                PlayerManager.Instance.Inventory.Add(data.InventoryNames[i], data.InventoryAmounts[i]);
+            }
 
             if(PlayerManager.Instance != null)
             {
-                PlayerManager.Instance.InitializeDefaultStats();
+                PlayerManager.Instance.InitializePlayerStats();
             }
 
             Debug.Log(json);

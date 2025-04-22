@@ -27,18 +27,15 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         // Public string nie null
-        if(MainManager.Instance.LastWayPoint.Length != 0)
+        if(MainManager.Instance.LastWayPoint.Length != 0 && !MainManager.Instance.VisitedWayPoints.Contains(MainManager.Instance.LastWayPoint))
         {
             MainManager.Instance.VisitedWayPoints.Add(MainManager.Instance.LastWayPoint);
 
             MainManager.Instance.SaveAll();
         }
-        else
+        else if(PlayerManager.Instance != null)
         {
-            if(PlayerManager.Instance != null)
-            {
-                PlayerManager.Instance.InitializeDefaultStats();
-            }
+            PlayerManager.Instance.InitializePlayerStats();
         }
 
         GetWayPoints();
@@ -60,6 +57,7 @@ public class MapManager : MonoBehaviour
     {
         var foundWayPoints = FindObjectsByType<WayPoint>(FindObjectsSortMode.None);
 
+        // 0 = empty, 1 = fight, 2 = loot, 3 = interaction, 4 = resting
         foreach(var wayPoint in foundWayPoints)
         {
             _wayPoints.Add(wayPoint.transform);
@@ -76,7 +74,7 @@ public class MapManager : MonoBehaviour
                 continue;
             }
 
-            wayPoint.SetType(Random.Range(1, 4));
+            wayPoint.SetType(Random.Range(2, 3));
         }
     }
 
@@ -175,9 +173,6 @@ public class MapManager : MonoBehaviour
 
         // Object id ändert sich mit jeder Session, daher name
         MainManager.Instance.LastWayPoint = _currentWaypoint.name;
-        //MainManager.Instance.VisitedWayPoints.Add(_currentWaypoint.name);
-
-        //MainManager.Instance.SaveAll();
 
         SceneManager.LoadScene(_nextScene);
     }

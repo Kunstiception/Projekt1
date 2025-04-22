@@ -5,7 +5,7 @@ public class PlayerManager: Combatant
     public static PlayerManager Instance;
 
     public bool HasDisadvantage = false;
-    public Dictionary<Item, int> Inventory = new Dictionary<Item, int>();
+    public Dictionary<string, int> Inventory = new Dictionary<string, int>();
 
     private void Awake()
     {
@@ -19,7 +19,7 @@ public class PlayerManager: Combatant
         DontDestroyOnLoad(gameObject);
     }
 
-    public void InitializeDefaultStats()
+    public void InitializePlayerStats()
     {
         HealthPoints = MainManager.Instance.PlayerHealthPoints;
         EgoPoints = MainManager.Instance.PlayerEgoPoints;
@@ -27,26 +27,26 @@ public class PlayerManager: Combatant
 
     public void ManageInventory(Item item, int amount, bool isAdding)
     {
-        if(Inventory.ContainsKey(item))
+         if(Inventory.ContainsKey(item.name))
         {
-            int currentCount = Inventory[item];
+            int currentCount = Inventory[item.name];
 
             if(isAdding)
             {
-                Inventory[item] = currentCount + amount;
+                Inventory[item.name] = currentCount + amount;
                 return;
             }
 
-            Inventory[item] = currentCount - amount;
+            Inventory[item.name] = currentCount - amount;
 
-            if(Inventory[item] <= 0)
+            if(Inventory[item.name] <= 0)
             {
-                Inventory.Remove(item);
+                Inventory.Remove(item.name);
             }
             
             return;
         }
 
-        Inventory.Add(item, amount);
+        Inventory.Add(item.name, amount);
     }
 }
