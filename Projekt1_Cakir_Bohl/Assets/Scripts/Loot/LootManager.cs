@@ -53,17 +53,17 @@ public class LootManager : MonoBehaviour
     {     
         int randomIndex = 0;
         int randomAmount = 0;
-        bool isLastItem = false;
+        //bool isLastItem = false;
 
         _currentLine = "There is a treasure chest!";
         yield return HandleTextOutput(_currentLine, false);
 
         for(int i = 1; i <= lootCount; i++)
         {
-            if((lootCount - i) == 1)
-            {
-                isLastItem = true;
-            }
+            // if((lootCount - i) == 1)
+            // {
+            //     isLastItem = true;
+            // }
 
             randomIndex = UnityEngine.Random.Range(0, _tempItemsAndAmounts.Count);
 
@@ -77,7 +77,9 @@ public class LootManager : MonoBehaviour
 
             _currentLine = AddEnding($"You have found {randomAmount} {_item.Name}", randomAmount);
 
-            yield return HandleTextOutput(_currentLine, isLastItem);
+            //yield return HandleTextOutput(_currentLine, isLastItem);
+
+            yield return HandleTextOutput(_currentLine, false);
         }
 
         foreach(string key in PlayerManager.Instance.Inventory.Keys)
