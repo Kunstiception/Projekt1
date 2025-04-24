@@ -12,9 +12,9 @@ public class SelectionMenu : MonoBehaviour
 
     public MenuLayer menuLayer;
        
-    [SerializeField] private TextMeshProUGUI[] _menuPoints;
-    [SerializeField] private Image[] _pointers;
-    [SerializeField] private GameObject _connectedScript;
+    [SerializeField] protected TextMeshProUGUI[] _menuPoints;
+    [SerializeField] protected Image[] _pointers;
+    [SerializeField] protected GameObject _connectedScript;
 
     private int _currentMenuPoint;
     private bool _isFirstLayer;
@@ -27,18 +27,23 @@ public class SelectionMenu : MonoBehaviour
         SetInitialPointer();
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         CombatManager.OnFightFinished += SetInitialPointer;
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         CombatManager.OnFightFinished -= SetInitialPointer;
     }
 
     // Update is called once per frame
     void Update()
+    {
+        ListenForInputs();
+    }
+
+    protected void ListenForInputs()
     {
         if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -64,7 +69,7 @@ public class SelectionMenu : MonoBehaviour
         }
     }
 
-    private void SetInitialPointer()
+    protected void SetInitialPointer()
     {
         if (_menuPoints[0] == null || _pointers[0] == null)
         {
@@ -102,7 +107,5 @@ public class SelectionMenu : MonoBehaviour
 
             _pointers[i].gameObject.SetActive(false);
         }
-
-        print(_currentMenuPoint);
     }
 }

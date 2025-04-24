@@ -75,14 +75,14 @@ public class LootManager : MonoBehaviour
 
             PlayerManager.Instance.ManageInventory(_item, randomAmount, true);
 
-            _currentLine = AddEnding($"You have found {randomAmount} {_item.Name}", randomAmount);
+            _currentLine = DialogueUtil.AddEnding($"You have found {randomAmount} {_item.Name}" !, randomAmount);
 
             //yield return HandleTextOutput(_currentLine, isLastItem);
 
             yield return HandleTextOutput(_currentLine, false);
         }
 
-        foreach(string key in PlayerManager.Instance.Inventory.Keys)
+        foreach(Item key in PlayerManager.Instance.Inventory.Keys)
         {
             Debug.Log(key);
             Debug.Log(PlayerManager.Instance.Inventory[key]);
@@ -91,15 +91,6 @@ public class LootManager : MonoBehaviour
         yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
 
         SceneManager.LoadScene(_nextScene.name);
-    }
-
-    private string AddEnding(string line, int count)
-    {
-        if(count > 1)
-        {
-            return line + "s!";
-        }
-         return line + "!";
     }
 
     private IEnumerator HandleTextOutput(string line, bool isLastLine)

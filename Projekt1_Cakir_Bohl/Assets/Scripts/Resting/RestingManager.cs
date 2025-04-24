@@ -11,6 +11,7 @@ public class RestingManager : MonoBehaviour, ISelectable
     [SerializeField] private TextMeshProUGUI _promptContinue;
     [SerializeField] private TextMeshProUGUI _textBox;
     [SerializeField] private Canvas _selectionMenuCanvas;
+    [SerializeField] private Canvas _inventoryCanvas;
     private Coroutine _textCoroutine;
     private string _currentLine;
     private bool _isAmbush;
@@ -18,6 +19,7 @@ public class RestingManager : MonoBehaviour, ISelectable
     void Start()
     {
         _textBox.enabled = false;
+        ToggleCanvas(_inventoryCanvas, false);
     }
 
     void OnDisable()
@@ -56,94 +58,14 @@ public class RestingManager : MonoBehaviour, ISelectable
                 StartCoroutine(SleepingCoroutine(_isAmbush));
 
                 break;
+
+            case 1:
+                ToggleCanvas(_inventoryCanvas, true);
+
+                _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+
+                break;
         }
-
-
-    // Play Anim and wait for return
-    // If not Ambush: Heal Player fully
-    // If is Ambush: LoadCombatScene and set PlayerManager.isDisadvantage = true
-
-    // Sleeping
-    //                    case "1":
-    //                        Console.WriteLine("The hero is falling asleep.");
-    //                        int encounter;
-    //                        break;
-
-    //                    // Show items
-    //                    case "2":
-    //                        string itemNumber;
-    //                        do
-    //                        {
-    //                            bool hasCollectedItems = false;
-    //                            int number = 1;
-    //                            foreach (string item in currentItems)
-    //                            {
-    //                                if (item != null)
-    //                                {
-    //                                    Console.WriteLine($"{number}.\t{item}");
-    //                                    number++;
-    //                                    hasCollectedItems = true;
-    //                                }
-
-    //                            }
-    //                            if (hasCollectedItems)
-    //                            {
-    //                                Console.WriteLine("Enter the number of the item you want to interact with (or press Esc if you do not wish to interact with any item).");
-    //                            }
-    //                            else
-    //                            {
-    //                                Console.WriteLine("The hero carries no items at the moment.");
-    //                                break;
-    //                            }
-
-    //                            itemNumber = Console.ReadLine().ToLower();
-    //                            var cancelKey = ConsoleKey.Escape;
-    //                            if (Console.ReadKey().Key != cancelKey)
-    //                            {
-    //                                if (itemNumber != null && hasCollectedItems)
-    //                                {
-    //                                    itemNumber = itemNumber.Trim();
-    //                                    Console.WriteLine($"You chose {currentItems[Convert.ToInt32(itemNumber) - 1]}.");
-    //                                    // List of interactions with items
-    //                                    switch (currentItems[Convert.ToInt32(itemNumber) - 1])
-    //                                    {
-    //                                        case "Health Potion":
-    //                                            int healingValue = random.Next(3, 8);
-    //                                            if (currentPlayerHealth != maxPlayerHealth)
-    //                                            {
-    //                                                if (healingValue > (maxPlayerHealth - currentPlayerHealth))
-    //                                                {
-    //                                                    healingValue = (maxPlayerHealth - currentPlayerHealth);
-    //                                                }
-    //                                                currentPlayerHealth += healingValue;
-    //                                                Array.Clear(currentItems, Convert.ToInt32(itemNumber) - 1, 1);
-    //                                                Console.WriteLine($"The hero drinks the potion and gains {healingValue} lifepoints.");
-
-    //                                            }
-    //                                            else
-    //                                            {
-    //                                                Console.WriteLine($"The hero is already at full health.");
-    //                                            }
-
-    //                                            break;
-    //                                    }
-    //                                }
-    //                            }
-    //                            else
-    //                            {
-    //                                isResting = true;
-    //                                break;
-    //                            }
-
-    //                        } while (itemNumber == null);
-    //                        break;
-
-    //                    case "3":
-    //                        Console.WriteLine("The quest continues!");
-    //                        isResting = false;
-    //                        isMoving = true;
-    //                        isFighting = false;
-    //                        break;
     }
 
     private bool DecideIfAmbush()

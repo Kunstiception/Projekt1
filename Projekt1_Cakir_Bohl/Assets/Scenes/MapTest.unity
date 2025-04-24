@@ -265,6 +265,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: isRestingWayPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: AdjacentWaypoints.Array.size
       value: 2
       objectReference: {fileID: 0}

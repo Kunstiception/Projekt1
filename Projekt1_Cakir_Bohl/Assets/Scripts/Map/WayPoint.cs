@@ -16,32 +16,25 @@ public class WayPoint : MonoBehaviour
     public string WayPointType;
     public IsRestingWayPoint isRestingWayPoint;
     [SerializeField] public Transform[] AdjacentWaypoints;
-    private Color _originalColor;
-    private Color _hoverColor = Color.red;
     private string _interactableTag = "Interactable";
     private string _nonInteractableTag = "Non_Interactable";
     private string[] _possibleWayPointTypes = GameConfig.WayPointTypes;
 
-    void Start()
-    {
-        _originalColor = transform.GetComponent<Renderer>().material.color;
-    }
-
     private void OnEnable()
     {
-        OnClicked += SetColorAndTag;
+        OnClicked += SetTag;
     }
 
     private void OnDisable()
     {
-        OnClicked -= SetColorAndTag;
+        OnClicked -= SetTag;
     }
 
     private void OnMouseEnter()
     {
         if (gameObject.CompareTag(_interactableTag))
         {
-            transform.GetComponent<Renderer>().material.color = _hoverColor;
+            //transform.GetComponent<Renderer>().material.color = _hoverColor;
         }
     }
 
@@ -49,7 +42,7 @@ public class WayPoint : MonoBehaviour
     {
         if (gameObject.CompareTag(_interactableTag))
         {
-            transform.GetComponent<Renderer>().material.color = _originalColor;
+            //transform.GetComponent<Renderer>().material.color = _originalColor;
         }
     }
 
@@ -62,10 +55,9 @@ public class WayPoint : MonoBehaviour
         }
     }
 
-    private void SetColorAndTag()
+    private void SetTag()
     {
         gameObject.tag = _nonInteractableTag;
-        transform.GetComponent<Renderer>().material.color = _originalColor;
     }
 
     public void SetType(int type)
