@@ -62,6 +62,8 @@ public class RestingManager : MonoBehaviour, ISelectable
             case 1:
                 ToggleCanvas(_inventoryCanvas, true);
 
+                _textBox.enabled = true;
+
                 _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
 
                 break;

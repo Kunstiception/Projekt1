@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ public class SelectionMenu : MonoBehaviour
     [SerializeField] protected Image[] _pointers;
     [SerializeField] protected GameObject _connectedScript;
 
-    private int _currentMenuPoint;
+    protected int _currentMenuPoint;
     private bool _isFirstLayer;
     private ISelectable _iSelectable;
 
@@ -43,7 +44,7 @@ public class SelectionMenu : MonoBehaviour
         ListenForInputs();
     }
 
-    protected void ListenForInputs()
+    public virtual void ListenForInputs()
     {
         if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -86,7 +87,7 @@ public class SelectionMenu : MonoBehaviour
         }
     }
 
-    private void ChangePosition(bool isUp)
+    public virtual void ChangePosition(bool isUp)
     {
         if(isUp)
         {

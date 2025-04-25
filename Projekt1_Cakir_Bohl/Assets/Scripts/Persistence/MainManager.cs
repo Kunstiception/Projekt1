@@ -50,10 +50,10 @@ public class MainManager : MonoBehaviour
         InventoryNames.Clear();
         InventoryAmounts.Clear();
 
-        foreach(Item item in PlayerManager.Instance.Inventory.Keys)
+        foreach(Item item in InventoryManager.Instance.Inventory.Keys)
         {
             InventoryNames.Add(item.name);
-            InventoryAmounts.Add(PlayerManager.Instance.Inventory[item]);
+            InventoryAmounts.Add(InventoryManager.Instance.Inventory[item]);
         }
         
         data.InventoryNames = InventoryNames;
@@ -83,9 +83,13 @@ public class MainManager : MonoBehaviour
             InventoryNames = data.InventoryNames;
             InventoryAmounts = data.InventoryAmounts;
 
-            for(int i = 0; i < data.InventoryNames.Count; i++)
+            if(InventoryManager.Instance != null)
             {
-                //PlayerManager.Instance.Inventory.Add(data.InventoryNames[i], data.InventoryAmounts[i]);
+                for(int i = 0; i < data.InventoryNames.Count; i++)
+                {
+                    InventoryManager.Instance.Inventory.Add(InventoryManager.Instance.AllItems[data.InventoryNames[i]], 
+                        data.InventoryAmounts[i]);
+                }
             }
 
             if(PlayerManager.Instance != null)

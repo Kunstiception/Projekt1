@@ -73,7 +73,7 @@ public class LootManager : MonoBehaviour
 
             _tempItemsAndAmounts.RemoveAt(randomIndex);
 
-            PlayerManager.Instance.ManageInventory(_item, randomAmount, true);
+            InventoryManager.Instance.ManageInventory(_item, randomAmount, true);
 
             _currentLine = DialogueUtil.AddEnding($"You have found {randomAmount} {_item.Name}" !, randomAmount);
 
@@ -82,10 +82,10 @@ public class LootManager : MonoBehaviour
             yield return HandleTextOutput(_currentLine, false);
         }
 
-        foreach(Item key in PlayerManager.Instance.Inventory.Keys)
+        foreach(Item key in InventoryManager.Instance.Inventory.Keys)
         {
             Debug.Log(key);
-            Debug.Log(PlayerManager.Instance.Inventory[key]);
+            Debug.Log(InventoryManager.Instance.Inventory[key]);
         } 
 
         yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
