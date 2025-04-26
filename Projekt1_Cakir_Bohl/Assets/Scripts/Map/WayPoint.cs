@@ -9,16 +9,17 @@ public class WayPoint : MonoBehaviour
         IsAction  = 1
     }
     
-    //https://gamedevbeginner.com/events-and-delegates-in-unity/
-    public delegate void ClickAction(Transform transform);
-    public static ClickAction clickAction;
-    public static event Action OnClicked;
     public string WayPointType;
     public IsRestingWayPoint isRestingWayPoint;
     [SerializeField] public Transform[] AdjacentWaypoints;
     private string _interactableTag = "Interactable";
     private string _nonInteractableTag = "Non_Interactable";
     private string[] _possibleWayPointTypes = GameConfig.WayPointTypes;
+    
+    //https://gamedevbeginner.com/events-and-delegates-in-unity/
+    public delegate void ClickAction(Transform transform);
+    public static ClickAction clickAction;
+    public static event Action OnClicked;
 
     private void OnEnable()
     {

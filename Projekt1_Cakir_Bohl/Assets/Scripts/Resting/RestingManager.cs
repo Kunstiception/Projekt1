@@ -1,30 +1,42 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class RestingManager : MonoBehaviour, ISelectable
 {
+    [SerializeField] public Canvas SelectionMenuCanvas;
+    [SerializeField] public Canvas InventoryCanvas;
+    [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] private TextMeshProUGUI _promptSkip;
     [SerializeField] private TextMeshProUGUI _promptContinue;
     [SerializeField] private TextMeshProUGUI _textBox;
-    [SerializeField] private Canvas _selectionMenuCanvas;
-    [SerializeField] private Canvas _inventoryCanvas;
     private Coroutine _textCoroutine;
     private string _currentLine;
+    private string[] _currentItemLines;
     private bool _isAmbush;
+    private Item _currentItem;
 
     void Start()
     {
         _textBox.enabled = false;
-        ToggleCanvas(_inventoryCanvas, false);
+        ToggleCanvas(InventoryCanvas, false);
+        ToggleCanvas(ItemToDoCanvas, false);
+    }
+
+    private void OnEnable()
+    {      
+        InventoryDisplayer.itemSelection += SetCurrentItem;
     }
 
     void OnDisable()
     {
         StopAllCoroutines();
+        InventoryDisplayer.itemSelection -= SetCurrentItem;
     }
 
     void Update()
@@ -43,9 +55,9 @@ public class RestingManager : MonoBehaviour, ISelectable
     }
 
     // Bestimmt, was die Auswahl im Menü auslöst, zwei Menü-Ebenen möglich
-    public void HandleSelectedItem(int index, bool isFirstLayer)
+    public void HandleSelectedMenuPoint(int index, bool isFirstLayer)
     {
-        ToggleCanvas(_selectionMenuCanvas, false);
+        ToggleCanvas(SelectionMenuCanvas, false);
         
         // 0 = sleep, 1 = show items, 2 = continue quest
         switch(index)
@@ -60,13 +72,62 @@ public class RestingManager : MonoBehaviour, ISelectable
                 break;
 
             case 1:
-                ToggleCanvas(_inventoryCanvas, true);
+                ToggleCanvas(InventoryCanvas, true);
 
                 _textBox.enabled = true;
 
-                _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
+                SelectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
 
                 break;
+        }
+    }
+
+    public void HandleSelectedItemOrEquipment(int index)
+    {
+        switch (index)
+        {
+            case 0:  
+                StartCoroutine(UseOrDiscardItem(isUse: true));
+
+                break;
+                
+            case 1:
+                StartCoroutine(UseOrDiscardItem(isUse: false));
+
+                break;
+
+            case 2:
+                ToggleCanvas(ItemToDoCanvas, false);
+
+                InventoryCanvas.GetComponent<InventoryDisplayer>().IsActive = true;
+
+                break;
+        }
+    }
+
+    private IEnumerator UseOrDiscardItem(bool isUse)
+    {
+        if(!isUse)
+        {
+            _currentLine = $"You discard {_currentItem}.";
+            yield return HandleTextOutput(_currentLine, true);
+
+            yield break;
+        }
+
+        for(int i = 0; i < 2; i++)
+        {
+            if(i > 0)
+            {
+                if(DiceUtil.D10() > 7)
+                {
+                    yield return HandleTextOutput(_currentItemLines[i], true);
+                }
+
+                yield break;
+            }
+
+            yield return HandleTextOutput(_currentItemLines[i], true);
         }
     }
 
@@ -95,12 +156,12 @@ public class RestingManager : MonoBehaviour, ISelectable
         {
             int healthHeal;
             healthHeal = PlayerManager.Instance.HealthPoints < GameConfig.PlayerStartingHealth ?
-                Random.Range(1, GameConfig.PlayerStartingHealth - PlayerManager.Instance.HealthPoints) : 0;
+                UnityEngine.Random.Range(1, GameConfig.PlayerStartingHealth - PlayerManager.Instance.HealthPoints) : 0;
             
 
             int egoHeal;
             egoHeal = PlayerManager.Instance.EgoPoints < GameConfig.PlayerStartingEgo ?
-                Random.Range(1, GameConfig.PlayerStartingEgo - PlayerManager.Instance.EgoPoints) : 0;
+                UnityEngine.Random.Range(1, GameConfig.PlayerStartingEgo - PlayerManager.Instance.EgoPoints) : 0;
 
             PlayerManager.Instance.HealthPoints += healthHeal;
             PlayerManager.Instance.EgoPoints += egoHeal;
@@ -141,7 +202,13 @@ public class RestingManager : MonoBehaviour, ISelectable
         }
 
         _textBox.enabled = false;
-        ToggleCanvas(_selectionMenuCanvas, true);
+        ToggleCanvas(SelectionMenuCanvas, true);
+    }
+
+    private void SetCurrentItem(Item item)
+    {
+        _currentItem = item;
+        _currentItemLines = _currentItem.GetComponent<IConsumable>().UseItem();
     }
 
      private IEnumerator HandleTextOutput(string line, bool isLastLine)

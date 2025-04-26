@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class InventoryDisplayer : SelectionMenu
 {
+    public bool IsActive;
     [SerializeField] private TextMeshProUGUI[] _amountTexts;
     [SerializeField] private TextMeshProUGUI _textBox;
+    [SerializeField] private RestingManager _restingManager;
+
+    public delegate void ItemSelection(Item item);
+    public static ItemSelection itemSelection;
 
     void Start()
     {
+        IsActive = true;
+        
         InitializeInventory();
 
         _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
@@ -20,7 +27,6 @@ public class InventoryDisplayer : SelectionMenu
     {
         ListenForInputs();
     }
-
 
     private void InitializeInventory()
     {
@@ -51,6 +57,11 @@ public class InventoryDisplayer : SelectionMenu
 
     public override void ListenForInputs()
     {
+        while(!IsActive)
+        {
+            return;
+        }
+        
         if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             if(_currentMenuPoint == _menuPoints.Length - 1)
@@ -71,7 +82,24 @@ public class InventoryDisplayer : SelectionMenu
         }
         else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            //_iSelectable.HandleSelectedItem(_currentMenuPoint, isFirstLayer: _isFirstLayer);
+            if(_currentMenuPoint == InventoryManager.Instance.Inventory.Count)
+            {
+                _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, true);
+                _restingManager.ToggleCanvas(_restingManager.InventoryCanvas, false);
+
+                _textBox.text = "";
+
+                SetInitialPointer();
+
+                return;
+            }
+
+            _restingManager.ToggleCanvas(_restingManager.ItemToDoCanvas, true);
+            _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, false);
+
+            itemSelection?.Invoke(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key); 
+
+            IsActive = false;
         }
     }
 

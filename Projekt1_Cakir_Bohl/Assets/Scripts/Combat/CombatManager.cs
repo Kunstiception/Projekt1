@@ -585,7 +585,7 @@ public class CombatManager : MonoBehaviour, ISelectable
     }
 
     // Bestimmt, was die Auswahl im Menü auslöst, zwei Menü-Ebenen möglich
-    public void HandleSelectedItem(int index, bool isFirstLayer)
+    public void HandleSelectedMenuPoint(int index, bool isFirstLayer)
     {
         if(isFirstLayer)
         {
