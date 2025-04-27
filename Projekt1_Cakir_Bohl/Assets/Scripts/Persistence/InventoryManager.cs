@@ -19,11 +19,8 @@ public class InventoryManager : MonoBehaviour
         }
 
         Instance = this;
+        
         DontDestroyOnLoad(gameObject);
-
-        // Inventory.Add("Health Potion", 2);
-        // Inventory.Add("Ego Potion", 1);
-        // Inventory.Add("Coin", 17);
     }
 
     void Start()

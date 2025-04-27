@@ -3,13 +3,20 @@ using UnityEngine;
 public class HealthPotion : Item, IConsumable
 {
     private int _healingAmount;
+    private string[] _lines;
 
     public string[] UseItem()
     {
+        if(PlayerManager.Instance.HealthPoints== GameConfig.PlayerStartingHealth)
+        {
+            
+            //return "You are already at full health.";
+        }
+        
         _healingAmount = Random.Range(GameConfig.MinimumHeal, GameConfig.MaximumHeal + 1);
 
         if((PlayerManager.Instance.HealthPoints += _healingAmount) > GameConfig.PlayerStartingHealth)
-        {
+        {           
             _healingAmount = GameConfig.PlayerStartingHealth - PlayerManager.Instance.HealthPoints;
         }
 

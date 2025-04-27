@@ -24,6 +24,8 @@ public class RestingManager : MonoBehaviour, ISelectable
     void Start()
     {
         _textBox.enabled = false;
+        _promptContinue.enabled = false;
+        _promptSkip.enabled = false;
         ToggleCanvas(InventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
     }
@@ -110,10 +112,18 @@ public class RestingManager : MonoBehaviour, ISelectable
         if(!isUse)
         {
             _currentLine = $"You discard {_currentItem}.";
-            yield return HandleTextOutput(_currentLine, true);
+            yield return HandleTextOutput(_currentLine, false);
+
+            InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
+
+            _textBox.text = "";
 
             yield break;
         }
+
+        InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
+
+        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory();
 
         for(int i = 0; i < 2; i++)
         {
@@ -121,13 +131,14 @@ public class RestingManager : MonoBehaviour, ISelectable
             {
                 if(DiceUtil.D10() > 7)
                 {
-                    yield return HandleTextOutput(_currentItemLines[i], true);
+
+                    yield return HandleTextOutput(_currentItemLines[i], false);
                 }
 
                 yield break;
             }
 
-            yield return HandleTextOutput(_currentItemLines[i], true);
+            yield return HandleTextOutput(_currentItemLines[i], false);
         }
     }
 
@@ -217,7 +228,7 @@ public class RestingManager : MonoBehaviour, ISelectable
         _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _textBox, _promptSkip, _promptContinue));
 
         //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
-        yield return new WaitUntil(() => _currentLine == _textBox.text);
+        yield return new WaitUntil(() => line == _textBox.text);
 
         if (isLastLine)
         {          

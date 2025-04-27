@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class InventoryDisplayer : SelectionMenu
 
     public delegate void ItemSelection(Item item);
     public static ItemSelection itemSelection;
+    private string _name;
+    private int _amount;
 
     void Start()
     {
@@ -30,18 +33,15 @@ public class InventoryDisplayer : SelectionMenu
 
     private void InitializeInventory()
     {
-        int amount = 0;
-        string name;
-
         for(int i = 0; i < InventoryManager.Instance.Inventory.Count; i++)
         {
-            name = InventoryManager.Instance.Inventory.ElementAt(i).Key.Name;
-            amount = InventoryManager.Instance.Inventory[InventoryManager.Instance.Inventory.ElementAt(i).Key];
+            _name = InventoryManager.Instance.Inventory.ElementAt(i).Key.Name;
+            _amount = InventoryManager.Instance.Inventory[InventoryManager.Instance.Inventory.ElementAt(i).Key];
 
-            name = DialogueUtil.AddEnding(InventoryManager.Instance.Inventory.ElementAt(i).Key.Name, amount);
+            _name = DialogueUtil.AddEnding(InventoryManager.Instance.Inventory.ElementAt(i).Key.Name, _amount);
 
-            _menuPoints[i].text = name;
-            _amountTexts[i].text = $"x {amount}";
+            _menuPoints[i].text = _name;
+            _amountTexts[i].text = $"x {_amount}";
         }
 
         _menuPoints[InventoryManager.Instance.Inventory.Count].text = "Return";
@@ -53,6 +53,27 @@ public class InventoryDisplayer : SelectionMenu
             _amountTexts[i].text = "";
             _pointers[i].enabled = false;
         }
+    }
+
+    public void UpdateDisplayedInventory()
+    {            
+        _amount = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Value;
+
+        if(_amount <= 0)
+        {
+            for(int i = _currentMenuPoint; i < _menuPoints.Length; i++)
+            {
+                if(_menuPoints[i + 1].text == "")
+                {
+                    break;
+                }
+
+                _menuPoints[i].text = _menuPoints[i + 1].text;
+                _amountTexts[i].text = _amountTexts[i + 1].text;
+            }
+        }
+
+        _amountTexts[_currentMenuPoint].text = $"x {_amount}";
     }
 
     public override void ListenForInputs()
