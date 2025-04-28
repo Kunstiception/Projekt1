@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25fec5fa641fcd419b15995eabdfb70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 2
   Name: Coin
   Description: A small golden coin with the ever grinning of face of the dark king
     on it.

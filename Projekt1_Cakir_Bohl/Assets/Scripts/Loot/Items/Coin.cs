@@ -1,8 +1,14 @@
+using System.Collections.Generic;
+
 public class Coin : Item, IConsumable
 {
-    public string[] UseItem()
+    public List<string> UseItem()
     {
-        string[] lines = {"You hold the coin in your hand. It shines brightly.", "It is weirdly light... too light?"};
+        List<string> lines = new List<string>
+        {
+            "You hold the coin in your hand. It shines brightly.",
+            "It is weirdly light... too light?"
+        };
 
         return lines;
     }

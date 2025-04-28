@@ -1,4 +1,6 @@
+using System.Collections.Generic;
+
 public interface IConsumable
 {
-    string[] UseItem();
+    List<string> UseItem();
 }

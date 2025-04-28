@@ -74,7 +74,7 @@ public class MapManager : MonoBehaviour
                 continue;
             }
 
-            wayPoint.SetType(Random.Range(2, 3));
+            wayPoint.SetType(Random.Range(1, 4));
         }
     }
 

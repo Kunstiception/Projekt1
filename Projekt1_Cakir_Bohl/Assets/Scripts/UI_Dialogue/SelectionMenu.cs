@@ -103,7 +103,7 @@ public class SelectionMenu : MonoBehaviour
         _iSelectable.HandleSelectedMenuPoint(menuPoint, isFirstLayer: _isVertical);
     }
 
-    protected void SetInitialPointer()
+    public void SetInitialPointer()
     {
         if (_menuPoints[0] == null || _pointers[0] == null)
         {

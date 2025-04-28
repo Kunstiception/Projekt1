@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class RestingManager : MonoBehaviour, ISelectable
 {
@@ -15,6 +13,7 @@ public class RestingManager : MonoBehaviour, ISelectable
     [SerializeField] private TextMeshProUGUI _promptSkip;
     [SerializeField] private TextMeshProUGUI _promptContinue;
     [SerializeField] private TextMeshProUGUI _textBox;
+    [SerializeField] private SceneAsset _nextScene;
     private Coroutine _textCoroutine;
     private string _currentLine;
     private string[] _currentItemLines;
@@ -81,6 +80,10 @@ public class RestingManager : MonoBehaviour, ISelectable
                 SelectionMenuCanvas.GetComponent<SelectionMenu>().enabled = false;
 
                 break;
+
+            case 2:
+                SceneManager.LoadScene(_nextScene.name);
+                break;
         }
     }
 
@@ -89,7 +92,7 @@ public class RestingManager : MonoBehaviour, ISelectable
         switch (index)
         {
             case 0:  
-                StartCoroutine(UseOrDiscardItem(isUse: true));
+                StartCoroutine(CheckItemType());
 
                 break;
                 
@@ -104,6 +107,31 @@ public class RestingManager : MonoBehaviour, ISelectable
                 InventoryCanvas.GetComponent<InventoryDisplayer>().IsActive = true;
 
                 break;
+            
+            default:
+                throw new IndexOutOfRangeException("Item or equipment could not be handled. Wrong index.");
+        }
+    }
+
+    private IEnumerator CheckItemType()
+    {
+        switch(_currentItem.ItemType)
+        {
+            case Item.ItemTypes.isUsable:
+                StartCoroutine(UseOrDiscardItem(isUse: true));
+
+                break;
+
+            case Item.ItemTypes.isEquipment:
+                // Methode zum Ausrüsten
+
+                break;
+            
+            case Item.ItemTypes.isCurrency:
+                _currentLine = _currentItem.Description;
+                yield return HandleTextOutput(_currentLine, false);
+
+                break;
         }
     }
 
@@ -111,19 +139,21 @@ public class RestingManager : MonoBehaviour, ISelectable
     {
         if(!isUse)
         {
-            _currentLine = $"You discard {_currentItem}.";
+            _currentLine = $"You discard {_currentItem.Name}.";
             yield return HandleTextOutput(_currentLine, false);
 
             InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
+
+            InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
 
             _textBox.text = "";
 
             yield break;
         }
 
-        InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
+        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
 
-        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory();
+        _currentItemLines = _currentItem.GetComponent<IConsumable>().UseItem().ToArray();
 
         for(int i = 0; i < 2; i++)
         {
@@ -219,7 +249,6 @@ public class RestingManager : MonoBehaviour, ISelectable
     private void SetCurrentItem(Item item)
     {
         _currentItem = item;
-        _currentItemLines = _currentItem.GetComponent<IConsumable>().UseItem();
     }
 
      private IEnumerator HandleTextOutput(string line, bool isLastLine)
@@ -249,6 +278,10 @@ public class RestingManager : MonoBehaviour, ISelectable
     public void ToggleCanvas(Canvas canvas, bool isActive)
     {
         canvas.enabled = isActive;
-        canvas.GetComponent<SelectionMenu>().enabled = isActive;
+
+        var selectionMenu = canvas.GetComponent<SelectionMenu>();
+
+        selectionMenu.SetInitialPointer();
+        selectionMenu.enabled = isActive;
     }
 }

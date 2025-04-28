@@ -1,6 +1,6 @@
-using System;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryDisplayer : SelectionMenu
@@ -8,6 +8,7 @@ public class InventoryDisplayer : SelectionMenu
     public bool IsActive;
     [SerializeField] private TextMeshProUGUI[] _amountTexts;
     [SerializeField] private TextMeshProUGUI _textBox;
+    [SerializeField] private TextMeshProUGUI _useOrEquipPrompt;
     [SerializeField] private RestingManager _restingManager;
 
     public delegate void ItemSelection(Item item);
@@ -21,7 +22,10 @@ public class InventoryDisplayer : SelectionMenu
         
         InitializeInventory();
 
-        _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
+        if(InventoryManager.Instance.Inventory.Count > 0)
+        {
+            _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
+        }
 
         SetInitialPointer();
     }
@@ -55,15 +59,18 @@ public class InventoryDisplayer : SelectionMenu
         }
     }
 
-    public void UpdateDisplayedInventory()
+    public void UpdateDisplayedInventory(Item item)
     {            
-        _amount = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Value;
-
-        if(_amount <= 0)
+        if(InventoryManager.Instance.Inventory.ContainsKey(item))
+        {
+            _amount = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Value;
+            _amountTexts[_currentMenuPoint].text = $"x {_amount}";
+        }
+        else
         {
             for(int i = _currentMenuPoint; i < _menuPoints.Length; i++)
             {
-                if(_menuPoints[i + 1].text == "")
+                if(_menuPoints[i].text == "")
                 {
                     break;
                 }
@@ -72,8 +79,6 @@ public class InventoryDisplayer : SelectionMenu
                 _amountTexts[i].text = _amountTexts[i + 1].text;
             }
         }
-
-        _amountTexts[_currentMenuPoint].text = $"x {_amount}";
     }
 
     public override void ListenForInputs()
@@ -163,11 +168,29 @@ public class InventoryDisplayer : SelectionMenu
             return;
         }
         
-        ShowItemDescription(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
+        ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
     }
 
-    private void ShowItemDescription(Item item)
+    private void ShowItemDescriptionAndSetPrompt(Item item)
     {
         _textBox.text = item.Description;
+
+        switch(item.ItemType)
+        {
+            case Item.ItemTypes.isUsable:
+                _useOrEquipPrompt.text = "Use";
+
+                break;
+
+            case Item.ItemTypes.isEquipment:
+                _useOrEquipPrompt.text = "Equip";
+
+                break;
+            
+            case Item.ItemTypes.isCurrency:
+                _useOrEquipPrompt.text = "Look At";
+
+                break;
+        }
     }
 }
