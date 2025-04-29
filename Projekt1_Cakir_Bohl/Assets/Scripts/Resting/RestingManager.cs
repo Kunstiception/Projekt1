@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -114,7 +115,7 @@ public class RestingManager : MonoBehaviour, ISelectable
     }
 
     private IEnumerator CheckItemType()
-    {
+    {   
         switch(_currentItem.ItemType)
         {
             case Item.ItemTypes.isUsable:
@@ -148,6 +149,8 @@ public class RestingManager : MonoBehaviour, ISelectable
 
             _textBox.text = "";
 
+            ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+
             yield break;
         }
 
@@ -155,21 +158,16 @@ public class RestingManager : MonoBehaviour, ISelectable
 
         _currentItemLines = _currentItem.GetComponent<IConsumable>().UseItem().ToArray();
 
-        for(int i = 0; i < 2; i++)
+        _currentLine = _currentItemLines[0];
+        yield return HandleTextOutput(_currentLine, false);
+
+        if(_currentItemLines.Length > 1 && DiceUtil.D10() > 7)
         {
-            if(i > 0)
-            {
-                if(DiceUtil.D10() > 7)
-                {
-
-                    yield return HandleTextOutput(_currentItemLines[i], false);
-                }
-
-                yield break;
-            }
-
-            yield return HandleTextOutput(_currentItemLines[i], false);
+            _currentLine = _currentItemLines[UnityEngine.Random.Range(1, _currentItemLines.Length)];
+            yield return HandleTextOutput(_currentLine, false);
         }
+
+        ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
     }
 
     private bool DecideIfAmbush()
@@ -283,5 +281,10 @@ public class RestingManager : MonoBehaviour, ISelectable
 
         selectionMenu.SetInitialPointer();
         selectionMenu.enabled = isActive;
+
+        if(isActive)
+        {
+            selectionMenu.InitializeMenu();
+        }
     }
 }

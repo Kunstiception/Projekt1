@@ -68,13 +68,16 @@ public class CombatManager : MonoBehaviour, ISelectable
         _textBox.enabled = true;
         _promptSkip.enabled = true;
         _promptContinue.enabled = false;
+
         ToggleCanvas(_selectionMenuCanvas, false);
         ToggleCanvas(_persuasionMenuCanvas, false);
+
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
         PlayerManager.Instance.HasDisadvantage = false;
 
         var randomIndex = UnityEngine.Random.Range(0, _enemies.Length);
         _enemy = _enemies[randomIndex].GetComponent<Combatant>();
+
         Instantiate(_enemies[randomIndex]);
 
         // Alle Insult Lines und Values des jeweiligen Gegners holen
@@ -154,10 +157,13 @@ public class CombatManager : MonoBehaviour, ISelectable
     {
         _combatantHealth1 = _combatant1.HealthPoints;
         _combatantHealth2 = _combatant2.HealthPoints;
+
         _combatant1EgoPoints = _combatant1.EgoPoints;
         _combatant2EgoPoints = _combatant2.EgoPoints;
+
         _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{GameConfig.PlayerStartingHealth}";
         _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{GameConfig.PlayerStartingEgo}";
+
         _enemyUIHealth.text = $"{_enemy.HealthPoints}/{_enemy.HealthPoints}";
         _enemyUIEgo.text = $"{_enemy.EgoPoints}/{_enemy.EgoPoints}";
 
@@ -192,18 +198,24 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _attackingCombatant = _combatant1;
             _defendingCombatant = _combatant2;
+
             _attackerHealth = _combatantHealth1;
             _defenderHealth = _combatantHealth2;
+
             _defenderEgoPoints = _combatant2EgoPoints;
+
             _isFirstCombatant = false;
         }
         else
         {
             _attackingCombatant = _combatant2;
             _defendingCombatant = _combatant1;
+
             _attackerHealth = _combatantHealth2;
             _defenderHealth = _combatantHealth1;
+
             _defenderEgoPoints = _combatant1EgoPoints;
+
             _isFirstCombatant = true;
         }
 
@@ -216,7 +228,9 @@ public class CombatManager : MonoBehaviour, ISelectable
             }
 
             _textBox.enabled = false;
-            ToggleCanvas(_selectionMenuCanvas, true);       
+
+            ToggleCanvas(_selectionMenuCanvas, true);  
+
             _isFighting = true;
             _hasFightStarted = true;
 
@@ -596,6 +610,7 @@ public class CombatManager : MonoBehaviour, ISelectable
             {
                 case 0:
                     StartCoroutine(DisplayInsultOptions());
+
                     break;
 
                 case 1:

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class InventoryDisplayer : SelectionMenu
 {
-    public bool IsActive;
     [SerializeField] private TextMeshProUGUI[] _amountTexts;
     [SerializeField] private TextMeshProUGUI _textBox;
     [SerializeField] private TextMeshProUGUI _useOrEquipPrompt;
@@ -78,7 +77,21 @@ public class InventoryDisplayer : SelectionMenu
                 _menuPoints[i].text = _menuPoints[i + 1].text;
                 _amountTexts[i].text = _amountTexts[i + 1].text;
             }
+
+            itemSelection?.Invoke(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
         }
+    }
+
+    public override void InitializeMenu()
+    {
+        base.InitializeMenu();
+
+        if(InventoryManager.Instance.Inventory.Count > 0)
+        {
+            _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
+        }
+
+        ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
     }
 
     public override void ListenForInputs()
@@ -108,7 +121,7 @@ public class InventoryDisplayer : SelectionMenu
         }
         else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            if(_currentMenuPoint == InventoryManager.Instance.Inventory.Count)
+            if(_currentMenuPoint == InventoryManager.Instance.Inventory.Count || InventoryManager.Instance.Inventory.Count == 0)
             {
                 _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, true);
                 _restingManager.ToggleCanvas(_restingManager.InventoryCanvas, false);

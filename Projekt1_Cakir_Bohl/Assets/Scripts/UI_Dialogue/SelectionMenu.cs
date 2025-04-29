@@ -12,6 +12,7 @@ public class SelectionMenu : MonoBehaviour
     }
 
     public MenuLayer menuLayer;
+    public bool IsActive = true;
        
     [SerializeField] protected TextMeshProUGUI[] _menuPoints;
     [SerializeField] protected Image[] _pointers;
@@ -25,7 +26,7 @@ public class SelectionMenu : MonoBehaviour
     {
         _isVertical = menuLayer == MenuLayer.isVertical ? true : false;
         _iSelectable = _connectedScript.GetComponent<ISelectable>();
-        SetInitialPointer();
+        InitializeMenu();
     }
 
     protected void OnEnable()
@@ -44,8 +45,19 @@ public class SelectionMenu : MonoBehaviour
         ListenForInputs();
     }
 
+    public virtual void InitializeMenu()
+    {
+        SetInitialPointer();
+        IsActive = true;
+    }
+
     public virtual void ListenForInputs()
     {
+        while(!IsActive)
+        {
+            return;
+        }
+        
         if(_isVertical)
         {
             if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
@@ -69,6 +81,8 @@ public class SelectionMenu : MonoBehaviour
             else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
             {
                 _iSelectable.HandleSelectedMenuPoint(_currentMenuPoint, isFirstLayer: _isVertical);
+
+                IsActive = false;
             }
         }
         else
@@ -94,6 +108,8 @@ public class SelectionMenu : MonoBehaviour
             else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
             {
                 HandleSelection(_currentMenuPoint);
+
+                IsActive = false;
             }
         }      
     }

@@ -8,10 +8,12 @@ public class EgoPotion : Item, IConsumable
 
     public List<string> UseItem()
     {
+        List<string> lines = new List<string>();
+        
         if(PlayerManager.Instance.EgoPoints == GameConfig.PlayerStartingEgo)
         {
-            _lines.Add("You are already at full ego.");
-            return _lines;
+            lines.Add("You are already at full ego.");
+            return lines;
         }
 
         InventoryManager.Instance.ManageInventory(this, 1, false);
@@ -25,11 +27,10 @@ public class EgoPotion : Item, IConsumable
 
         PlayerManager.Instance.EgoPoints += _healingAmount;
 
-        _lines.Add($"You have recovered {_healingAmount} ego!"); 
-        _lines.Add("You throw away the flask. Littering is cool.");
-        _lines.Add("Only weirdos care about nature."); 
-        _lines.Add("For a moment you wonder what you should do with the empty flask now. You throw it away.");
+        lines.Add($"You have recovered {_healingAmount} ego!"); 
+        lines.Add("You throw away the flask. Littering is cool.");
+        lines.Add("For a moment you wonder what you should do with the empty flask now. You throw it away.");
 
-        return _lines;
+        return lines;
     }
 }
