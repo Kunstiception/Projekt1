@@ -80,7 +80,7 @@ public class SelectionMenu : MonoBehaviour
             }
             else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
             {
-                _iSelectable.HandleSelectedMenuPoint(_currentMenuPoint, isFirstLayer: _isVertical);
+                _iSelectable.HandleSelectedMenuPoint(_currentMenuPoint);
 
                 IsActive = false;
             }
@@ -116,7 +116,7 @@ public class SelectionMenu : MonoBehaviour
 
     public virtual void HandleSelection(int menuPoint)
     {
-        _iSelectable.HandleSelectedMenuPoint(menuPoint, isFirstLayer: _isVertical);
+        _iSelectable.HandleSelectedMenuPoint(menuPoint);
     }
 
     public void SetInitialPointer()

@@ -90,8 +90,11 @@ public class InventoryDisplayer : SelectionMenu
         {
             _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
         }
-
-        ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
+        
+        if(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key != null)
+        {
+            ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
+        }
     }
 
     public override void ListenForInputs()

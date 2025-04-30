@@ -78,7 +78,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         var randomIndex = UnityEngine.Random.Range(0, _enemies.Length);
         _enemy = _enemies[randomIndex].GetComponent<Combatant>();
 
-        Instantiate(_enemies[randomIndex]);
+        Instantiate(_enemy);
 
         // Alle Insult Lines und Values des jeweiligen Gegners holen
         for (int i = 0; i < _enemy.InsultLines.Insults.Length; i++)
@@ -284,9 +284,9 @@ public class CombatManager : MonoBehaviour, ISelectable
             yield return StartCoroutine(HandleTextOutput(_currentLine, true));
 
             _textBox.enabled = false;
-            _persuasionMenuCanvas.enabled = false;
-            _selectionMenuCanvas.enabled = true;
-            _selectionMenuCanvas.GetComponent<SelectionMenu>().enabled = true;
+            //_persuasionMenuCanvas.enabled = false;
+            ToggleCanvas(_persuasionMenuCanvas, false);
+            ToggleCanvas(_selectionMenuCanvas, true);
             yield break;
         }
 
@@ -321,17 +321,23 @@ public class CombatManager : MonoBehaviour, ISelectable
                 case 0:
                     line = $"{PlayerManager.Instance.Name}: '{_enemyCurrentInsultsAndValues.ElementAt(0).Key}'";
                     value = _enemyCurrentInsultsAndValues.ElementAt(0).Value;
+
                     _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
                     _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
+
                     _enemyInsultsAndValues.Add( _enemyCurrentInsultsAndValues.ElementAt(1).Key, _enemyCurrentInsultsAndValues.ElementAt(1).Value);
+
                     break;
 
                 case 1:
                     line = $"{PlayerManager.Instance.Name}: '{_enemyCurrentInsultsAndValues.ElementAt(1).Key}'";
                     value = _enemyCurrentInsultsAndValues.ElementAt(1).Value;
+
                     _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
                     _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
+
                     _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(0).Key, _enemyCurrentInsultsAndValues.ElementAt(0).Value);
+
                     break;
 
                 case 2:
@@ -599,9 +605,9 @@ public class CombatManager : MonoBehaviour, ISelectable
     }
 
     // Bestimmt, was die Auswahl im Menü auslöst, zwei Menü-Ebenen möglich
-    public void HandleSelectedMenuPoint(int index, bool isFirstLayer)
+    public void HandleSelectedMenuPoint(int index)
     {
-        if(isFirstLayer)
+        if(_selectionMenuCanvas.isActiveAndEnabled)
         {
             _selectionMenuCanvas.enabled = false; 
 
@@ -761,6 +767,15 @@ public class CombatManager : MonoBehaviour, ISelectable
     public void ToggleCanvas(Canvas canvas, bool isActive)
     {
         canvas.enabled = isActive;
-        canvas.GetComponent<SelectionMenu>().enabled = isActive;
+
+        var selectionMenu = canvas.GetComponent<SelectionMenu>();
+
+        selectionMenu.SetInitialPointer();
+        selectionMenu.enabled = isActive;
+
+        if(isActive)
+        {
+            selectionMenu.InitializeMenu();
+        }
     }
 }

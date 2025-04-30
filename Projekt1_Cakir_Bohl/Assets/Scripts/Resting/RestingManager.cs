@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RestingManager : MonoBehaviour, ISelectable
 {
@@ -14,6 +15,10 @@ public class RestingManager : MonoBehaviour, ISelectable
     [SerializeField] private TextMeshProUGUI _promptSkip;
     [SerializeField] private TextMeshProUGUI _promptContinue;
     [SerializeField] private TextMeshProUGUI _textBox;
+     [SerializeField] private TextMeshProUGUI _playerUIHealth;
+    [SerializeField] private TextMeshProUGUI _playerUIEgo;
+    [SerializeField] private Slider _playerHealthBarBelow;
+    [SerializeField] private Slider _playerEgoBarBelow;
     [SerializeField] private SceneAsset _nextScene;
     private Coroutine _textCoroutine;
     private string _currentLine;
@@ -26,8 +31,21 @@ public class RestingManager : MonoBehaviour, ISelectable
         _textBox.enabled = false;
         _promptContinue.enabled = false;
         _promptSkip.enabled = false;
+
         ToggleCanvas(InventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
+
+        _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{GameConfig.PlayerStartingHealth}";
+        _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{GameConfig.PlayerStartingEgo}";
+
+        // Weiße Healthbar setzen
+        _playerHealthBarBelow.value = (float)PlayerManager.Instance.HealthPoints / (float)GameConfig.PlayerStartingHealth;
+        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerHealthBarBelow.gameObject);
+        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.HealthPoints / (float)GameConfig.PlayerStartingHealth;
+
+        _playerEgoBarBelow.value = (float)PlayerManager.Instance.EgoPoints / (float)GameConfig.PlayerStartingEgo;
+        childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerEgoBarBelow.gameObject);
+        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)GameConfig.PlayerStartingEgo;
     }
 
     private void OnEnable()
@@ -57,7 +75,7 @@ public class RestingManager : MonoBehaviour, ISelectable
     }
 
     // Bestimmt, was die Auswahl im Menü auslöst, zwei Menü-Ebenen möglich
-    public void HandleSelectedMenuPoint(int index, bool isFirstLayer)
+    public void HandleSelectedMenuPoint(int index)
     {
         ToggleCanvas(SelectionMenuCanvas, false);
         
@@ -132,6 +150,8 @@ public class RestingManager : MonoBehaviour, ISelectable
                 _currentLine = _currentItem.Description;
                 yield return HandleTextOutput(_currentLine, false);
 
+                ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+
                 break;
         }
     }
@@ -154,17 +174,20 @@ public class RestingManager : MonoBehaviour, ISelectable
             yield break;
         }
 
-        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
-
         _currentItemLines = _currentItem.GetComponent<IConsumable>().UseItem().ToArray();
+
+        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
 
         _currentLine = _currentItemLines[0];
         yield return HandleTextOutput(_currentLine, false);
 
-        if(_currentItemLines.Length > 1 && DiceUtil.D10() > 7)
+        if(_currentItemLines.Length > 1)
         {
-            _currentLine = _currentItemLines[UnityEngine.Random.Range(1, _currentItemLines.Length)];
-            yield return HandleTextOutput(_currentLine, false);
+            if(DiceUtil.D10() > 7)
+            {
+                _currentLine = _currentItemLines[UnityEngine.Random.Range(1, _currentItemLines.Length)];
+                yield return HandleTextOutput(_currentLine, false);
+            }
         }
 
         ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
@@ -248,6 +271,49 @@ public class RestingManager : MonoBehaviour, ISelectable
     {
         _currentItem = item;
     }
+
+    private IEnumerator UpdateUI(Combatant combatant, int heal, bool isHealthHeal, int currentHealth = 0, int currentEgo = 0)
+    {
+        float healValue = 0;
+        Slider slider = null;
+        //TextMeshProUGUI text = null;
+        
+        if (isHealthHeal)
+        {
+            slider = _playerHealthBarBelow;
+            healValue = (float)heal / (float)GameConfig.PlayerStartingHealth;
+            //text = _playerUIHealth;
+
+            _playerUIHealth.text = $"{currentHealth}/{GameConfig.PlayerStartingHealth}";
+        }
+        else
+        {
+            slider = _playerEgoBarBelow;
+            healValue = (float)heal / (float)GameConfig.PlayerStartingEgo;
+
+            _playerUIEgo.text = $"{currentEgo}/{GameConfig.PlayerStartingEgo}";
+        }
+
+        float currentValue = slider.value;       
+        float nextValue = currentValue - healValue;
+        float lerpValue = 0;
+
+        // Weiße Healthbar setzen
+        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(slider.gameObject);
+        childSlider.GetComponent<Slider>().value = nextValue;
+
+        yield return new WaitForSeconds(GameConfig.TimeBeforeHealthbarUpdate);
+
+        while (lerpValue <= 1 && lerpValue >= 0)
+        {
+            lerpValue += GameConfig.BarsLerpSpeed * Time.deltaTime;
+            slider.value = Mathf.Lerp(currentValue, nextValue, lerpValue / healValue);
+            yield return null;
+        }
+
+        slider.value = nextValue;
+    }
+
 
      private IEnumerator HandleTextOutput(string line, bool isLastLine)
     {

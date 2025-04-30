@@ -1479,6 +1479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuLayer: 0
+  IsActive: 1
   _menuPoints:
   - {fileID: 826235051}
   - {fileID: 1029121358}
@@ -4419,6 +4420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuLayer: 0
+  IsActive: 1
   _menuPoints:
   - {fileID: 294770028}
   - {fileID: 2020830160}
@@ -5364,10 +5366,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 908762085419031080, guid: e9eff370a657595478071e9f97e2e8b2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6756921904829407263, guid: e9eff370a657595478071e9f97e2e8b2, type: 3}
-      propertyPath: InsultResistance
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
