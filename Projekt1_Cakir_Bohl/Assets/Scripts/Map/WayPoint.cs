@@ -3,41 +3,39 @@ using UnityEngine;
 
 public class WayPoint : MonoBehaviour
 { 
-    //https://gamedevbeginner.com/events-and-delegates-in-unity/
-    public delegate void ClickAction(Transform transform);
-    public static ClickAction clickAction;
-
-    public static event Action OnClicked;
-
+    public enum IsRestingWayPoint
+    {
+        IsResting  = 0,
+        IsAction  = 1
+    }
+    
     public string WayPointType;
+    public IsRestingWayPoint isRestingWayPoint;
     [SerializeField] public Transform[] AdjacentWaypoints;
-
-    private Color _originalColor;
-    private Color _hoverColor = Color.red;
     private string _interactableTag = "Interactable";
     private string _nonInteractableTag = "Non_Interactable";
     private string[] _possibleWayPointTypes = GameConfig.WayPointTypes;
-
-    void Start()
-    {
-        _originalColor = transform.GetComponent<Renderer>().material.color;
-    }
+    
+    //https://gamedevbeginner.com/events-and-delegates-in-unity/
+    public delegate void ClickAction(Transform transform);
+    public static ClickAction clickAction;
+    public static event Action OnClicked;
 
     private void OnEnable()
     {
-        OnClicked += SetColorAndTag;
+        OnClicked += SetTag;
     }
 
     private void OnDisable()
     {
-        OnClicked -= SetColorAndTag;
+        OnClicked -= SetTag;
     }
 
     private void OnMouseEnter()
     {
         if (gameObject.CompareTag(_interactableTag))
         {
-            transform.GetComponent<Renderer>().material.color = _hoverColor;
+            //transform.GetComponent<Renderer>().material.color = _hoverColor;
         }
     }
 
@@ -45,7 +43,7 @@ public class WayPoint : MonoBehaviour
     {
         if (gameObject.CompareTag(_interactableTag))
         {
-            transform.GetComponent<Renderer>().material.color = _originalColor;
+            //transform.GetComponent<Renderer>().material.color = _originalColor;
         }
     }
 
@@ -58,10 +56,9 @@ public class WayPoint : MonoBehaviour
         }
     }
 
-    private void SetColorAndTag()
+    private void SetTag()
     {
         gameObject.tag = _nonInteractableTag;
-        transform.GetComponent<Renderer>().material.color = _originalColor;
     }
 
     public void SetType(int type)
@@ -72,18 +69,27 @@ public class WayPoint : MonoBehaviour
                 WayPointType = _possibleWayPointTypes[0];
                 Debug.Log($"{gameObject.name}: I'm an empty waypoint");
                 break;
+
             case 1:
                 WayPointType = _possibleWayPointTypes[1];
                 Debug.Log($"{gameObject.name}: I'm a fight waypoint");
                 break;
+
             case 2:
                 WayPointType = _possibleWayPointTypes[2];
                 Debug.Log($"{gameObject.name}: I'm a loot waypoint");
                 break;
+
             case 3:
                 WayPointType = _possibleWayPointTypes[3];
                 Debug.Log($"{gameObject.name}: I'm an interaction waypoint");
                 break;
+
+            case 4:
+                WayPointType = _possibleWayPointTypes[4];
+                Debug.Log($"{gameObject.name}: I'm a resting waypoint");
+                break;
+
             default:
                 Debug.Log($"{gameObject.name}: You guys have a type?");
                 break;

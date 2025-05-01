@@ -4,5 +4,7 @@ using UnityEngine;
 
 interface ISelectable
 {
-    void HandleSelectedItem(int index, bool isFirstLayer);
+    void HandleSelectedMenuPoint(int index);
+
+    void ToggleCanvas(Canvas canvas, bool isActive);
 }

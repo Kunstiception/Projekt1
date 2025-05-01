@@ -32,8 +32,14 @@ public class StartMenu : MonoBehaviour
 
     public void LoadNew()
     {
+        //MainManager.Instance.ClearSaveFile();
+
         MainManager.Instance.PlayerHealthPoints = GameConfig.PlayerStartingHealth;
         MainManager.Instance.PlayerEgoPoints = GameConfig.PlayerStartingEgo;
+        MainManager.Instance.LastWayPoint = "";
+        MainManager.Instance.VisitedWayPoints.Clear();
+
+        //MainManager.Instance.SaveAll();
         
         SceneManager.LoadScene("DialogueTest");
     }

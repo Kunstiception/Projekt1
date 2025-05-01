@@ -12,6 +12,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private SceneAsset _fightScene;
     [SerializeField] private SceneAsset _lootScene;
     [SerializeField] private SceneAsset _interactionScene;
+    [SerializeField] private SceneAsset _restingScene;
 
     private float _movementLength;
     private float _timer;
@@ -20,18 +21,22 @@ public class MapManager : MonoBehaviour
     private string _nextScene;
     private Transform _nextWaypoint;
     private Coroutine _movementCoroutine;
-    
     private Transform _currentWaypoint;
     private List<Transform> _wayPoints = new List<Transform>();
 
     void Start()
     {
-        if(MainManager.Instance.LastWayPoint != null)
+        // Public string nie null
+        if(MainManager.Instance.LastWayPoint.Length != 0 && !MainManager.Instance.VisitedWayPoints.Contains(MainManager.Instance.LastWayPoint))
         {
             MainManager.Instance.VisitedWayPoints.Add(MainManager.Instance.LastWayPoint);
-        }
 
-        MainManager.Instance.SaveAll();
+            MainManager.Instance.SaveAll();
+        }
+        else if(PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.InitializePlayerStats();
+        }
 
         GetWayPoints();
         SetCurrentPosition();
@@ -52,17 +57,24 @@ public class MapManager : MonoBehaviour
     {
         var foundWayPoints = FindObjectsByType<WayPoint>(FindObjectsSortMode.None);
 
+        // 0 = empty, 1 = fight, 2 = loot, 3 = interaction, 4 = resting
         foreach(var wayPoint in foundWayPoints)
         {
             _wayPoints.Add(wayPoint.transform);
             //https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.contains?view=net-9.0
-            if (MainManager.Instance.VisitedWayPoints.Contains(wayPoint.gameObject.transform.name))
+            if(MainManager.Instance.VisitedWayPoints.Contains(wayPoint.gameObject.transform.name))
             {
                 wayPoint.SetType(0);
                 continue;
             }
 
-            wayPoint.SetType(Random.Range(1, 2));
+            if(wayPoint.isRestingWayPoint == 0)
+            {
+                wayPoint.SetType(4);
+                continue;
+            }
+
+            wayPoint.SetType(Random.Range(1, 4));
         }
     }
 
@@ -151,16 +163,16 @@ public class MapManager : MonoBehaviour
             case "Interaction":
                 _nextScene = _interactionScene.name;
                 break;
+            case "Resting":
+                _nextScene = _restingScene.name;
+                break;
             default:
                 Debug.LogError("No scene found!");
                 break;
         }
 
-        // Object id �ndert sich mit jeder Session, daher name
+        // Object id ändert sich mit jeder Session, daher name
         MainManager.Instance.LastWayPoint = _currentWaypoint.name;
-        //MainManager.Instance.VisitedWayPoints.Add(_currentWaypoint.name);
-
-        //MainManager.Instance.SaveAll();
 
         SceneManager.LoadScene(_nextScene);
     }

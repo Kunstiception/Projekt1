@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,33 +7,34 @@ public class SelectionMenu : MonoBehaviour
 {
     public enum MenuLayer
     {
-        First  = 0,
-        Second  = 1
+        isVertical = 0,
+        isHorizontal  = 1
     }
 
     public MenuLayer menuLayer;
+    public bool IsActive = true;
        
-    [SerializeField] private TextMeshProUGUI[] _menuPoints;
-    [SerializeField] private Image[] _pointers;
-    [SerializeField] private GameObject _connectedScript;
+    [SerializeField] protected TextMeshProUGUI[] _menuPoints;
+    [SerializeField] protected Image[] _pointers;
+    [SerializeField] protected GameObject _connectedScript;
 
-    private int _currentMenuPoint;
-    private bool _isFirstLayer;
+    protected int _currentMenuPoint;
+    private bool _isVertical;
     private ISelectable _iSelectable;
 
     void Start()
     {
-        _isFirstLayer = menuLayer == MenuLayer.First ? true : false;
+        _isVertical = menuLayer == MenuLayer.isVertical ? true : false;
         _iSelectable = _connectedScript.GetComponent<ISelectable>();
-        SetInitialPointer();
+        InitializeMenu();
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         CombatManager.OnFightFinished += SetInitialPointer;
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         CombatManager.OnFightFinished -= SetInitialPointer;
     }
@@ -40,31 +42,84 @@ public class SelectionMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            if(_currentMenuPoint == _menuPoints.Length - 1)
-            {
-                return;
-            }
-
-            ChangePosition(isUp: false);
-        }
-        else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-            {
-            if (_currentMenuPoint == 0)
-            {
-                return;
-            }
-
-            ChangePosition(isUp: true);
-        }
-        else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
-        {
-            _iSelectable.HandleSelectedItem(_currentMenuPoint, isFirstLayer: _isFirstLayer);
-        }
+        ListenForInputs();
     }
 
-    private void SetInitialPointer()
+    public virtual void InitializeMenu()
+    {
+        SetInitialPointer();
+        IsActive = true;
+    }
+
+    public virtual void ListenForInputs()
+    {
+        while(!IsActive)
+        {
+            return;
+        }
+        
+        if(_isVertical)
+        {
+            if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if(_currentMenuPoint == _menuPoints.Length - 1)
+                {
+                    return;
+                }
+
+                ChangePosition(isUpOrLeft: false);
+            }
+            else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                if (_currentMenuPoint == 0)
+                {
+                    return;
+                }
+
+                ChangePosition(isUpOrLeft: true);
+            }
+            else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+            {
+                _iSelectable.HandleSelectedMenuPoint(_currentMenuPoint);
+
+                IsActive = false;
+            }
+        }
+        else
+        {
+            if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                if(_currentMenuPoint == _menuPoints.Length - 1)
+                {
+                    return;
+                }
+
+                ChangePosition(isUpOrLeft: false);
+            }
+            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                if (_currentMenuPoint == 0)
+                {
+                    return;
+                }
+
+                ChangePosition(isUpOrLeft: true);
+            }
+            else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+            {
+                HandleSelection(_currentMenuPoint);
+
+                IsActive = false;
+            }
+        }      
+    }
+
+    public virtual void HandleSelection(int menuPoint)
+    {
+        _iSelectable.HandleSelectedMenuPoint(menuPoint);
+    }
+
+    public void SetInitialPointer()
     {
         if (_menuPoints[0] == null || _pointers[0] == null)
         {
@@ -81,9 +136,9 @@ public class SelectionMenu : MonoBehaviour
         }
     }
 
-    private void ChangePosition(bool isUp)
+    public virtual void ChangePosition(bool isUpOrLeft)
     {
-        if(isUp)
+        if(isUpOrLeft)
         {
             _currentMenuPoint--;
         }
@@ -102,7 +157,5 @@ public class SelectionMenu : MonoBehaviour
 
             _pointers[i].gameObject.SetActive(false);
         }
-
-        print(_currentMenuPoint);
     }
 }

@@ -12,6 +12,8 @@ public class MainManager : MonoBehaviour
     public int PlayerEgoPoints;
     public string LastWayPoint;
     public List<string> VisitedWayPoints;
+    public List<string> InventoryNames;
+    public List<int> InventoryAmounts;
 
     private void Awake()
     {
@@ -32,6 +34,8 @@ public class MainManager : MonoBehaviour
         public int PlayerEgoPoints;
         public string LastWayPoint;
         public List<string> VisitedWayPoints;
+        public List<string> InventoryNames;
+        public List<int> InventoryAmounts;
     }
 
     public void SaveAll()
@@ -42,6 +46,18 @@ public class MainManager : MonoBehaviour
         data.PlayerEgoPoints = PlayerManager.Instance.EgoPoints;
         data.LastWayPoint = LastWayPoint;
         data.VisitedWayPoints = VisitedWayPoints;
+
+        InventoryNames.Clear();
+        InventoryAmounts.Clear();
+
+        foreach(Item item in InventoryManager.Instance.Inventory.Keys)
+        {
+            InventoryNames.Add(item.name);
+            InventoryAmounts.Add(InventoryManager.Instance.Inventory[item]);
+        }
+        
+        data.InventoryNames = InventoryNames;
+        data.InventoryAmounts = InventoryAmounts;
 
         string json = JsonUtility.ToJson(data);
 
@@ -64,10 +80,21 @@ public class MainManager : MonoBehaviour
             PlayerEgoPoints = data.PlayerEgoPoints;
             LastWayPoint = data.LastWayPoint;
             VisitedWayPoints = data.VisitedWayPoints;
+            InventoryNames = data.InventoryNames;
+            InventoryAmounts = data.InventoryAmounts;
+
+            if(InventoryManager.Instance != null)
+            {
+                for(int i = 0; i < data.InventoryNames.Count; i++)
+                {
+                    InventoryManager.Instance.Inventory.Add(InventoryManager.Instance.AllItems[data.InventoryNames[i]], 
+                        data.InventoryAmounts[i]);
+                }
+            }
 
             if(PlayerManager.Instance != null)
             {
-                PlayerManager.Instance.InitializeStatsOnLoad();
+                PlayerManager.Instance.InitializePlayerStats();
             }
 
             Debug.Log(json);

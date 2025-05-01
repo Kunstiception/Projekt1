@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InteractionTest.unity
     guid: a3f1fc1bdb39ffd43a332b3e791aa990
+  - enabled: 1
+    path: Assets/Scenes/RestingTest.unity
+    guid: 32899a41f5be69f439e66052a17872ec
   m_configObjects: {}

@@ -5,7 +5,6 @@ public class PlayerManager: Combatant
     public static PlayerManager Instance;
 
     public bool HasDisadvantage = false;
-    public Dictionary<string, int> Inventory = new Dictionary<string, int>();
 
     private void Awake()
     {
@@ -19,7 +18,7 @@ public class PlayerManager: Combatant
         DontDestroyOnLoad(gameObject);
     }
 
-    public void InitializeStatsOnLoad()
+    public void InitializePlayerStats()
     {
         HealthPoints = MainManager.Instance.PlayerHealthPoints;
         EgoPoints = MainManager.Instance.PlayerEgoPoints;

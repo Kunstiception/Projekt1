@@ -85,4 +85,13 @@ public static class DialogueUtil
                 return verb.TrimEnd('s');
         }
     }
+
+    public static string AddEnding(string line, int count)
+    {
+        if(count > 1)
+        {
+            return line + "s";
+        }
+         return line;
+    }
 }
