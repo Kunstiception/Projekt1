@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EgoPotion : Item, IConsumable
+public class EgoPotion : HealingItem, IConsumable
 {
-    private int _healingAmount;
-
     public List<string> UseItem()
     {
         List<string> lines = new List<string>();
+        _initialAmount = PlayerManager.Instance.EgoPoints;
         
-        if(PlayerManager.Instance.EgoPoints == GameConfig.PlayerStartingEgo)
+        if(_initialAmount == GameConfig.PlayerStartingEgo)
         {
             lines.Add("You are already at full ego.");
             return lines;
@@ -20,9 +19,9 @@ public class EgoPotion : Item, IConsumable
 
         _healingAmount = Random.Range(GameConfig.MinimumHeal, GameConfig.MaximumHeal + 1);
 
-        if((PlayerManager.Instance.EgoPoints + _healingAmount) > GameConfig.PlayerStartingEgo)
+        if((PlayerManager.Instance.EgoPoints + _healingAmount) > _initialAmount)
         {
-            _healingAmount = GameConfig.PlayerStartingEgo - PlayerManager.Instance.EgoPoints;
+            _healingAmount = GameConfig.PlayerStartingEgo - _initialAmount;
         }
 
         PlayerManager.Instance.EgoPoints += _healingAmount;
@@ -30,6 +29,8 @@ public class EgoPotion : Item, IConsumable
         lines.Add($"You have recovered {_healingAmount} ego!"); 
         lines.Add("You throw away the flask. Littering is cool.");
         lines.Add("For a moment you wonder what you should do with the empty flask now. You throw it away.");
+
+        onHeal?.Invoke(false, _initialAmount, _healingAmount);
 
         return lines;
     }

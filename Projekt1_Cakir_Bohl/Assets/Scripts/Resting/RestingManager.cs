@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
+using System.Data;
+using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -51,12 +52,14 @@ public class RestingManager : MonoBehaviour, ISelectable
     private void OnEnable()
     {      
         InventoryDisplayer.itemSelection += SetCurrentItem;
+        HealingItem.onHeal += SetUIUpdate;
     }
 
     void OnDisable()
     {
         StopAllCoroutines();
         InventoryDisplayer.itemSelection -= SetCurrentItem;
+        HealingItem.onHeal -= SetUIUpdate;
     }
 
     void Update()
@@ -124,6 +127,8 @@ public class RestingManager : MonoBehaviour, ISelectable
                 ToggleCanvas(ItemToDoCanvas, false);
 
                 InventoryCanvas.GetComponent<InventoryDisplayer>().IsActive = true;
+                _textBox.enabled = true;
+                _textBox.text = _currentItem.Description;
 
                 break;
             
@@ -169,7 +174,15 @@ public class RestingManager : MonoBehaviour, ISelectable
 
             _textBox.text = "";
 
-            ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+            if(InventoryManager.Instance.Inventory.Count > 0)
+            {
+                ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+            }
+            else
+            {
+                ToggleCanvas(ItemToDoCanvas, false);
+                ToggleCanvas(InventoryCanvas, true);
+            }
 
             yield break;
         }
@@ -190,7 +203,15 @@ public class RestingManager : MonoBehaviour, ISelectable
             }
         }
 
-        ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+        if(InventoryManager.Instance.Inventory.Count > 0)
+        {
+            ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+        }
+        else
+        {
+            ToggleCanvas(ItemToDoCanvas, false);
+            ToggleCanvas(InventoryCanvas, true);
+        }
     }
 
     private bool DecideIfAmbush()
@@ -272,46 +293,49 @@ public class RestingManager : MonoBehaviour, ISelectable
         _currentItem = item;
     }
 
-    private IEnumerator UpdateUI(Combatant combatant, int heal, bool isHealthHeal, int currentHealth = 0, int currentEgo = 0)
+    private void SetUIUpdate(bool isHealthHeal, int initialAmount, int healingAmount)
+    {
+        StartCoroutine(UpdateUI(healingAmount, isHealthHeal, initialAmount));
+    }
+
+    private IEnumerator UpdateUI(int healAmount, bool isHealthHeal, int initialAmount)
     {
         float healValue = 0;
         Slider slider = null;
-        //TextMeshProUGUI text = null;
         
         if (isHealthHeal)
         {
             slider = _playerHealthBarBelow;
-            healValue = (float)heal / (float)GameConfig.PlayerStartingHealth;
-            //text = _playerUIHealth;
-
-            _playerUIHealth.text = $"{currentHealth}/{GameConfig.PlayerStartingHealth}";
+            healValue = (float)healAmount / (float)GameConfig.PlayerStartingHealth;
+            _playerUIHealth.text = $"{initialAmount + healAmount}/{GameConfig.PlayerStartingHealth}";
         }
         else
         {
             slider = _playerEgoBarBelow;
-            healValue = (float)heal / (float)GameConfig.PlayerStartingEgo;
-
-            _playerUIEgo.text = $"{currentEgo}/{GameConfig.PlayerStartingEgo}";
+            healValue = (float)healAmount / (float)GameConfig.PlayerStartingEgo;
+            _playerUIEgo.text = $"{initialAmount + healAmount}/{GameConfig.PlayerStartingEgo}";
         }
 
         float currentValue = slider.value;       
-        float nextValue = currentValue - healValue;
+        float nextValue = currentValue + healValue;
         float lerpValue = 0;
 
-        // Weiße Healthbar setzen
-        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(slider.gameObject);
-        childSlider.GetComponent<Slider>().value = nextValue;
+        // Untere Healthbar setzen
+        slider.value = nextValue;
 
         yield return new WaitForSeconds(GameConfig.TimeBeforeHealthbarUpdate);
+
+        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(slider.gameObject);
+        childSlider.GetComponent<Slider>().value = nextValue;
 
         while (lerpValue <= 1 && lerpValue >= 0)
         {
             lerpValue += GameConfig.BarsLerpSpeed * Time.deltaTime;
-            slider.value = Mathf.Lerp(currentValue, nextValue, lerpValue / healValue);
+            childSlider.value = Mathf.Lerp(currentValue, nextValue, lerpValue / healValue);
             yield return null;
         }
 
-        slider.value = nextValue;
+        childSlider.value = nextValue;
     }
 
 

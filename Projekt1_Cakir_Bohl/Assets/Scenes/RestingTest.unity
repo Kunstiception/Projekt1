@@ -6893,6 +6893,10 @@ MonoBehaviour:
   _promptSkip: {fileID: 147809054}
   _promptContinue: {fileID: 147809053}
   _textBox: {fileID: 147809052}
+  _playerUIHealth: {fileID: 570284270}
+  _playerUIEgo: {fileID: 104280985}
+  _playerHealthBarBelow: {fileID: 2070049592}
+  _playerEgoBarBelow: {fileID: 299720966}
   _nextScene: {fileID: 102900000, guid: 2054e939a509bea4b9b9dfea21eb884b, type: 3}
 --- !u!4 &1625212435
 Transform:

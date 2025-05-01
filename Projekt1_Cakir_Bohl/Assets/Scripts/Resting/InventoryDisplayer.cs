@@ -1,6 +1,5 @@
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryDisplayer : SelectionMenu
@@ -60,6 +59,12 @@ public class InventoryDisplayer : SelectionMenu
 
     public void UpdateDisplayedInventory(Item item)
     {            
+        if(InventoryManager.Instance.Inventory.Count <= 0)
+        {
+            _menuPoints[0].text = "Return";
+            _amountTexts[0].text = "";
+        }
+        
         if(InventoryManager.Instance.Inventory.ContainsKey(item))
         {
             _amount = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Value;
@@ -78,7 +83,10 @@ public class InventoryDisplayer : SelectionMenu
                 _amountTexts[i].text = _amountTexts[i + 1].text;
             }
 
-            itemSelection?.Invoke(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
+            if(InventoryManager.Instance.Inventory.Count > 0)
+            {
+                itemSelection?.Invoke(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
+            }
         }
     }
 
@@ -86,10 +94,14 @@ public class InventoryDisplayer : SelectionMenu
     {
         base.InitializeMenu();
 
-        if(InventoryManager.Instance.Inventory.Count > 0)
+        if(InventoryManager.Instance.Inventory.Count <= 0)
         {
-            _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
+            _textBox.enabled = true;
+            _textBox.text = "Your inventory is empty.";
+            return;
         }
+        
+        _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
         
         if(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key != null)
         {
