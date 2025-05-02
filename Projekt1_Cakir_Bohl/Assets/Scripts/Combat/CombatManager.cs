@@ -7,12 +7,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CombatManager : MonoBehaviour, ISelectable
+public class CombatManager : Manager, ISelectable
 {
     [SerializeField] private GameObject[] _enemies;
     [SerializeField] private TextMeshProUGUI _textBox;
-    [SerializeField] private TextMeshProUGUI _promptSkip;
-    [SerializeField] private TextMeshProUGUI _promptContinue;
     [SerializeField] private TextMeshProUGUI _playerUIHealth;
     [SerializeField] private TextMeshProUGUI _playerUIEgo;
     [SerializeField] private TextMeshProUGUI _enemyUIHealth;
@@ -44,7 +42,6 @@ public class CombatManager : MonoBehaviour, ISelectable
     private bool _isFighting;
     private bool _hasDisadvantage;
     private bool _isFirstCombatant;
-    private string _currentLine;
     private string _egoHitLine;
     private string _egoResistLine;
     private Combatant _enemy;
@@ -53,7 +50,6 @@ public class CombatManager : MonoBehaviour, ISelectable
     private Combatant _combatant1;
     private Combatant _combatant2;
     private Coroutine _turnCoroutine;
-    private Coroutine _textCoroutine;
     private Coroutine _insultTurn;
     private Dictionary<string, int> _enemyInsultsAndValues = new Dictionary<string, int>();
     private Dictionary<string, int> _enemyCurrentInsultsAndValues = new Dictionary<string, int>();
@@ -101,17 +97,7 @@ public class CombatManager : MonoBehaviour, ISelectable
 
     void Update()
     {
-        // Ermöglicht sofortiges Anzeigen der gesamten derzeitigen Line
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (_textCoroutine != null)
-            {
-                _promptSkip.enabled = false;
-                StopCoroutine(_textCoroutine);
-                _textCoroutine = null;
-                DialogueUtil.ShowFullLine(_currentLine, _textBox, _promptSkip);
-            }
-        }
+        ListenForSkip();
     }
 
     // Initiative würfeln, Reihenfolge festlegen
@@ -140,7 +126,7 @@ public class CombatManager : MonoBehaviour, ISelectable
         _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "goes", "first!");
         if(_combatant1 == PlayerManager.Instance)
         {
-            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
         else
         {
@@ -219,12 +205,14 @@ public class CombatManager : MonoBehaviour, ISelectable
             _isFirstCombatant = true;
         }
 
+        _textBox.enabled = true;
+
         if (_attackingCombatant == PlayerManager.Instance)
         {
             if (_hasFightStarted)
             {               
                 _currentLine = "Your turn!";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
             }
 
             _textBox.enabled = false;
@@ -280,11 +268,12 @@ public class CombatManager : MonoBehaviour, ISelectable
         if (_enemyInsultsAndValues.Count < 2)
         {
             _textBox.enabled = true;
+
             _currentLine = "You can't think of anything else to say!";
             yield return StartCoroutine(HandleTextOutput(_currentLine, true));
 
             _textBox.enabled = false;
-            //_persuasionMenuCanvas.enabled = false;
+
             ToggleCanvas(_persuasionMenuCanvas, false);
             ToggleCanvas(_selectionMenuCanvas, true);
             yield break;
@@ -556,6 +545,8 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _textBox.enabled = false;
             _isFighting = false;
+            _promptSkip.enabled = false;
+            _promptContinue.enabled = false;
             OnFightFinished?.Invoke();
         }
     }
@@ -579,7 +570,7 @@ public class CombatManager : MonoBehaviour, ISelectable
             yield return StartCoroutine(EndFight(PlayerManager.Instance, isRetreat: true));
 
             StopAllCoroutines();
-            SceneManager.LoadScene("MapTest");
+            SceneManager.LoadScene(2);
 
             yield break;
         }
@@ -657,30 +648,6 @@ public class CombatManager : MonoBehaviour, ISelectable
             }
         }
     }         
-
-    // Umfasst mehrere Methoden der Dalogue.Util-Klasse, händelt z.B. auch das Beenden eines Abschnitts wenn isLastLine == true
-    private IEnumerator HandleTextOutput(string line, bool isLastLine)
-    {
-        _textBox.enabled = true;
-        _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _textBox, _promptSkip, _promptContinue));
-
-        //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
-        yield return new WaitUntil(() => _currentLine == _textBox.text);
-
-        if (isLastLine)
-        {          
-            yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
-            _textBox.enabled = false;
-            yield break;
-        }
-
-        // Einen Frame warten, damit Input nicht beide GetKeyDown-Events triggert
-        yield return null;
-
-        yield return StartCoroutine(DialogueUtil.WaitForContinue(_promptContinue));
-
-        _textBox.enabled = false;
-    }
 
     // Zeigt visuelles Feedback bei den Health- und Ego-Balken an, zuerst wird ein Balken auf den Zielwert gesetzt und der andere gelerpt
     private IEnumerator UpdateUI(Combatant combatant, int damage, bool isHealthDamage, int currentHealth = 0, int currentEgo = 0)
@@ -761,21 +728,5 @@ public class CombatManager : MonoBehaviour, ISelectable
         {
             _combatant2EgoPoints = newValue;
         }       
-    }
-
-    // Übergebenen Canvas und Skript an- oder ausschalten
-    public void ToggleCanvas(Canvas canvas, bool isActive)
-    {
-        canvas.enabled = isActive;
-
-        var selectionMenu = canvas.GetComponent<SelectionMenu>();
-
-        selectionMenu.SetInitialPointer();
-        selectionMenu.enabled = isActive;
-
-        if(isActive)
-        {
-            selectionMenu.InitializeMenu();
-        }
     }
 }

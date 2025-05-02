@@ -6,5 +6,5 @@ interface ISelectable
 {
     void HandleSelectedMenuPoint(int index);
 
-    void ToggleCanvas(Canvas canvas, bool isActive);
+    //void ToggleCanvas(Canvas canvas, bool isActive);
 }

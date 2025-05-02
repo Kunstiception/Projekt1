@@ -442,7 +442,7 @@ MonoBehaviour:
   _texts:
   - A witty and humorous interaction with a memorable NPC!
   - The hero continues his mighty quest!
-  _nextScene: MapTest
+  _nextScene: {fileID: 102900000, guid: 2054e939a509bea4b9b9dfea21eb884b, type: 3}
   _uiElement: {fileID: 1647918672}
   _promptSkip: {fileID: 1647918671}
   _promptContinue: {fileID: 1647918670}

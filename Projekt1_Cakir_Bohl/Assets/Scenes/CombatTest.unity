@@ -1100,13 +1100,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c14d43ae11f294f9bc9d958f3975be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _texts: []
+  _nextScene: {fileID: 102900000, guid: 2054e939a509bea4b9b9dfea21eb884b, type: 3}
+  _uiElement: {fileID: 1647918672}
+  _promptSkip: {fileID: 1647918671}
+  _promptContinue: {fileID: 1647918670}
   _enemies:
   - {fileID: 1451417646648548203, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
   - {fileID: 1451417646648548203, guid: e627dbcfbfabefe459e90621cb0a5924, type: 3}
   - {fileID: 1451417646648548203, guid: 4510771e55a028147b3b7da9a8f6ab6b, type: 3}
   _textBox: {fileID: 1647918672}
-  _promptSkip: {fileID: 1647918671}
-  _promptContinue: {fileID: 1647918670}
   _playerUIHealth: {fileID: 1055674593}
   _playerUIEgo: {fileID: 1150253321}
   _enemyUIHealth: {fileID: 1713162020}
@@ -4564,7 +4567,7 @@ MonoBehaviour:
   - Be glad this only works with text for now!
   - The hero was victorious!
   - He continues his mighty quest!
-  _nextScene: MapTest
+  _nextScene: {fileID: 0}
   _uiElement: {fileID: 1647918672}
   _promptSkip: {fileID: 1647918671}
   _promptContinue: {fileID: 1647918670}

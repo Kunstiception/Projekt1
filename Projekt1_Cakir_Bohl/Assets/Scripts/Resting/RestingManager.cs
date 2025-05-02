@@ -8,21 +8,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class RestingManager : MonoBehaviour, ISelectable
+public class RestingManager : Manager, ISelectable
 {
     [SerializeField] public Canvas SelectionMenuCanvas;
     [SerializeField] public Canvas InventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
-    [SerializeField] private TextMeshProUGUI _promptSkip;
-    [SerializeField] private TextMeshProUGUI _promptContinue;
     [SerializeField] private TextMeshProUGUI _textBox;
      [SerializeField] private TextMeshProUGUI _playerUIHealth;
     [SerializeField] private TextMeshProUGUI _playerUIEgo;
     [SerializeField] private Slider _playerHealthBarBelow;
     [SerializeField] private Slider _playerEgoBarBelow;
-    [SerializeField] private SceneAsset _nextScene;
-    private Coroutine _textCoroutine;
-    private string _currentLine;
     private string[] _currentItemLines;
     private bool _isAmbush;
     private Item _currentItem;
@@ -64,17 +59,7 @@ public class RestingManager : MonoBehaviour, ISelectable
 
     void Update()
     {
-        // Ermöglicht sofortiges Anzeigen der gesamten derzeitigen Line
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (_textCoroutine != null)
-            {
-                _promptSkip.enabled = false;
-                StopCoroutine(_textCoroutine);
-                _textCoroutine = null;
-                DialogueUtil.ShowFullLine(_currentLine, _textBox, _promptSkip);
-            }
-        }
+        ListenForSkip();
     }
 
     // Bestimmt, was die Auswahl im Menü auslöst, zwei Menü-Ebenen möglich
@@ -104,7 +89,7 @@ public class RestingManager : MonoBehaviour, ISelectable
                 break;
 
             case 2:
-                SceneManager.LoadScene(_nextScene.name);
+                SceneManager.LoadScene(2);
                 break;
         }
     }
@@ -203,6 +188,8 @@ public class RestingManager : MonoBehaviour, ISelectable
             }
         }
 
+        _textBox.text = "";
+
         if(InventoryManager.Instance.Inventory.Count > 0)
         {
             ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
@@ -234,6 +221,8 @@ public class RestingManager : MonoBehaviour, ISelectable
         
         _currentLine = "You are falling asleep.";
         yield return HandleTextOutput(_currentLine, false);
+
+        _textBox.text = "";
         
         if(isAmbush)
         {
@@ -245,6 +234,7 @@ public class RestingManager : MonoBehaviour, ISelectable
             int egoHeal;
             egoHeal = PlayerManager.Instance.EgoPoints < GameConfig.PlayerStartingEgo ?
                 UnityEngine.Random.Range(1, GameConfig.PlayerStartingEgo - PlayerManager.Instance.EgoPoints) : 0;
+
 
             PlayerManager.Instance.HealthPoints += healthHeal;
             PlayerManager.Instance.EgoPoints += egoHeal;
@@ -259,29 +249,35 @@ public class RestingManager : MonoBehaviour, ISelectable
             }
             else
             {
+                StartCoroutine(UpdateUI(healthHeal, true, PlayerManager.Instance.HealthPoints - healthHeal));
+                StartCoroutine(UpdateUI(egoHeal, false, PlayerManager.Instance.EgoPoints - egoHeal));
+
                 _currentLine = $"You have recovered {healthHeal} health and {egoHeal} ego...";
                 yield return HandleTextOutput(_currentLine, false);
             }
 
             _currentLine = "... before being ambushed!";
-            yield return HandleTextOutput(_currentLine, true);
+            yield return HandleTextOutput(_currentLine, false);
             
 
             PlayerManager.Instance.HasDisadvantage = true;
 
-            SceneManager.LoadScene("CombatTest");
+            SceneManager.LoadScene(4);
             yield break;
         }
         else
         {
             //Wait for anim
             yield return new WaitForSeconds(5);
+
+            StartCoroutine(UpdateUI(GameConfig.PlayerStartingHealth - PlayerManager.Instance.HealthPoints, true, PlayerManager.Instance.HealthPoints));
+            StartCoroutine(UpdateUI(GameConfig.PlayerStartingEgo - PlayerManager.Instance.EgoPoints, false, PlayerManager.Instance.EgoPoints));
             
             PlayerManager.Instance.HealthPoints = GameConfig.PlayerStartingHealth;
             PlayerManager.Instance.EgoPoints = GameConfig.PlayerStartingEgo;
             
             _currentLine = "You have slept through the night and are now fully recovered!";
-            yield return HandleTextOutput(_currentLine, true);
+            yield return HandleTextOutput(_currentLine, false);
         }
 
         _textBox.enabled = false;
@@ -336,45 +332,5 @@ public class RestingManager : MonoBehaviour, ISelectable
         }
 
         childSlider.value = nextValue;
-    }
-
-
-     private IEnumerator HandleTextOutput(string line, bool isLastLine)
-    {
-        _textBox.enabled = true;
-        _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _textBox, _promptSkip, _promptContinue));
-
-        //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
-        yield return new WaitUntil(() => line == _textBox.text);
-
-        if (isLastLine)
-        {          
-            yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
-            _textBox.enabled = false;
-            yield break;
-        }
-
-        // Einen Frame warten, damit Input nicht beide GetKeyDown-Events triggert
-        yield return null;
-
-        yield return StartCoroutine(DialogueUtil.WaitForContinue(_promptContinue));
-
-        _textBox.enabled = false;
-    }
-
-    // Übergebenen Canvas und Skript an- oder ausschalten
-    public void ToggleCanvas(Canvas canvas, bool isActive)
-    {
-        canvas.enabled = isActive;
-
-        var selectionMenu = canvas.GetComponent<SelectionMenu>();
-
-        selectionMenu.SetInitialPointer();
-        selectionMenu.enabled = isActive;
-
-        if(isActive)
-        {
-            selectionMenu.InitializeMenu();
-        }
     }
 }

@@ -6887,17 +6887,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ca0540cc92f6046b89a42b35e6cc1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _texts: []
+  _nextScene: {fileID: 0}
+  _uiElement: {fileID: 147809052}
+  _promptSkip: {fileID: 147809054}
+  _promptContinue: {fileID: 147809053}
   SelectionMenuCanvas: {fileID: 151432286}
   InventoryCanvas: {fileID: 297626854}
   ItemToDoCanvas: {fileID: 1318539852}
-  _promptSkip: {fileID: 147809054}
-  _promptContinue: {fileID: 147809053}
   _textBox: {fileID: 147809052}
   _playerUIHealth: {fileID: 570284270}
   _playerUIEgo: {fileID: 104280985}
   _playerHealthBarBelow: {fileID: 2070049592}
   _playerEgoBarBelow: {fileID: 299720966}
-  _nextScene: {fileID: 102900000, guid: 2054e939a509bea4b9b9dfea21eb884b, type: 3}
 --- !u!4 &1625212435
 Transform:
   m_ObjectHideFlags: 0

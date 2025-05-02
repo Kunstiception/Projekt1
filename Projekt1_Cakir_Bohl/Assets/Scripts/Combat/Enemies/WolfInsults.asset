@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8edae58ba3a75b844bb07dde9ec9e432, type: 3}
+  m_Name: WolfInsults
+  m_EditorClassIdentifier: 
+  Insults:
+  - You stink!
+  - Did your pack cast you out?
+  - Your fur is dirty!
+  - Out of my way, foul creature!
+  Values: 02000000050000000300000001000000
+  AnswersWhenHit:
+  - How dare you?!
+  - I don't want to talk about it...
+  - Is it really?! Where?!
+  - Alright alright...
+  AnswersWhenResisted:
+  - And I'm proud of it!
+  - I don't need a pack to rip you to shreds!
+  - As it should be!
+  - Same to you!

@@ -4,21 +4,16 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MapManager : MonoBehaviour
+public class MapManager : Manager
 {
     [SerializeField] private Transform _player;
     [SerializeField] private Transform _firstWaypoint;
-    [SerializeField] private SceneAsset _emptyScene;
-    [SerializeField] private SceneAsset _fightScene;
-    [SerializeField] private SceneAsset _lootScene;
-    [SerializeField] private SceneAsset _interactionScene;
-    [SerializeField] private SceneAsset _restingScene;
 
+    private int _nextSceneIndex;
     private float _movementLength;
     private float _timer;
     private string _interactableTag = "Interactable";
     private string _nonInteractableTag = "Non_Interactable";
-    private string _nextScene;
     private Transform _nextWaypoint;
     private Coroutine _movementCoroutine;
     private Transform _currentWaypoint;
@@ -151,20 +146,21 @@ public class MapManager : MonoBehaviour
 
         switch (_nextWaypoint.GetComponent<WayPoint>().WayPointType)
         {
+            // Empty = 3, Combat = 4, Loot = 5, Interaction = 6, Resting = 7
             case "Empty":
-                _nextScene = _emptyScene.name;
+                _nextSceneIndex = 3;
                 break;
             case "Fight":
-                _nextScene = _fightScene.name;
+                _nextSceneIndex = 4;
                 break;
             case "Loot":
-                _nextScene = _lootScene.name;
+                _nextSceneIndex = 5;
                 break;
             case "Interaction":
-                _nextScene = _interactionScene.name;
+                _nextSceneIndex = 6;
                 break;
             case "Resting":
-                _nextScene = _restingScene.name;
+                _nextSceneIndex = 7;
                 break;
             default:
                 Debug.LogError("No scene found!");
@@ -174,6 +170,6 @@ public class MapManager : MonoBehaviour
         // Object id ändert sich mit jeder Session, daher name
         MainManager.Instance.LastWayPoint = _currentWaypoint.name;
 
-        SceneManager.LoadScene(_nextScene);
+        SceneManager.LoadScene(_nextSceneIndex);
     }
 }

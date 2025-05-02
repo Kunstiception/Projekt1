@@ -3,19 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEditor;
 
-public class LootManager : MonoBehaviour
+public class LootManager : Manager
 {
     [SerializeField] private Item[] _possibleItems;
-    [SerializeField] private TextMeshProUGUI _promptSkip;
-    [SerializeField] private TextMeshProUGUI _promptContinue;
     [SerializeField] private TextMeshProUGUI _textBox;
-    [SerializeField] private SceneAsset _nextScene;
 
     private Item _item;
-    private string _currentLine;
-    private Coroutine _textCoroutine;
     private List<Item> _tempItemsAndAmounts = new List<Item>();
 
     void Start()
@@ -51,19 +45,14 @@ public class LootManager : MonoBehaviour
 
     private IEnumerator SelectRandomItemsAndAmounts(int lootCount)
     {     
-        int randomIndex = 0;
-        int randomAmount = 0;
-        //bool isLastItem = false;
+        int randomIndex;
+        int randomAmount;
 
         _currentLine = "There is a treasure chest!";
         yield return HandleTextOutput(_currentLine, false);
 
         for(int i = 1; i <= lootCount; i++)
         {
-            // if((lootCount - i) == 1)
-            // {
-            //     isLastItem = true;
-            // }
 
             randomIndex = UnityEngine.Random.Range(0, _tempItemsAndAmounts.Count);
 
@@ -77,8 +66,6 @@ public class LootManager : MonoBehaviour
 
             _currentLine = DialogueUtil.AddEnding($"You have found {randomAmount} {_item.Name}" !, randomAmount);
 
-            //yield return HandleTextOutput(_currentLine, isLastItem);
-
             yield return HandleTextOutput(_currentLine, false);
         }
 
@@ -88,31 +75,8 @@ public class LootManager : MonoBehaviour
             Debug.Log(InventoryManager.Instance.Inventory[key]);
         } 
 
-        yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
+        //yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
 
-        SceneManager.LoadScene(_nextScene.name);
-    }
-
-    private IEnumerator HandleTextOutput(string line, bool isLastLine)
-    {
-        _textBox.enabled = true;
-        _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _textBox, _promptSkip, _promptContinue));
-
-        //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
-        yield return new WaitUntil(() => _currentLine == _textBox.text);
-
-        if (isLastLine)
-        {          
-            yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
-            _textBox.enabled = false;
-            yield break;
-        }
-
-        // Einen Frame warten, damit Input nicht beide GetKeyDown-Events triggert
-        yield return null;
-
-        yield return StartCoroutine(DialogueUtil.WaitForContinue(_promptContinue));
-
-        _textBox.enabled = false;
+        SceneManager.LoadScene(2);
     }
 }

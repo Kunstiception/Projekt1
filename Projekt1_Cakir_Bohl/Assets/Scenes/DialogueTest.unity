@@ -560,7 +560,7 @@ MonoBehaviour:
   - Witness the glory of Projekt 1!
   - Created by Zara Cakir and Lukas Bohl!
   - Let us send the hero on his very first quest!
-  _nextScene: MapTest
+  _nextScene: {fileID: 102900000, guid: 2054e939a509bea4b9b9dfea21eb884b, type: 3}
   _uiElement: {fileID: 932212994}
   _promptSkip: {fileID: 1021440753}
   _promptContinue: {fileID: 935620493}
