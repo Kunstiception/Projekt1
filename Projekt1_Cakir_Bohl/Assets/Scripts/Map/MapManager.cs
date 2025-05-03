@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,7 +8,9 @@ using UnityEngine.SceneManagement;
 public class MapManager : Manager
 {
     [SerializeField] private Transform _player;
-    [SerializeField] private Transform _firstWaypoint;
+    [SerializeField] private Transform[] _firstWaypoints;
+    [SerializeField] private GameObject[] _days;
+    [SerializeField] private TextMeshProUGUI _daysCounter;
 
     private int _nextSceneIndex;
     private float _movementLength;
@@ -21,6 +24,23 @@ public class MapManager : Manager
 
     void Start()
     {
+        if(MainManager.Instance == null)
+        {
+            return;
+        }
+
+        foreach(GameObject day in _days)
+        {
+            if(day == _days[MainManager.Instance.CurrentDay])
+            {
+                day.SetActive(true);
+            }
+            else
+            {
+                day.SetActive(false);
+            }
+        }
+        
         // Public string nie null
         if(MainManager.Instance.LastWayPoint.Length != 0 && !MainManager.Instance.VisitedWayPoints.Contains(MainManager.Instance.LastWayPoint))
         {
@@ -36,6 +56,8 @@ public class MapManager : Manager
         GetWayPoints();
         SetCurrentPosition();
         SetNextWayPointsTag();      
+
+        _daysCounter.text = $"Day: {MainManager.Instance.CurrentDay + 1}";
     }
 
     private void OnEnable()
@@ -79,11 +101,11 @@ public class MapManager : Manager
         {
             return;
         }
-        
-        //public string scheinbar nie null?
+         
+        //string nie null
         if(MainManager.Instance.LastWayPoint.Length == 0)
         {
-            _currentWaypoint = _firstWaypoint;
+            _currentWaypoint = _firstWaypoints[MainManager.Instance.CurrentDay];
         }
         else
         {

@@ -89,6 +89,8 @@ public class RestingManager : Manager, ISelectable
                 break;
 
             case 2:
+                SetUpNextDay();
+
                 SceneManager.LoadScene(2);
                 break;
         }
@@ -259,8 +261,9 @@ public class RestingManager : Manager, ISelectable
             _currentLine = "... before being ambushed!";
             yield return HandleTextOutput(_currentLine, false);
             
-
             PlayerManager.Instance.HasDisadvantage = true;
+
+            SetUpNextDay();
 
             SceneManager.LoadScene(4);
             yield break;
@@ -332,5 +335,12 @@ public class RestingManager : Manager, ISelectable
         }
 
         childSlider.value = nextValue;
+    }
+
+    private void SetUpNextDay()
+    {
+        MainManager.Instance.CurrentDay++;
+        MainManager.Instance.VisitedWayPoints.Clear();
+        MainManager.Instance.LastWayPoint = "";
     }
 }

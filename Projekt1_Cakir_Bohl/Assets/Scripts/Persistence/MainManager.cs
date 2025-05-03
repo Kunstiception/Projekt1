@@ -10,6 +10,7 @@ public class MainManager : MonoBehaviour
 
     public int PlayerHealthPoints;
     public int PlayerEgoPoints;
+    public int CurrentDay;
     public string LastWayPoint;
     public List<string> VisitedWayPoints;
     public List<string> InventoryNames;
@@ -32,6 +33,7 @@ public class MainManager : MonoBehaviour
     {
         public int PlayerHealthPoints;
         public int PlayerEgoPoints;
+        public int CurrentDay;
         public string LastWayPoint;
         public List<string> VisitedWayPoints;
         public List<string> InventoryNames;
@@ -44,6 +46,7 @@ public class MainManager : MonoBehaviour
 
         data.PlayerHealthPoints = PlayerManager.Instance.HealthPoints;
         data.PlayerEgoPoints = PlayerManager.Instance.EgoPoints;
+        data.CurrentDay = CurrentDay;
         data.LastWayPoint = LastWayPoint;
         data.VisitedWayPoints = VisitedWayPoints;
 
@@ -78,6 +81,7 @@ public class MainManager : MonoBehaviour
 
             PlayerHealthPoints = data.PlayerHealthPoints;
             PlayerEgoPoints = data.PlayerEgoPoints;
+            CurrentDay = data.CurrentDay;
             LastWayPoint = data.LastWayPoint;
             VisitedWayPoints = data.VisitedWayPoints;
             InventoryNames = data.InventoryNames;
