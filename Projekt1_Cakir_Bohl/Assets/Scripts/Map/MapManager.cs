@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,8 +18,8 @@ public class MapManager : Manager
     private Transform _nextWaypoint;
     private Coroutine _movementCoroutine;
     private Transform _currentWaypoint;
-    private List<Transform> _wayPoints = new List<Transform>();
 
+    // Hier werden die Wegpunkte entweder erstmalig gesetzt oder die Informationen aus einem existierenden Spielstand aus dem MainManager geladen
     void Start()
     {
         if(MainManager.Instance == null)
@@ -40,20 +38,34 @@ public class MapManager : Manager
                 day.SetActive(false);
             }
         }
-        
-        // Public string nie null
-        if(MainManager.Instance.LastWayPoint.Length != 0 && !MainManager.Instance.VisitedWayPoints.Contains(MainManager.Instance.LastWayPoint))
-        {
-            MainManager.Instance.VisitedWayPoints.Add(MainManager.Instance.LastWayPoint);
 
-            MainManager.Instance.SaveAll();
+        if(MainManager.Instance.WayPoints.Count == 0)
+        {
+            GetWayPoints();
+        }
+        else
+        {
+            SetWayPointTypes();
+        }
+
+        // Public string nie null
+        if(MainManager.Instance.LastWayPoint.Length > 0)
+        {
+            var index = MainManager.Instance.WayPoints.IndexOf(MainManager.Instance.LastWayPoint);
+
+            MainManager.Instance.WayPointTypes[index] = 0;
+
         }
         else if(PlayerManager.Instance != null)
         {
             PlayerManager.Instance.InitializePlayerStats();
         }
 
-        GetWayPoints();
+        if(MainManager.Instance.CurrentDay > 0)
+        {
+            MainManager.Instance.SaveAll();
+        }
+
         SetCurrentPosition();
         SetNextWayPointsTag();      
 
@@ -70,31 +82,44 @@ public class MapManager : Manager
         WayPoint.clickAction -= SetNextPosition;
     }
 
+    // Ist kein Spielstand vorhanden, werden die Wegpunkte und ihre Typen des jetzigen Tages im MainManager abgespeichert
     private void GetWayPoints()
     {
-        var foundWayPoints = FindObjectsByType<WayPoint>(FindObjectsSortMode.None);
+        var foundWayPoints = _days[MainManager.Instance.CurrentDay].GetComponentsInChildren<WayPoint>();
 
         // 0 = empty, 1 = fight, 2 = loot, 3 = interaction, 4 = resting
         foreach(var wayPoint in foundWayPoints)
         {
-            _wayPoints.Add(wayPoint.transform);
-            //https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.contains?view=net-9.0
-            if(MainManager.Instance.VisitedWayPoints.Contains(wayPoint.gameObject.transform.name))
-            {
-                wayPoint.SetType(0);
-                continue;
-            }
+            MainManager.Instance.WayPoints.Add(wayPoint.gameObject.name);
 
             if(wayPoint.isRestingWayPoint == 0)
             {
                 wayPoint.SetType(4);
+                MainManager.Instance.WayPointTypes.Add(4);
                 continue;
             }
 
-            wayPoint.SetType(Random.Range(1, 4));
+            var randomIndex = Random.Range(1, 4);
+            MainManager.Instance.WayPointTypes.Add(randomIndex);
+            wayPoint.SetType(randomIndex);          
         }
     }
 
+    // Vorhandenen Spielstand laden
+    private void SetWayPointTypes()
+    {
+        var foundWayPoints = _days[MainManager.Instance.CurrentDay].GetComponentsInChildren<WayPoint>();
+
+        foreach(var wayPoint in foundWayPoints)
+        {
+            //https://learn.microsoft.com/de-de/dotnet/api/system.collections.generic.list-1.indexof?view=net-8.0
+            var index = MainManager.Instance.WayPoints.IndexOf(wayPoint.gameObject.name);
+
+            wayPoint.SetType(MainManager.Instance.WayPointTypes[index]);
+        }   
+    }
+
+     // Startposition setzen
     private void SetCurrentPosition()
     {
         if(MainManager.Instance == null)
@@ -115,6 +140,7 @@ public class MapManager : Manager
         _player.position = _currentWaypoint.position;
     }
 
+    // Tags der Wegpunkte setzen, ob diese anklickbar sind oder nicht
     private void SetNextWayPointsTag()
     {
         if(_nextWaypoint == null)
@@ -133,6 +159,7 @@ public class MapManager : Manager
         }
     }
 
+    // Setzen der Position des nächsten Wegpunkts nach Klick auf diesen
     private void SetNextPosition(Transform transform)
     {
         if(_movementCoroutine != null)
@@ -144,6 +171,7 @@ public class MapManager : Manager
         _movementCoroutine = StartCoroutine(MovementCoroutine(_player.position, _nextWaypoint.position));
     }
 
+    // Coroutine für Bewegung des Players auf der Oberwelt zwischen zwei Wegpunkten
     private IEnumerator MovementCoroutine(Vector2 startPosition, Vector2 targetPosition)
     {
         Vector2 initialPosition = startPosition;

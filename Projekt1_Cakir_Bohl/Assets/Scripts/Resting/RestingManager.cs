@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
-using System.Data;
-using System.Linq;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -62,7 +59,7 @@ public class RestingManager : Manager, ISelectable
         ListenForSkip();
     }
 
-    // Bestimmt, was die Auswahl im Menü auslöst, zwei Menü-Ebenen möglich
+    // Bestimmt, was die Auswahl im Menü auslöst
     public void HandleSelectedMenuPoint(int index)
     {
         ToggleCanvas(SelectionMenuCanvas, false);
@@ -96,6 +93,7 @@ public class RestingManager : Manager, ISelectable
         }
     }
 
+    // Anhängig davon, welche Art von Item ausgewählt wurde, wird eine Aktion ausgeführt
     public void HandleSelectedItemOrEquipment(int index)
     {
         switch (index)
@@ -124,6 +122,7 @@ public class RestingManager : Manager, ISelectable
         }
     }
 
+    // Überprüft, welches Item ausgewählt wurde
     private IEnumerator CheckItemType()
     {   
         switch(_currentItem.ItemType)
@@ -148,6 +147,7 @@ public class RestingManager : Manager, ISelectable
         }
     }
 
+    // Verbraucht das Item (was eine Liste an strings zurückgibt, um die Aktion zu beschreiben) oder wirft es weg
     private IEnumerator UseOrDiscardItem(bool isUse)
     {
         if(!isUse)
@@ -203,6 +203,7 @@ public class RestingManager : Manager, ISelectable
         }
     }
 
+    // Hier wird festegelegt, ob der Player in der Nacht in einen Kampf gezwungen wird
     private bool DecideIfAmbush()
     {
         int random = DiceUtil.D10();
@@ -217,6 +218,7 @@ public class RestingManager : Manager, ISelectable
         }
     }
 
+    // Händelt die im Schlaf erlangte Regeneration (volle Regeneration wenn kein Ambush, teilweise Regeneration bei Ambush)
     private IEnumerator SleepingCoroutine(bool isAmbush)
     {
         _textBox.enabled = true;
@@ -287,16 +289,19 @@ public class RestingManager : Manager, ISelectable
         ToggleCanvas(SelectionMenuCanvas, true);
     }
 
+    // Nach Auswahl im Menü wird hier das derzeitige Item gesetzt
     private void SetCurrentItem(Item item)
     {
         _currentItem = item;
     }
 
+    // Nimmt die nötigen Infos für das UI-Update auf und startet Coroutine
     private void SetUIUpdate(bool isHealthHeal, int initialAmount, int healingAmount)
     {
         StartCoroutine(UpdateUI(healingAmount, isHealthHeal, initialAmount));
     }
 
+    // Visualisiert Heilung von Health oder Ego in den Leisten
     private IEnumerator UpdateUI(int healAmount, bool isHealthHeal, int initialAmount)
     {
         float healValue = 0;
@@ -337,10 +342,12 @@ public class RestingManager : Manager, ISelectable
         childSlider.value = nextValue;
     }
 
+     // Setzt die Variablen im MainManager zurück, damit diese mit den Daten des nächsten Tages befüllt werden können
     private void SetUpNextDay()
     {
         MainManager.Instance.CurrentDay++;
-        MainManager.Instance.VisitedWayPoints.Clear();
+        MainManager.Instance.WayPoints.Clear();
+        MainManager.Instance.WayPointTypes.Clear();
         MainManager.Instance.LastWayPoint = "";
     }
 }

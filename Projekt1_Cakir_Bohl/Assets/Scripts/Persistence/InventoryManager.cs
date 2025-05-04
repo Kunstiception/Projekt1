@@ -29,8 +29,6 @@ public class InventoryManager : MonoBehaviour
         {
             AllItems.Add(item.name, item);
         }
-
-        Debug.Log(AllItems.Count);
     }
 
 

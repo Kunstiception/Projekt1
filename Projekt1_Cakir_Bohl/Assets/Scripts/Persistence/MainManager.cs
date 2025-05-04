@@ -13,6 +13,9 @@ public class MainManager : MonoBehaviour
     public int CurrentDay;
     public string LastWayPoint;
     public List<string> VisitedWayPoints;
+    // Leider kein Speichern von Dictionaries mit JSON-Utitlity möglich, daher zwei Listen
+    public List<string> WayPoints;
+    public List<int> WayPointTypes;
     public List<string> InventoryNames;
     public List<int> InventoryAmounts;
 
@@ -35,7 +38,8 @@ public class MainManager : MonoBehaviour
         public int PlayerEgoPoints;
         public int CurrentDay;
         public string LastWayPoint;
-        public List<string> VisitedWayPoints;
+        public List<string> WayPoints;
+        public List<int> WayPointTypes;
         public List<string> InventoryNames;
         public List<int> InventoryAmounts;
     }
@@ -48,7 +52,8 @@ public class MainManager : MonoBehaviour
         data.PlayerEgoPoints = PlayerManager.Instance.EgoPoints;
         data.CurrentDay = CurrentDay;
         data.LastWayPoint = LastWayPoint;
-        data.VisitedWayPoints = VisitedWayPoints;
+        data.WayPoints = WayPoints;
+        data.WayPointTypes = WayPointTypes;
 
         InventoryNames.Clear();
         InventoryAmounts.Clear();
@@ -83,7 +88,8 @@ public class MainManager : MonoBehaviour
             PlayerEgoPoints = data.PlayerEgoPoints;
             CurrentDay = data.CurrentDay;
             LastWayPoint = data.LastWayPoint;
-            VisitedWayPoints = data.VisitedWayPoints;
+            WayPoints = data.WayPoints;
+            WayPointTypes = data.WayPointTypes;
             InventoryNames = data.InventoryNames;
             InventoryAmounts = data.InventoryAmounts;
 
