@@ -86,7 +86,7 @@ public class RestingManager : Manager, ISelectable
                 break;
 
             case 2:
-                SetUpNextDay();
+                SetUpNextDay(false);
 
                 SceneManager.LoadScene(2);
                 break;
@@ -265,7 +265,7 @@ public class RestingManager : Manager, ISelectable
             
             PlayerManager.Instance.HasDisadvantage = true;
 
-            SetUpNextDay();
+            SetUpNextDay(false);
 
             SceneManager.LoadScene(4);
             yield break;
@@ -283,10 +283,16 @@ public class RestingManager : Manager, ISelectable
             
             _currentLine = "You have slept through the night and are now fully recovered!";
             yield return HandleTextOutput(_currentLine, false);
+
+            
+            SetUpNextDay(true);
+
+            SceneManager.LoadScene(4);
+            yield break;
         }
 
-        _textBox.enabled = false;
-        ToggleCanvas(SelectionMenuCanvas, true);
+        // _textBox.enabled = false;
+        // ToggleCanvas(SelectionMenuCanvas, true);
     }
 
     // Nach Auswahl im Menü wird hier das derzeitige Item gesetzt
@@ -343,11 +349,12 @@ public class RestingManager : Manager, ISelectable
     }
 
      // Setzt die Variablen im MainManager zurück, damit diese mit den Daten des nächsten Tages befüllt werden können
-    private void SetUpNextDay()
+    private void SetUpNextDay(bool isDay)
     {
         MainManager.Instance.CurrentDay++;
         MainManager.Instance.WayPoints.Clear();
         MainManager.Instance.WayPointTypes.Clear();
         MainManager.Instance.LastWayPoint = "";
+        MainManager.Instance.IsDay = isDay;
     }
 }

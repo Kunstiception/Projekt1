@@ -36,7 +36,7 @@ public class StartMenu : MonoBehaviour
         MainManager.Instance.PlayerEgoPoints = GameConfig.PlayerStartingEgo;
         MainManager.Instance.CurrentDay = 0;
         MainManager.Instance.LastWayPoint = "";
-        MainManager.Instance.VisitedWayPoints.Clear();
+        MainManager.Instance.IsDay = true;
         
         SceneManager.LoadScene("DialogueTest");
     }

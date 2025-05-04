@@ -9,6 +9,7 @@ public class MapManager : Manager
     [SerializeField] private Transform[] _firstWaypoints;
     [SerializeField] private GameObject[] _days;
     [SerializeField] private TextMeshProUGUI _daysCounter;
+    [SerializeField] private TextMeshProUGUI _dayNightVisual;
 
     private int _nextSceneIndex;
     private float _movementLength;
@@ -64,6 +65,15 @@ public class MapManager : Manager
         if(MainManager.Instance.CurrentDay > 0)
         {
             MainManager.Instance.SaveAll();
+        }
+
+        if(MainManager.Instance.IsDay == true)
+        {
+            _dayNightVisual.text = "Daytime";
+        }
+        else
+        {
+            _dayNightVisual.text = "Nighttime";
         }
 
         SetCurrentPosition();
