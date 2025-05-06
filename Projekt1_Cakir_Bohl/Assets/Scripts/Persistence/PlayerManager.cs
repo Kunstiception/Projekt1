@@ -1,10 +1,16 @@
-using System.Collections.Generic;
-
 public class PlayerManager: Combatant
 {
     public static PlayerManager Instance;
 
     public bool HasDisadvantage = false;
+    public int HealthPointsModifier;
+    public int EgoPointsModifier;
+    public int AttackStrengthModifier;
+    public int InitiativeModifier;
+    public int EvasionModifier;
+    public int InsultResistenceModifier;
+    public int AccuracyModifier;
+    public int InsultDamageModifier;
 
     private void Awake()
     {
@@ -20,7 +26,57 @@ public class PlayerManager: Combatant
 
     public void InitializePlayerStats()
     {
-        HealthPoints = MainManager.Instance.PlayerHealthPoints;
-        EgoPoints = MainManager.Instance.PlayerEgoPoints;
+        HealthPoints = MainManager.Instance.PlayerHealthPoints + HealthPointsModifier;
+        EgoPoints = MainManager.Instance.PlayerEgoPoints + EgoPointsModifier;
+    }
+
+    public int GetStartingHealth()
+    {
+        return GameConfig.PlayerStartingHealth + HealthPointsModifier;
+    }
+
+    public int GetStartingEgo()
+    {
+        return GameConfig.PlayerStartingEgo + EgoPointsModifier;
+    }
+
+    public int GetInitiative()
+    {
+        return Initiative + InitiativeModifier;
+    }
+
+    public int GetEvasion()
+    {
+        return Evasion + EvasionModifier;
+    }
+
+    public int GetEgoResistence()
+    {
+        return InsultResistance + InsultResistenceModifier;
+    }
+
+    public int GetAccuracy()
+    {
+        return Accuracy + AccuracyModifier;
+    }
+
+    public override int RollInitiative()
+    {
+        return GetInitiative() + DiceUtil.D10();
+    }
+
+    public override int RollDamge()
+    {
+        return UnityEngine.Random.Range(MinAttackStrength, MaxAttackStrength + AttackStrengthModifier + 1);
+    }
+
+    public override int RollAccuracy()
+    {
+        return GetAccuracy() + DiceUtil.D6();
+    }
+
+    public override int RollEvasion()
+    {
+        return GetEvasion() + DiceUtil.D4();
     }
 }

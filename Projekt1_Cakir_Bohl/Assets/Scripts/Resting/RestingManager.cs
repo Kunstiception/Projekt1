@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class RestingManager : Manager, ISelectable
+public class RestingManager : Manager, ISelectable, ICondition
 {
     [SerializeField] public Canvas SelectionMenuCanvas;
     [SerializeField] public Canvas InventoryCanvas;
@@ -28,17 +29,17 @@ public class RestingManager : Manager, ISelectable
         ToggleCanvas(InventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
 
-        _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{GameConfig.PlayerStartingHealth}";
-        _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{GameConfig.PlayerStartingEgo}";
+        _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{PlayerManager.Instance.GetStartingHealth()}";
+        _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{PlayerManager.Instance.GetStartingEgo()}";
 
         // Weiße Healthbar setzen
-        _playerHealthBarBelow.value = (float)PlayerManager.Instance.HealthPoints / (float)GameConfig.PlayerStartingHealth;
+        _playerHealthBarBelow.value = (float)PlayerManager.Instance.HealthPoints / (float)PlayerManager.Instance.GetStartingHealth();
         var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerHealthBarBelow.gameObject);
-        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.HealthPoints / (float)GameConfig.PlayerStartingHealth;
+        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.HealthPoints / (float)PlayerManager.Instance.GetStartingHealth();
 
-        _playerEgoBarBelow.value = (float)PlayerManager.Instance.EgoPoints / (float)GameConfig.PlayerStartingEgo;
+        _playerEgoBarBelow.value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
         childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerEgoBarBelow.gameObject);
-        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)GameConfig.PlayerStartingEgo;
+        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
     }
 
     private void OnEnable()
@@ -86,9 +87,8 @@ public class RestingManager : Manager, ISelectable
                 break;
 
             case 2:
-                SetUpNextDay(false);
+                StartCoroutine(EndWithoutSleep());
 
-                SceneManager.LoadScene(2);
                 break;
         }
     }
@@ -208,7 +208,7 @@ public class RestingManager : Manager, ISelectable
     {
         int random = DiceUtil.D10();
 
-        if (random >= 6)
+        if (random >= 8)
         {
             return true;
         }
@@ -231,13 +231,13 @@ public class RestingManager : Manager, ISelectable
         if(isAmbush)
         {
             int healthHeal;
-            healthHeal = PlayerManager.Instance.HealthPoints < GameConfig.PlayerStartingHealth ?
-                UnityEngine.Random.Range(1, GameConfig.PlayerStartingHealth - PlayerManager.Instance.HealthPoints) : 0;
+            healthHeal = PlayerManager.Instance.HealthPoints < PlayerManager.Instance.GetStartingHealth() ?
+                UnityEngine.Random.Range(1, PlayerManager.Instance.GetStartingHealth() - PlayerManager.Instance.HealthPoints) : 0;
             
 
             int egoHeal;
-            egoHeal = PlayerManager.Instance.EgoPoints < GameConfig.PlayerStartingEgo ?
-                UnityEngine.Random.Range(1, GameConfig.PlayerStartingEgo - PlayerManager.Instance.EgoPoints) : 0;
+            egoHeal = PlayerManager.Instance.EgoPoints < PlayerManager.Instance.GetStartingHealth() ?
+                UnityEngine.Random.Range(1, PlayerManager.Instance.GetStartingEgo() - PlayerManager.Instance.EgoPoints) : 0;
 
 
             PlayerManager.Instance.HealthPoints += healthHeal;
@@ -275,11 +275,11 @@ public class RestingManager : Manager, ISelectable
             //Wait for anim
             yield return new WaitForSeconds(5);
 
-            StartCoroutine(UpdateUI(GameConfig.PlayerStartingHealth - PlayerManager.Instance.HealthPoints, true, PlayerManager.Instance.HealthPoints));
-            StartCoroutine(UpdateUI(GameConfig.PlayerStartingEgo - PlayerManager.Instance.EgoPoints, false, PlayerManager.Instance.EgoPoints));
+            StartCoroutine(UpdateUI(PlayerManager.Instance.GetStartingHealth() - PlayerManager.Instance.HealthPoints, true, PlayerManager.Instance.HealthPoints));
+            StartCoroutine(UpdateUI(PlayerManager.Instance.GetStartingEgo() - PlayerManager.Instance.EgoPoints, false, PlayerManager.Instance.EgoPoints));
             
-            PlayerManager.Instance.HealthPoints = GameConfig.PlayerStartingHealth;
-            PlayerManager.Instance.EgoPoints = GameConfig.PlayerStartingEgo;
+            PlayerManager.Instance.HealthPoints = PlayerManager.Instance.GetStartingHealth();
+            PlayerManager.Instance.EgoPoints = PlayerManager.Instance.GetStartingEgo();
             
             _currentLine = "You have slept through the night and are now fully recovered!";
             yield return HandleTextOutput(_currentLine, false);
@@ -290,9 +290,6 @@ public class RestingManager : Manager, ISelectable
             SceneManager.LoadScene(4);
             yield break;
         }
-
-        // _textBox.enabled = false;
-        // ToggleCanvas(SelectionMenuCanvas, true);
     }
 
     // Nach Auswahl im Menü wird hier das derzeitige Item gesetzt
@@ -316,14 +313,14 @@ public class RestingManager : Manager, ISelectable
         if (isHealthHeal)
         {
             slider = _playerHealthBarBelow;
-            healValue = (float)healAmount / (float)GameConfig.PlayerStartingHealth;
-            _playerUIHealth.text = $"{initialAmount + healAmount}/{GameConfig.PlayerStartingHealth}";
+            healValue = (float)healAmount / (float)PlayerManager.Instance.GetStartingHealth();
+            _playerUIHealth.text = $"{initialAmount + healAmount}/{PlayerManager.Instance.GetStartingHealth()}";
         }
         else
         {
             slider = _playerEgoBarBelow;
-            healValue = (float)healAmount / (float)GameConfig.PlayerStartingEgo;
-            _playerUIEgo.text = $"{initialAmount + healAmount}/{GameConfig.PlayerStartingEgo}";
+            healValue = (float)healAmount / (float)PlayerManager.Instance.GetStartingEgo();
+            _playerUIEgo.text = $"{initialAmount + healAmount}/{PlayerManager.Instance.GetStartingEgo()}";
         }
 
         float currentValue = slider.value;       
@@ -356,5 +353,38 @@ public class RestingManager : Manager, ISelectable
         MainManager.Instance.WayPointTypes.Clear();
         MainManager.Instance.LastWayPoint = "";
         MainManager.Instance.IsDay = isDay;
+    }
+
+    private IEnumerator EndWithoutSleep()
+    {
+        _textBox.enabled = true;
+        
+        foreach(string line in ApplyCondition())
+        {
+            _currentLine = line;
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        }
+
+        SetUpNextDay(false);
+
+        SceneManager.LoadScene(2);
+    }
+
+    public string[] ApplyCondition()
+    {
+        PlayerManager.Instance.AccuracyModifier -= 1;
+        PlayerManager.Instance.EvasionModifier -= 1;
+        PlayerManager.Instance.InitiativeModifier -= 1;
+
+        return DialogueManager.SleepDeprivedLines;
+    }
+
+    public string[] RevertCondition()
+    {
+        PlayerManager.Instance.AccuracyModifier += 1;
+        PlayerManager.Instance.EvasionModifier += 1;
+        PlayerManager.Instance.InitiativeModifier += 1;
+
+        return DialogueManager.HealedSleepDeprivedLines;
     }
 }

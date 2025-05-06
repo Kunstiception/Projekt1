@@ -8,7 +8,7 @@ public class HealthPotion : HealingItem, IConsumable
         List<string> lines = new List<string>();
         _initialAmount = PlayerManager.Instance.HealthPoints;
 
-        if(_initialAmount == GameConfig.PlayerStartingHealth)
+        if(_initialAmount == PlayerManager.Instance.GetStartingHealth())
         {
             lines.Add("You are already at full health.");
             return lines;
@@ -18,9 +18,9 @@ public class HealthPotion : HealingItem, IConsumable
         
         _healingAmount = Random.Range(GameConfig.MinimumHeal, GameConfig.MaximumHeal + 1);
 
-        if((_initialAmount + _healingAmount) > GameConfig.PlayerStartingHealth)
+        if((_initialAmount + _healingAmount) > PlayerManager.Instance.GetStartingHealth())
         {           
-            _healingAmount = GameConfig.PlayerStartingHealth - _initialAmount;
+            _healingAmount = PlayerManager.Instance.GetStartingHealth() - _initialAmount;
         }
 
         PlayerManager.Instance.HealthPoints += _healingAmount;

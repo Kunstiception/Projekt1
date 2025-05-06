@@ -14,23 +14,22 @@ public class Combatant : MonoBehaviour
     public int Evasion;
     public int InsultResistance;
 
-
-    public int RollInitiative()
+    public virtual int RollInitiative()
     {
         return Initiative + DiceUtil.D10();
     }
 
-    public int RollDamge()
+    public virtual int RollDamge()
     {
         return Random.Range(MinAttackStrength, MaxAttackStrength + 1);
     }
 
-    public int RollAccuracy()
+    public virtual int RollAccuracy()
     {
         return Accuracy + DiceUtil.D6();
     }
 
-    public int RollEvasion()
+    public virtual int RollEvasion()
     {
         return Evasion + DiceUtil.D4();
     }

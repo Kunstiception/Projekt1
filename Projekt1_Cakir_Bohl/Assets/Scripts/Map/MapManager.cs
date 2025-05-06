@@ -62,11 +62,8 @@ public class MapManager : Manager
             PlayerManager.Instance.InitializePlayerStats();
         }
 
-        if(MainManager.Instance.CurrentDay > 0)
-        {
-            MainManager.Instance.SaveAll();
-        }
-
+        MainManager.Instance.SaveAll();
+ 
         if(MainManager.Instance.IsDay == true)
         {
             _dayNightVisual.text = "Daytime";

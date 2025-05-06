@@ -9,7 +9,7 @@ public class EgoPotion : HealingItem, IConsumable
         List<string> lines = new List<string>();
         _initialAmount = PlayerManager.Instance.EgoPoints;
         
-        if(_initialAmount == GameConfig.PlayerStartingEgo)
+        if(_initialAmount == PlayerManager.Instance.GetStartingEgo())
         {
             lines.Add("You are already at full ego.");
             return lines;
@@ -21,7 +21,7 @@ public class EgoPotion : HealingItem, IConsumable
 
         if((PlayerManager.Instance.EgoPoints + _healingAmount) > _initialAmount)
         {
-            _healingAmount = GameConfig.PlayerStartingEgo - _initialAmount;
+            _healingAmount = PlayerManager.Instance.GetStartingEgo() - _initialAmount;
         }
 
         PlayerManager.Instance.EgoPoints += _healingAmount;

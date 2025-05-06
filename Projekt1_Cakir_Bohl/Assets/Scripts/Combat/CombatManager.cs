@@ -35,7 +35,6 @@ public class CombatManager : Manager, ISelectable
     private int _finalDamage;
     private int _accuracy;
     private int _evasion;
-    private int _currentInsultIndex;
     private int _combatant1EgoPoints;
     private int _combatant2EgoPoints;
     private bool _hasFightStarted;
@@ -147,20 +146,20 @@ public class CombatManager : Manager, ISelectable
         _combatant1EgoPoints = _combatant1.EgoPoints;
         _combatant2EgoPoints = _combatant2.EgoPoints;
 
-        _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{GameConfig.PlayerStartingHealth}";
-        _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{GameConfig.PlayerStartingEgo}";
+        _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{PlayerManager.Instance.GetStartingHealth()}";
+        _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{PlayerManager.Instance.GetStartingEgo()}";
 
         _enemyUIHealth.text = $"{_enemy.HealthPoints}/{_enemy.HealthPoints}";
         _enemyUIEgo.text = $"{_enemy.EgoPoints}/{_enemy.EgoPoints}";
 
         // Weiße Healthbar setzen
-        _playerHealthBarBelow.value = (float)PlayerManager.Instance.HealthPoints / (float)GameConfig.PlayerStartingHealth;
+        _playerHealthBarBelow.value = (float)PlayerManager.Instance.HealthPoints / (float)PlayerManager.Instance.GetStartingHealth();
         var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerHealthBarBelow.gameObject);
-        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.HealthPoints / (float)GameConfig.PlayerStartingHealth;
+        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.HealthPoints / (float)PlayerManager.Instance.GetStartingHealth();
 
-        _playerEgoBarBelow.value = (float)PlayerManager.Instance.EgoPoints / (float)GameConfig.PlayerStartingEgo;
+        _playerEgoBarBelow.value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
         childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerEgoBarBelow.gameObject);
-        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)GameConfig.PlayerStartingEgo;
+        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();;
     }
 
     private IEnumerator CombatCoroutine()
@@ -343,11 +342,14 @@ public class CombatManager : Manager, ISelectable
         {
             ToggleCanvas(_selectionMenuCanvas, false);
 
-            var random = UnityEngine.Random.Range(0, _playerInsultsAndValues.Count - 1);         
+            var random = UnityEngine.Random.Range(0, _playerInsultsAndValues.Count - 1); 
+
             line = $"{_enemy.Name}: '{_playerInsultsAndValues.ElementAt(random).Key}'";
             value = _playerInsultsAndValues.ElementAt(random).Value;
+
             _egoHitLine = PlayerManager.Instance.InsultLines.AnswersWhenHit[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
             _egoResistLine = PlayerManager.Instance.InsultLines.AnswersWhenResisted[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
+
             _playerInsultsAndValues.Remove(_playerInsultsAndValues.ElementAt(random).Key);
         }
 
@@ -361,12 +363,27 @@ public class CombatManager : Manager, ISelectable
             _currentLine = DialogueUtil.CreateCombatLog(attacker, "attempts", $"to insult {defender.Name}!");
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-            var attackRoll = value + DiceUtil.D6();
+            int attackRoll = 0;
+            if(attacker is PlayerManager)
+            {
+                attackRoll = value + DiceUtil.D6() + PlayerManager.Instance.InsultDamageModifier;
+            }
+            else
+            {
+                attackRoll = value + DiceUtil.D6();
+            }
 
             _currentLine = line;
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
                 
-            _finalDamage = attackRoll - defender.InsultResistance;
+            if(defender is PlayerManager)
+            {
+                _finalDamage = attackRoll - defender.InsultResistance + PlayerManager.Instance.InsultResistenceModifier;
+            }
+            else
+            {
+                _finalDamage = attackRoll - defender.InsultResistance;
+            }
 
             if (_finalDamage > 0)
             {
@@ -558,7 +575,7 @@ public class CombatManager : Manager, ISelectable
 
         ToggleCanvas(_selectionMenuCanvas, false);
 
-        _playerRoll = PlayerManager.Instance.Initiative - DiceUtil.D6();
+        _playerRoll = PlayerManager.Instance.GetInitiative() - DiceUtil.D6();
         print($"Player Initiative: {_playerRoll}");
         print($"Enemy Initiative: {_enemy.Initiative}");
 
@@ -659,7 +676,7 @@ public class CombatManager : Manager, ISelectable
         if (isHealthDamage)
         {
             slider = combatant.Name == PlayerManager.Instance.Name ? _playerHealthBarBelow : _enemyHealthBarBelow;
-            hitValue = combatant.Name == PlayerManager.Instance.Name ? (float)damage / (float)GameConfig.PlayerStartingHealth : (float)damage / (float)_enemy.HealthPoints;
+            hitValue = combatant.Name == PlayerManager.Instance.Name ? (float)damage / (float)PlayerManager.Instance.GetStartingHealth() : (float)damage / (float)_enemy.HealthPoints;
             text = combatant.Name == PlayerManager.Instance.Name ? _playerUIHealth : _enemyUIHealth;
 
             if(currentHealth <= 0)
@@ -667,12 +684,12 @@ public class CombatManager : Manager, ISelectable
                 currentHealth = 0;
             }
 
-            text.text = combatant.Name == PlayerManager.Instance.Name ? $"{currentHealth}/{GameConfig.PlayerStartingHealth}" : $"{currentHealth}/{combatant.HealthPoints}";
+            text.text = combatant.Name == PlayerManager.Instance.Name ? $"{currentHealth}/{PlayerManager.Instance.GetStartingHealth()}" : $"{currentHealth}/{combatant.HealthPoints}";
         }
         else
         {
             slider = combatant.Name == PlayerManager.Instance.Name ? _playerEgoBarBelow : _enemyEgoBarBelow;
-            hitValue = combatant.Name == PlayerManager.Instance.Name ? (float)damage / (float)GameConfig.PlayerStartingEgo : (float)damage / (float)_enemy.EgoPoints;
+            hitValue = combatant.Name == PlayerManager.Instance.Name ? (float)damage / (float)PlayerManager.Instance.GetStartingEgo()  : (float)damage / (float)_enemy.EgoPoints;
             text = combatant.Name == PlayerManager.Instance.Name ? _playerUIEgo : _enemyUIEgo;
 
             if (currentEgo <= 0)
@@ -680,7 +697,7 @@ public class CombatManager : Manager, ISelectable
                 currentEgo = 0;
             }
 
-            text.text = combatant.Name == PlayerManager.Instance.Name ? $"{currentEgo}/{GameConfig.PlayerStartingEgo}" : $"{currentEgo}/{combatant.EgoPoints}";
+            text.text = combatant.Name == PlayerManager.Instance.Name ? $"{currentEgo}/{PlayerManager.Instance.GetStartingEgo() }" : $"{currentEgo}/{combatant.EgoPoints}";
         }
 
         float currentValue = slider.value;       

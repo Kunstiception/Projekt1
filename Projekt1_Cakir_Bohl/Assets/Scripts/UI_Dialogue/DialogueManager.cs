@@ -5,14 +5,15 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Dialogue Manager", menuName = "Scriptable Object/Dialogue Manager")]
 
-public class DialogueManager : ScriptableObject
+public static class DialogueManager
 {
-    public string[] standardLines = 
-        {"dkdkdkk", 
-        "ksajsdljksaldkj"};
-    public string[] combatLines;
-    public string[] cestingLines;
-    public string[] eventLines;
-    public string[] ItemLines;
-    public string[] itemNames;
+    public static string[] SleepDeprivedLines = 
+        {"You feel weakened by your lack of sleep."};
+    public static string[] HealedSleepDeprivedLines = 
+        {"A good night's sleep has made your body regain its agility."};
+    public static string[] combatLines;
+    public static string[] cestingLines;
+    public static string[] eventLines;
+    public static string[] ItemLines;
+    public static string[] itemNames;
 }
