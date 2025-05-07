@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +11,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     [SerializeField] public Canvas InventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] private TextMeshProUGUI _textBox;
-     [SerializeField] private TextMeshProUGUI _playerUIHealth;
+    [SerializeField] private TextMeshProUGUI _playerUIHealth;
     [SerializeField] private TextMeshProUGUI _playerUIEgo;
     [SerializeField] private Slider _playerHealthBarBelow;
     [SerializeField] private Slider _playerEgoBarBelow;
@@ -208,7 +207,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     {
         int random = DiceUtil.D10();
 
-        if (random >= 8)
+        if (random <= GameConfig.AmbushChance)
         {
             return true;
         }
@@ -284,10 +283,15 @@ public class RestingManager : Manager, ISelectable, ICondition
             _currentLine = "You have slept through the night and are now fully recovered!";
             yield return HandleTextOutput(_currentLine, false);
 
-            
+            foreach(string line in ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, false))
+            {
+                _currentLine = line;
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            }
+
             SetUpNextDay(true);
 
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(7);
             yield break;
         }
     }
@@ -359,7 +363,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     {
         _textBox.enabled = true;
         
-        foreach(string line in ApplyCondition())
+        foreach(string line in ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true))
         {
             _currentLine = line;
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
@@ -368,23 +372,5 @@ public class RestingManager : Manager, ISelectable, ICondition
         SetUpNextDay(false);
 
         SceneManager.LoadScene(2);
-    }
-
-    public string[] ApplyCondition()
-    {
-        PlayerManager.Instance.AccuracyModifier -= 1;
-        PlayerManager.Instance.EvasionModifier -= 1;
-        PlayerManager.Instance.InitiativeModifier -= 1;
-
-        return DialogueManager.SleepDeprivedLines;
-    }
-
-    public string[] RevertCondition()
-    {
-        PlayerManager.Instance.AccuracyModifier += 1;
-        PlayerManager.Instance.EvasionModifier += 1;
-        PlayerManager.Instance.InitiativeModifier += 1;
-
-        return DialogueManager.HealedSleepDeprivedLines;
     }
 }

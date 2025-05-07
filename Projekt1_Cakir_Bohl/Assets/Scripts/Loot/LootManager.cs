@@ -23,7 +23,7 @@ public class LootManager : Manager
             _tempItemsAndAmounts.Add(item);
         }
         
-        int lootCount = UnityEngine.Random.Range(1, GameConfig.LootableItems.Length);
+        int lootCount = UnityEngine.Random.Range(1, GameConfig.MaximumLootableItems + 1);
 
         StartCoroutine(SelectRandomItemsAndAmounts(lootCount));
     }

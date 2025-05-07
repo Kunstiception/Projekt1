@@ -16,11 +16,10 @@ public static class GameConfig
     //Combat
     public static float BarsLerpSpeed = 0.75f;
     public static float TimeBeforeHealthbarUpdate = 0.25f;
+    public static int AmbushChance = 2;
 
     //Looting
-    public static int[] LootableItems = {1, 2, 3};
-    public static int MinimumLootCount = 1;
-    public static int MaximumLootCount = 3;
+    public static int MaximumLootableItems = 3;
 
     //Items
     public static int MinimumHeal = 4;

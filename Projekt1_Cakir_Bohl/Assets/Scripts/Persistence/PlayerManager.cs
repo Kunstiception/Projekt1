@@ -1,5 +1,5 @@
 public class PlayerManager: Combatant
-{
+{ 
     public static PlayerManager Instance;
 
     public bool HasDisadvantage = false;

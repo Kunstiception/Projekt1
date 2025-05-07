@@ -57,7 +57,7 @@ public class MapManager : Manager
             MainManager.Instance.WayPointTypes[index] = 0;
 
         }
-        else if(PlayerManager.Instance != null)
+        else if(PlayerManager.Instance != null && MainManager.Instance.CurrentDay == 0)
         {
             PlayerManager.Instance.InitializePlayerStats();
         }

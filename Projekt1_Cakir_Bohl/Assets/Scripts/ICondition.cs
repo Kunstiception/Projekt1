@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public interface ICondition
 {
-    string[] ApplyCondition();
+    //string[] ApplyCondition();
 
-    string[] RevertCondition();
+    //string[] RevertCondition();
 }
