@@ -10,7 +10,6 @@ public class RestingManager : Manager, ISelectable, ICondition
     [SerializeField] public Canvas SelectionMenuCanvas;
     [SerializeField] public Canvas InventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
-    [SerializeField] private TextMeshProUGUI _textBox;
     [SerializeField] private TextMeshProUGUI _playerUIHealth;
     [SerializeField] private TextMeshProUGUI _playerUIEgo;
     [SerializeField] private Slider _playerHealthBarBelow;
@@ -283,10 +282,9 @@ public class RestingManager : Manager, ISelectable, ICondition
             _currentLine = "You have slept through the night and are now fully recovered!";
             yield return HandleTextOutput(_currentLine, false);
 
-            foreach(string line in ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, false))
+            if(ConditionManager.Instance.IsSleepDeprived)
             {
-                _currentLine = line;
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, false)));
             }
 
             SetUpNextDay(true);
@@ -362,12 +360,8 @@ public class RestingManager : Manager, ISelectable, ICondition
     private IEnumerator EndWithoutSleep()
     {
         _textBox.enabled = true;
-        
-        foreach(string line in ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true))
-        {
-            _currentLine = line;
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-        }
+
+        yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true)));
 
         SetUpNextDay(false);
 

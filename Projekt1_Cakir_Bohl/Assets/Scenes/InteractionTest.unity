@@ -154,10 +154,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerHealthPoints: 0
   PlayerEgoPoints: 0
+  CurrentDay: 0
   LastWayPoint: 
-  VisitedWayPoints: []
+  WayPoints: []
+  WayPointTypes: 
   InventoryNames: []
   InventoryAmounts: 
+  IsDay: 0
 --- !u!4 &905784663
 Transform:
   m_ObjectHideFlags: 0
@@ -442,8 +445,7 @@ MonoBehaviour:
   _texts:
   - A witty and humorous interaction with a memorable NPC!
   - The hero continues his mighty quest!
-  _nextScene: {fileID: 102900000, guid: 2054e939a509bea4b9b9dfea21eb884b, type: 3}
-  _uiElement: {fileID: 1647918672}
+  _textBox: {fileID: 1647918672}
   _promptSkip: {fileID: 1647918671}
   _promptContinue: {fileID: 1647918670}
 --- !u!1 &1915394043

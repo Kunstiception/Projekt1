@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8edae58ba3a75b844bb07dde9ec9e432, type: 3}
+  m_Name: VampireInsults
+  m_EditorClassIdentifier: 
+  Insults:
+  - You suck!
+  - You are missing a button on your jacket!
+  - You seem a little pale, buddy. Are you alright?
+  - Out of my way, foul creature!
+  Values: 01000000040000000200000001000000
+  AnswersWhenHit:
+  - How dare you?!
+  - I must have lost it...
+  - That must be the moonlight...
+  - Alright alright...
+  AnswersWhenResisted:
+  - Yes and you are my next victim!
+  - That's how you're SUPPOSED to wear it!
+  - I'm just in need of a little... BLOOD!
+  - Same to you!

@@ -1,13 +1,11 @@
 using System.Collections;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
     [SerializeField] protected string[] _texts;
-    [SerializeField] protected TextMeshProUGUI _uiElement;
+    [SerializeField] protected TextMeshProUGUI _textBox;
     [SerializeField] protected TextMeshProUGUI _promptSkip;
     [SerializeField] protected TextMeshProUGUI _promptContinue;
     protected Coroutine _textCoroutine;
@@ -30,7 +28,7 @@ public class Manager : MonoBehaviour
                 _promptSkip.enabled = false;
                 StopCoroutine(_textCoroutine);
                 _textCoroutine = null;
-                DialogueUtil.ShowFullLine(_currentLine, _uiElement, _promptSkip);
+                DialogueUtil.ShowFullLine(_currentLine, _textBox, _promptSkip);
             }
         }
     }
@@ -38,10 +36,10 @@ public class Manager : MonoBehaviour
     // Umfasst mehrere Methoden der Dalogue.Util-Klasse, händelt z.B. auch das Beenden eines Abschnitts wenn isLastLine == true
     protected IEnumerator HandleTextOutput(string line, bool isLastLine)
     {
-        _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _uiElement, _promptSkip, _promptContinue));
+        _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _textBox, _promptSkip, _promptContinue));
 
         //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
-        yield return new WaitUntil(() => line == _uiElement.text);
+        yield return new WaitUntil(() => line == _textBox.text);
 
         if (isLastLine)
         {
@@ -66,6 +64,17 @@ public class Manager : MonoBehaviour
         if(isActive)
         {
             selectionMenu.InitializeMenu();
+        }
+    }
+
+    protected IEnumerator PrintMultipleLines(string[] lines)
+    {
+        _textBox.enabled = true;
+        
+        foreach(string line in lines)
+        {
+            _currentLine = line;
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -1082420863187593242}
   - component: {fileID: 1091708616443416226}
   m_Layer: 0
-  m_Name: Bear
+  m_Name: Wolf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1451417646648548203}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,16 +45,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be12544651f4e874faa87de10468cd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InsultLines: {fileID: 11400000, guid: a8d7605d1bb932e429365c36671db5fd, type: 2}
-  Name: Bear
-  HealthPoints: 12
-  EgoPoints: 10
+  InsultLines: {fileID: 11400000, guid: 2fda5748273546640a6e28da770af488, type: 2}
+  Name: Wolf
+  HealthPoints: 9
+  EgoPoints: 9
   MinAttackStrength: 2
-  MaxAttackStrength: 5
+  MaxAttackStrength: 4
   ArmorStrength: 0
-  Initiative: 5
-  Accuracy: 7
-  Evasion: 6
+  Initiative: 6
+  Accuracy: 8
+  Evasion: 5
   InsultResistance: 7
 --- !u!212 &1091708616443416226
 SpriteRenderer:
@@ -97,7 +97,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e7eb863226e5f194e951b5ef078ad330, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 059dc22536609b5469029853f983853f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

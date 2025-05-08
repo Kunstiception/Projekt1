@@ -9,8 +9,8 @@ using UnityEngine.UI;
 
 public class CombatManager : Manager, ISelectable
 {
-    [SerializeField] private GameObject[] _enemies;
-    [SerializeField] private TextMeshProUGUI _textBox;
+    [SerializeField] private GameObject[] _enemiesDay;
+    [SerializeField] private GameObject[] _enemiesNight;
     [SerializeField] private TextMeshProUGUI _playerUIHealth;
     [SerializeField] private TextMeshProUGUI _playerUIEgo;
     [SerializeField] private TextMeshProUGUI _enemyUIHealth;
@@ -22,6 +22,7 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] private Canvas _selectionMenuCanvas;
     [SerializeField] private Canvas _persuasionMenuCanvas;
 
+    private int _intitialPlayerHealth;
     private int _playerRoll;
     private int _enemyRoll;
     private int _combatantHealth1;
@@ -70,8 +71,16 @@ public class CombatManager : Manager, ISelectable
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
         PlayerManager.Instance.HasDisadvantage = false;
 
-        var randomIndex = UnityEngine.Random.Range(0, _enemies.Length);
-        _enemy = _enemies[randomIndex].GetComponent<Combatant>();
+        if(MainManager.Instance.IsDay)
+        {
+            var randomIndex = UnityEngine.Random.Range(0, _enemiesDay.Length);
+            _enemy = _enemiesDay[randomIndex].GetComponent<Combatant>();
+        }
+        else
+        {
+            var randomIndex = UnityEngine.Random.Range(0, _enemiesNight.Length);
+            _enemy = _enemiesNight[randomIndex].GetComponent<Combatant>();
+        }
 
         Instantiate(_enemy);
 
@@ -85,6 +94,8 @@ public class CombatManager : Manager, ISelectable
         {
             _playerInsultsAndValues.Add(PlayerManager.Instance.InsultLines.Insults[i], PlayerManager.Instance.InsultLines.Values[i]);
         }
+
+        _intitialPlayerHealth = PlayerManager.Instance.HealthPoints;
 
         yield return StartCoroutine(RollInitiative(_hasDisadvantage));
     }
@@ -546,7 +557,14 @@ public class CombatManager : Manager, ISelectable
                     PlayerManager.Instance.EgoPoints = _combatant2EgoPoints;
                 }
 
-                SceneManager.LoadScene("MapTest");
+                if(_intitialPlayerHealth > PlayerManager.Instance.HealthPoints && !MainManager.Instance.IsDay)
+                {
+                    StartCoroutine(EndSceneWithCondition());
+
+                    yield break;
+                }
+
+                SceneManager.LoadScene(2);
                 yield break;
             }
             else
@@ -745,5 +763,15 @@ public class CombatManager : Manager, ISelectable
         {
             _combatant2EgoPoints = newValue;
         }       
+    }
+
+    private IEnumerator EndSceneWithCondition()
+    {    
+        if(_enemy.Name == "Vampire" && !ConditionManager.Instance.IsVampire)
+        {
+            yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.Vampire, true)));
+        }
+
+        SceneManager.LoadScene(8);
     }
 }
