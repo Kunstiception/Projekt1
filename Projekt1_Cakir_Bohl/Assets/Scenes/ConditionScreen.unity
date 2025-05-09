@@ -224,7 +224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 919720128}
-  - component: {fileID: 919720127}
+  - component: {fileID: 919720129}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -232,25 +232,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &919720127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919720126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b7ec4b4f5d4cfc4ab92601608a202ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _texts:
-  - Witness the glory of Projekt 1!
-  - Created by Zara Cakir and Lukas Bohl!
-  - Let us send the hero on his very first quest!
-  _textBox: {fileID: 2124248409}
-  _promptSkip: {fileID: 2124248408}
-  _promptContinue: {fileID: 2124248407}
 --- !u!4 &919720128
 Transform:
   m_ObjectHideFlags: 0
@@ -266,6 +247,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &919720129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919720126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32b8e38244f5c6740a1a6cd9ef1d57d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _texts: []
+  _textBox: {fileID: 2124248409}
+  _promptSkip: {fileID: 2124248408}
+  _promptContinue: {fileID: 2124248407}
 --- !u!1 &1025185166
 GameObject:
   m_ObjectHideFlags: 0

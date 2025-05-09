@@ -13,7 +13,6 @@ public class Manager : MonoBehaviour
     protected int _currentStringIndex = 0;
     protected string _currentLine;
 
-    // Update is called once per frame
     void Update()
     {
         ListenForSkip();

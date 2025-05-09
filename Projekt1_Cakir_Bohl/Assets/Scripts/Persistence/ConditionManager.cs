@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ConditionManager : MonoBehaviour
@@ -62,23 +63,61 @@ public class ConditionManager : MonoBehaviour
                 }
 
             case Conditions.Werewolf:
-                //insert
-                return null;
+                if(isAffected)
+                {
+                    ApplyWerewolf(true);
+
+                    return DialogueManager.WerewolfLines;
+                }
+                else
+                {
+                    ApplyWerewolf(false);
+
+                    return DialogueManager.HealedWerewolfLines;
+                }
 
             case Conditions.Zombie:
-                //insert
-                return null;
+                if(isAffected)
+                {
+                    IsZombie = true;
+
+                    return DialogueManager.ZombieLines;
+                }
+                else
+                {   
+                    IsZombie = false;
+                    return DialogueManager.HealedZombieLines;
+                }
         }
 
         return null;
     }
 
-    public void EvaluateCurrentConditions()
+    public List<Conditions> EvaluateCurrentConditions()
     {
+        List<Conditions> conditions = new List<Conditions>();
+        
+        if(IsSleepDeprived)
+        {
+            conditions.Add(Conditions.SleepDeprived);
+        }
+        
         if(IsVampire)
         {
-
+            conditions.Add(Conditions.Vampire);
         }
+
+        if(IsWerewolf)
+        {
+            conditions.Add(Conditions.Werewolf);
+        }
+
+        if(IsZombie)
+        {
+            conditions.Add(Conditions.Zombie);
+        }
+
+        return conditions;
     }
 
     private void ApplySleepDeprived(bool isAffected)
@@ -116,6 +155,24 @@ public class ConditionManager : MonoBehaviour
             PlayerManager.Instance.InsultDamageModifier -=2;
 
             IsVampire = false;
+        }
+    }
+
+    private void ApplyWerewolf(bool isAffected)
+    {
+        if(isAffected)
+        {
+            PlayerManager.Instance.AttackStrengthModifier += 2;
+            PlayerManager.Instance.InsultDamageModifier -=1;
+
+            IsWerewolf = true;
+        }
+        else
+        {
+            PlayerManager.Instance.AttackStrengthModifier -= 2;
+            PlayerManager.Instance.InsultDamageModifier +=1;
+
+            IsWerewolf = false;
         }
     }
 }

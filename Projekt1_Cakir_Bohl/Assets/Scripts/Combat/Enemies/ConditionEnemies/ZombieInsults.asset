@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8edae58ba3a75b844bb07dde9ec9e432, type: 3}
+  m_Name: ZombieInsults
+  m_EditorClassIdentifier: 
+  Insults:
+  - You should really use some moisturizer!
+  - I'd rather be a werewolf... or any other creature for that matter!
+  - It must be hard maintaining a stable relationship with your condition.
+  - There! A walking brain!
+  Values: 00000000000000000000000000000000
+  AnswersWhenHit:
+  - Grg ga gruuu rrrrrr!!!!
+  - Nnnnn chhhhh krrrr!!!!
+  - Gnaaa wrrrr grrrrr!!!
+  - Wrrr grrrrr nnnnn!!!!
+  AnswersWhenResisted:
+  - Gaaaaaaa grrrrggggg!!!!
+  - Gruuuu grrrrr wrrrr!!!
+  - Chhhhh gnaaaaa!!!
+  - Nnnnn wrrrr gaaaa!!!!

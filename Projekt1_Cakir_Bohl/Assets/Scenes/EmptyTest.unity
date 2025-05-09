@@ -154,10 +154,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerHealthPoints: 0
   PlayerEgoPoints: 0
+  CurrentDay: 0
   LastWayPoint: 
-  VisitedWayPoints: []
+  WayPoints: []
+  WayPointTypes: 
   InventoryNames: []
   InventoryAmounts: 
+  IsDay: 0
 --- !u!4 &905784663
 Transform:
   m_ObjectHideFlags: 0
@@ -528,8 +531,7 @@ MonoBehaviour:
   - You can hear nothing but the faint cry of a bird.
   - This place seems to have lost all purpose.
   - The hero continues his mighty quest!
-  _nextScene: MapTest
-  _uiElement: {fileID: 1647918672}
+  _textBox: {fileID: 1647918672}
   _promptSkip: {fileID: 1647918671}
   _promptContinue: {fileID: 1647918670}
 --- !u!1660057539 &9223372036854775807

@@ -1,13 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
 
 public class LootManager : Manager
 {
     [SerializeField] private Item[] _possibleItems;
-    [SerializeField] private TextMeshProUGUI _textBox;
 
     private Item _item;
     private List<Item> _tempItemsAndAmounts = new List<Item>();

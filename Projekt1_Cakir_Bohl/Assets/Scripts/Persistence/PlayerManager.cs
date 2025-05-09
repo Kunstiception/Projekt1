@@ -11,6 +11,7 @@ public class PlayerManager: Combatant
     public int InsultResistenceModifier;
     public int AccuracyModifier;
     public int InsultDamageModifier;
+    public ConditionManager.Conditions LatestCondition;
 
     private void Awake()
     {

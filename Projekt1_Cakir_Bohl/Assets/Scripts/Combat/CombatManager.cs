@@ -767,9 +767,37 @@ public class CombatManager : Manager, ISelectable
 
     private IEnumerator EndSceneWithCondition()
     {    
-        if(_enemy.Name == "Vampire" && !ConditionManager.Instance.IsVampire)
+        switch(_enemy.Name)
         {
-            yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.Vampire, true)));
+            case "Vampire":
+                if(!ConditionManager.Instance.IsVampire)
+                {
+                    PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.Vampire;
+                    
+                    yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.Vampire, true)));
+                }
+
+                break;
+
+            case "Werewolf":
+                if(!ConditionManager.Instance.IsWerewolf)
+                {
+                    PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.Werewolf;
+                    
+                    yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.Werewolf, true)));
+                }
+
+                break;
+
+            case "Zombie":
+                if(!ConditionManager.Instance.IsZombie)
+                {
+                    PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.Zombie;
+                    
+                    yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.Zombie, true)));
+                }
+
+                break;
         }
 
         SceneManager.LoadScene(8);

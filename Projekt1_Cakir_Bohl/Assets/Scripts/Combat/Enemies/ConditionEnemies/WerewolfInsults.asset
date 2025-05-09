@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8edae58ba3a75b844bb07dde9ec9e432, type: 3}
+  m_Name: WerewolfInsults
+  m_EditorClassIdentifier: 
+  Insults:
+  - The last werewolf I met had much more defined muscles!
+  - So... you have to buy new clothes each time you transform?
+  - It must be hard maintaining a stable relationship with your condition.
+  - Out of my way, foul creature!
+  Values: 05000000020000000300000001000000
+  AnswersWhenHit:
+  - How embarassing...
+  - It's so costly...
+  - It's a lonley life...
+  - Alright alright...
+  AnswersWhenResisted:
+  - Take him to me and we shall see!
+  - Of course I undress first, you fool!
+  - My wife likes this side of me especially!
+  - Same to you!
