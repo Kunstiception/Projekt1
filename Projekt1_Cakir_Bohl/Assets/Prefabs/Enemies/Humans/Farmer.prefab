@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1451417646648548203
+--- !u!1 &934982941582234769
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,61 +8,61 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5440399557664267112}
-  - component: {fileID: -1082420863187593242}
-  - component: {fileID: 1091708616443416226}
+  - component: {fileID: 5794492360443502739}
+  - component: {fileID: 3214425404031945793}
+  - component: {fileID: 5610142864896458150}
   m_Layer: 0
-  m_Name: Bear
+  m_Name: Farmer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5440399557664267112
+--- !u!4 &5794492360443502739
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451417646648548203}
+  m_GameObject: {fileID: 934982941582234769}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 0, z: 0}
+  m_LocalPosition: {x: 0.3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1082420863187593242
+--- !u!114 &3214425404031945793
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451417646648548203}
+  m_GameObject: {fileID: 934982941582234769}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be12544651f4e874faa87de10468cd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InsultLines: {fileID: 11400000, guid: e44b0439eb3b9334199f3b9dc3c8515f, type: 2}
-  Name: Bear
-  HealthPoints: 12
-  EgoPoints: 10
+  InsultLines: {fileID: 0}
+  Name: Farmer
+  HealthPoints: 10
+  EgoPoints: 8
   MinAttackStrength: 2
   MaxAttackStrength: 5
   ArmorStrength: 0
-  Initiative: 5
-  Accuracy: 7
-  Evasion: 6
-  InsultResistance: 7
---- !u!212 &1091708616443416226
+  Initiative: 4
+  Accuracy: 4
+  Evasion: 3
+  InsultResistance: 3
+--- !u!212 &5610142864896458150
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451417646648548203}
+  m_GameObject: {fileID: 934982941582234769}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -97,12 +97,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a8b2b2bab62348d4c955d4d4d8c3fbf0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 86c0e05a9b8a01a4a8b2e521bea5da35, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 7, y: 10.04}
+  m_Size: {x: 7, y: 11.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
