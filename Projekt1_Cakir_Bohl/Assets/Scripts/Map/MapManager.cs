@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MapManager : Manager
+public class MapManager : MonoBehaviour
 {
     [SerializeField] private Transform _player;
     [SerializeField] private Transform[] _firstWaypoints;
@@ -99,7 +99,7 @@ public class MapManager : Manager
         {
             MainManager.Instance.WayPoints.Add(wayPoint.gameObject.name);
 
-            if(wayPoint.isRestingWayPoint == 0)
+            if(wayPoint.wayPointCategory == 0)
             {
                 wayPoint.SetType(4);
                 MainManager.Instance.WayPointTypes.Add(4);

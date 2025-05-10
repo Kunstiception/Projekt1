@@ -48,7 +48,7 @@ public class ConditionScreenManager : Manager
             $"You are now a {_conditionName}"
         };
 
-        var conditions = ConditionManager.Instance.EvaluateCurrentConditions();
+        var conditions = ConditionManager.Instance.GetCurrentConditions();
 
         if(conditions.Count < 2)
         {

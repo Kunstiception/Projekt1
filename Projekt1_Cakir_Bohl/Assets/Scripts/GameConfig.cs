@@ -24,4 +24,7 @@ public static class GameConfig
     //Items
     public static int MinimumHeal = 4;
     public static int MaximumHeal = 7;
+
+    // Conditions
+    public static int VampireSunDamage = 1;
 }

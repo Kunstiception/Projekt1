@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3519443027531659383
 Transform:
   m_ObjectHideFlags: 0
@@ -100,7 +100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3181667487691140753
 Transform:
   m_ObjectHideFlags: 0
@@ -199,11 +199,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4346103381761523394}
   - {fileID: 2507046322982642780}
   - {fileID: 3519443027531659383}
   - {fileID: 3181667487691140753}
   - {fileID: 5366567820001148365}
-  - {fileID: 4346103381761523394}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6274575640566886213
@@ -221,6 +221,12 @@ MonoBehaviour:
   WayPointType: 
   isRestingWayPoint: 1
   AdjacentWaypoints: []
+  _waypointVisuals:
+  - {fileID: 7246996027781560694}
+  - {fileID: 127156704942254967}
+  - {fileID: 7389181441131955681}
+  - {fileID: 5535236652979069245}
+  - {fileID: 1458835983714046403}
 --- !u!61 &5273012111986392595
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -366,7 +372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2507046322982642780
 Transform:
   m_ObjectHideFlags: 0
@@ -450,7 +456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4346103381761523394
 Transform:
   m_ObjectHideFlags: 0

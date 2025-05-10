@@ -93,7 +93,7 @@ public class ConditionManager : MonoBehaviour
         return null;
     }
 
-    public List<Conditions> EvaluateCurrentConditions()
+    public List<Conditions> GetCurrentConditions()
     {
         List<Conditions> conditions = new List<Conditions>();
         

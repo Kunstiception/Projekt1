@@ -289,6 +289,11 @@ public class RestingManager : Manager, ISelectable, ICondition
 
             SetUpNextDay(true);
 
+            if(ConditionManager.Instance.IsWerewolf)
+            {
+                yield return StartCoroutine(PrintMultipleLines(DialogueManager.WerewolfDayLines));
+            }
+
             SceneManager.LoadScene(7);
             yield break;
         }
@@ -307,12 +312,12 @@ public class RestingManager : Manager, ISelectable, ICondition
     }
 
     // Visualisiert Heilung von Health oder Ego in den Leisten
-    private IEnumerator UpdateUI(int healAmount, bool isHealthHeal, int initialAmount)
+    private IEnumerator UpdateUI(int healAmount, bool isHealthChange, int initialAmount)
     {
         float healValue = 0;
         Slider slider = null;
         
-        if (isHealthHeal)
+        if (isHealthChange)
         {
             slider = _playerHealthBarBelow;
             healValue = (float)healAmount / (float)PlayerManager.Instance.GetStartingHealth();
@@ -361,9 +366,17 @@ public class RestingManager : Manager, ISelectable, ICondition
     {
         _textBox.enabled = true;
 
-        yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true)));
+        if(!ConditionManager.Instance.IsSleepDeprived)
+        {
+            yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true)));
+        }
 
         SetUpNextDay(false);
+
+        if(ConditionManager.Instance.IsWerewolf)
+        {
+            yield return StartCoroutine(PrintMultipleLines(DialogueManager.WerewolfNightLines));
+        }
 
         SceneManager.LoadScene(2);
     }

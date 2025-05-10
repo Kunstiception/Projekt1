@@ -29,4 +29,17 @@ public static class DialogueManager
         {"You truly don't remember anything.",
         "You have a weird taste in your mouth for some reason.",
         "Welcome back from the dead."};
+    public static string[] WerewolfNightLines =
+        {"As the sun disappears you feel the fur growing out of your back again.",
+        "You gaze at the full moon and you let out a haunting howl.",
+        "They fear you - and you love it."};
+    public static string[] WerewolfDayLines =
+        {"As the sun rises you slowly calm down.",
+        "All the anger vanishes just like the fur on your body.",
+        "You seem to be your normal non-werewolf self again."};
+    public static string[] ZombieInsultAttemptLines =
+        {"'Grrrrr!!!!!'",
+        "This seems to be all your vocal chords can produce.",
+        "A rotting brain doesn't think very well.",
+        "You shouldn't try this again."};  
 }

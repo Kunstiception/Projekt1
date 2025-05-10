@@ -76,4 +76,14 @@ public class Manager : MonoBehaviour
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
     }
+
+    protected bool EvaluateVampire()
+    {
+        if(ConditionManager.Instance.IsVampire && MainManager.Instance.IsDay)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -95,6 +95,23 @@ public class CombatManager : Manager, ISelectable
             _playerInsultsAndValues.Add(PlayerManager.Instance.InsultLines.Insults[i], PlayerManager.Instance.InsultLines.Values[i]);
         }
 
+        if(EvaluateVampire())
+        {
+            _currentLine = "The sun burns into your skin"; 
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+            StartCoroutine(UpdateUI(PlayerManager.Instance, GameConfig.VampireSunDamage, true, PlayerManager.Instance.HealthPoints));
+
+            PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
+
+            _currentLine = $"You take {GameConfig.VampireSunDamage} damage.";
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        }
+        else
+        {
+            yield return null;
+        }
+
         _intitialPlayerHealth = PlayerManager.Instance.HealthPoints;
 
         yield return StartCoroutine(RollInitiative(_hasDisadvantage));
@@ -314,6 +331,19 @@ public class CombatManager : Manager, ISelectable
 
         if(attacker == PlayerManager.Instance)
         {        
+            if(ConditionManager.Instance.IsZombie)
+            {
+                //ToggleCanvas(_selectionMenuCanvas, false);
+
+                ToggleCanvas(_persuasionMenuCanvas, false);
+
+                yield return StartCoroutine(PrintMultipleLines(DialogueManager.ZombieInsultAttemptLines));
+
+                StartCoroutine(EndFight(null));
+
+                yield break;
+            }
+            
             // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden, nicht gewählte Optionen wieder ins Original-Dictionary einfügen
             switch(optionIndex)
             {
