@@ -43,15 +43,21 @@ public class ConditionScreenManager : Manager
 
     private List<string> CreateLines()
     {
-        List<string> lines = new List<string>
-        {
-            $"You are now a {_conditionName}"
-        };
+        List<string> lines = new List<string>();
 
         var conditions = ConditionManager.Instance.GetCurrentConditions();
 
         if(conditions.Count < 2)
         {
+            if(conditions[0] == ConditionManager.Conditions.SleepDeprived)
+            {
+                lines.Add($"You are now sleep deprived.");
+
+                return lines;
+            }
+            
+            lines.Add($"You are now a {_conditionName}.");
+            
             return lines;
         }
 

@@ -10,6 +10,14 @@ public class MainManager : MonoBehaviour
 
     public int PlayerHealthPoints;
     public int PlayerEgoPoints;
+    public int HealthPointsModifier;
+    public int EgoPointsModifier;
+    public int AttackStrengthModifier;
+    public int InitiativeModifier;
+    public int EvasionModifier;
+    public int InsultResistenceModifier;
+    public int AccuracyModifier;
+    public int InsultDamageModifier;
     public int CurrentDay;
     public string LastWayPoint;
     // Leider kein Speichern von Dictionaries mit JSON-Utitlity möglich, daher zwei Listen
@@ -18,6 +26,10 @@ public class MainManager : MonoBehaviour
     public List<string> InventoryNames;
     public List<int> InventoryAmounts;
     public bool IsDay;
+    public bool IsSleepDeprived;
+    public bool IsVampire;
+    public bool IsWerewolf;
+    public bool IsZombie;
 
     private void Awake()
     {
@@ -36,6 +48,14 @@ public class MainManager : MonoBehaviour
     {
         public int PlayerHealthPoints;
         public int PlayerEgoPoints;
+        public int HealthPointsModifier;
+        public int EgoPointsModifier;
+        public int AttackStrengthModifier;
+        public int InitiativeModifier;
+        public int EvasionModifier;
+        public int InsultResistenceModifier;
+        public int AccuracyModifier;
+        public int InsultDamageModifier;
         public int CurrentDay;
         public string LastWayPoint;
         public List<string> WayPoints;
@@ -43,6 +63,10 @@ public class MainManager : MonoBehaviour
         public List<string> InventoryNames;
         public List<int> InventoryAmounts;
         public bool IsDay;
+        public bool IsSleepDeprived;
+        public bool IsVampire;
+        public bool IsWerewolf;
+        public bool IsZombie;
     }
 
     public void SaveAll()
@@ -51,10 +75,22 @@ public class MainManager : MonoBehaviour
 
         data.PlayerHealthPoints = PlayerManager.Instance.HealthPoints;
         data.PlayerEgoPoints = PlayerManager.Instance.EgoPoints;
+        data.HealthPointsModifier = PlayerManager.Instance.HealthPointsModifier;
+        data.EgoPointsModifier = PlayerManager.Instance.EgoPointsModifier;
+        data.AttackStrengthModifier = PlayerManager.Instance.AttackStrengthModifier;
+        data.InitiativeModifier = PlayerManager.Instance.InitiativeModifier;
+        data.EvasionModifier = PlayerManager.Instance.EvasionModifier;
+        data.InsultResistenceModifier = PlayerManager.Instance.InsultResistenceModifier;
+        data.AccuracyModifier = PlayerManager.Instance.AccuracyModifier;
+        data.InsultDamageModifier = PlayerManager.Instance.InsultDamageModifier;
         data.CurrentDay = CurrentDay;
         data.LastWayPoint = LastWayPoint;
         data.WayPoints = WayPoints;
         data.WayPointTypes = WayPointTypes;
+        data.IsSleepDeprived = ConditionManager.Instance.IsSleepDeprived;
+        data.IsVampire = ConditionManager.Instance.IsVampire;
+        data.IsWerewolf = ConditionManager.Instance.IsWerewolf;
+        data.IsZombie = ConditionManager.Instance.IsZombie;
 
         InventoryNames.Clear();
         InventoryAmounts.Clear();
@@ -88,6 +124,14 @@ public class MainManager : MonoBehaviour
 
             PlayerHealthPoints = data.PlayerHealthPoints;
             PlayerEgoPoints = data.PlayerEgoPoints;
+            HealthPointsModifier = data.HealthPointsModifier;
+            EgoPointsModifier = data.EgoPointsModifier;
+            AttackStrengthModifier = data.AccuracyModifier;
+            InitiativeModifier = data.InitiativeModifier;
+            EvasionModifier = data.EvasionModifier;
+            InsultResistenceModifier = data.InsultResistenceModifier;
+            AccuracyModifier = data.AccuracyModifier;
+            InsultDamageModifier = data.InsultDamageModifier;
             CurrentDay = data.CurrentDay;
             LastWayPoint = data.LastWayPoint;
             WayPoints = data.WayPoints;
@@ -95,6 +139,10 @@ public class MainManager : MonoBehaviour
             InventoryNames = data.InventoryNames;
             InventoryAmounts = data.InventoryAmounts;
             IsDay = data.IsDay;
+            IsSleepDeprived = data.IsSleepDeprived;
+            IsVampire = data.IsVampire;
+            IsWerewolf = data.IsWerewolf;
+            IsZombie = data.IsZombie;
 
             if(InventoryManager.Instance != null)
             {
@@ -108,6 +156,11 @@ public class MainManager : MonoBehaviour
             if(PlayerManager.Instance != null)
             {
                 PlayerManager.Instance.InitializePlayerStats();
+            }
+
+            if(ConditionManager.Instance != null)
+            {
+                ConditionManager.Instance.InitializeConditions();
             }
 
             Debug.Log(json);

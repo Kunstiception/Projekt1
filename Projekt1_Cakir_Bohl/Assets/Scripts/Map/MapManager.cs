@@ -1,4 +1,5 @@
 using System.Collections;
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +10,9 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform[] _firstWaypoints;
     [SerializeField] private GameObject[] _days;
     [SerializeField] private TextMeshProUGUI _daysCounter;
-    [SerializeField] private TextMeshProUGUI _dayNightVisual;
+    [SerializeField] private SpriteRenderer _timeOfDayIcon;
+    [SerializeField] private Sprite _dayIcon;
+    [SerializeField] private Sprite _nightIcon;
 
     private int _nextSceneIndex;
     private float _movementLength;
@@ -66,11 +69,11 @@ public class MapManager : MonoBehaviour
  
         if(MainManager.Instance.IsDay == true)
         {
-            _dayNightVisual.text = "Daytime";
+            _timeOfDayIcon.sprite = _dayIcon;
         }
         else
         {
-            _dayNightVisual.text = "Nighttime";
+            _timeOfDayIcon.sprite = _nightIcon;
         }
 
         SetCurrentPosition();

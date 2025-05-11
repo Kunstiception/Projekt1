@@ -124,17 +124,17 @@ public class ConditionManager : MonoBehaviour
     {
         if(isAffected)
         {
-            PlayerManager.Instance.AccuracyModifier -= 1;
-            PlayerManager.Instance.EvasionModifier -= 1;
-            PlayerManager.Instance.InitiativeModifier -= 1;
+            PlayerManager.Instance.AccuracyModifier -= GameConfig.SleepDeprivedAccuracyModifier;
+            PlayerManager.Instance.EvasionModifier -= GameConfig.SleepDeprivedEvasionModifier;
+            PlayerManager.Instance.InitiativeModifier -= GameConfig.SleepDeprivedInitiativeModifier;
 
             IsSleepDeprived = true;
         }
         else
         {
-            PlayerManager.Instance.AccuracyModifier += 1;
-            PlayerManager.Instance.EvasionModifier += 1;
-            PlayerManager.Instance.InitiativeModifier += 1;
+            PlayerManager.Instance.AccuracyModifier += GameConfig.SleepDeprivedAccuracyModifier;
+            PlayerManager.Instance.EvasionModifier += GameConfig.SleepDeprivedEvasionModifier;
+            PlayerManager.Instance.InitiativeModifier += GameConfig.SleepDeprivedInitiativeModifier;
 
             IsSleepDeprived = false;
         }
@@ -144,15 +144,15 @@ public class ConditionManager : MonoBehaviour
     {
         if(isAffected)
         {
-            PlayerManager.Instance.EvasionModifier += 2;
-            PlayerManager.Instance.InsultDamageModifier +=2;
+            PlayerManager.Instance.EvasionModifier += GameConfig.VampireEvasionModifier;
+            PlayerManager.Instance.InsultDamageModifier += GameConfig.VampireInsultDamageModifier;
 
             IsVampire = true;
         }
         else
         {
-            PlayerManager.Instance.EvasionModifier -= 2;
-            PlayerManager.Instance.InsultDamageModifier -=2;
+            PlayerManager.Instance.EvasionModifier -= GameConfig.VampireEvasionModifier;
+            PlayerManager.Instance.InsultDamageModifier -= GameConfig.VampireInsultDamageModifier;
 
             IsVampire = false;
         }
@@ -162,17 +162,52 @@ public class ConditionManager : MonoBehaviour
     {
         if(isAffected)
         {
-            PlayerManager.Instance.AttackStrengthModifier += 2;
-            PlayerManager.Instance.InsultDamageModifier -=1;
+            ToggleWerewolfStats(true);
 
             IsWerewolf = true;
         }
         else
         {
-            PlayerManager.Instance.AttackStrengthModifier -= 2;
-            PlayerManager.Instance.InsultDamageModifier +=1;
+            ToggleWerewolfStats(false);
 
             IsWerewolf = false;
         }
+    }
+
+    public void ToggleWerewolfStats(bool isActive)
+    {
+        if(isActive)
+        {
+            PlayerManager.Instance.AttackStrengthModifier += GameConfig.WerewolfAttackStrengthModifier;
+            PlayerManager.Instance.InsultDamageModifier -= GameConfig.WerewolfInsultDamageModifier;
+        }
+        else
+        {
+            PlayerManager.Instance.AttackStrengthModifier -= GameConfig.WerewolfAttackStrengthModifier;
+            PlayerManager.Instance.InsultDamageModifier += GameConfig.WerewolfInsultDamageModifier;
+        }
+    }
+
+    public void InitializeConditions()
+    {
+        IsSleepDeprived = MainManager.Instance.IsSleepDeprived;
+        IsVampire = MainManager.Instance.IsVampire;
+        IsWerewolf = MainManager.Instance.IsWerewolf;
+        IsZombie = MainManager.Instance.IsZombie;
+
+        // if(IsSleepDeprived)
+        // {
+        //     ApplySleepDeprived(true);
+        // }
+
+        // if(IsVampire)
+        // {
+        //     ApplyVampire(true);
+        // }
+
+        // if(IsWerewolf)
+        // {
+        //     ApplyWerewolf(true);
+        // }
     }
 }

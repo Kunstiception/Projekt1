@@ -27,4 +27,11 @@ public static class GameConfig
 
     // Conditions
     public static int VampireSunDamage = 1;
+    public static int SleepDeprivedAccuracyModifier = 1;
+    public static int SleepDeprivedEvasionModifier = 1;
+    public static int SleepDeprivedInitiativeModifier = 1;
+    public static int VampireEvasionModifier = 2;
+    public static int VampireInsultDamageModifier = 2;
+    public static int WerewolfAttackStrengthModifier = 2;
+    public static int WerewolfInsultDamageModifier = 1;
 }

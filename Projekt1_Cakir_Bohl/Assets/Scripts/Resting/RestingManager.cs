@@ -291,6 +291,8 @@ public class RestingManager : Manager, ISelectable, ICondition
 
             if(ConditionManager.Instance.IsWerewolf)
             {
+                ConditionManager.Instance.ToggleWerewolfStats(false);
+                
                 yield return StartCoroutine(PrintMultipleLines(DialogueManager.WerewolfDayLines));
             }
 
@@ -368,6 +370,8 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         if(!ConditionManager.Instance.IsSleepDeprived)
         {
+            PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.SleepDeprived;
+            
             yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true)));
         }
 
@@ -375,9 +379,11 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         if(ConditionManager.Instance.IsWerewolf)
         {
+            ConditionManager.Instance.ToggleWerewolfStats(true);
+            
             yield return StartCoroutine(PrintMultipleLines(DialogueManager.WerewolfNightLines));
         }
 
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(8);
     }
 }

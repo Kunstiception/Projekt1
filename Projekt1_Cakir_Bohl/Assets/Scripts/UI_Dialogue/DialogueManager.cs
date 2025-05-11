@@ -12,7 +12,7 @@ public static class DialogueManager
         "This hunger that has been driving you mad lately seems to have vanished entirely."};
     public static string[] WerewolfLines =
         {"Was your arm always this hairy?",
-        "Your teeth feel like they are growing",
+        "Your teeth feel like they are growing.",
         "This is not good!",
         "But you feel strong. So incredibly strong!",
         "It feels like you could lift a horse and then...",

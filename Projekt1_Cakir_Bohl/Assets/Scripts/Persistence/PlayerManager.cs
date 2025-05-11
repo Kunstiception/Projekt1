@@ -27,6 +27,14 @@ public class PlayerManager: Combatant
 
     public void InitializePlayerStats()
     {
+        HealthPointsModifier = MainManager.Instance.HealthPointsModifier;
+        EgoPointsModifier = MainManager.Instance.EgoPointsModifier;
+        AttackStrengthModifier = MainManager.Instance.AttackStrengthModifier;
+        InitiativeModifier = MainManager.Instance.InitiativeModifier;
+        EvasionModifier = MainManager.Instance.EvasionModifier;
+        InsultDamageModifier = MainManager.Instance.InsultResistenceModifier;
+        AccuracyModifier = MainManager.Instance.AccuracyModifier;
+        InsultDamageModifier = MainManager.Instance.InsultDamageModifier;
         HealthPoints = MainManager.Instance.PlayerHealthPoints + HealthPointsModifier;
         EgoPoints = MainManager.Instance.PlayerEgoPoints + EgoPointsModifier;
     }

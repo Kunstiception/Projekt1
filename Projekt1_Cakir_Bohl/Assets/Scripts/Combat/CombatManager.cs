@@ -69,7 +69,7 @@ public class CombatManager : Manager, ISelectable
         ToggleCanvas(_persuasionMenuCanvas, false);
 
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
-        PlayerManager.Instance.HasDisadvantage = false;
+        //PlayerManager.Instance.HasDisadvantage = false;
 
         if(MainManager.Instance.IsDay)
         {
@@ -333,8 +333,6 @@ public class CombatManager : Manager, ISelectable
         {        
             if(ConditionManager.Instance.IsZombie)
             {
-                //ToggleCanvas(_selectionMenuCanvas, false);
-
                 ToggleCanvas(_persuasionMenuCanvas, false);
 
                 yield return StartCoroutine(PrintMultipleLines(DialogueManager.ZombieInsultAttemptLines));
@@ -568,7 +566,13 @@ public class CombatManager : Manager, ISelectable
 
         if (winner)
         {
-            if (!isRetreat)
+            if(isRetreat)
+            {
+                StartCoroutine(CheckForSleepDeprived());
+
+                yield break;
+            }
+            else
             {
                 _currentLine = DialogueUtil.CreateCombatLog(winner, "has", "won the fight!");
                 yield return StartCoroutine(HandleTextOutput(_currentLine, true));
@@ -587,14 +591,8 @@ public class CombatManager : Manager, ISelectable
                     PlayerManager.Instance.EgoPoints = _combatant2EgoPoints;
                 }
 
-                if(_intitialPlayerHealth > PlayerManager.Instance.HealthPoints && !MainManager.Instance.IsDay)
-                {
-                    StartCoroutine(EndSceneWithCondition());
+                StartCoroutine(CheckForSleepDeprived());
 
-                    yield break;
-                }
-
-                SceneManager.LoadScene(2);
                 yield break;
             }
             else
@@ -630,12 +628,9 @@ public class CombatManager : Manager, ISelectable
         if (_playerRoll >= _enemy.Initiative)
         {        
             _currentLine = "You manage to escape!";
-            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-            yield return StartCoroutine(EndFight(PlayerManager.Instance, isRetreat: true));
-
-            StopAllCoroutines();
-            SceneManager.LoadScene(2);
+            StartCoroutine(EndFight(PlayerManager.Instance, isRetreat: true));
 
             yield break;
         }
@@ -831,5 +826,36 @@ public class CombatManager : Manager, ISelectable
         }
 
         SceneManager.LoadScene(8);
+    }
+
+    IEnumerator CheckForSleepDeprived()
+    {
+        if(_intitialPlayerHealth > PlayerManager.Instance.HealthPoints && !MainManager.Instance.IsDay)
+        {
+            if(_hasDisadvantage)
+            {
+                ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true);
+                PlayerManager.Instance.HasDisadvantage = false;
+            }
+        
+            StartCoroutine(EndSceneWithCondition());
+
+            yield break;
+        }
+
+        if(_hasDisadvantage && !ConditionManager.Instance.IsSleepDeprived)
+        {
+            yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true)));
+            
+            PlayerManager.Instance.HasDisadvantage = false;
+
+            SceneManager.LoadScene(8);
+
+            yield break;
+        }
+
+        SceneManager.LoadScene(2);
+
+        yield break;
     }
 }
