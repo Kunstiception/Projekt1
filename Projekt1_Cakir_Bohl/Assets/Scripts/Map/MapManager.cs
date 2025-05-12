@@ -1,5 +1,4 @@
 using System.Collections;
-using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -53,14 +52,13 @@ public class MapManager : MonoBehaviour
         }
 
         // Public string nie null
-        if(MainManager.Instance.LastWayPoint.Length > 0)
-        {
-            var index = MainManager.Instance.WayPoints.IndexOf(MainManager.Instance.LastWayPoint);
+        // if(MainManager.Instance.LastWayPoint.Length > 0)
+        // {
+        //     var index = MainManager.Instance.WayPoints.IndexOf(MainManager.Instance.LastWayPoint);
 
-            MainManager.Instance.WayPointTypes[index] = 0;
-
-        }
-        else if(PlayerManager.Instance != null && MainManager.Instance.CurrentDay == 0)
+        //     MainManager.Instance.WayPointTypes[index] = 0;
+        // }
+        if(MainManager.Instance.LastWayPoint.Length == 0 && PlayerManager.Instance != null && MainManager.Instance.CurrentDay == 0)
         {
             PlayerManager.Instance.InitializePlayerStats();
         }
@@ -229,6 +227,9 @@ public class MapManager : MonoBehaviour
 
         // Object id ändert sich mit jeder Session, daher name
         MainManager.Instance.LastWayPoint = _currentWaypoint.name;
+
+        var index = MainManager.Instance.WayPoints.IndexOf(MainManager.Instance.LastWayPoint);
+        MainManager.Instance.WayPointTypes[index] = 0;
 
         SceneManager.LoadScene(_nextSceneIndex);
     }

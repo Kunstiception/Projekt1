@@ -73,7 +73,7 @@ public class LootManager : Manager
             Debug.Log(InventoryManager.Instance.Inventory[key]);
         } 
 
-        //yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
+        yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
 
         SceneManager.LoadScene(2);
     }

@@ -164,7 +164,31 @@ public class MainManager : MonoBehaviour
             }
 
             Debug.Log(json);
-        }
-        
+        }  
+    }
+
+    public void RevertAll()
+    {
+        PlayerHealthPoints = GameConfig.PlayerStartingHealth;
+        PlayerEgoPoints = GameConfig.PlayerStartingEgo;
+        CurrentDay = 0;
+        LastWayPoint = "";
+        IsDay = true;
+        HealthPointsModifier = 0;
+        EgoPointsModifier = 0;
+        AttackStrengthModifier = 0;
+        InitiativeModifier = 0;
+        EvasionModifier = 0;
+        InsultResistenceModifier = 0;
+        AccuracyModifier = 0;
+        InsultDamageModifier = 0;
+        WayPoints.Clear();
+        WayPointTypes.Clear();
+        InventoryNames.Clear();
+        InventoryAmounts.Clear();
+        IsSleepDeprived = false;
+        IsVampire = false;
+        IsWerewolf = false;
+        IsZombie = false;
     }
 }

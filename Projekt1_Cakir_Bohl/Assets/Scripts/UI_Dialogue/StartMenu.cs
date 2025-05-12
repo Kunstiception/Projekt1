@@ -32,11 +32,7 @@ public class StartMenu : MonoBehaviour
 
     public void LoadNew()
     {
-        MainManager.Instance.PlayerHealthPoints = GameConfig.PlayerStartingHealth;
-        MainManager.Instance.PlayerEgoPoints = GameConfig.PlayerStartingEgo;
-        MainManager.Instance.CurrentDay = 0;
-        MainManager.Instance.LastWayPoint = "";
-        MainManager.Instance.IsDay = true;
+        MainManager.Instance.RevertAll();
         
         SceneManager.LoadScene("DialogueTest");
     }

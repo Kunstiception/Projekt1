@@ -7,7 +7,7 @@ public static class GameConfig
     //Dialogue
     public static float TimeBetweenChars = 0.075f;
     public static float TimeBeforeNextLine = 0.75f;
-    public static float TimeBeforeLevelLoad = 0.75f;
+    public static float TimeBeforeLevelLoad = 0.25f;
 
     //Map
     public static float MovementSpeed = 1.5f;

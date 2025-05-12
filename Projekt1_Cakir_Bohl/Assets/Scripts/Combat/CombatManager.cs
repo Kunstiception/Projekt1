@@ -69,7 +69,6 @@ public class CombatManager : Manager, ISelectable
         ToggleCanvas(_persuasionMenuCanvas, false);
 
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
-        //PlayerManager.Instance.HasDisadvantage = false;
 
         if(MainManager.Instance.IsDay)
         {
@@ -80,19 +79,6 @@ public class CombatManager : Manager, ISelectable
         {
             var randomIndex = UnityEngine.Random.Range(0, _enemiesNight.Length);
             _enemy = _enemiesNight[randomIndex].GetComponent<Combatant>();
-        }
-
-        Instantiate(_enemy);
-
-        // Alle Insult Lines und Values des jeweiligen Gegners holen
-        for (int i = 0; i < _enemy.InsultLines.Insults.Length; i++)
-        {
-            _enemyInsultsAndValues.Add(_enemy.InsultLines.Insults[i], _enemy.InsultLines.Values[i]);
-        }
-
-        for(int i = 0; i < PlayerManager.Instance.InsultLines.Insults.Length; i++)
-        {
-            _playerInsultsAndValues.Add(PlayerManager.Instance.InsultLines.Insults[i], PlayerManager.Instance.InsultLines.Values[i]);
         }
 
         if(EvaluateVampire())
@@ -107,9 +93,18 @@ public class CombatManager : Manager, ISelectable
             _currentLine = $"You take {GameConfig.VampireSunDamage} damage.";
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
-        else
+
+        Instantiate(_enemy);
+
+        // Alle Insult Lines und Values des jeweiligen Gegners holen
+        for (int i = 0; i < _enemy.InsultLines.Insults.Length; i++)
         {
-            yield return null;
+            _enemyInsultsAndValues.Add(_enemy.InsultLines.Insults[i], _enemy.InsultLines.Values[i]);
+        }
+
+        for(int i = 0; i < PlayerManager.Instance.InsultLines.Insults.Length; i++)
+        {
+            _playerInsultsAndValues.Add(PlayerManager.Instance.InsultLines.Insults[i], PlayerManager.Instance.InsultLines.Values[i]);
         }
 
         _intitialPlayerHealth = PlayerManager.Instance.HealthPoints;
@@ -575,7 +570,7 @@ public class CombatManager : Manager, ISelectable
             else
             {
                 _currentLine = DialogueUtil.CreateCombatLog(winner, "has", "won the fight!");
-                yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
             }
 
             if(winner == PlayerManager.Instance)
@@ -598,7 +593,7 @@ public class CombatManager : Manager, ISelectable
             else
             {
                 _currentLine = "You have died. Your quest has ended.";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
                 SceneManager.LoadScene("StartMenu");
                 yield break;
@@ -644,13 +639,13 @@ public class CombatManager : Manager, ISelectable
                 if(_combatant1 == PlayerManager.Instance)
                 {
                     _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance, 
-                        defenderHealth: _combatantHealth2, isDisadvantage: true));
+                        defenderHealth: _combatantHealth1, isDisadvantage: true));
 
                     yield break;
                 }
 
                 _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance,
-                        defenderHealth: _combatantHealth1, isDisadvantage: true));
+                        defenderHealth: _combatantHealth2, isDisadvantage: true));
             }
         }
     }
