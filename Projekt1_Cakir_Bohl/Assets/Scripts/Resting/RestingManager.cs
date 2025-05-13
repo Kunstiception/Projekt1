@@ -27,6 +27,8 @@ public class RestingManager : Manager, ISelectable, ICondition
         ToggleCanvas(InventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
 
+        TogglePlayerStatsPosition(true);
+
         _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{PlayerManager.Instance.GetStartingHealth()}";
         _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{PlayerManager.Instance.GetStartingEgo()}";
 
@@ -76,6 +78,7 @@ public class RestingManager : Manager, ISelectable, ICondition
                 break;
 
             case 1:
+                TogglePlayerStatsPosition(false);            
                 ToggleCanvas(InventoryCanvas, true);
 
                 _textBox.enabled = true;

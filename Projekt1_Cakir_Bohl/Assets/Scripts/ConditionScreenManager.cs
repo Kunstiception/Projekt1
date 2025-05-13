@@ -46,22 +46,20 @@ public class ConditionScreenManager : Manager
         List<string> lines = new List<string>();
 
         var conditions = ConditionManager.Instance.GetCurrentConditions();
+        
+        if(conditions[0] == ConditionManager.Conditions.SleepDeprived)
+        {
+            lines.Add($"You are now sleep deprived.");
+        }
+        else
+        {
+            lines.Add($"You are now a {_conditionName}.");
+        }
 
         if(conditions.Count < 2)
         {
-            if(conditions[0] == ConditionManager.Conditions.SleepDeprived)
-            {
-                lines.Add($"You are now sleep deprived.");
-
-                return lines;
-            }
-            
-            lines.Add($"You are now a {_conditionName}.");
-            
             return lines;
         }
-
-        lines.Add($"... a {_conditionName}");
 
         foreach(ConditionManager.Conditions condition in conditions)
         {
@@ -69,7 +67,7 @@ public class ConditionScreenManager : Manager
                 {
                     if(condition == ConditionManager.Conditions.SleepDeprived)
                     {
-                        lines[1] = $"... a sleep deprived {_conditionName}";
+                        lines.Add($"... a sleep deprived {_conditionName}");
 
                         continue;
                     }

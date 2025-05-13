@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Manager : MonoBehaviour
@@ -8,6 +9,7 @@ public class Manager : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI _textBox;
     [SerializeField] protected TextMeshProUGUI _promptSkip;
     [SerializeField] protected TextMeshProUGUI _promptContinue;
+    [SerializeField] protected RectTransform _playerHealthbarSection;
     protected Coroutine _textCoroutine;
     protected Coroutine _waitForContinueCoroutine;
     protected int _currentStringIndex = 0;
@@ -63,6 +65,18 @@ public class Manager : MonoBehaviour
         if(isActive)
         {
             selectionMenu.InitializeMenu();
+        }
+    }
+
+    public void TogglePlayerStatsPosition(bool isDefaultPosition)
+    {
+        if(isDefaultPosition)
+        {
+            _playerHealthbarSection.SetLocalPositionAndRotation(GameConfig.HealthbarDefaultPosition, quaternion.identity); 
+        }
+        else
+        {
+            _playerHealthbarSection.SetLocalPositionAndRotation(GameConfig.HealthbarAlternativePosition, quaternion.identity); 
         }
     }
 

@@ -785,6 +785,7 @@ public class CombatManager : Manager, ISelectable
         }       
     }
 
+    // Checken, welcher Gegner die Condition zugefügt hat
     private IEnumerator EndSceneWithCondition()
     {    
         switch(_enemy.Name)
@@ -823,6 +824,7 @@ public class CombatManager : Manager, ISelectable
         SceneManager.LoadScene(8);
     }
 
+    // Überpürfen, ob SleepDeprived-Condition angewendet werden soll
     IEnumerator CheckForSleepDeprived()
     {
         if(_intitialPlayerHealth > PlayerManager.Instance.HealthPoints && !MainManager.Instance.IsDay)

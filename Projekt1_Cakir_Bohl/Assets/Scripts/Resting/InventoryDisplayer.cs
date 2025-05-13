@@ -140,6 +140,7 @@ public class InventoryDisplayer : SelectionMenu
             {
                 _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, true);
                 _restingManager.ToggleCanvas(_restingManager.InventoryCanvas, false);
+                _restingManager.TogglePlayerStatsPosition(true);
 
                 _textBox.text = "";
 
