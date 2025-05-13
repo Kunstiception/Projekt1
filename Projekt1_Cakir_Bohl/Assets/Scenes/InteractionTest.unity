@@ -154,6 +154,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerHealthPoints: 0
   PlayerEgoPoints: 0
+  HealthPointsModifier: 0
+  EgoPointsModifier: 0
+  AttackStrengthModifier: 0
+  InitiativeModifier: 0
+  EvasionModifier: 0
+  InsultResistenceModifier: 0
+  AccuracyModifier: 0
+  InsultDamageModifier: 0
   CurrentDay: 0
   LastWayPoint: 
   WayPoints: []
@@ -161,6 +169,10 @@ MonoBehaviour:
   InventoryNames: []
   InventoryAmounts: 
   IsDay: 0
+  IsSleepDeprived: 0
+  IsVampire: 0
+  IsWerewolf: 0
+  IsZombie: 0
 --- !u!4 &905784663
 Transform:
   m_ObjectHideFlags: 0
@@ -448,6 +460,7 @@ MonoBehaviour:
   _textBox: {fileID: 1647918672}
   _promptSkip: {fileID: 1647918671}
   _promptContinue: {fileID: 1647918670}
+  _playerHealthbarSection: {fileID: 0}
 --- !u!1 &1915394043
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +519,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d7d68d29ec84ce7458eb87d28d514e87, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5e68093391c005f4ea5225554d3757c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
