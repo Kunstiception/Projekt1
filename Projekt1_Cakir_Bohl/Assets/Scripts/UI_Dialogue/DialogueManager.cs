@@ -10,6 +10,9 @@ public static class DialogueManager
     public static string[] HealedVampireLines = 
         {"Your skin regains its color.",
         "This hunger that has been driving you mad lately seems to have vanished entirely."};
+    public static string[] VampireSunDamageLines =
+    {"The sun burns into your skin.",
+    $"You take {GameConfig.VampireSunDamage} damage."};
     public static string[] WerewolfLines =
         {"Was your arm always this hairy?",
         "Your teeth feel like they are growing.",

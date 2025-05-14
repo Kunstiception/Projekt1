@@ -1,6 +1,3 @@
-using System.Numerics;
-using UnityEngine;
-
 public static class GameConfig
 {
     //Player
@@ -39,6 +36,6 @@ public static class GameConfig
     public static int WerewolfInsultDamageModifier = 1;
 
     //UI
-    public static UnityEngine.Vector3 HealthbarDefaultPosition = new UnityEngine.Vector3(-960f, -540f, 0f);
-    public static UnityEngine.Vector3 HealthbarAlternativePosition = new UnityEngine.Vector3(-450f, -540f, 0f);
+    public static UnityEngine.Vector3 HealthbarDefaultPosition = new UnityEngine.Vector3(-1150f, -510f, 0f);
+    public static UnityEngine.Vector3 HealthbarAlternativePosition = new UnityEngine.Vector3(-675f, -510f, 0f);
 }

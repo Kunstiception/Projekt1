@@ -10,10 +10,6 @@ public class RestingManager : Manager, ISelectable, ICondition
     [SerializeField] public Canvas SelectionMenuCanvas;
     [SerializeField] public Canvas InventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
-    [SerializeField] private TextMeshProUGUI _playerUIHealth;
-    [SerializeField] private TextMeshProUGUI _playerUIEgo;
-    [SerializeField] private Slider _playerHealthBarBelow;
-    [SerializeField] private Slider _playerEgoBarBelow;
     private string[] _currentItemLines;
     private bool _isAmbush;
     private Item _currentItem;
@@ -29,17 +25,7 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         TogglePlayerStatsPosition(true);
 
-        _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{PlayerManager.Instance.GetStartingHealth()}";
-        _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{PlayerManager.Instance.GetStartingEgo()}";
-
-        // Weiße Healthbar setzen
-        _playerHealthBarBelow.value = (float)PlayerManager.Instance.HealthPoints / (float)PlayerManager.Instance.GetStartingHealth();
-        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerHealthBarBelow.gameObject);
-        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.HealthPoints / (float)PlayerManager.Instance.GetStartingHealth();
-
-        _playerEgoBarBelow.value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
-        childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerEgoBarBelow.gameObject);
-        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
+        InitializePlayerStats();
     }
 
     private void OnEnable()

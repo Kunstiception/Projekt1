@@ -11,14 +11,10 @@ public class CombatManager : Manager, ISelectable
 {
     [SerializeField] private GameObject[] _enemiesDay;
     [SerializeField] private GameObject[] _enemiesNight;
-    [SerializeField] private TextMeshProUGUI _playerUIHealth;
-    [SerializeField] private TextMeshProUGUI _playerUIEgo;
     [SerializeField] private TextMeshProUGUI _enemyUIHealth;
     [SerializeField] private TextMeshProUGUI _enemyUIEgo;
     [SerializeField] private Slider _enemyHealthBarBelow;
-    [SerializeField] private Slider _playerHealthBarBelow;
     [SerializeField] private Slider _enemyEgoBarBelow;
-    [SerializeField] private Slider _playerEgoBarBelow;
     [SerializeField] private Canvas _selectionMenuCanvas;
     [SerializeField] private Canvas _persuasionMenuCanvas;
 
@@ -83,14 +79,14 @@ public class CombatManager : Manager, ISelectable
 
         if(EvaluateVampire())
         {
-            _currentLine = "The sun burns into your skin"; 
+            _currentLine = DialogueManager.VampireSunDamageLines[0];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
             StartCoroutine(UpdateUI(PlayerManager.Instance, GameConfig.VampireSunDamage, true, PlayerManager.Instance.HealthPoints));
 
             PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
 
-            _currentLine = $"You take {GameConfig.VampireSunDamage} damage.";
+            _currentLine = DialogueManager.VampireSunDamageLines[0];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
@@ -169,20 +165,10 @@ public class CombatManager : Manager, ISelectable
         _combatant1EgoPoints = _combatant1.EgoPoints;
         _combatant2EgoPoints = _combatant2.EgoPoints;
 
-        _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{PlayerManager.Instance.GetStartingHealth()}";
-        _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{PlayerManager.Instance.GetStartingEgo()}";
-
         _enemyUIHealth.text = $"{_enemy.HealthPoints}/{_enemy.HealthPoints}";
         _enemyUIEgo.text = $"{_enemy.EgoPoints}/{_enemy.EgoPoints}";
 
-        // Weiße Healthbar setzen
-        _playerHealthBarBelow.value = (float)PlayerManager.Instance.HealthPoints / (float)PlayerManager.Instance.GetStartingHealth();
-        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerHealthBarBelow.gameObject);
-        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.HealthPoints / (float)PlayerManager.Instance.GetStartingHealth();
-
-        _playerEgoBarBelow.value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
-        childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerEgoBarBelow.gameObject);
-        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();;
+        InitializePlayerStats();
     }
 
     private IEnumerator CombatCoroutine()

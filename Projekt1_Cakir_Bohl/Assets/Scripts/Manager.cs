@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class Manager : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI _textBox;
     [SerializeField] protected TextMeshProUGUI _promptSkip;
     [SerializeField] protected TextMeshProUGUI _promptContinue;
+    [SerializeField] protected TextMeshProUGUI _playerUIHealth;
+    [SerializeField] protected TextMeshProUGUI _playerUIEgo;
+    [SerializeField] protected Slider _playerHealthBarBelow;
+    [SerializeField] protected Slider _playerEgoBarBelow;
     [SerializeField] protected RectTransform _playerHealthbarSection;
     protected Coroutine _textCoroutine;
     protected Coroutine _waitForContinueCoroutine;
@@ -99,5 +104,20 @@ public class Manager : MonoBehaviour
         }
 
         return false;
+    }
+
+    protected void InitializePlayerStats()
+    {
+        _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{PlayerManager.Instance.GetStartingHealth()}";
+        _playerUIEgo.text = $"{PlayerManager.Instance.EgoPoints}/{PlayerManager.Instance.GetStartingEgo()}";
+
+        // Weiße Healthbar setzen
+        _playerHealthBarBelow.value = (float)PlayerManager.Instance.HealthPoints / (float)PlayerManager.Instance.GetStartingHealth();
+        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerHealthBarBelow.gameObject);
+        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.HealthPoints / (float)PlayerManager.Instance.GetStartingHealth();
+
+        _playerEgoBarBelow.value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
+        childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerEgoBarBelow.gameObject);
+        childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
     }
 }
