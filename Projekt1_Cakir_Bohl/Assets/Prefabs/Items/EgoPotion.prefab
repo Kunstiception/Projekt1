@@ -44,8 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c83a570b8a66648bc81160c2671e13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   Name: Ego Potion
   Description: A deep blue liquid in a little flask. It's supposed to restore your
     sense of self worth. You guess it's alcoholic.
+  LookAtText: 
   MinimumAmountOnLoot: 1
   MaximumAmountOnLoot: 3
+  StorePrice: 5

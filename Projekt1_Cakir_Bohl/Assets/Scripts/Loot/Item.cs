@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Item: MonoBehaviour
@@ -14,7 +13,8 @@ public class Item: MonoBehaviour
     
     public string Name;
     public string Description;
+    public string LookAtText;
     public int MinimumAmountOnLoot;
     public int MaximumAmountOnLoot;
-    public List<string> _lines;
+    public int StorePrice;
 }

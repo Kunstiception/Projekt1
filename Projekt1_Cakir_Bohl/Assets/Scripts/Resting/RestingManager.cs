@@ -125,7 +125,7 @@ public class RestingManager : Manager, ISelectable, ICondition
                 break;
             
             case Item.ItemTypes.isCurrency:
-                _currentLine = _currentItem.Description;
+                _currentLine = _currentItem.LookAtText;
                 yield return HandleTextOutput(_currentLine, false);
 
                 ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;

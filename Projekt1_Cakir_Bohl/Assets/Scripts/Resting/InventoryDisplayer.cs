@@ -5,13 +5,13 @@ using UnityEngine;
 public class InventoryDisplayer : SelectionMenu
 {
     [SerializeField] private TextMeshProUGUI[] _amountTexts;
-    [SerializeField] private TextMeshProUGUI _textBox;
+    [SerializeField] protected TextMeshProUGUI _textBox;
     [SerializeField] private TextMeshProUGUI _useOrEquipPrompt;
     [SerializeField] private RestingManager _restingManager;
 
     public delegate void ItemSelection(Item item);
     public static ItemSelection itemSelection;
-    private string _name;
+    protected string _name;
     private int _amount;
 
     void Start()
@@ -33,7 +33,7 @@ public class InventoryDisplayer : SelectionMenu
         ListenForInputs();
     }
 
-    private void InitializeInventory()
+    public virtual void InitializeInventory()
     {
         for(int i = 0; i < InventoryManager.Instance.Inventory.Count; i++)
         {
@@ -57,7 +57,7 @@ public class InventoryDisplayer : SelectionMenu
         }
     }
 
-    public void UpdateDisplayedInventory(Item item)
+    public virtual void UpdateDisplayedInventory(Item item)
     {            
         if(InventoryManager.Instance.Inventory.Count <= 0)
         {
@@ -200,7 +200,7 @@ public class InventoryDisplayer : SelectionMenu
         ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
     }
 
-    private void ShowItemDescriptionAndSetPrompt(Item item)
+    public virtual void ShowItemDescriptionAndSetPrompt(Item item)
     {
         _textBox.text = item.Description;
 

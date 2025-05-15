@@ -34,7 +34,7 @@ public class InventoryManager : MonoBehaviour
 
     public void ManageInventory(Item item, int amount, bool isAdding)
     {
-         if(Inventory.ContainsKey(item))
+        if(Inventory.ContainsKey(item))
         {
             int currentCount = Inventory[item];
 
