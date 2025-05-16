@@ -27,9 +27,9 @@ public class Manager : MonoBehaviour
 
     protected void ListenForSkip()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(_textCoroutine != null)
+            if (_textCoroutine != null)
             {
                 _promptSkip.enabled = false;
                 StopCoroutine(_textCoroutine);
@@ -67,7 +67,7 @@ public class Manager : MonoBehaviour
         selectionMenu.SetInitialPointer();
         selectionMenu.enabled = isActive;
 
-        if(isActive)
+        if (isActive)
         {
             selectionMenu.InitializeMenu();
         }
@@ -75,21 +75,21 @@ public class Manager : MonoBehaviour
 
     public void TogglePlayerStatsPosition(bool isDefaultPosition)
     {
-        if(isDefaultPosition)
+        if (isDefaultPosition)
         {
-            _playerHealthbarSection.SetLocalPositionAndRotation(GameConfig.HealthbarDefaultPosition, quaternion.identity); 
+            _playerHealthbarSection.SetLocalPositionAndRotation(GameConfig.HealthbarDefaultPosition, quaternion.identity);
         }
         else
         {
-            _playerHealthbarSection.SetLocalPositionAndRotation(GameConfig.HealthbarAlternativePosition, quaternion.identity); 
+            _playerHealthbarSection.SetLocalPositionAndRotation(GameConfig.HealthbarAlternativePosition, quaternion.identity);
         }
     }
 
     protected IEnumerator PrintMultipleLines(string[] lines)
     {
         _textBox.enabled = true;
-        
-        foreach(string line in lines)
+
+        foreach (string line in lines)
         {
             _currentLine = line;
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
@@ -98,7 +98,7 @@ public class Manager : MonoBehaviour
 
     protected bool EvaluateVampire()
     {
-        if(ConditionManager.Instance.IsVampire && MainManager.Instance.IsDay)
+        if (ConditionManager.Instance.IsVampire && MainManager.Instance.IsDay)
         {
             return true;
         }

@@ -7,17 +7,13 @@ public class Merchant : InventoryDisplayer
     [SerializeField] private Item[] _availabeItems;
     [SerializeField] private TextMeshProUGUI[] _priceTexts;
     [SerializeField] private InteractionManager _interactionManager;
+    public delegate void OnTryPurchase();
+    public static OnTryPurchase onTryPurchase;
     private int _price;
 
-    void Start()
+    public override void Start()
     {
-        IsActive = true;
-        
-        InitializeInventory();
-
-        _textBox.text = _availabeItems.ElementAt(_currentMenuPoint).Description;
-
-        SetInitialPointer();
+        return;
     }
 
     void Update()
@@ -25,9 +21,11 @@ public class Merchant : InventoryDisplayer
         ListenForInputs();
     }
 
-    public override void InitializeInventory()
+    public override void InitializeMenu()
     {
-        for(int i = 0; i < _availabeItems.Length; i++)
+        IsActive = true;
+
+        for (int i = 0; i < _availabeItems.Length; i++)
         {
             _name = _availabeItems.ElementAt(i).Name;
             _price = _availabeItems.ElementAt(i).StorePrice;
@@ -39,12 +37,16 @@ public class Merchant : InventoryDisplayer
         _menuPoints[_availabeItems.Length].text = "Return";
         _priceTexts[_availabeItems.Length].text = "";
 
-        for(int i = _availabeItems.Length + 1; i < _menuPoints.Length; i++)
+        for (int i = _availabeItems.Length + 1; i < _menuPoints.Length; i++)
         {
             _menuPoints[i].text = "";
             _priceTexts[i].text = "";
             _pointers[i].enabled = false;
         }
+        
+        _textBox.text = _availabeItems.ElementAt(_currentMenuPoint).Description;
+
+        SetInitialPointer();
     }
 
     public override void UpdateDisplayedInventory(Item item)
@@ -73,19 +75,6 @@ public class Merchant : InventoryDisplayer
                 _priceTexts[i].text = _priceTexts[i + 1].text;
             }
         }
-    }
-
-    public override void InitializeMenu()
-    {
-        base.InitializeMenu();
-
-        if(_availabeItems.Length <= 0)
-        {
-            Debug.LogError("No items in the merchant's inventory. Please add items to the inventory.");
-            return;
-        }
-        
-        _textBox.text = _availabeItems[_currentMenuPoint].Description;
     }
 
     public override void ListenForInputs()
@@ -117,21 +106,17 @@ public class Merchant : InventoryDisplayer
         {
             if(_currentMenuPoint == _availabeItems.Length || _availabeItems.Length == 0)
             {
-                // _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, true);
-                // _restingManager.ToggleCanvas(_restingManager.InventoryCanvas, false);
-                // _restingManager.TogglePlayerStatsPosition(true);
+                //_interactionManager.ToggleCanvas(_interactionManager.SelectionMenuCanvas, true);
+                _interactionManager.ToggleCanvas(_interactionManager.MerchantInventoryCanvas, true);
 
                 _textBox.text = "";
 
                 SetInitialPointer();
 
                 return;
-            }
+            } 
 
-            // _restingManager.ToggleCanvas(_restingManager.ItemToDoCanvas, true);
-            // _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, false);
-
-            //itemSelection?.Invoke(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key); 
+            itemSelection?.Invoke(_availabeItems.ElementAt(_currentMenuPoint));
 
             IsActive = false;
         }
@@ -200,36 +185,5 @@ public class Merchant : InventoryDisplayer
 
         //         break;
         // }
-    }
-
-    private void TryPurchase(Item item)
-    {
-        Item coin = new Coin();
-        int currentCoins;
-
-        // https://stackoverflow.com/questions/2829873/how-can-i-detect-if-this-dictionary-key-exists-in-c
-        if(InventoryManager.Instance.Inventory.TryGetValue(coin, out currentCoins))
-        {
-            if( currentCoins >= item.StorePrice)
-            {
-                InventoryManager.Instance.Inventory[coin] = currentCoins - item.StorePrice;
-
-                InventoryManager.Instance.ManageInventory(item, 1, true);
-
-                return;
-            }
-            else
-            {
-                // nicht genug Münzen vorhanden ausgeben
-
-                return;
-            }
-        }
-        else
-        {
-            // keine Münzen vorhanden ausgeben
-
-            return;
-        }
     }
 }

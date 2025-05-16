@@ -19,10 +19,10 @@ public class SelectionMenu : MonoBehaviour
     [SerializeField] protected GameObject _connectedScript;
 
     protected int _currentMenuPoint;
+    protected ISelectable _iSelectable;
     private bool _isVertical;
-    private ISelectable _iSelectable;
 
-    void Start()
+    public virtual void Start()
     {
         _isVertical = menuLayer == MenuLayer.isVertical ? true : false;
         _iSelectable = _connectedScript.GetComponent<ISelectable>();

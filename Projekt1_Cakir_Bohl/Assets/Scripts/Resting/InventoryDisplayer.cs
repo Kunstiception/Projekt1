@@ -14,7 +14,7 @@ public class InventoryDisplayer : SelectionMenu
     protected string _name;
     private int _amount;
 
-    void Start()
+    public virtual void Start()
     {
         IsActive = true;
         
@@ -33,7 +33,7 @@ public class InventoryDisplayer : SelectionMenu
         ListenForInputs();
     }
 
-    public virtual void InitializeInventory()
+    private void InitializeInventory()
     {
         for(int i = 0; i < InventoryManager.Instance.Inventory.Count; i++)
         {

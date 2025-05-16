@@ -27,10 +27,10 @@ public class LootManager : Manager
         
         int lootCount = UnityEngine.Random.Range(1, GameConfig.MaximumLootableItems + 1);
 
-        InitializePlayerStats();
-
         if(EvaluateVampire())
         {          
+            InitializePlayerStats();
+
             _currentLine = DialogueManager.VampireSunDamageLines[0]; 
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
@@ -74,7 +74,6 @@ public class LootManager : Manager
 
         for(int i = 1; i <= lootCount; i++)
         {
-
             randomIndex = UnityEngine.Random.Range(0, _tempItemsAndAmounts.Count);
 
             _item = _tempItemsAndAmounts[randomIndex];

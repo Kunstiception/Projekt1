@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -49,6 +48,13 @@ public class RestingManager : Manager, ISelectable, ICondition
     // Bestimmt, was die Auswahl im Menü auslöst
     public void HandleSelectedMenuPoint(int index)
     {
+        if (SelectionMenuCanvas.isActiveAndEnabled == false)
+        {
+            HandleSelectedItemOrEquipment(index);
+
+            return;
+        }
+
         ToggleCanvas(SelectionMenuCanvas, false);
         
         // 0 = sleep, 1 = show items, 2 = continue quest

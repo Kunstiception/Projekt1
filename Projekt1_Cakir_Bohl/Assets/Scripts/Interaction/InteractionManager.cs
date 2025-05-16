@@ -1,24 +1,35 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class InteractionManager : Manager
+public class InteractionManager : Manager, ISelectable
 {
+    public enum SceneType
+    {
+        IsMerchant  = 0,
+        IsDog  = 1,
+        IsNPC = 2
+    }
+
+    public SceneType sceneType;
+
+    [SerializeField] public Canvas MerchantInventoryCanvas;
+    [SerializeField] public Canvas ItemToDoCanvas;
+    private Item _currentItem;
+
     IEnumerator Start()
     {
-        _textBox.enabled = true;
-        _promptSkip.enabled = true;
-        _promptContinue.enabled = false;
+        ToggleCanvas(MerchantInventoryCanvas, false);
+        ToggleCanvas(ItemToDoCanvas, false);
 
-        InitializePlayerStats();
-
-        if(EvaluateVampire())
+        Canvas statsCanvas =  _playerHealthbarSection.GetComponentInParent<Canvas>();
+        statsCanvas.enabled = false;
+        
+        if (EvaluateVampire())
         {
-            Canvas statsCanvas =  _playerHealthbarSection.GetComponentInParent<Canvas>();
-            statsCanvas.enabled = false;
-            
-            _currentLine = DialogueManager.VampireSunDamageLines[0]; 
+            InitializePlayerStats();
+
+            _currentLine = DialogueManager.VampireSunDamageLines[0];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
             statsCanvas.enabled = true;
@@ -33,9 +44,100 @@ public class InteractionManager : Manager
             statsCanvas.enabled = false;
         }
 
-        yield return StartCoroutine(PrintMultipleLines(_texts));
+        SetScene();
 
-        SceneManager.LoadScene(2);
+        _textBox.enabled = true;
+        _promptSkip.enabled = true;
+        _promptContinue.enabled = false;
+
+
+        //yield return StartCoroutine(PrintMultipleLines(_texts));
+
+        //SceneManager.LoadScene(2);
+    }
+
+    private void OnEnable()
+    {
+        InventoryDisplayer.itemSelection += OnItemSelected;
+        //Merchant.onTryPurchase += OnTryPurchase;
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
+        InventoryDisplayer.itemSelection -= OnItemSelected;
+        //Merchant.onTryPurchase -= OnTryPurchase;
+    }    
+
+    private void SetScene()
+    {
+        int randomIndex = Random.Range(0, 1);
+
+        switch (randomIndex)
+        {
+            case 0:
+                sceneType = SceneType.IsMerchant;
+                ToggleCanvas(MerchantInventoryCanvas, true);
+
+                break;
+
+            case 1:
+                sceneType = SceneType.IsDog;
+
+                break;
+
+            case 2:
+                sceneType = SceneType.IsNPC;
+
+                break;
+        }
+    }
+
+    private void OnItemSelected(Item item)
+    {
+        MerchantInventoryCanvas.GetComponent<SelectionMenu>().IsActive = false;
+
+        ToggleCanvas(ItemToDoCanvas, true);
+
+        _currentItem = item;
+    }
+
+    // private void OnTryPurchase()
+    // {
+    //     StartCoroutine(TryPurchase());
+    // }
+
+    private IEnumerator TryPurchase()
+    {
+        Item coin = new Coin();
+        int currentCoins;
+
+        // https://stackoverflow.com/questions/2829873/how-can-i-detect-if-this-dictionary-key-exists-in-c
+        if (InventoryManager.Instance.Inventory.TryGetValue(coin, out currentCoins))
+        {
+            if (currentCoins >= _currentItem.StorePrice)
+            {
+                InventoryManager.Instance.Inventory[coin] = currentCoins - _currentItem.StorePrice;
+
+                InventoryManager.Instance.ManageInventory(_currentItem, 1, true);
+
+                _currentLine = $"You have purchased {_currentItem.Name} for {_currentItem.StorePrice}";
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            }
+            else
+            {
+                _currentLine = "You don't have enough coins.";
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            }
+        }
+        else
+        {
+            _currentLine = "You don't have any coins.";
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        }
+
+        ToggleCanvas(ItemToDoCanvas, false);
+        MerchantInventoryCanvas.GetComponent<SelectionMenu>().IsActive = true;
     }
 
     private IEnumerator UpdateUI(int damage, int currentHealth)
@@ -44,7 +146,7 @@ public class InteractionManager : Manager
 
         hitValue = (float)damage / (float)PlayerManager.Instance.GetStartingHealth();
 
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
             // GameOver Screen
@@ -52,7 +154,7 @@ public class InteractionManager : Manager
 
         _playerUIHealth.text = $"{currentHealth - damage}/{PlayerManager.Instance.GetStartingHealth()}";
 
-        float currentValue = _playerHealthBarBelow.value;       
+        float currentValue = _playerHealthBarBelow.value;
         float nextValue = currentValue - hitValue;
         float lerpValue = 0;
 
@@ -70,5 +172,22 @@ public class InteractionManager : Manager
         }
 
         _playerHealthBarBelow.value = nextValue;
+    }
+
+    public void HandleSelectedMenuPoint(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                StartCoroutine(TryPurchase());
+                ToggleCanvas(ItemToDoCanvas, false);
+
+                break;
+
+            case 1:
+                ToggleCanvas(ItemToDoCanvas, false);
+                MerchantInventoryCanvas.GetComponent<SelectionMenu>().IsActive = true;
+                break;
+        }
     }
 }
