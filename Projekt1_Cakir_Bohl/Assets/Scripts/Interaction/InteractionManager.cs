@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InteractionManager : Manager, ISelectable
@@ -15,16 +16,19 @@ public class InteractionManager : Manager, ISelectable
 
     [SerializeField] public Canvas MerchantInventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
-    private Item _currentItem;
+    [SerializeField] public Canvas InitialMenuCanvas;
+    [SerializeField] public Canvas DialogueCanvas;
 
     IEnumerator Start()
     {
         ToggleCanvas(MerchantInventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
+        ToggleCanvas(InitialMenuCanvas, false);
+        //ToggleCanvas(DialogueCanvas, false);
 
-        Canvas statsCanvas =  _playerHealthbarSection.GetComponentInParent<Canvas>();
+        Canvas statsCanvas = _playerHealthbarSection.GetComponentInParent<Canvas>();
         statsCanvas.enabled = false;
-        
+
         if (EvaluateVampire())
         {
             InitializePlayerStats();
@@ -46,27 +50,29 @@ public class InteractionManager : Manager, ISelectable
 
         SetScene();
 
+        if (sceneType == SceneType.IsMerchant)
+        {
+            _currentLine = "Feel free to take a look at my merchandise, dear knight.";
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        }
+
         _textBox.enabled = true;
         _promptSkip.enabled = true;
         _promptContinue.enabled = false;
 
-
-        //yield return StartCoroutine(PrintMultipleLines(_texts));
-
-        //SceneManager.LoadScene(2);
+        _textBox.text = "";
+        
+        ToggleCanvas(InitialMenuCanvas, true);
     }
 
     private void OnEnable()
     {
-        InventoryDisplayer.itemSelection += OnItemSelected;
-        //Merchant.onTryPurchase += OnTryPurchase;
+
     }
 
     void OnDisable()
     {
         StopAllCoroutines();
-        InventoryDisplayer.itemSelection -= OnItemSelected;
-        //Merchant.onTryPurchase -= OnTryPurchase;
     }    
 
     private void SetScene()
@@ -77,7 +83,6 @@ public class InteractionManager : Manager, ISelectable
         {
             case 0:
                 sceneType = SceneType.IsMerchant;
-                ToggleCanvas(MerchantInventoryCanvas, true);
 
                 break;
 
@@ -91,53 +96,6 @@ public class InteractionManager : Manager, ISelectable
 
                 break;
         }
-    }
-
-    private void OnItemSelected(Item item)
-    {
-        MerchantInventoryCanvas.GetComponent<SelectionMenu>().IsActive = false;
-
-        ToggleCanvas(ItemToDoCanvas, true);
-
-        _currentItem = item;
-    }
-
-    // private void OnTryPurchase()
-    // {
-    //     StartCoroutine(TryPurchase());
-    // }
-
-    private IEnumerator TryPurchase()
-    {
-        Item coin = new Coin();
-        int currentCoins;
-
-        // https://stackoverflow.com/questions/2829873/how-can-i-detect-if-this-dictionary-key-exists-in-c
-        if (InventoryManager.Instance.Inventory.TryGetValue(coin, out currentCoins))
-        {
-            if (currentCoins >= _currentItem.StorePrice)
-            {
-                InventoryManager.Instance.Inventory[coin] = currentCoins - _currentItem.StorePrice;
-
-                InventoryManager.Instance.ManageInventory(_currentItem, 1, true);
-
-                _currentLine = $"You have purchased {_currentItem.Name} for {_currentItem.StorePrice}";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-            }
-            else
-            {
-                _currentLine = "You don't have enough coins.";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-            }
-        }
-        else
-        {
-            _currentLine = "You don't have any coins.";
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-        }
-
-        ToggleCanvas(ItemToDoCanvas, false);
-        MerchantInventoryCanvas.GetComponent<SelectionMenu>().IsActive = true;
     }
 
     private IEnumerator UpdateUI(int damage, int currentHealth)
@@ -179,14 +137,20 @@ public class InteractionManager : Manager, ISelectable
         switch (index)
         {
             case 0:
-                StartCoroutine(TryPurchase());
-                ToggleCanvas(ItemToDoCanvas, false);
+                ToggleCanvas(MerchantInventoryCanvas, true);
+                ToggleCanvas(InitialMenuCanvas, false);
 
                 break;
 
             case 1:
-                ToggleCanvas(ItemToDoCanvas, false);
-                MerchantInventoryCanvas.GetComponent<SelectionMenu>().IsActive = true;
+                ToggleCanvas(DialogueCanvas, true);
+                ToggleCanvas(InitialMenuCanvas, false);
+
+                break;
+
+            case 2:
+                SceneManager.LoadScene(2);
+
                 break;
         }
     }

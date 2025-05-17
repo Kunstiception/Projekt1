@@ -39,7 +39,6 @@ public class SelectionMenu : MonoBehaviour
         CombatManager.OnFightFinished -= SetInitialPointer;
     }
 
-    // Update is called once per frame
     void Update()
     {
         ListenForInputs();
@@ -138,7 +137,7 @@ public class SelectionMenu : MonoBehaviour
 
     public virtual void ChangePosition(bool isUpOrLeft)
     {
-        if(isUpOrLeft)
+        if (isUpOrLeft)
         {
             _currentMenuPoint--;
         }
@@ -149,7 +148,7 @@ public class SelectionMenu : MonoBehaviour
 
         for (int i = 0; i < _pointers.Length; i++)
         {
-            if(i == _currentMenuPoint)
+            if (i == _currentMenuPoint)
             {
                 _pointers[i].gameObject.SetActive(true);
                 continue;

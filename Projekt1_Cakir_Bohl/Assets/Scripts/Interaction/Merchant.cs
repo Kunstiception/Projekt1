@@ -106,8 +106,9 @@ public class Merchant : InventoryDisplayer
         {
             if(_currentMenuPoint == _availabeItems.Length || _availabeItems.Length == 0)
             {
-                //_interactionManager.ToggleCanvas(_interactionManager.SelectionMenuCanvas, true);
-                _interactionManager.ToggleCanvas(_interactionManager.MerchantInventoryCanvas, true);
+                _interactionManager.ToggleCanvas(_interactionManager.InitialMenuCanvas, true);
+                _interactionManager.ToggleCanvas(_interactionManager.MerchantInventoryCanvas, false);
+                _interactionManager.ToggleCanvas(_interactionManager.ItemToDoCanvas, false);
 
                 _textBox.text = "";
 
