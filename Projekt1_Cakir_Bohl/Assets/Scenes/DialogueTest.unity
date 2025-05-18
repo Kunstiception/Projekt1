@@ -181,7 +181,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d7d68d29ec84ce7458eb87d28d514e87, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31166daca9bd0ae44bf2d61c9b0b853b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -563,6 +563,11 @@ MonoBehaviour:
   _textBox: {fileID: 932212994}
   _promptSkip: {fileID: 1021440753}
   _promptContinue: {fileID: 935620493}
+  _playerUIHealth: {fileID: 0}
+  _playerUIEgo: {fileID: 0}
+  _playerHealthBarBelow: {fileID: 0}
+  _playerEgoBarBelow: {fileID: 0}
+  _playerHealthbarSection: {fileID: 0}
 --- !u!4 &1213573323
 Transform:
   m_ObjectHideFlags: 0
@@ -609,6 +614,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerHealthPoints: 0
   PlayerEgoPoints: 0
+  HealthPointsModifier: 0
+  EgoPointsModifier: 0
+  AttackStrengthModifier: 0
+  InitiativeModifier: 0
+  EvasionModifier: 0
+  InsultResistenceModifier: 0
+  AccuracyModifier: 0
+  InsultDamageModifier: 0
   CurrentDay: 0
   LastWayPoint: 
   WayPoints: []
@@ -616,6 +629,10 @@ MonoBehaviour:
   InventoryNames: []
   InventoryAmounts: 
   IsDay: 0
+  IsSleepDeprived: 0
+  IsVampire: 0
+  IsWerewolf: 0
+  IsZombie: 0
 --- !u!4 &1765616257
 Transform:
   m_ObjectHideFlags: 0
