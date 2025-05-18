@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,7 +29,6 @@ public class InventoryManager : MonoBehaviour
             AllItems.Add(item.name, item);
         }
     }
-
 
     public void ManageInventory(Item item, int amount, bool isAdding)
     {

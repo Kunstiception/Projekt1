@@ -3,6 +3,7 @@ using UnityEngine;
 public class Combatant : MonoBehaviour
 {
     [SerializeField] public InsultLines InsultLines;
+    [SerializeField] public DialogueLines DialogueLines;
     public string Name;
     public int HealthPoints;
     public int EgoPoints;

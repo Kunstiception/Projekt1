@@ -29,6 +29,10 @@ public class InteractionManager : Manager, ISelectable
         Canvas statsCanvas = _playerHealthbarSection.GetComponentInParent<Canvas>();
         statsCanvas.enabled = false;
 
+        _textBox.enabled = true;
+        _promptSkip.enabled = false;
+        _promptContinue.enabled = false;
+
         if (EvaluateVampire())
         {
             InitializePlayerStats();
@@ -55,10 +59,6 @@ public class InteractionManager : Manager, ISelectable
             _currentLine = "Feel free to take a look at my merchandise, dear knight.";
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
-
-        _textBox.enabled = true;
-        _promptSkip.enabled = true;
-        _promptContinue.enabled = false;
 
         _textBox.text = "";
         

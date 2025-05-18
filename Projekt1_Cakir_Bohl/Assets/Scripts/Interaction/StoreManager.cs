@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class StoreManager : Manager, ISelectable
@@ -31,25 +32,29 @@ public class StoreManager : Manager, ISelectable
 
     private IEnumerator TryPurchase()
     {
-        Item coin = new Coin();
-        int currentCoins;
+        // https://learn.microsoft.com/de-de/dotnet/api/system.linq.enumerable.firstordefault?view=net-8.0
+        var keyValuePair = InventoryManager.Instance.Inventory.FirstOrDefault(keyValuePair => keyValuePair.Key is Coin);
 
-        // https://stackoverflow.com/questions/2829873/how-can-i-detect-if-this-dictionary-key-exists-in-c
-        if (InventoryManager.Instance.Inventory.TryGetValue(coin, out currentCoins))
+        if (keyValuePair.Key != null)
         {
-            if (currentCoins >= _currentItem.StorePrice)
+            int currentCoins = keyValuePair.Value;
+            
+            if (currentCoins > 0)
             {
-                InventoryManager.Instance.Inventory[coin] = currentCoins - _currentItem.StorePrice;
+                if (currentCoins >= _currentItem.StorePrice)
+                {
+                    InventoryManager.Instance.Inventory[keyValuePair.Key] = currentCoins - _currentItem.StorePrice;
 
-                InventoryManager.Instance.ManageInventory(_currentItem, 1, true);
+                    InventoryManager.Instance.ManageInventory(_currentItem, 1, true);
 
-                _currentLine = $"You have purchased {_currentItem.Name} for {_currentItem.StorePrice}";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-            }
-            else
-            {
-                _currentLine = "You don't have enough coins.";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                    _currentLine = $"You have purchased {_currentItem.Name} for {_currentItem.StorePrice} coins.";
+                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                }
+                else
+                {
+                    _currentLine = "You don't have enough coins.";
+                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                }
             }
         }
         else
@@ -61,11 +66,6 @@ public class StoreManager : Manager, ISelectable
         _textBox.text = "";
 
         ToggleCanvas(ItemToDoCanvas, true);
-
-        // var merchant = MerchantInventoryCanvas.GetComponent<Merchant>();
-
-        // merchant.IsActive = true;
-        // merchant.InitializeMenu();
     }
 
     public void HandleSelectedMenuPoint(int index)
