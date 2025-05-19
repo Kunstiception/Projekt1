@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -268,13 +269,35 @@ public class RestingManager : Manager, ISelectable, ICondition
             //Wait for anim
             yield return new WaitForSeconds(5);
 
-            StartCoroutine(UpdateUI(PlayerManager.Instance.GetStartingHealth() - PlayerManager.Instance.HealthPoints, true, PlayerManager.Instance.HealthPoints));
-            StartCoroutine(UpdateUI(PlayerManager.Instance.GetStartingEgo() - PlayerManager.Instance.EgoPoints, false, PlayerManager.Instance.EgoPoints));
-            
-            PlayerManager.Instance.HealthPoints = PlayerManager.Instance.GetStartingHealth();
-            PlayerManager.Instance.EgoPoints = PlayerManager.Instance.GetStartingEgo();
-            
-            _currentLine = "You have slept through the night and are now fully recovered!";
+            bool wasHurt = false;
+
+            if (PlayerManager.Instance.HealthPoints < PlayerManager.Instance.GetStartingHealth())
+            {
+                StartCoroutine(UpdateUI(PlayerManager.Instance.GetStartingHealth() - PlayerManager.Instance.HealthPoints, true, PlayerManager.Instance.HealthPoints));
+
+                PlayerManager.Instance.HealthPoints = PlayerManager.Instance.GetStartingHealth();
+
+                wasHurt = true;
+            }
+
+            if (PlayerManager.Instance.EgoPoints < PlayerManager.Instance.GetStartingEgo())
+            {
+                StartCoroutine(UpdateUI(PlayerManager.Instance.GetStartingEgo() - PlayerManager.Instance.EgoPoints, false, PlayerManager.Instance.EgoPoints));
+
+                PlayerManager.Instance.EgoPoints = PlayerManager.Instance.GetStartingEgo();
+
+                wasHurt = true;
+            }
+
+            if (wasHurt)
+            {
+                _currentLine = "You have slept through the night and are now fully recovered!";
+            }
+            else
+            {
+                _currentLine = "You have slept throught the night.";
+            }
+
             yield return HandleTextOutput(_currentLine, false);
 
             if(ConditionManager.Instance.IsSleepDeprived)
@@ -291,7 +314,7 @@ public class RestingManager : Manager, ISelectable, ICondition
                 yield return StartCoroutine(PrintMultipleLines(DialogueManager.WerewolfDayLines));
             }
 
-            SceneManager.LoadScene(7);
+            SceneManager.LoadScene(2);
             yield break;
         }
     }

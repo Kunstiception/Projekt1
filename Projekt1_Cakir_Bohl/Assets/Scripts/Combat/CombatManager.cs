@@ -310,9 +310,9 @@ public class CombatManager : Manager, ISelectable
 
         _textBox.enabled = true;
 
-        if(attacker == PlayerManager.Instance)
-        {        
-            if(ConditionManager.Instance.IsZombie)
+        if (attacker == PlayerManager.Instance)
+        {
+            if (ConditionManager.Instance.IsZombie)
             {
                 ToggleCanvas(_persuasionMenuCanvas, false);
 
@@ -322,9 +322,9 @@ public class CombatManager : Manager, ISelectable
 
                 yield break;
             }
-            
+
             // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden, nicht gewählte Optionen wieder ins Original-Dictionary einfügen
-            switch(optionIndex)
+            switch (optionIndex)
             {
                 case 0:
                     line = $"{PlayerManager.Instance.Name}: '{_enemyCurrentInsultsAndValues.ElementAt(0).Key}'";
@@ -333,7 +333,7 @@ public class CombatManager : Manager, ISelectable
                     _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
                     _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
 
-                    _enemyInsultsAndValues.Add( _enemyCurrentInsultsAndValues.ElementAt(1).Key, _enemyCurrentInsultsAndValues.ElementAt(1).Value);
+                    _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(1).Key, _enemyCurrentInsultsAndValues.ElementAt(1).Value);
 
                     break;
 
@@ -362,15 +362,28 @@ public class CombatManager : Manager, ISelectable
         {
             ToggleCanvas(_selectionMenuCanvas, false);
 
-            var random = UnityEngine.Random.Range(0, _playerInsultsAndValues.Count - 1); 
+            if (_enemy.Name != "Zombie")
+            {
+                var random = UnityEngine.Random.Range(0, _playerInsultsAndValues.Count - 1);
 
-            line = $"{_enemy.Name}: '{_playerInsultsAndValues.ElementAt(random).Key}'";
-            value = _playerInsultsAndValues.ElementAt(random).Value;
+                line = $"{_enemy.Name}: '{_playerInsultsAndValues.ElementAt(random).Key}'";
+                value = _playerInsultsAndValues.ElementAt(random).Value;
 
-            _egoHitLine = PlayerManager.Instance.InsultLines.AnswersWhenHit[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
-            _egoResistLine = PlayerManager.Instance.InsultLines.AnswersWhenResisted[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
+                _egoHitLine = PlayerManager.Instance.InsultLines.AnswersWhenHit[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
+                _egoResistLine = PlayerManager.Instance.InsultLines.AnswersWhenResisted[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
 
-            _playerInsultsAndValues.Remove(_playerInsultsAndValues.ElementAt(random).Key);
+                _playerInsultsAndValues.Remove(_playerInsultsAndValues.ElementAt(random).Key);
+            }
+            else
+            {
+                _currentLine = $"The zombie can't think of anything to insult you with.";
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+                _insultTurn = null;
+                StartCoroutine(EndFight(null));
+                yield break;              
+            }
+
         }
 
         _textBox.enabled = true;
@@ -395,14 +408,22 @@ public class CombatManager : Manager, ISelectable
 
             _currentLine = line;
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-                
-            if(defender is PlayerManager)
+
+            if (defender is PlayerManager)
             {
-                _finalDamage = attackRoll - defender.InsultResistance + PlayerManager.Instance.InsultResistenceModifier;
+                _finalDamage = attackRoll - PlayerManager.Instance.InsultResistenceModifier;
+
             }
             else
             {
-                _finalDamage = attackRoll - defender.InsultResistance;
+                if (defender.Name != "Zombie")
+                {
+                    _finalDamage = attackRoll - defender.InsultResistance;
+                }
+                else
+                {
+                    _finalDamage = 0;
+                }
             }
 
             if (_finalDamage > 0)

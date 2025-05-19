@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,13 +26,13 @@ public class StartMenu : MonoBehaviour
     {
         MainManager.Instance.LoadAll();
 
-        SceneManager.LoadScene("MapTest");
+        SceneManager.LoadScene(2);
     }
 
     public void LoadNew()
     {
         MainManager.Instance.RevertAll();
         
-        SceneManager.LoadScene("DialogueTest");
+        SceneManager.LoadScene(1);
     }
 }

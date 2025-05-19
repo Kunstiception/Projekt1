@@ -1,12 +1,21 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class StoreManager : Manager, ISelectable
 {
     [SerializeField] public Canvas MerchantInventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
+    [SerializeField] private TextMeshProUGUI _coinsText;
     private Item _currentItem;
+    private KeyValuePair<Item, int> _coinsKVP;
+
+    void Start()
+    {
+        UpdateCoinsText();
+    }
 
     private void OnEnable()
     {
@@ -17,7 +26,7 @@ public class StoreManager : Manager, ISelectable
     {
         StopAllCoroutines();
         InventoryDisplayer.itemSelection -= OnItemSelected;
-    }    
+    }
 
     private void OnItemSelected(Item item)
     {
@@ -32,20 +41,19 @@ public class StoreManager : Manager, ISelectable
 
     private IEnumerator TryPurchase()
     {
-        // https://learn.microsoft.com/de-de/dotnet/api/system.linq.enumerable.firstordefault?view=net-8.0
-        var keyValuePair = InventoryManager.Instance.Inventory.FirstOrDefault(keyValuePair => keyValuePair.Key is Coin);
-
-        if (keyValuePair.Key != null)
+        if (_coinsKVP.Key != null)
         {
-            int currentCoins = keyValuePair.Value;
-            
+            int currentCoins = _coinsKVP.Value;
+
             if (currentCoins > 0)
             {
                 if (currentCoins >= _currentItem.StorePrice)
                 {
-                    InventoryManager.Instance.Inventory[keyValuePair.Key] = currentCoins - _currentItem.StorePrice;
+                    InventoryManager.Instance.Inventory[_coinsKVP.Key] = currentCoins - _currentItem.StorePrice;
 
                     InventoryManager.Instance.ManageInventory(_currentItem, 1, true);
+
+                    UpdateCoinsText();
 
                     _currentLine = $"You have purchased {_currentItem.Name} for {_currentItem.StorePrice} coins.";
                     yield return StartCoroutine(HandleTextOutput(_currentLine, false));
@@ -81,7 +89,15 @@ public class StoreManager : Manager, ISelectable
             case 1:
                 ToggleCanvas(ItemToDoCanvas, false);
                 MerchantInventoryCanvas.GetComponent<SelectionMenu>().IsActive = true;
+
                 break;
         }
+    }
+
+    private void UpdateCoinsText()
+    {
+        // https://learn.microsoft.com/de-de/dotnet/api/system.linq.enumerable.firstordefault?view=net-8.0
+        _coinsKVP = InventoryManager.Instance.Inventory.FirstOrDefault(keyValuePair => keyValuePair.Key is Coin);
+        _coinsText.text = $"Coins: {_coinsKVP.Value}";
     }
 }
