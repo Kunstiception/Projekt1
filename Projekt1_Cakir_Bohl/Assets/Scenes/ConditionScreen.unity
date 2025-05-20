@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 919720128}
   - component: {fileID: 919720129}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: ConditionScreenManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,6 +263,11 @@ MonoBehaviour:
   _textBox: {fileID: 2124248409}
   _promptSkip: {fileID: 2124248408}
   _promptContinue: {fileID: 2124248407}
+  _playerUIHealth: {fileID: 0}
+  _playerUIEgo: {fileID: 0}
+  _playerHealthBarBelow: {fileID: 0}
+  _playerEgoBarBelow: {fileID: 0}
+  _playerHealthbarSection: {fileID: 0}
 --- !u!1 &1025185166
 GameObject:
   m_ObjectHideFlags: 0

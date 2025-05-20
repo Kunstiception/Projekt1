@@ -129,7 +129,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 974829591}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2373184171301042489, guid: e614f6cbd967e2b45972673fb7ca409f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -149,15 +149,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2373184171301042489, guid: e614f6cbd967e2b45972673fb7ca409f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2373184171301042489, guid: e614f6cbd967e2b45972673fb7ca409f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2373184171301042489, guid: e614f6cbd967e2b45972673fb7ca409f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2373184171301042489, guid: e614f6cbd967e2b45972673fb7ca409f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -180,11 +180,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e614f6cbd967e2b45972673fb7ca409f, type: 3}
---- !u!4 &20898828 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2373184171301042489, guid: e614f6cbd967e2b45972673fb7ca409f, type: 3}
-  m_PrefabInstance: {fileID: 20898827}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519349662
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,7 +583,7 @@ GameObject:
   m_Component:
   - component: {fileID: 974829591}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: NonPersistentManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -607,7 +602,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 20898828}
   - {fileID: 1213573323}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -784,4 +778,5 @@ SceneRoots:
   - {fileID: 1303803412011209710}
   - {fileID: 633919550}
   - {fileID: 519349664}
+  - {fileID: 20898827}
   - {fileID: 974829591}

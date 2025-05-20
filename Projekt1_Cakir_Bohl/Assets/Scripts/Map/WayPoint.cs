@@ -72,16 +72,7 @@ public class WayPoint : MonoBehaviour
     }
 
     public void SetType(int type)
-    {
-        if(wayPointCategory == WayPointCategory.IsStart)
-        {
-            WayPointType = _possibleWayPointTypes[0];
-            _waypointVisuals[0].enabled = true;
-            Debug.Log($"{gameObject.name}: I'm an empty waypoint");
-
-            return;
-        }
-        
+    {      
         switch (type)
         {
             case 0:

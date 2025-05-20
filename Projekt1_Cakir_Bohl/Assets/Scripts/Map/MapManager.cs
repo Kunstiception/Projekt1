@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -51,13 +53,6 @@ public class MapManager : MonoBehaviour
             SetWayPointTypes();
         }
 
-        // Public string nie null
-        // if(MainManager.Instance.LastWayPoint.Length > 0)
-        // {
-        //     var index = MainManager.Instance.WayPoints.IndexOf(MainManager.Instance.LastWayPoint);
-
-        //     MainManager.Instance.WayPointTypes[index] = 0;
-        // }
         if(MainManager.Instance.LastWayPoint.Length == 0 && PlayerManager.Instance != null && MainManager.Instance.CurrentDay == 0)
         {
             PlayerManager.Instance.InitializePlayerStats();
@@ -90,26 +85,89 @@ public class MapManager : MonoBehaviour
         WayPoint.clickAction -= SetNextPosition;
     }
 
-    // Ist kein Spielstand vorhanden, werden die Wegpunkte und ihre Typen des jetzigen Tages im MainManager abgespeichert
+    // Ist kein Spielstand vorhanden, werden die Wegpunkte und ihre Type des jetzigen Tages im MainManager abgespeichert
+    // Es soll immer genau 2 Interactions geben und die restlichen Wegpunkte (abzüglich Anfang und Ende) teilen sich Fight und Looting
+    // Auch diesen wird aus Balancing-Gründen eine maximale Anzahl vorgegeben
     private void GetWayPoints()
     {
         var foundWayPoints = _days[MainManager.Instance.CurrentDay].GetComponentsInChildren<WayPoint>();
+        List<WayPoint> tempWayPoints = foundWayPoints.ToList<WayPoint>();
+        int numberOfInteractions = 0;
+        int numberOfFights = 0;
+        int numberOfLooting = 0;
+        int randomIndex = 0;
 
         // 0 = empty, 1 = fight, 2 = loot, 3 = interaction, 4 = resting
-        foreach(var wayPoint in foundWayPoints)
+        for (int i = 0; i < foundWayPoints.Length; i++)
         {
-            MainManager.Instance.WayPoints.Add(wayPoint.gameObject.name);
+            WayPoint currentWayPoint = tempWayPoints[Random.Range(0, tempWayPoints.Count)];
 
-            if(wayPoint.wayPointCategory == 0)
+            MainManager.Instance.WayPoints.Add(currentWayPoint.gameObject.name);
+
+            if (currentWayPoint.wayPointCategory == WayPoint.WayPointCategory.IsResting)
             {
-                wayPoint.SetType(4);
+                currentWayPoint.SetType(4);
                 MainManager.Instance.WayPointTypes.Add(4);
+                tempWayPoints.Remove(currentWayPoint);
+
                 continue;
             }
 
-            var randomIndex = Random.Range(1, 4);
+            if (currentWayPoint.wayPointCategory == WayPoint.WayPointCategory.IsStart)
+            {
+                currentWayPoint.SetType(0);
+                MainManager.Instance.WayPointTypes.Add(0);
+                tempWayPoints.Remove(currentWayPoint);
+
+                continue;
+            }
+
+            if (numberOfInteractions < 2)
+            {
+                randomIndex = 3;
+            }
+            else
+            {
+                randomIndex = Random.Range(1, 3);
+            }
+
+            switch (randomIndex)
+            {
+                case 1:
+                    // Anzahl der Wegpunkte ohne Anfang und Ende
+                    if (numberOfFights < (foundWayPoints.Length - 2) / 2)
+                    {
+                        numberOfFights++;
+                    }
+                    else
+                    {
+                        randomIndex = 2;
+                    }
+
+                    break;
+
+                case 2:
+                    if (numberOfLooting < (foundWayPoints.Length - 2) / 2)
+                    {
+                        numberOfLooting++;
+                    }
+                    else
+                    {
+                        randomIndex = 1;
+                    }
+
+                    break;
+
+
+                case 3:
+                    numberOfInteractions++;
+
+                    break;
+            }
+
             MainManager.Instance.WayPointTypes.Add(randomIndex);
-            wayPoint.SetType(randomIndex);          
+            currentWayPoint.SetType(randomIndex);
+            tempWayPoints.Remove(currentWayPoint);
         }
     }
 
@@ -127,7 +185,7 @@ public class MapManager : MonoBehaviour
         }   
     }
 
-     // Startposition setzen
+    // Startposition setzen
     private void SetCurrentPosition()
     {
         if(MainManager.Instance == null)
