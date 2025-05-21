@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -260,7 +261,8 @@ public class CombatManager : Manager, ISelectable
                 break;
 
             case 1:
-                 _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance, defenderHealth: _defenderHealth, isDisadvantage: false));
+                _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance,
+                       defenderHealth: _defenderHealth, defenderEgoPoints: _defenderEgoPoints, isDisadvantage: false));
                 break;
         }
 
@@ -278,7 +280,7 @@ public class CombatManager : Manager, ISelectable
             _textBox.enabled = true;
 
             _currentLine = "You can't think of anything else to say!";
-            yield return StartCoroutine(HandleTextOutput(_currentLine, true));
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
             _textBox.enabled = false;
 
@@ -411,7 +413,7 @@ public class CombatManager : Manager, ISelectable
 
             if (defender is PlayerManager)
             {
-                _finalDamage = attackRoll - PlayerManager.Instance.InsultResistenceModifier;
+                _finalDamage = attackRoll - PlayerManager.Instance.GetEgoResistence();
 
             }
             else
@@ -452,9 +454,8 @@ public class CombatManager : Manager, ISelectable
 
         if (defenderEgoPoints <= 0)
         {
-            _insultTurn = null;
-            StartCoroutine(EndFight(attacker));
-            yield break;
+            _currentLine = DialogueUtil.CreateCombatLog(defender, "has", "lost all ego!");
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
         //Insult-Kampf abwickeln
@@ -469,7 +470,7 @@ public class CombatManager : Manager, ISelectable
     }
 
     // Eine Runde Kampf
-    private IEnumerator CombatTurn(Combatant attacker, Combatant defender, int defenderHealth, bool isDisadvantage)
+    private IEnumerator CombatTurn(Combatant attacker, Combatant defender, int defenderHealth, int defenderEgoPoints, bool isDisadvantage)
     {
         ToggleCanvas(_selectionMenuCanvas, false);
 
@@ -493,9 +494,19 @@ public class CombatManager : Manager, ISelectable
         {
             _currentLine = DialogueUtil.CreateCombatLog(defender, "has", "evaded the attack!");
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+            StartCoroutine(EndFight(null));
+
+            yield break;
         }
 
-        CalculateDamage(_rawDamage, defender, defenderHealth);
+        CalculateDamage(_rawDamage, defenderEgoPoints);
+
+        if (_finalDamage <= 0)
+        {
+            _currentLine = $"The attack does not pierce throught the ego.";
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));         
+        }
 
         if (_finalDamage >= defenderHealth)
         {
@@ -520,6 +531,7 @@ public class CombatManager : Manager, ISelectable
         {
             _turnCoroutine = null;
             StartCoroutine(EndFight(attacker));
+
             yield break;
         }
 
@@ -543,18 +555,25 @@ public class CombatManager : Manager, ISelectable
         return attacker.RollDamge();
     }
 
-    // Schaden berechnen, falls vorhanden Rüstung beachten
-    private void CalculateDamage(int damage, Combatant defender, int defenderHealth)
+    // Schaden berechnen, falls noch Ego vorhanden
+    // Wenn viel Ego vorhanden wird Schaden gemindert, wenn wenig Ego vorhanden wird der Schaden größer
+    private void CalculateDamage(int damage, int defenderEgoPoints)
     {
-        if (defender.ArmorStrength <= 0)
+        if (defenderEgoPoints <= 0)
         {
-            _finalDamage = _rawDamage;
+            // https://learn.microsoft.com/en-us/dotnet/api/system.mathf.round?view=net-9.0
+            _finalDamage = (int)MathF.Round(damage * 1.5f);
             return;
         }
 
-        int damageReduction = (damage / defender.ArmorStrength);
+        float floatDamage = (float)damage / ((float)defenderEgoPoints / 3);
 
-        _finalDamage = _rawDamage - damageReduction;
+        if (floatDamage > (int)MathF.Round(damage * 1.5f))
+        {
+            floatDamage = damage * 1.5f;
+        }
+
+        _finalDamage = (int)MathF.Round(floatDamage);
     }
 
     // Je nach Ausgang Kampf abwickeln
@@ -646,13 +665,13 @@ public class CombatManager : Manager, ISelectable
                 if(_combatant1 == PlayerManager.Instance)
                 {
                     _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance, 
-                        defenderHealth: _combatantHealth1, isDisadvantage: true));
+                        defenderHealth: _combatantHealth1, defenderEgoPoints: _combatant1EgoPoints, isDisadvantage: true));
 
                     yield break;
                 }
 
                 _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance,
-                        defenderHealth: _combatantHealth2, isDisadvantage: true));
+                        defenderHealth: _combatantHealth2, defenderEgoPoints: _combatant2EgoPoints, isDisadvantage: true));
             }
         }
     }
@@ -676,8 +695,11 @@ public class CombatManager : Manager, ISelectable
                     if (_turnCoroutine == null)
                     {
                         var enemyHealth = _combatant2 == _enemy ? _combatantHealth2 : _combatantHealth1;
+
+                        var enemyEgoPoints = _combatant2 == _enemy ? _combatant2EgoPoints : _combatant1EgoPoints;
                         
-                        _turnCoroutine = StartCoroutine(CombatTurn(attacker: PlayerManager.Instance, defender: _enemy, defenderHealth: enemyHealth, isDisadvantage: false));
+                        _turnCoroutine = StartCoroutine(CombatTurn(attacker: PlayerManager.Instance, defender: _enemy,
+                            defenderHealth: enemyHealth, defenderEgoPoints: enemyEgoPoints, isDisadvantage: false));
                     }
                     break;
 

@@ -8,7 +8,7 @@ public class PlayerManager: Combatant
     public int AttackStrengthModifier;
     public int InitiativeModifier;
     public int EvasionModifier;
-    public int InsultResistenceModifier;
+    public int InsultResistanceModifier;
     public int AccuracyModifier;
     public int InsultDamageModifier;
     public ConditionManager.Conditions LatestCondition;
@@ -61,7 +61,7 @@ public class PlayerManager: Combatant
 
     public int GetEgoResistence()
     {
-        return InsultResistance + InsultResistenceModifier;
+        return InsultResistance + InsultResistanceModifier;
     }
 
     public int GetAccuracy()

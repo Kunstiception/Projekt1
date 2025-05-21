@@ -17,7 +17,7 @@ MonoBehaviour:
   - Did your pack cast you out?
   - Your fur is dirty!
   - Out of my way, foul creature!
-  Values: 02000000050000000300000001000000
+  Values: 04000000070000000500000003000000
   AnswersWhenHit:
   - How dare you?!
   - I don't want to talk about it...

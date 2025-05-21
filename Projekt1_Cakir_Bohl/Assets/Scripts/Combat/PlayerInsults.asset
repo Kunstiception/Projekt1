@@ -16,7 +16,7 @@ MonoBehaviour:
   - Your helmet has a dent!
   - Your blade is dull!
   - Your armor is rusty!
-  Values: 020000000200000003000000
+  Values: 030000000300000004000000
   AnswersWhenHit:
   - Impossible!
   - I must have forgotten to sharpen it...

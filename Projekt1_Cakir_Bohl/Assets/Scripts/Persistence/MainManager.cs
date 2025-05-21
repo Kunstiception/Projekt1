@@ -80,7 +80,7 @@ public class MainManager : MonoBehaviour
         data.AttackStrengthModifier = PlayerManager.Instance.AttackStrengthModifier;
         data.InitiativeModifier = PlayerManager.Instance.InitiativeModifier;
         data.EvasionModifier = PlayerManager.Instance.EvasionModifier;
-        data.InsultResistenceModifier = PlayerManager.Instance.InsultResistenceModifier;
+        data.InsultResistenceModifier = PlayerManager.Instance.InsultResistanceModifier;
         data.AccuracyModifier = PlayerManager.Instance.AccuracyModifier;
         data.InsultDamageModifier = PlayerManager.Instance.InsultDamageModifier;
         data.CurrentDay = CurrentDay;

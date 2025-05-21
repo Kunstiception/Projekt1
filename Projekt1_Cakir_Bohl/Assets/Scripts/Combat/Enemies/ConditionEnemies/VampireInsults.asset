@@ -17,7 +17,7 @@ MonoBehaviour:
   - You are missing a button on your jacket!
   - You seem a little pale, buddy. Are you alright?
   - Out of my way, foul creature!
-  Values: 01000000040000000200000001000000
+  Values: 03000000060000000600000003000000
   AnswersWhenHit:
   - How dare you?!
   - I must have lost it...
