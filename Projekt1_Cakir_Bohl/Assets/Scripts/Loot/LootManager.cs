@@ -31,7 +31,7 @@ public class LootManager : Manager
         {          
             InitializePlayerStats();
 
-            _currentLine = DialogueManager.VampireSunDamageLines[0]; 
+            _currentLine = UIDialogueStorage.VampireSunDamageLines[0]; 
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
             statsCanvas.enabled = true;
@@ -40,7 +40,7 @@ public class LootManager : Manager
 
             PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
 
-            _currentLine = DialogueManager.VampireSunDamageLines[1];
+            _currentLine = UIDialogueStorage.VampireSunDamageLines[1];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
             statsCanvas.enabled = false;

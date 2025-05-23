@@ -1,12 +1,16 @@
-using System.Collections.Generic;
 using UnityEngine;
 
+
+// basiert auf: https://www.youtube.com/watch?v=vR6H3mu_xD8&list=PLSR2vNOypvs4Pc72kaB_Y1v3AszNd-UuF
 [CreateAssetMenu(fileName = "New DialogueLines", menuName = "Scriptable Object/DialogueLines")]
 public class DialogueLines : ScriptableObject
 {
-    public string[] OpeningLines;
+    [Header("Lines")]
+    [TextArea]
+    public string[] Lines;
 
-    public string[] PlayerQuestions;
-
-    public string[] NPCAnswers;
+    [Header("Player Options")]
+    [TextArea]
+    public string[] PlayerOptions;
+    public DialogueLines[] BranchingLines;
 }

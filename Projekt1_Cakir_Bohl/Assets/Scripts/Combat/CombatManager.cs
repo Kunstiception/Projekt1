@@ -80,14 +80,14 @@ public class CombatManager : Manager, ISelectable
 
         if(EvaluateVampire())
         {
-            _currentLine = DialogueManager.VampireSunDamageLines[0];
+            _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
             StartCoroutine(UpdateUI(PlayerManager.Instance, GameConfig.VampireSunDamage, true, PlayerManager.Instance.HealthPoints));
 
             PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
 
-            _currentLine = DialogueManager.VampireSunDamageLines[0];
+            _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
@@ -318,7 +318,7 @@ public class CombatManager : Manager, ISelectable
             {
                 ToggleCanvas(_persuasionMenuCanvas, false);
 
-                yield return StartCoroutine(PrintMultipleLines(DialogueManager.ZombieInsultAttemptLines));
+                yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.ZombieInsultAttemptLines));
 
                 StartCoroutine(EndFight(null));
 

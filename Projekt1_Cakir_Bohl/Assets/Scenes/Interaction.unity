@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 356002286}
   - component: {fileID: 356002285}
   m_Layer: 5
-  m_Name: Canvas_SelectionMenu
+  m_Name: Canvas_InitialSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4263,7 +4263,6 @@ GameObject:
   - component: {fileID: 2033706830}
   - component: {fileID: 2033706829}
   - component: {fileID: 2033706828}
-  - component: {fileID: 2033706833}
   m_Layer: 5
   m_Name: Canvas_DialogueOptions
   m_TagString: Untagged
@@ -4378,30 +4377,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &2033706833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2033706827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fcd9932217c4f8469be295f35716a5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _texts: []
-  _textBox: {fileID: 1647918672}
-  _promptSkip: {fileID: 1647918671}
-  _promptContinue: {fileID: 1647918670}
-  _playerUIHealth: {fileID: 0}
-  _playerUIEgo: {fileID: 0}
-  _playerHealthBarBelow: {fileID: 0}
-  _playerEgoBarBelow: {fileID: 0}
-  _playerHealthbarSection: {fileID: 0}
-  _npcs:
-  - {fileID: 3231285286566686845, guid: d52adc74212575b44b22440970a09c01, type: 3}
-  _dialogueCanvas: {fileID: 2033706831}
 --- !u!1 &2035557583
 GameObject:
   m_ObjectHideFlags: 0

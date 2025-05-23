@@ -1,4 +1,4 @@
-public static class DialogueManager
+public static class UIDialogueStorage
 {
     public static string[] SleepDeprivedLines = 
         {"You feel weakened by your lack of sleep."};

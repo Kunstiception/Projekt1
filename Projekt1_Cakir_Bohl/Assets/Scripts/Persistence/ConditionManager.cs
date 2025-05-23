@@ -39,13 +39,13 @@ public class ConditionManager : MonoBehaviour
                 {
                     ApplySleepDeprived(true);
 
-                    return DialogueManager.SleepDeprivedLines;
+                    return UIDialogueStorage.SleepDeprivedLines;
                 }
                 else
                 {
                     ApplySleepDeprived(false);
 
-                    return DialogueManager.HealedSleepDeprivedLines;
+                    return UIDialogueStorage.HealedSleepDeprivedLines;
                 }
             
             case Conditions.Vampire:
@@ -53,13 +53,13 @@ public class ConditionManager : MonoBehaviour
                 {
                     ApplyVampire(true);
 
-                    return DialogueManager.VampireLines;
+                    return UIDialogueStorage.VampireLines;
                 }
                 else
                 {
                     ApplyVampire(false);
 
-                    return DialogueManager.HealedVampireLines;
+                    return UIDialogueStorage.HealedVampireLines;
                 }
 
             case Conditions.Werewolf:
@@ -67,13 +67,13 @@ public class ConditionManager : MonoBehaviour
                 {
                     ApplyWerewolf(true);
 
-                    return DialogueManager.WerewolfLines;
+                    return UIDialogueStorage.WerewolfLines;
                 }
                 else
                 {
                     ApplyWerewolf(false);
 
-                    return DialogueManager.HealedWerewolfLines;
+                    return UIDialogueStorage.HealedWerewolfLines;
                 }
 
             case Conditions.Zombie:
@@ -81,12 +81,12 @@ public class ConditionManager : MonoBehaviour
                 {
                     IsZombie = true;
 
-                    return DialogueManager.ZombieLines;
+                    return UIDialogueStorage.ZombieLines;
                 }
                 else
                 {   
                     IsZombie = false;
-                    return DialogueManager.HealedZombieLines;
+                    return UIDialogueStorage.HealedZombieLines;
                 }
         }
 

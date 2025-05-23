@@ -311,7 +311,7 @@ public class RestingManager : Manager, ISelectable, ICondition
             {
                 ConditionManager.Instance.ToggleWerewolfStats(false);
                 
-                yield return StartCoroutine(PrintMultipleLines(DialogueManager.WerewolfDayLines));
+                yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.WerewolfDayLines));
             }
 
             SceneManager.LoadScene(2);
@@ -399,7 +399,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         {
             ConditionManager.Instance.ToggleWerewolfStats(true);
             
-            yield return StartCoroutine(PrintMultipleLines(DialogueManager.WerewolfNightLines));
+            yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.WerewolfNightLines));
         }
 
         SceneManager.LoadScene(8);
