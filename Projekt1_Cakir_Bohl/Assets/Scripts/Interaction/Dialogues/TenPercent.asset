@@ -16,4 +16,5 @@ MonoBehaviour:
   - Get lost!
   PlayerOptions: []
   BranchingLines:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}
+  positionInDialogue: 2

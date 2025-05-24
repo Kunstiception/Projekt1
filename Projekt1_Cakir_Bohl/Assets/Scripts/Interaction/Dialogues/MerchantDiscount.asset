@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d42b537763b054438d0eb74df4db63c, type: 3}
   m_Name: MerchantDiscount
   m_EditorClassIdentifier: 
-  IncluededDialogueLines: []
+  IncluededDialogueLines:
+  - {fileID: 11400000, guid: 21889cd404d1ab048b487d02494780d0, type: 2}
+  - {fileID: 11400000, guid: a2f4cef9abb382541a1f5d6ce1869d03, type: 2}
+  - {fileID: 11400000, guid: 8d85977f6b94cce48a34d2a08b1b5af3, type: 2}

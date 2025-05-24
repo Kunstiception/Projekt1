@@ -19,3 +19,5 @@ MonoBehaviour:
   - Makes sense actually...
   BranchingLines:
   - {fileID: 11400000, guid: 8d85977f6b94cce48a34d2a08b1b5af3, type: 2}
+  - {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}
+  positionInDialogue: 1

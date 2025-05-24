@@ -1,16 +1,18 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+public enum SceneType
+{
+    IsMerchant  = 0,
+    IsDog  = 1,
+    IsNPC = 2
+}
+    
 public class InteractionManager : Manager, ISelectable
 {
-    public enum SceneType
-    {
-        IsMerchant  = 0,
-        IsDog  = 1,
-        IsNPC = 2
-    }
+
 
     public SceneType sceneType;
 
@@ -18,13 +20,17 @@ public class InteractionManager : Manager, ISelectable
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] public Canvas InitialMenuCanvas;
     [SerializeField] public Canvas DialogueCanvas;
+    [SerializeField] private DialogueManager _dialogueManager;
+    [SerializeField] private GameObject _merchant;
 
     IEnumerator Start()
     {
         ToggleCanvas(MerchantInventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
         ToggleCanvas(InitialMenuCanvas, false);
-        //ToggleCanvas(DialogueCanvas, false);
+        ToggleCanvas(DialogueCanvas, false);
+
+        _merchant.SetActive(false);
 
         Canvas statsCanvas = _playerHealthbarSection.GetComponentInParent<Canvas>();
         statsCanvas.enabled = false;
@@ -61,7 +67,7 @@ public class InteractionManager : Manager, ISelectable
         }
 
         _textBox.text = "";
-        
+
         ToggleCanvas(InitialMenuCanvas, true);
     }
 
@@ -73,7 +79,7 @@ public class InteractionManager : Manager, ISelectable
     void OnDisable()
     {
         StopAllCoroutines();
-    }    
+    }
 
     private void SetScene()
     {
@@ -83,6 +89,8 @@ public class InteractionManager : Manager, ISelectable
         {
             case 0:
                 sceneType = SceneType.IsMerchant;
+
+                _merchant.SetActive(false);
 
                 break;
 
@@ -145,6 +153,8 @@ public class InteractionManager : Manager, ISelectable
             case 1:
                 ToggleCanvas(DialogueCanvas, true);
                 ToggleCanvas(InitialMenuCanvas, false);
+
+                _dialogueManager.StartDialogue();
 
                 break;
 
