@@ -23,6 +23,7 @@ public class MapManager : MonoBehaviour
     private Transform _nextWaypoint;
     private Coroutine _movementCoroutine;
     private Transform _currentWaypoint;
+    private Animator _playerAnimator;
 
     // Hier werden die Wegpunkte entweder erstmalig gesetzt oder die Informationen aus einem existierenden Spielstand aus dem MainManager geladen
     void Start()
@@ -68,6 +69,8 @@ public class MapManager : MonoBehaviour
         {
             _timeOfDayIcon.sprite = _nightIcon;
         }
+
+        _playerAnimator = _player.GetComponentInChildren<Animator>();
 
         SetCurrentPosition();
         SetNextWayPointsTag();      
@@ -122,7 +125,7 @@ public class MapManager : MonoBehaviour
                 continue;
             }
 
-            if (numberOfInteractions < 2)
+            if (numberOfInteractions < 1)
             {
                 randomIndex = 3;
             }
@@ -246,6 +249,8 @@ public class MapManager : MonoBehaviour
         _movementLength = Vector2.Distance(initialPosition, finalPosition);
 
         float movementDuration = _movementLength / GameConfig.MovementSpeed;
+
+        _playerAnimator.SetBool("isWalking", true);
 
         while (_timer < movementDuration)
         {

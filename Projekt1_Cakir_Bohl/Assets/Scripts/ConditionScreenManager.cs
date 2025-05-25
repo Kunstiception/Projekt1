@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ConditionScreenManager : Manager
 {
+    [SerializeField] private GameObject _zombieText;
+    [SerializeField] private GameObject _werewolfText;
+    [SerializeField] private GameObject _vampireText;
+
     private string _conditionName;
     
     IEnumerator Start()
@@ -26,16 +31,19 @@ public class ConditionScreenManager : Manager
         {
             case ConditionManager.Conditions.Vampire:
                 _conditionName = "Vampire";
-                
+                Instantiate(_vampireText);
+
                 break;
 
             case ConditionManager.Conditions.Werewolf:
                 _conditionName = "Werewolf";
+                Instantiate(_werewolfText);
 
                 break;
 
             case ConditionManager.Conditions.Zombie:
                 _conditionName = "Zombie";
+                Instantiate(_zombieText);
 
                 break;
         }

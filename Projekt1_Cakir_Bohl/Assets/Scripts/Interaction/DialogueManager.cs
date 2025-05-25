@@ -17,6 +17,9 @@ public class DialogueManager : Manager, ISelectable
     private bool _isRunning;
     private Canvas _dialogueCanvas;
 
+    public delegate void OnDialogueFinished();
+    public static OnDialogueFinished onDialogueFinished;
+
     void Start()
     {
         _dialogueOptions = _menuOptions.GetComponentsInChildren<TextMeshProUGUI>();
@@ -44,6 +47,10 @@ public class DialogueManager : Manager, ISelectable
                 StopCoroutine(_dialogueCoroutine);
 
                 _dialogueCoroutine = null;
+
+                _textBox.text = "";
+
+                onDialogueFinished?.Invoke();
 
                 break;
             }
@@ -94,11 +101,6 @@ public class DialogueManager : Manager, ISelectable
 
                 return;
             }
-
-        // if (_currentDialogueLines.BranchingLines[index] == _initialOptions)
-        // {
-            
-        // }
 
         _currentDialogueLines = _currentDialogueLines.BranchingLines[index];
 

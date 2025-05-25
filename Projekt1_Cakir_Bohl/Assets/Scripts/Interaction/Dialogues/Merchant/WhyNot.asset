@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WhyNot
   m_EditorClassIdentifier: 
   Lines:
-  - I'd be broke if I were to give a discount to every guy who comes along here.
+  - I'd be broke if I gave a discount to every guy who comes along here.
   PlayerOptions:
   - How about ten percent?
   - Makes sense actually...

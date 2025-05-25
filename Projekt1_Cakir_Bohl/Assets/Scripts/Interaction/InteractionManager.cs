@@ -9,7 +9,7 @@ public enum SceneType
     IsDog  = 1,
     IsNPC = 2
 }
-    
+
 public class InteractionManager : Manager, ISelectable
 {
 
@@ -73,11 +73,13 @@ public class InteractionManager : Manager, ISelectable
 
     private void OnEnable()
     {
-
+        DialogueManager.onDialogueFinished += ResetMenus;
     }
 
     void OnDisable()
     {
+        DialogueManager.onDialogueFinished -= ResetMenus;
+
         StopAllCoroutines();
     }
 
@@ -90,7 +92,7 @@ public class InteractionManager : Manager, ISelectable
             case 0:
                 sceneType = SceneType.IsMerchant;
 
-                _merchant.SetActive(false);
+                _merchant.SetActive(true);
 
                 break;
 
@@ -163,5 +165,11 @@ public class InteractionManager : Manager, ISelectable
 
                 break;
         }
+    }
+
+    private void ResetMenus()
+    {
+        ToggleCanvas(InitialMenuCanvas, true);
+        ToggleCanvas(DialogueCanvas, false);       
     }
 }
