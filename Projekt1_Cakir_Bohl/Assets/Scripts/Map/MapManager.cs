@@ -216,6 +216,11 @@ public class MapManager : MonoBehaviour
         {
             foreach(Transform wayPoint in _currentWaypoint.GetComponent<WayPoint>().AdjacentWaypoints)
             {
+                if (wayPoint.GetComponent<WayPoint>().WayPointType == "Empty")
+                {
+                    continue;
+                }
+
                 wayPoint.gameObject.tag = _interactableTag;
             }
 
@@ -224,6 +229,11 @@ public class MapManager : MonoBehaviour
 
         foreach(Transform wayPoint in _nextWaypoint.GetComponent<WayPoint>().AdjacentWaypoints)
         {
+            if (wayPoint.GetComponent<WayPoint>().WayPointType == "Empty")
+            {
+                continue;
+            }
+
             wayPoint.gameObject.tag = _interactableTag;
         }
     }

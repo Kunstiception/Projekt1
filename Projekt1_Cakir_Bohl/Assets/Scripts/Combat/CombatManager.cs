@@ -293,14 +293,20 @@ public class CombatManager : Manager, ISelectable
 
         TextMeshProUGUI[] options = _persuasionMenuCanvas.GetComponentsInChildren<TextMeshProUGUI>();
 
-        // Zwei zufällige Optionen und Werte zuweisen, danach jeweils aus dem Original-Dictionary entfernen, damit nicht zweimal dieselbe Option angezeigt wird
-        for (int i = 0; i < options.Length - 1; i++)
+        // Zwei zufällige Optionen und Werte zuweisen und temorärem Dicitionary hinzufügen (falls nicht schon vorhanden, wenn zuvor return ausgewählt wurde und man wieder zurückkehrt)
+        if (_enemyCurrentInsultsAndValues.Count == 0)
         {
-            int index = UnityEngine.Random.Range(0, _enemyInsultsAndValues.Count - 1);
+            for (int i = 0; i < options.Length - 1; i++)
+            {
+                int index = UnityEngine.Random.Range(0, _enemyInsultsAndValues.Count - 1);
 
-            options[i].text = _enemyInsultsAndValues.ElementAt(index).Key;
-            _enemyCurrentInsultsAndValues.Add(options[i].text, _enemyInsultsAndValues.ElementAt(index).Value);
-            _enemyInsultsAndValues.Remove(options[i].text);
+                options[i].text = _enemyInsultsAndValues.ElementAt(index).Key;
+
+                if (!_enemyCurrentInsultsAndValues.ContainsKey(options[i].text))
+                {
+                    _enemyCurrentInsultsAndValues.Add(options[i].text, _enemyInsultsAndValues.ElementAt(index).Value);
+                }
+            }          
         }
     }
 
@@ -325,7 +331,7 @@ public class CombatManager : Manager, ISelectable
                 yield break;
             }
 
-            // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden, nicht gewählte Optionen wieder ins Original-Dictionary einfügen
+            // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden, gewählte Optionen aus Original-Dictionary entfernen
             switch (optionIndex)
             {
                 case 0:
@@ -335,7 +341,7 @@ public class CombatManager : Manager, ISelectable
                     _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
                     _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
 
-                    _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(1).Key, _enemyCurrentInsultsAndValues.ElementAt(1).Value);
+                    _enemyInsultsAndValues.Remove(_enemyCurrentInsultsAndValues.ElementAt(0).Key);
 
                     break;
 
@@ -346,7 +352,7 @@ public class CombatManager : Manager, ISelectable
                     _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
                     _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
 
-                    _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(0).Key, _enemyCurrentInsultsAndValues.ElementAt(0).Value);
+                    _enemyInsultsAndValues.Remove(_enemyCurrentInsultsAndValues.ElementAt(1).Key);
 
                     break;
 

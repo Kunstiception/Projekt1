@@ -308,11 +308,11 @@ MonoBehaviour:
   wayPointCategory: 0
   AdjacentWaypoints: []
   _waypointVisuals:
-  - {fileID: 7246996027781560694}
-  - {fileID: 127156704942254967}
-  - {fileID: 7389181441131955681}
-  - {fileID: 5535236652979069245}
-  - {fileID: 1458835983714046403}
+  - {fileID: 7712861900381335912}
+  - {fileID: 3776056769962938751}
+  - {fileID: 58613503237901929}
+  - {fileID: 1106159825223250780}
+  - {fileID: 2657625200425758128}
 --- !u!61 &5273012111986392595
 BoxCollider2D:
   m_ObjectHideFlags: 0
