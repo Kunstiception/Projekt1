@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,14 +17,13 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] private Slider _enemyEgoBarBelow;
     [SerializeField] private Canvas _selectionMenuCanvas;
     [SerializeField] private Canvas _persuasionMenuCanvas;
+    [SerializeField] private GameObject _hitAnimation;
 
     private int _intitialPlayerHealth;
     private int _playerRoll;
     private int _enemyRoll;
     private int _combatantHealth1;
     private int _combatantHealth2;
-    private int _playerHealth;
-    private int _enemyHealth;
     private int _attackerHealth;
     private int _defenderHealth;
     private int _defenderEgoPoints;
@@ -61,6 +59,7 @@ public class CombatManager : Manager, ISelectable
         _textBox.enabled = true;
         _promptSkip.enabled = true;
         _promptContinue.enabled = false;
+        _hitAnimation.SetActive(false);
 
         ToggleCanvas(_selectionMenuCanvas, false);
         ToggleCanvas(_persuasionMenuCanvas, false);
@@ -781,7 +780,14 @@ public class CombatManager : Manager, ISelectable
         var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(slider.gameObject);
         childSlider.GetComponent<Slider>().value = nextValue;
 
+        if (combatant == _enemy)
+        {
+            _hitAnimation.SetActive(true);
+        }
+
         yield return new WaitForSeconds(GameConfig.TimeBeforeHealthbarUpdate);
+        
+        _hitAnimation.SetActive(false);
 
         while (lerpValue <= 1 && lerpValue >= 0)
         {

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
@@ -6,11 +7,9 @@ using UnityEngine;
 public class DialogueManager : Manager, ISelectable
 {
     [SerializeField] private DialogueLines _initialOptions;
-    [SerializeField] private DialogueTopic[] _topics;
     [SerializeField] private GameObject _menuOptions;
 
     private DialogueLines _currentDialogueLines;
-    private DialogueTopic _currentTopic;
     private TextMeshProUGUI[] _dialogueOptions;
     private Coroutine _dialogueCoroutine;
     private bool _isRunning;
@@ -34,7 +33,7 @@ public class DialogueManager : Manager, ISelectable
     private IEnumerator DialogueCoroutine()
     {
         yield return ShowLinesAndHandleSelection(_initialOptions);
-        
+
         do
         {
             yield return ShowLinesAndHandleSelection(_currentDialogueLines);
@@ -43,18 +42,11 @@ public class DialogueManager : Manager, ISelectable
             {
                 yield return PrintMultipleLines(_currentDialogueLines.Lines);
 
-                StopCoroutine(_dialogueCoroutine);
-
-                _dialogueCoroutine = null;
-
-                _textBox.text = "";
-
-                onDialogueFinished?.Invoke();
+                EndDialogue();
 
                 break;
             }
-
-        } while (true);
+        } while (_isRunning && _textBox.text != _currentLine);
     }
 
     private IEnumerator ShowLinesAndHandleSelection(DialogueLines dialogueLines)
@@ -67,7 +59,7 @@ public class DialogueManager : Manager, ISelectable
 
         _isRunning = false;
 
-        for (int i = 0; i < _dialogueOptions.Length - 1; i++)
+        for (int i = 0; i < _dialogueOptions.Length; i++)
         {
             _dialogueOptions[i].text = dialogueLines.PlayerOptions[i];
         }
@@ -91,18 +83,34 @@ public class DialogueManager : Manager, ISelectable
     public void HandleSelectedMenuPoint(int index)
     {
         if (_currentDialogueLines == null)
-            {
-                _currentTopic = _topics[index];
+        {
+            _currentDialogueLines = _initialOptions.BranchingLines[index];
 
-                _currentDialogueLines = _initialOptions.BranchingLines[index];
+            _isRunning = true;
 
-                _isRunning = true;
-
-                return;
-            }
+            return;
+        }
 
         _currentDialogueLines = _currentDialogueLines.BranchingLines[index];
 
+        if (_currentDialogueLines == _initialOptions)
+        {
+            EndDialogue();
+
+            return;
+        }
+
         _isRunning = true;
+    }
+
+    private void EndDialogue()
+    {
+        StopCoroutine(_dialogueCoroutine);
+
+        onDialogueFinished?.Invoke();
+
+        _isRunning = false;
+        _currentDialogueLines = null;
+        _textBox.text = "";
     }
 }

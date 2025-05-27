@@ -177,8 +177,6 @@ MonoBehaviour:
   _playerEgoBarBelow: {fileID: 0}
   _playerHealthbarSection: {fileID: 0}
   _initialOptions: {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}
-  _topics:
-  - {fileID: 11400000, guid: e1c4c3a6ff853b44d96956f82dafd101, type: 2}
   _menuOptions: {fileID: 125906432}
 --- !u!1 &125906432
 GameObject:
@@ -1004,7 +1002,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -351.0923, w: 0}
+  m_margin: {x: 0, y: 0, z: -1137.1312, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2847,7 +2845,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -351.0921, w: 0}
+  m_margin: {x: 0, y: 0, z: -1141.6105, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

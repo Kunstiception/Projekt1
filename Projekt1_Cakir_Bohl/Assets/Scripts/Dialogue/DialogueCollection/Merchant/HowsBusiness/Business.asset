@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
-  m_Name: MerchantInitialOptions
+  m_Name: Business
   m_EditorClassIdentifier: 
   Lines:
-  - Is this necessary?
+  - 'That''s none of your concern.
+
+'
   PlayerOptions:
-  - So... could I get a discount?
-  - How's business?
+  - Alright... (return)
+  - Why are you being so mysterious?
   BranchingLines:
-  - {fileID: 11400000, guid: 21889cd404d1ab048b487d02494780d0, type: 2}
-  - {fileID: 11400000}
-  positionInDialogue: 0
+  - {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}
+  - {fileID: 11400000, guid: d707f991640c66d4da3b823c15ab95fe, type: 2}
+  positionInDialogue: 1

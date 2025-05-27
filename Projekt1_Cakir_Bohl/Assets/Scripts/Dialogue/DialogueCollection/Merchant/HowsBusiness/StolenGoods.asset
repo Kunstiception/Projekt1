@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: StolenGoods
+  m_EditorClassIdentifier: 
+  Lines:
+  - Not necessarily.
+  - Some of their previous owners simply didn't need them anymore.
+  - These are dangerous paths you tread, knight. Never forget that.
+  PlayerOptions:
+  - How reassuring... (return)
+  - I shouldn't inquire any further, should I?
+  BranchingLines:
+  - {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}
+  - {fileID: 11400000, guid: 4b90149e0232d224888de6444bd1834d, type: 2}
+  positionInDialogue: 1
