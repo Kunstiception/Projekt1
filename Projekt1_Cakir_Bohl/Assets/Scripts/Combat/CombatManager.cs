@@ -568,15 +568,15 @@ public class CombatManager : Manager, ISelectable
         if (defenderEgoPoints <= 0)
         {
             // https://learn.microsoft.com/en-us/dotnet/api/system.mathf.round?view=net-9.0
-            _finalDamage = (int)MathF.Round(damage * 1.5f);
+            _finalDamage = (int)MathF.Round(damage * GameConfig.MaximumDamageModifier);
             return;
         }
 
         float floatDamage = (float)damage / ((float)defenderEgoPoints / 3);
 
-        if (floatDamage > (int)MathF.Round(damage * 1.5f))
+        if (floatDamage > (int)MathF.Round(damage * GameConfig.MaximumDamageModifier))
         {
-            floatDamage = damage * 1.5f;
+            floatDamage = damage * GameConfig.MaximumDamageModifier;
         }
 
         _finalDamage = (int)MathF.Round(floatDamage);

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -98,7 +97,7 @@ public class RestingManager : Manager, ISelectable, ICondition
                 break;
                 
             case 1:
-                StartCoroutine(UseOrDiscardItem(isUse: false));
+                StartCoroutine(DiscardItem());
 
                 break;
 
@@ -116,21 +115,43 @@ public class RestingManager : Manager, ISelectable, ICondition
         }
     }
 
+    private IEnumerator DiscardItem()
+    {
+        _currentLine = $"You discard {_currentItem.Name}.";
+        yield return HandleTextOutput(_currentLine, false);
+
+        InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
+
+        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
+
+        _textBox.text = "";
+
+        if(InventoryManager.Instance.Inventory.Count > 0)
+        {
+            ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+        }
+        else
+        {
+            ToggleCanvas(ItemToDoCanvas, false);
+            ToggleCanvas(InventoryCanvas, true);
+        }
+    }
+
     // Überprüft, welches Item ausgewählt wurde
     private IEnumerator CheckItemType()
-    {   
-        switch(_currentItem.ItemType)
+    {
+        switch (_currentItem.ItemType)
         {
             case Item.ItemTypes.isUsable:
-                StartCoroutine(UseOrDiscardItem(isUse: true));
+                StartCoroutine(UseSelectedItem());
 
                 break;
 
             case Item.ItemTypes.isEquipment:
-                // Methode zum Ausrüsten
+                StartCoroutine(EquipSelectedItem());
 
                 break;
-            
+
             case Item.ItemTypes.isCurrency:
                 _currentLine = _currentItem.LookAtText;
                 yield return HandleTextOutput(_currentLine, false);
@@ -141,37 +162,16 @@ public class RestingManager : Manager, ISelectable, ICondition
         }
     }
 
-    // Verbraucht das Item (was eine Liste an strings zurückgibt, um die Aktion zu beschreiben) oder wirft es weg
-    private IEnumerator UseOrDiscardItem(bool isUse)
+    // Verbraucht das Item (was eine Liste an strings zurückgibt, um die Aktion zu beschreiben)
+    private IEnumerator UseSelectedItem()
     {
-        if(!isUse)
-        {
-            _currentLine = $"You discard {_currentItem.Name}.";
-            yield return HandleTextOutput(_currentLine, false);
+        _currentItemLines = _currentItem.GetComponent<IUsable>().UseItem().ToArray();
 
-            InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
-
-            InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
-
-            _textBox.text = "";
-
-            if(InventoryManager.Instance.Inventory.Count > 0)
-            {
-                ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
-            }
-            else
-            {
-                ToggleCanvas(ItemToDoCanvas, false);
-                ToggleCanvas(InventoryCanvas, true);
-            }
-
-            yield break;
-        }
-
-        _currentItemLines = _currentItem.GetComponent<IConsumable>().UseItem().ToArray();
+        InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
 
         InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
 
+        // Erste Line immer zeigen, auswürfeln ob auch eine zweite angezeigt wird (eine Art Easter Egg)
         _currentLine = _currentItemLines[0];
         yield return HandleTextOutput(_currentLine, false);
 
@@ -183,6 +183,29 @@ public class RestingManager : Manager, ISelectable, ICondition
                 yield return HandleTextOutput(_currentLine, false);
             }
         }
+
+        _textBox.text = "";
+
+        if(InventoryManager.Instance.Inventory.Count > 0)
+        {
+            ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+        }
+        else
+        {
+            ToggleCanvas(ItemToDoCanvas, false);
+            ToggleCanvas(InventoryCanvas, true);
+        }
+    }
+
+    private IEnumerator EquipSelectedItem()
+    {
+        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
+
+        InventoryManager.Instance.ManageEquipment(_currentItem, true);
+
+        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
+
+        yield return PrintMultipleLines(_currentItem.GetComponent<IEquipable>().EquipItem(true).ToArray());
 
         _textBox.text = "";
 

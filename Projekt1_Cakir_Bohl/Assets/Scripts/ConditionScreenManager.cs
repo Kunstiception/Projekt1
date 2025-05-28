@@ -85,10 +85,6 @@ public class ConditionScreenManager : Manager
         {
             lines[1] = lines[1] + "!";
         }
-        else
-        {
-            lines[0] = lines[0] + "!";
-        }
 
        return lines;
     }

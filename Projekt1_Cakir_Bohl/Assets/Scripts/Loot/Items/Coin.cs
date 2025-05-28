@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class Coin : Item, IConsumable
+public class Coin : Item, IUsable
 {
     public List<string> UseItem()
     {

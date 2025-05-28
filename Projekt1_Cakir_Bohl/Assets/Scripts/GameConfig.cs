@@ -1,21 +1,24 @@
 public static class GameConfig
 {
-    //Player
+    // Player
     public static int PlayerStartingHealth = 10;
     public static int PlayerStartingEgo = 10;
 
-    //Dialogue
+    // Dialogue
     public static float TimeBetweenChars = 0.075f;
     public static float TimeBeforeNextLine = 0.75f;
     public static float TimeBeforeLevelLoad = 0.25f;
 
-    //Map
+    // Map
     public static float MovementSpeed = 1.5f;
     public static string[] WayPointTypes = { "Empty", "Fight", "Loot", "Interaction", "Resting" };
 
-    //Combat
+    // Combat
     public static float BarsLerpSpeed = 0.75f;
     public static float TimeBeforeHealthbarUpdate = 0.25f;
+    public static float MaximumDamageModifier = 1.5f;
+
+    // Resting
     public static int AmbushChance = 2;
 
     //Looting
@@ -24,6 +27,8 @@ public static class GameConfig
     //Items
     public static int MinimumHeal = 4;
     public static int MaximumHeal = 7;
+    public static int AdditionalHealthPoints = 2;
+    public static int AdditionalEgoPoints = 2;
 
     // Conditions
     public static int VampireSunDamage = 1;

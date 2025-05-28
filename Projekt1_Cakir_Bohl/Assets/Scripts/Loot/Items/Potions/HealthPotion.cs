@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthPotion : HealingItem, IConsumable
+public class HealthPotion : HealingItem, IUsable
 {
     public List<string> UseItem()
     {

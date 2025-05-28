@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8245900943846570287
+--- !u!1 &1888340181213580450
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7438530827180205556}
-  - component: {fileID: 6638317689232277870}
+  - component: {fileID: 1167518957296130703}
+  - component: {fileID: 8213404129468873995}
   m_Layer: 0
-  m_Name: InventoryManager
+  m_Name: HealthRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7438530827180205556
+--- !u!4 &1167518957296130703
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8245900943846570287}
+  m_GameObject: {fileID: 1888340181213580450}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.08958034, y: -0.120903544, z: -0.039886497}
+  m_LocalPosition: {x: 1286.6217, y: 450.32138, z: -4.042078}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6638317689232277870
+--- !u!114 &8213404129468873995
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8245900943846570287}
+  m_GameObject: {fileID: 1888340181213580450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f614c6f616f62c4da403b070101ecb5, type: 3}
+  m_Script: {fileID: 11500000, guid: b9e84758742d9ac479cafc7ed80e6629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _items:
-  - {fileID: 7636313497080733404, guid: 0b5235ee86cddaa4a8e91344b3e9762a, type: 3}
-  - {fileID: 6130178259746579057, guid: 2d7400668fecd4b4683e6e9e95c2c2ce, type: 3}
-  - {fileID: 2082571653637561036, guid: 5b9846cf6268e0f46a1daf8062269c0e, type: 3}
-  - {fileID: 8213404129468873995, guid: 19f4074a2def78542a4a26dfbbd99423, type: 3}
-  - {fileID: 2375575768247096063, guid: 4fe1fab4a8a6595419c72b47815f5298, type: 3}
+  ItemType: 1
+  Name: Ring of Life
+  Description: A thin golden ring with a red ruby on it. The ring is supposed to
+    boost your health.
+  LookAtText: 
+  MinimumAmountOnLoot: 1
+  MaximumAmountOnLoot: 1
+  StorePrice: 0
+  equipmentType: 0

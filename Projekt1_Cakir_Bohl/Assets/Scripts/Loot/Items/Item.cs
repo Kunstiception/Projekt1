@@ -12,6 +12,7 @@ public class Item: MonoBehaviour
     public ItemTypes ItemType;
     
     public string Name;
+    [TextArea]
     public string Description;
     public string LookAtText;
     public int MinimumAmountOnLoot;

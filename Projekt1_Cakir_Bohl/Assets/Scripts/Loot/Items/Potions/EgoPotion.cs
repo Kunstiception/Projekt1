@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EgoPotion : HealingItem, IConsumable
+public class EgoPotion : HealingItem, IUsable
 {
     public List<string> UseItem()
     {

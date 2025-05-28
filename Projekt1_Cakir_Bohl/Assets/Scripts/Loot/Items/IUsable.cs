@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public interface IConsumable
+public interface IUsable
 {
     List<string> UseItem();
 }
