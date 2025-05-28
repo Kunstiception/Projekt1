@@ -292,20 +292,20 @@ public class CombatManager : Manager, ISelectable
 
         TextMeshProUGUI[] options = _persuasionMenuCanvas.GetComponentsInChildren<TextMeshProUGUI>();
 
-        // Zwei zufällige Optionen und Werte zuweisen und temorärem Dicitionary hinzufügen (falls nicht schon vorhanden, wenn zuvor return ausgewählt wurde und man wieder zurückkehrt)
+        // Zwei zufällige Optionen und Werte zuweisen und temporärem Dicitionary hinzufügen (falls nicht schon vorhanden, wenn zuvor return ausgewählt wurde und man wieder zurückkehrt)
+        // Option aus Original-Dictionary entfernen
         if (_enemyCurrentInsultsAndValues.Count == 0)
         {
             for (int i = 0; i < options.Length - 1; i++)
             {
-                int index = UnityEngine.Random.Range(0, _enemyInsultsAndValues.Count - 1);
+                int randomIndex = UnityEngine.Random.Range(0, _enemyInsultsAndValues.Count - 1);
 
-                options[i].text = _enemyInsultsAndValues.ElementAt(index).Key;
+                options[i].text = _enemyInsultsAndValues.ElementAt(randomIndex).Key;
 
-                if (!_enemyCurrentInsultsAndValues.ContainsKey(options[i].text))
-                {
-                    _enemyCurrentInsultsAndValues.Add(options[i].text, _enemyInsultsAndValues.ElementAt(index).Value);
-                }
-            }          
+                _enemyCurrentInsultsAndValues.Add(options[i].text, _enemyInsultsAndValues.ElementAt(randomIndex).Value);
+
+                _enemyInsultsAndValues.Remove(options[i].text);
+            }
         }
     }
 
@@ -330,7 +330,8 @@ public class CombatManager : Manager, ISelectable
                 yield break;
             }
 
-            // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden, gewählte Optionen aus Original-Dictionary entfernen
+            // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden
+            // Nicht gewählte Option wieder dem Original-Dictionary hinzufügen
             switch (optionIndex)
             {
                 case 0:
@@ -340,7 +341,7 @@ public class CombatManager : Manager, ISelectable
                     _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
                     _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
 
-                    _enemyInsultsAndValues.Remove(_enemyCurrentInsultsAndValues.ElementAt(0).Key);
+                    _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(1).Key, _enemyCurrentInsultsAndValues.ElementAt(1).Value);
 
                     break;
 
@@ -351,7 +352,7 @@ public class CombatManager : Manager, ISelectable
                     _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
                     _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
 
-                    _enemyInsultsAndValues.Remove(_enemyCurrentInsultsAndValues.ElementAt(1).Key);
+                    _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(0).Key, _enemyCurrentInsultsAndValues.ElementAt(0).Value);
 
                     break;
 
@@ -594,9 +595,8 @@ public class CombatManager : Manager, ISelectable
         {
             if(isRetreat)
             {
-                StartCoroutine(CheckForSleepDeprived());
-
-                yield break;
+                _currentLine = "You manage to escape!";
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
             }
             else
             {
@@ -653,9 +653,6 @@ public class CombatManager : Manager, ISelectable
 
         if (_playerRoll >= _enemy.Initiative)
         {        
-            _currentLine = "You manage to escape!";
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-
             StartCoroutine(EndFight(PlayerManager.Instance, isRetreat: true));
 
             yield break;

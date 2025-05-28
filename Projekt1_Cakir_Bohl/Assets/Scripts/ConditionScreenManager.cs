@@ -13,7 +13,13 @@ public class ConditionScreenManager : Manager
     
     IEnumerator Start()
     {
+        _textBox.text = "";
+        _promptSkip.enabled = false;
+        _promptContinue.enabled = false;
+
         SetCondionName();
+
+        yield return new WaitForSeconds(2);
 
         yield return StartCoroutine(PrintMultipleLines(CreateLines().ToArray()));
 
@@ -55,36 +61,34 @@ public class ConditionScreenManager : Manager
 
         var conditions = ConditionManager.Instance.GetCurrentConditions();
         
-        if(conditions[0] == ConditionManager.Conditions.SleepDeprived)
+        if(PlayerManager.Instance.LatestCondition == ConditionManager.Conditions.SleepDeprived)
         {
             lines.Add($"You are now sleep deprived.");
-        }
-        else
-        {
-            lines.Add($"You are now a {_conditionName}.");
-        }
-
-        if(conditions.Count < 2)
-        {
-            return lines;
         }
 
         foreach(ConditionManager.Conditions condition in conditions)
         {
-                if(condition != PlayerManager.Instance.LatestCondition)
+            if(condition != PlayerManager.Instance.LatestCondition)
+            {
+                if(condition == ConditionManager.Conditions.SleepDeprived)
                 {
-                    if(condition == ConditionManager.Conditions.SleepDeprived)
-                    {
-                        lines.Add($"... a sleep deprived {_conditionName}");
+                    lines.Add($"... a sleep deprived {_conditionName}");
 
-                        continue;
-                    }
-
-                    lines[1] = lines[1] + $"-{condition}";
+                    continue;
                 }
-            }
 
-       lines[1] = lines[1] + "!";
+                lines[1] = lines[1] + $"-{condition}";
+            }
+        }
+
+        if (lines.Count > 1)
+        {
+            lines[1] = lines[1] + "!";
+        }
+        else
+        {
+            lines[0] = lines[0] + "!";
+        }
 
        return lines;
     }

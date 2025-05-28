@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Combat.unity
     guid: 5c3e34c7bb563bb40a370400c84036ee
   - enabled: 1
-    path: Assets/Scenes/LootTest.unity
+    path: Assets/Scenes/Looting.unity
     guid: b610409e92e7bfd4ab389979f0f1e618
   - enabled: 1
     path: Assets/Scenes/Interaction.unity

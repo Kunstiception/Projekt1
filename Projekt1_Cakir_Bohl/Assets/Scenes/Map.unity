@@ -2476,7 +2476,7 @@ MonoBehaviour:
   _firstWaypoints:
   - {fileID: 931179231}
   - {fileID: 1761452428}
-  - {fileID: 0}
+  - {fileID: 880281846}
   _days:
   - {fileID: 1016516670}
   - {fileID: 1267007646}
