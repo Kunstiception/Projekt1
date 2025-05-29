@@ -197,19 +197,27 @@ public class RestingManager : Manager, ISelectable, ICondition
         }
     }
 
+    // Equipment anlegen
     private IEnumerator EquipSelectedItem()
     {
-        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
+        if (InventoryManager.Instance.ManageEquipment(_currentItem, true))
+        {
+            InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
 
-        InventoryManager.Instance.ManageEquipment(_currentItem, true);
+            yield return PrintMultipleLines(_currentItem.GetComponent<IEquipable>().EquipItem(true).ToArray());
 
-        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
+            InitializePlayerStats();
+        }
+        else
+        {
+            _currentLine = "Cannot equip item!";
+            yield return HandleTextOutput(_currentLine, false);
+        }
 
-        yield return PrintMultipleLines(_currentItem.GetComponent<IEquipable>().EquipItem(true).ToArray());
 
         _textBox.text = "";
 
-        if(InventoryManager.Instance.Inventory.Count > 0)
+        if (InventoryManager.Instance.Inventory.Count > 0)
         {
             ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
         }

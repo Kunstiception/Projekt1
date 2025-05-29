@@ -7,6 +7,7 @@ public class InventoryManager : MonoBehaviour
 
     public Dictionary<Item, int> Inventory = new Dictionary<Item, int>();
     public Dictionary<string, Item> AllItems = new Dictionary<string, Item>();
+    public List<Equipment> CurrentEquipment = new List<Equipment>();
     [SerializeField] private Item[] _items;
     private int _numberOfRings;
     private int _numberOfArmor;
@@ -58,62 +59,75 @@ public class InventoryManager : MonoBehaviour
         Inventory.Add(item, amount);
     }
 
-    public void ManageEquipment(Item selectedEquipment, bool isEquip)
+    public bool ManageEquipment(Item selectedEquipment, bool isEquip)
     {
         Equipment equipment = (Equipment)selectedEquipment;
 
         switch (equipment.equipmentType)
         {
             case Equipment.EquipmentType.isRing:
-                if (!isEquip)
+                if (!isEquip && _numberOfRings > 0)
                 {
                     _numberOfRings--;
 
-                    return;
+                    CurrentEquipment.Remove(equipment);
+
+                    return true;
                 }
 
                 if (_numberOfRings >= 2)
                 {
-                    return;
+                    return false;
                 }
 
                 _numberOfRings++;
 
                 break;
 
-            case Equipment.EquipmentType.isBodyArmor:
-                if (!isEquip)
+            case Equipment.EquipmentType.isAmulet:
+                if (!isEquip && _numberOfArmor > 0)
                 {
                     _numberOfArmor--;
 
-                    return;
+                    CurrentEquipment.Remove(equipment);
+
+                    return true;
                 }
 
                 if (_numberOfArmor >= 1)
                 {
-                    return;
+                    return false;
                 }
 
                 _numberOfArmor++;
 
                 break;
 
-            case Equipment.EquipmentType.isHelmet:
-                if (!isEquip)
+            case Equipment.EquipmentType.isWeapon:
+                if (!isEquip && _numberofHelmets > 0)
                 {
                     _numberofHelmets--;
 
-                    return;
+                    CurrentEquipment.Remove(equipment);
+
+                    return true;
                 }
 
                 if (_numberofHelmets >= 1)
                 {
-                    return;
+                    return false;
                 }
 
                 _numberofHelmets++;
 
                 break;
+
+            default:
+                return false;
         }
+
+        CurrentEquipment.Add(equipment);
+
+        return true;
     }
 }

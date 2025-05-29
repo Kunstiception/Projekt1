@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryDisplayer : SelectionMenu
 {
     [SerializeField] private TextMeshProUGUI[] _amountTexts;
+    [SerializeField] private TextMeshProUGUI[] _equipIndicators;
     [SerializeField] protected TextMeshProUGUI _textBox;
     [SerializeField] private TextMeshProUGUI _useOrEquipPrompt;
     [SerializeField] private RestingManager _restingManager;
@@ -14,18 +15,20 @@ public class InventoryDisplayer : SelectionMenu
     protected string _name;
     private int _amount;
 
-    public virtual void Start()
+    public override void Start()
     {
         IsActive = true;
-        
+
         InitializeInventory();
 
-        if(InventoryManager.Instance.Inventory.Count > 0)
+        if (InventoryManager.Instance.Inventory.Count > 0)
         {
             _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
         }
 
         SetInitialPointer();
+
+        UpdateEquipIndicators();
     }
 
     void Update()
@@ -35,7 +38,7 @@ public class InventoryDisplayer : SelectionMenu
 
     private void InitializeInventory()
     {
-        for(int i = 0; i < InventoryManager.Instance.Inventory.Count; i++)
+        for (int i = 0; i < InventoryManager.Instance.Inventory.Count; i++)
         {
             _name = InventoryManager.Instance.Inventory.ElementAt(i).Key.Name;
             _amount = InventoryManager.Instance.Inventory[InventoryManager.Instance.Inventory.ElementAt(i).Key];
@@ -49,7 +52,7 @@ public class InventoryDisplayer : SelectionMenu
         _menuPoints[InventoryManager.Instance.Inventory.Count].text = "Return";
         _amountTexts[InventoryManager.Instance.Inventory.Count].text = "";
 
-        for(int i = InventoryManager.Instance.Inventory.Count + 1; i < _menuPoints.Length; i++)
+        for (int i = InventoryManager.Instance.Inventory.Count + 1; i < _menuPoints.Length; i++)
         {
             _menuPoints[i].text = "";
             _amountTexts[i].text = "";
@@ -58,23 +61,23 @@ public class InventoryDisplayer : SelectionMenu
     }
 
     public virtual void UpdateDisplayedInventory(Item item)
-    {            
-        if(InventoryManager.Instance.Inventory.Count <= 0)
+    {
+        if (InventoryManager.Instance.Inventory.Count <= 0)
         {
             _menuPoints[0].text = "Return";
             _amountTexts[0].text = "";
         }
-        
-        if(InventoryManager.Instance.Inventory.ContainsKey(item))
+
+        if (InventoryManager.Instance.Inventory.ContainsKey(item))
         {
             _amount = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Value;
             _amountTexts[_currentMenuPoint].text = $"x {_amount}";
         }
         else
         {
-            for(int i = _currentMenuPoint; i < _menuPoints.Length; i++)
+            for (int i = _currentMenuPoint; i < _menuPoints.Length; i++)
             {
-                if(_menuPoints[i].text == "")
+                if (_menuPoints[i].text == "")
                 {
                     break;
                 }
@@ -83,7 +86,7 @@ public class InventoryDisplayer : SelectionMenu
                 _amountTexts[i].text = _amountTexts[i + 1].text;
             }
 
-            if(InventoryManager.Instance.Inventory.Count > 0)
+            if (InventoryManager.Instance.Inventory.Count > 0)
             {
                 itemSelection?.Invoke(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
             }
@@ -94,16 +97,16 @@ public class InventoryDisplayer : SelectionMenu
     {
         base.InitializeMenu();
 
-        if(InventoryManager.Instance.Inventory.Count <= 0)
+        if (InventoryManager.Instance.Inventory.Count <= 0)
         {
             _textBox.enabled = true;
             _textBox.text = "Your inventory is empty.";
             return;
         }
-        
+
         _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
-        
-        if(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key != null)
+
+        if (InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key != null)
         {
             ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
         }
@@ -111,14 +114,14 @@ public class InventoryDisplayer : SelectionMenu
 
     public override void ListenForInputs()
     {
-        while(!IsActive)
+        while (!IsActive)
         {
             return;
         }
-        
-        if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if(_currentMenuPoint == _menuPoints.Length - 1)
+            if (_currentMenuPoint == _menuPoints.Length - 1)
             {
                 return;
             }
@@ -126,7 +129,7 @@ public class InventoryDisplayer : SelectionMenu
             ChangePosition(isUp: false);
         }
         else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-            {
+        {
             if (_currentMenuPoint == 0)
             {
                 return;
@@ -134,9 +137,9 @@ public class InventoryDisplayer : SelectionMenu
 
             ChangePosition(isUp: true);
         }
-        else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+        else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            if(_currentMenuPoint == InventoryManager.Instance.Inventory.Count || InventoryManager.Instance.Inventory.Count == 0)
+            if (_currentMenuPoint == InventoryManager.Instance.Inventory.Count || InventoryManager.Instance.Inventory.Count == 0)
             {
                 _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, true);
                 _restingManager.ToggleCanvas(_restingManager.InventoryCanvas, false);
@@ -152,7 +155,7 @@ public class InventoryDisplayer : SelectionMenu
             _restingManager.ToggleCanvas(_restingManager.ItemToDoCanvas, true);
             _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, false);
 
-            itemSelection?.Invoke(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key); 
+            itemSelection?.Invoke(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
 
             IsActive = false;
         }
@@ -160,9 +163,9 @@ public class InventoryDisplayer : SelectionMenu
 
     public override void ChangePosition(bool isUp)
     {
-        if(isUp)
+        if (isUp)
         {
-            if(_currentMenuPoint == 0)
+            if (_currentMenuPoint == 0)
             {
                 return;
             }
@@ -171,7 +174,7 @@ public class InventoryDisplayer : SelectionMenu
         }
         else
         {
-            if(_currentMenuPoint == InventoryManager.Instance.Inventory.Count)
+            if (_currentMenuPoint == InventoryManager.Instance.Inventory.Count)
             {
                 return;
             }
@@ -181,7 +184,7 @@ public class InventoryDisplayer : SelectionMenu
 
         for (int i = 0; i < _pointers.Length; i++)
         {
-            if(i == _currentMenuPoint)
+            if (i == _currentMenuPoint)
             {
                 _pointers[i].gameObject.SetActive(true);
                 continue;
@@ -189,14 +192,14 @@ public class InventoryDisplayer : SelectionMenu
 
             _pointers[i].gameObject.SetActive(false);
         }
-        
-        if(_currentMenuPoint == InventoryManager.Instance.Inventory.Count)
+
+        if (_currentMenuPoint == InventoryManager.Instance.Inventory.Count)
         {
             _textBox.text = "Select no item and go back.";
 
             return;
         }
-        
+
         ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
     }
 
@@ -204,7 +207,7 @@ public class InventoryDisplayer : SelectionMenu
     {
         _textBox.text = item.Description;
 
-        switch(item.ItemType)
+        switch (item.ItemType)
         {
             case Item.ItemTypes.isUsable:
                 _useOrEquipPrompt.text = "Use";
@@ -212,14 +215,45 @@ public class InventoryDisplayer : SelectionMenu
                 break;
 
             case Item.ItemTypes.isEquipment:
-                _useOrEquipPrompt.text = "Equip";
+                if (!InventoryManager.Instance.CurrentEquipment.Contains(item))
+                {
+                    _useOrEquipPrompt.text = "Equip";
+                }
+                else
+                {
+                    _useOrEquipPrompt.text = "Unequip";
+                }
 
                 break;
-            
+
             case Item.ItemTypes.isCurrency:
                 _useOrEquipPrompt.text = "Look At";
 
                 break;
+        }
+    }
+
+    private void UpdateEquipIndicators()
+    {
+        for (int i = 0; i < InventoryManager.Instance.Inventory.Count; i++)
+        {
+            if (InventoryManager.Instance.Inventory.ElementAt(i).Key is not Equipment)
+            {
+                _equipIndicators[i].text = "";
+
+                continue;
+            }
+
+            var equipment = (Equipment)InventoryManager.Instance.Inventory.ElementAt(i).Key;
+
+            if (InventoryManager.Instance.CurrentEquipment.Contains(equipment))
+            {
+                _equipIndicators[i].text = "E";
+            }
+            else
+            {
+                _equipIndicators[i].text = "";
+            }
         }
     }
 }

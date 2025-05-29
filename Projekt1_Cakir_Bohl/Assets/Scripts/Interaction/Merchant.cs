@@ -168,23 +168,5 @@ public class Merchant : InventoryDisplayer
     public override void ShowItemDescriptionAndSetPrompt(Item item)
     {
         _textBox.text = item.Description;
-
-        // switch(item.ItemType)
-        // {
-        //     case Item.ItemTypes.isUsable:
-        //         _useOrEquipPrompt.text = "Use";
-
-        //         break;
-
-        //     case Item.ItemTypes.isEquipment:
-        //         _useOrEquipPrompt.text = "Equip";
-
-        //         break;
-            
-        //     case Item.ItemTypes.isCurrency:
-        //         _useOrEquipPrompt.text = "Look At";
-
-        //         break;
-        // }
     }
 }
