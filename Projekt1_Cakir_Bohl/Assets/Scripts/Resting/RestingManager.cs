@@ -9,6 +9,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     [SerializeField] public Canvas SelectionMenuCanvas;
     [SerializeField] public Canvas InventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
+    private InventoryDisplayer _inventoryDisplayer;
     private string[] _currentItemLines;
     private bool _isAmbush;
     private Item _currentItem;
@@ -18,6 +19,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         _textBox.enabled = false;
         _promptContinue.enabled = false;
         _promptSkip.enabled = false;
+        _inventoryDisplayer = InventoryCanvas.GetComponent<InventoryDisplayer>();
 
         ToggleCanvas(InventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
@@ -104,7 +106,7 @@ public class RestingManager : Manager, ISelectable, ICondition
             case 2:
                 ToggleCanvas(ItemToDoCanvas, false);
 
-                InventoryCanvas.GetComponent<InventoryDisplayer>().IsActive = true;
+                _inventoryDisplayer.IsActive = true;
                 _textBox.enabled = true;
                 _textBox.text = _currentItem.Description;
 
@@ -122,9 +124,9 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
 
-        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
+        _inventoryDisplayer.UpdateDisplayedInventory(_currentItem);
 
-        _textBox.text = "";
+        _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
 
         if(InventoryManager.Instance.Inventory.Count > 0)
         {
@@ -140,6 +142,8 @@ public class RestingManager : Manager, ISelectable, ICondition
     // Überprüft, welches Item ausgewählt wurde
     private IEnumerator CheckItemType()
     {
+        ToggleCanvas(ItemToDoCanvas, false);
+
         switch (_currentItem.ItemType)
         {
             case Item.ItemTypes.isUsable:
@@ -148,15 +152,36 @@ public class RestingManager : Manager, ISelectable, ICondition
                 break;
 
             case Item.ItemTypes.isEquipment:
-                StartCoroutine(EquipSelectedItem());
+                if (_currentItem is not Equipment)
+                {
+                    break;
+                }
+
+                if (InventoryManager.Instance.CurrentEquipment.Contains((Equipment)_currentItem))
+                {
+                    StartCoroutine(EquipSelectedItem(false));
+
+                    break;
+                }
+
+                StartCoroutine(EquipSelectedItem(true));
 
                 break;
 
             case Item.ItemTypes.isCurrency:
-                _currentLine = _currentItem.LookAtText;
+                if (_currentItem is not Coin)
+                {
+                    break;
+                }
+
+                Coin coin = (Coin)_currentItem;
+
+                _currentLine = coin.LookAtText;
                 yield return HandleTextOutput(_currentLine, false);
 
-                ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+                _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
+
+                ToggleCanvas(ItemToDoCanvas, true);
 
                 break;
         }
@@ -165,30 +190,28 @@ public class RestingManager : Manager, ISelectable, ICondition
     // Verbraucht das Item (was eine Liste an strings zurückgibt, um die Aktion zu beschreiben)
     private IEnumerator UseSelectedItem()
     {
-        _currentItemLines = _currentItem.GetComponent<IUsable>().UseItem().ToArray();
+        var iUsable = _currentItem.GetComponent<IUsable>();
 
-        InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
-
-        InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
+        _currentItemLines = iUsable.UseItem().ToArray();   
 
         // Erste Line immer zeigen, auswürfeln ob auch eine zweite angezeigt wird (eine Art Easter Egg)
         _currentLine = _currentItemLines[0];
         yield return HandleTextOutput(_currentLine, false);
-
-        if(_currentItemLines.Length > 1)
+        
+        if (_currentItemLines.Length > 1)
         {
-            if(DiceUtil.D10() > 7)
+            if (DiceUtil.D10() > 7)
             {
                 _currentLine = _currentItemLines[UnityEngine.Random.Range(1, _currentItemLines.Length)];
                 yield return HandleTextOutput(_currentLine, false);
             }
         }
 
-        _textBox.text = "";
+        _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
 
         if(InventoryManager.Instance.Inventory.Count > 0)
         {
-            ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+            ToggleCanvas(ItemToDoCanvas, true);
         }
         else
         {
@@ -198,28 +221,36 @@ public class RestingManager : Manager, ISelectable, ICondition
     }
 
     // Equipment anlegen
-    private IEnumerator EquipSelectedItem()
+    private IEnumerator EquipSelectedItem(bool isEquip)
     {
-        if (InventoryManager.Instance.ManageEquipment(_currentItem, true))
+        if (isEquip)
         {
-            InventoryCanvas.GetComponent<InventoryDisplayer>().UpdateDisplayedInventory(_currentItem);
+            if (!InventoryManager.Instance.ManageEquipment(_currentItem, true))
+            {
+                _currentLine = "Cannot equip item!";
+                yield return HandleTextOutput(_currentLine, false);
+            }
 
             yield return PrintMultipleLines(_currentItem.GetComponent<IEquipable>().EquipItem(true).ToArray());
-
-            InitializePlayerStats();
         }
         else
         {
-            _currentLine = "Cannot equip item!";
-            yield return HandleTextOutput(_currentLine, false);
+            InventoryManager.Instance.ManageEquipment(_currentItem, false);
+
+            yield return PrintMultipleLines(_currentItem.GetComponent<IEquipable>().EquipItem(false).ToArray());            
         }
 
+        _inventoryDisplayer.UpdateDisplayedInventory(_currentItem);
 
-        _textBox.text = "";
+        _inventoryDisplayer.UpdateEquipIndicators();
+
+        _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
+
+        InitializePlayerStats();
 
         if (InventoryManager.Instance.Inventory.Count > 0)
         {
-            ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
+            ToggleCanvas(ItemToDoCanvas, true);
         }
         else
         {

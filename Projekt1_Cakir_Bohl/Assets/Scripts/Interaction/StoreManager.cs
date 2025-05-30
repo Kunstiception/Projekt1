@@ -32,8 +32,6 @@ public class StoreManager : Manager, ISelectable
     {
         MerchantInventoryCanvas.GetComponent<Merchant>().IsActive = false;
 
-        _textBox.text = "";
-
         ToggleCanvas(ItemToDoCanvas, true);
 
         _currentItem = item;
@@ -71,7 +69,7 @@ public class StoreManager : Manager, ISelectable
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
-        _textBox.text = "";
+        MerchantInventoryCanvas.GetComponent<Merchant>().ShowItemDescriptionAndSetPrompt(_currentItem);
 
         ToggleCanvas(ItemToDoCanvas, true);
     }

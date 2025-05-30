@@ -233,16 +233,23 @@ public class InventoryDisplayer : SelectionMenu
         }
     }
 
-    private void UpdateEquipIndicators()
+    public void UpdateEquipIndicators()
     {
-        for (int i = 0; i < InventoryManager.Instance.Inventory.Count; i++)
+        for (int i = 0; i < _equipIndicators.Length; i++)
         {
-            if (InventoryManager.Instance.Inventory.ElementAt(i).Key is not Equipment)
+            if (i >= InventoryManager.Instance.Inventory.Count)
             {
                 _equipIndicators[i].text = "";
 
                 continue;
             }
+
+            if (InventoryManager.Instance.Inventory.ElementAt(i).Key is not Equipment)
+                {
+                    _equipIndicators[i].text = "";
+
+                    continue;
+                }
 
             var equipment = (Equipment)InventoryManager.Instance.Inventory.ElementAt(i).Key;
 

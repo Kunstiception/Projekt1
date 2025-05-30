@@ -14,7 +14,6 @@ public class Item: MonoBehaviour
     public string Name;
     [TextArea]
     public string Description;
-    public string LookAtText;
     public int MinimumAmountOnLoot;
     public int MaximumAmountOnLoot;
     public int StorePrice;
