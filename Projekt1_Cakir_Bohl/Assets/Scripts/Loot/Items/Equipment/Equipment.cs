@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public class Equipment : Item
 {
     public enum EquipmentType

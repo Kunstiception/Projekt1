@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -9,6 +11,7 @@ public class InventoryManager : MonoBehaviour
     public Dictionary<string, Item> AllItems = new Dictionary<string, Item>();
     public List<Equipment> CurrentEquipment = new List<Equipment>();
     [SerializeField] private Item[] _items;
+    public int TotalNumberOfItems;
     private int _numberOfRings;
     private int _numberOfArmor;
     private int _numberofHelmets;
@@ -36,13 +39,24 @@ public class InventoryManager : MonoBehaviour
 
     public void ManageInventory(Item item, int amount, bool isAdding)
     {
+        if (TotalNumberOfItems >= GameConfig.InventorySlots)
+        {
+            return;
+        }
+
         if (Inventory.ContainsKey(item))
         {
             int currentCount = Inventory[item];
 
             if (isAdding)
             {
+                if (item is Equipment)
+                {
+                    TotalNumberOfItems++;
+                }
+
                 Inventory[item] = currentCount + amount;
+
                 return;
             }
 
@@ -53,10 +67,14 @@ public class InventoryManager : MonoBehaviour
                 Inventory.Remove(item);
             }
 
+            TotalNumberOfItems--;
+
             return;
         }
 
         Inventory.Add(item, amount);
+
+        TotalNumberOfItems++;
     }
 
     public bool ManageEquipment(Item selectedEquipment, bool isEquip)

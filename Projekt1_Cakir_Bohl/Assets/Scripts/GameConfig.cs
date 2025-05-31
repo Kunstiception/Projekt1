@@ -21,14 +21,17 @@ public static class GameConfig
     // Resting
     public static int AmbushChance = 2;
 
-    //Looting
+    // Looting
     public static int MaximumLootableItems = 3;
 
-    //Items
+    // Items
     public static int MinimumHeal = 4;
     public static int MaximumHeal = 7;
     public static int AdditionalHealthPoints = 2;
     public static int AdditionalEgoPoints = 2;
+
+    // Inventory
+    public static int InventorySlots = 10;
 
     // Conditions
     public static int VampireSunDamage = 1;

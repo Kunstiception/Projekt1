@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 
-public class Item: MonoBehaviour
+[Serializable]
+public class Item : MonoBehaviour
 {
     public enum ItemTypes
     {
@@ -10,7 +12,7 @@ public class Item: MonoBehaviour
     }
 
     public ItemTypes ItemType;
-    
+
     public string Name;
     [TextArea]
     public string Description;

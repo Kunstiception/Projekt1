@@ -25,6 +25,7 @@ public class MainManager : MonoBehaviour
     public List<int> WayPointTypes;
     public List<string> InventoryNames;
     public List<int> InventoryAmounts;
+    public List<Equipment> CurrentEquipment;
     public bool IsDay;
     public bool IsSleepDeprived;
     public bool IsVampire;
@@ -62,6 +63,7 @@ public class MainManager : MonoBehaviour
         public List<int> WayPointTypes;
         public List<string> InventoryNames;
         public List<int> InventoryAmounts;
+        public List<Equipment> CurrentEquipment;
         public bool IsDay;
         public bool IsSleepDeprived;
         public bool IsVampire;
@@ -73,8 +75,8 @@ public class MainManager : MonoBehaviour
     {
         SaveData data = new SaveData();
 
-        data.PlayerHealthPoints = PlayerManager.Instance.HealthPoints;
-        data.PlayerEgoPoints = PlayerManager.Instance.EgoPoints;
+        data.PlayerHealthPoints = PlayerManager.Instance.HealthPoints - PlayerManager.Instance.HealthPointsModifier;
+        data.PlayerEgoPoints = PlayerManager.Instance.EgoPoints - PlayerManager.Instance.EgoPointsModifier;
         data.HealthPointsModifier = PlayerManager.Instance.HealthPointsModifier;
         data.EgoPointsModifier = PlayerManager.Instance.EgoPointsModifier;
         data.AttackStrengthModifier = PlayerManager.Instance.AttackStrengthModifier;
@@ -100,7 +102,13 @@ public class MainManager : MonoBehaviour
             InventoryNames.Add(item.name);
             InventoryAmounts.Add(InventoryManager.Instance.Inventory[item]);
         }
-        
+
+        foreach (Equipment equipment in InventoryManager.Instance.CurrentEquipment)
+        {
+            CurrentEquipment.Add(equipment);
+        }
+
+        data.CurrentEquipment = CurrentEquipment;
         data.InventoryNames = InventoryNames;
         data.InventoryAmounts = InventoryAmounts;
         data.IsDay = IsDay;
@@ -136,6 +144,7 @@ public class MainManager : MonoBehaviour
             LastWayPoint = data.LastWayPoint;
             WayPoints = data.WayPoints;
             WayPointTypes = data.WayPointTypes;
+            CurrentEquipment = data.CurrentEquipment;
             InventoryNames = data.InventoryNames;
             InventoryAmounts = data.InventoryAmounts;
             IsDay = data.IsDay;
@@ -144,12 +153,17 @@ public class MainManager : MonoBehaviour
             IsWerewolf = data.IsWerewolf;
             IsZombie = data.IsZombie;
 
-            if(InventoryManager.Instance != null)
+            if (InventoryManager.Instance != null)
             {
-                for(int i = 0; i < data.InventoryNames.Count; i++)
+                for (int i = 0; i < data.InventoryNames.Count; i++)
                 {
-                    InventoryManager.Instance.Inventory.Add(InventoryManager.Instance.AllItems[data.InventoryNames[i]], 
+                    InventoryManager.Instance.Inventory.Add(InventoryManager.Instance.AllItems[data.InventoryNames[i]],
                         data.InventoryAmounts[i]);
+                }
+
+                for (int i = 0; i < data.CurrentEquipment.Count; i++)
+                {
+                    InventoryManager.Instance.CurrentEquipment.Add(CurrentEquipment[i]);
                 }
             }
 
