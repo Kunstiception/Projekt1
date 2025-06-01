@@ -7,7 +7,7 @@ public class Equipment : Item
     {
         isRing = 0,
         isAmulet = 1,
-        isWeapon = 2
+        isSword = 2
     }
 
     public EquipmentType equipmentType;

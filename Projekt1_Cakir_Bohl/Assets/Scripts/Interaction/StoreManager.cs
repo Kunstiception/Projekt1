@@ -10,7 +10,7 @@ public class StoreManager : Manager, ISelectable
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] private TextMeshProUGUI _coinsText;
     private Item _currentItem;
-    private KeyValuePair<Item, int> _coinsKVP;
+    private Item _coinsItem;
 
     void Start()
     {
@@ -39,15 +39,15 @@ public class StoreManager : Manager, ISelectable
 
     private IEnumerator TryPurchase()
     {
-        if (_coinsKVP.Key != null)
+        if (_coinsItem != null)
         {
-            int currentCoins = _coinsKVP.Value;
+            int currentCoins = InventoryUtil.ReturnItemAmount(_coinsItem);
 
             if (currentCoins > 0)
             {
                 if (currentCoins >= _currentItem.StorePrice)
                 {
-                    InventoryManager.Instance.Inventory[_coinsKVP.Key] = currentCoins - _currentItem.StorePrice;
+                    InventoryManager.Instance.InventoryAmounts[InventoryManager.Instance.InventoryItems.IndexOf(_coinsItem)] = currentCoins - _currentItem.StorePrice;
 
                     InventoryManager.Instance.ManageInventory(_currentItem, 1, true);
 
@@ -95,7 +95,15 @@ public class StoreManager : Manager, ISelectable
     private void UpdateCoinsText()
     {
         // https://learn.microsoft.com/de-de/dotnet/api/system.linq.enumerable.firstordefault?view=net-8.0
-        _coinsKVP = InventoryManager.Instance.Inventory.FirstOrDefault(keyValuePair => keyValuePair.Key is Coin);
-        _coinsText.text = $"Coins: {_coinsKVP.Value}";
+        _coinsItem = InventoryManager.Instance.InventoryItems.FirstOrDefault(item => item is Coin);
+
+        if (_coinsItem == null)
+        {
+            _coinsText.text = "Coins: 0";
+
+            return;
+        }
+
+        _coinsText.text = $"Coins: {InventoryUtil.ReturnItemAmount(_coinsItem)}";
     }
 }

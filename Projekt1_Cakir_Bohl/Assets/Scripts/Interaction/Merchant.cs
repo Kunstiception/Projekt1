@@ -57,7 +57,7 @@ public class Merchant : InventoryDisplayer
             _priceTexts[0].text = "";
         }
         
-        if(InventoryManager.Instance.Inventory.ContainsKey(item))
+        if(InventoryManager.Instance.InventoryItems.Contains(item))
         {
             _price = _availabeItems[_currentMenuPoint].StorePrice;
             _priceTexts[_currentMenuPoint].text = $"{_price} G";

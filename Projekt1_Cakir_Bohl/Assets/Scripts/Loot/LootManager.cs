@@ -89,10 +89,10 @@ public class LootManager : Manager
             yield return HandleTextOutput(_currentLine, false);
         }
 
-        foreach(Item key in InventoryManager.Instance.Inventory.Keys)
+        foreach(Item item in InventoryManager.Instance.InventoryItems)
         {
-            Debug.Log(key);
-            Debug.Log(InventoryManager.Instance.Inventory[key]);
+            Debug.Log(item);
+            Debug.Log(InventoryUtil.ReturnItemAmount(item));
         } 
 
         yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);

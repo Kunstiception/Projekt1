@@ -26,6 +26,9 @@ public class MainManager : MonoBehaviour
     public List<string> InventoryNames;
     public List<int> InventoryAmounts;
     public List<Equipment> CurrentEquipment;
+    public int NumberOfRings;
+    public int NumberofAmulets;
+    public int NumberofSwords;
     public bool IsDay;
     public bool IsSleepDeprived;
     public bool IsVampire;
@@ -64,6 +67,9 @@ public class MainManager : MonoBehaviour
         public List<string> InventoryNames;
         public List<int> InventoryAmounts;
         public List<Equipment> CurrentEquipment;
+        public int NumberOfRings;
+        public int NumberofAmulets;
+        public int NumberofSwords;
         public bool IsDay;
         public bool IsSleepDeprived;
         public bool IsVampire;
@@ -97,10 +103,10 @@ public class MainManager : MonoBehaviour
         InventoryNames.Clear();
         InventoryAmounts.Clear();
 
-        foreach(Item item in InventoryManager.Instance.Inventory.Keys)
+        foreach(Item item in InventoryManager.Instance.InventoryItems)
         {
             InventoryNames.Add(item.name);
-            InventoryAmounts.Add(InventoryManager.Instance.Inventory[item]);
+            InventoryAmounts.Add(InventoryUtil.ReturnItemAmount(item));
         }
 
         foreach (Equipment equipment in InventoryManager.Instance.CurrentEquipment)
@@ -109,6 +115,9 @@ public class MainManager : MonoBehaviour
         }
 
         data.CurrentEquipment = CurrentEquipment;
+        data.NumberOfRings = NumberOfRings;
+        data.NumberofAmulets = NumberofAmulets;
+        data.NumberofSwords = NumberofSwords;
         data.InventoryNames = InventoryNames;
         data.InventoryAmounts = InventoryAmounts;
         data.IsDay = IsDay;
@@ -145,6 +154,9 @@ public class MainManager : MonoBehaviour
             WayPoints = data.WayPoints;
             WayPointTypes = data.WayPointTypes;
             CurrentEquipment = data.CurrentEquipment;
+            NumberOfRings = data.NumberOfRings;
+            NumberofAmulets = data.NumberofAmulets;
+            NumberofSwords = data.NumberofSwords;
             InventoryNames = data.InventoryNames;
             InventoryAmounts = data.InventoryAmounts;
             IsDay = data.IsDay;
@@ -157,8 +169,8 @@ public class MainManager : MonoBehaviour
             {
                 for (int i = 0; i < data.InventoryNames.Count; i++)
                 {
-                    InventoryManager.Instance.Inventory.Add(InventoryManager.Instance.AllItems[data.InventoryNames[i]],
-                        data.InventoryAmounts[i]);
+                    InventoryManager.Instance.InventoryItems.Add(InventoryManager.Instance.AllItems[data.InventoryNames[i]]);
+                    InventoryManager.Instance.InventoryAmounts.Add(data.InventoryAmounts[i]);
                 }
 
                 for (int i = 0; i < data.CurrentEquipment.Count; i++)
@@ -198,6 +210,10 @@ public class MainManager : MonoBehaviour
         InsultDamageModifier = 0;
         WayPoints.Clear();
         WayPointTypes.Clear();
+        CurrentEquipment.Clear();
+        NumberOfRings = 0;
+        NumberofAmulets = 0;
+        NumberofSwords = 0;
         InventoryNames.Clear();
         InventoryAmounts.Clear();
         IsSleepDeprived = false;

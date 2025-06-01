@@ -9,11 +9,13 @@ public class InventoryDisplayer : SelectionMenu
     [SerializeField] protected TextMeshProUGUI _textBox;
     [SerializeField] private TextMeshProUGUI _useOrEquipPrompt;
     [SerializeField] private RestingManager _restingManager;
-
     public delegate void ItemSelection(Item item);
     public static ItemSelection itemSelection;
     protected string _name;
     private int _amount;
+    private int _ringCount = 0;
+    private int _amuletCount = 0;
+    private int _swordCount = 0;
 
     public override void Start()
     {
@@ -21,9 +23,9 @@ public class InventoryDisplayer : SelectionMenu
 
         InitializeInventory();
 
-        if (InventoryManager.Instance.Inventory.Count > 0)
+        if (InventoryManager.Instance.InventoryItems.Count > 0)
         {
-            _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
+            _textBox.text = InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint).Description;
         }
 
         SetInitialPointer();
@@ -38,21 +40,21 @@ public class InventoryDisplayer : SelectionMenu
 
     private void InitializeInventory()
     {
-        for (int i = 0; i < InventoryManager.Instance.Inventory.Count; i++)
+        for (int i = 0; i < InventoryManager.Instance.InventoryItems.Count; i++)
         {
-            _name = InventoryManager.Instance.Inventory.ElementAt(i).Key.Name;
-            _amount = InventoryManager.Instance.Inventory[InventoryManager.Instance.Inventory.ElementAt(i).Key];
+            _name = InventoryManager.Instance.InventoryItems[i].Name;
+            _amount = InventoryManager.Instance.InventoryAmounts[i];
 
-            _name = DialogueUtil.AddEnding(InventoryManager.Instance.Inventory.ElementAt(i).Key.Name, _amount);
+            _name = DialogueUtil.AddEnding(InventoryManager.Instance.InventoryItems[i].Name, _amount);
 
             _menuPoints[i].text = _name;
             _amountTexts[i].text = $"x {_amount}";
         }
 
-        _menuPoints[InventoryManager.Instance.Inventory.Count].text = "Return";
-        _amountTexts[InventoryManager.Instance.Inventory.Count].text = "";
+        _menuPoints[InventoryManager.Instance.InventoryItems.Count].text = "Return";
+        _amountTexts[InventoryManager.Instance.InventoryItems.Count].text = "";
 
-        for (int i = InventoryManager.Instance.Inventory.Count + 1; i < _menuPoints.Length; i++)
+        for (int i = InventoryManager.Instance.InventoryItems.Count + 1; i < _menuPoints.Length; i++)
         {
             _menuPoints[i].text = "";
             _amountTexts[i].text = "";
@@ -62,15 +64,15 @@ public class InventoryDisplayer : SelectionMenu
 
     public virtual void UpdateDisplayedInventory(Item item)
     {
-        if (InventoryManager.Instance.Inventory.Count <= 0)
+        if (InventoryManager.Instance.InventoryItems.Count <= 0)
         {
             _menuPoints[0].text = "Return";
             _amountTexts[0].text = "";
         }
 
-        if (InventoryManager.Instance.Inventory.ContainsKey(item))
+        if (InventoryManager.Instance.InventoryItems.Contains(item))
         {
-            _amount = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Value;
+            _amount = InventoryManager.Instance.InventoryAmounts.ElementAt(_currentMenuPoint);
             _amountTexts[_currentMenuPoint].text = $"x {_amount}";
         }
         else
@@ -86,9 +88,9 @@ public class InventoryDisplayer : SelectionMenu
                 _amountTexts[i].text = _amountTexts[i + 1].text;
             }
 
-            if (InventoryManager.Instance.Inventory.Count > 0)
+            if (InventoryManager.Instance.InventoryItems.Count > 0)
             {
-                itemSelection?.Invoke(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
+                itemSelection?.Invoke(InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint));
             }
         }
     }
@@ -97,18 +99,18 @@ public class InventoryDisplayer : SelectionMenu
     {
         base.InitializeMenu();
 
-        if (InventoryManager.Instance.Inventory.Count <= 0)
+        if (InventoryManager.Instance.InventoryItems.Count <= 0)
         {
             _textBox.enabled = true;
             _textBox.text = "Your inventory is empty.";
             return;
         }
 
-        _textBox.text = InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key.Description;
+        _textBox.text = InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint).Description;
 
-        if (InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key != null)
+        if (InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint) != null)
         {
-            ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
+            ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.InventoryItems[_currentMenuPoint]);
         }
     }
 
@@ -139,7 +141,7 @@ public class InventoryDisplayer : SelectionMenu
         }
         else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            if (_currentMenuPoint == InventoryManager.Instance.Inventory.Count || InventoryManager.Instance.Inventory.Count == 0)
+            if (_currentMenuPoint == InventoryManager.Instance.InventoryItems.Count || InventoryManager.Instance.InventoryItems.Count == 0)
             {
                 _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, true);
                 _restingManager.ToggleCanvas(_restingManager.InventoryCanvas, false);
@@ -155,7 +157,7 @@ public class InventoryDisplayer : SelectionMenu
             _restingManager.ToggleCanvas(_restingManager.ItemToDoCanvas, true);
             _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, false);
 
-            itemSelection?.Invoke(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
+            itemSelection?.Invoke(InventoryManager.Instance.InventoryItems[_currentMenuPoint]);
 
             IsActive = false;
         }
@@ -174,7 +176,7 @@ public class InventoryDisplayer : SelectionMenu
         }
         else
         {
-            if (_currentMenuPoint == InventoryManager.Instance.Inventory.Count)
+            if (_currentMenuPoint == InventoryManager.Instance.InventoryItems.Count)
             {
                 return;
             }
@@ -193,14 +195,14 @@ public class InventoryDisplayer : SelectionMenu
             _pointers[i].gameObject.SetActive(false);
         }
 
-        if (_currentMenuPoint == InventoryManager.Instance.Inventory.Count)
+        if (_currentMenuPoint == InventoryManager.Instance.InventoryItems.Count)
         {
             _textBox.text = "Select no item and go back.";
 
             return;
         }
 
-        ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.Inventory.ElementAt(_currentMenuPoint).Key);
+        ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.InventoryItems[_currentMenuPoint]);
     }
 
     public virtual void ShowItemDescriptionAndSetPrompt(Item item)
@@ -221,6 +223,17 @@ public class InventoryDisplayer : SelectionMenu
                 }
                 else
                 {
+                    // Kein Unequip anzeigen, wenn Equipment nicht ausgerüstet
+
+                    //var index = InventoryManager.Instance.InventoryItems.IndexOf(item);
+
+                    if (_equipIndicators[_currentMenuPoint].text == "")
+                    {
+                        _useOrEquipPrompt.text = "Equip";
+
+                        break;
+                    }
+
                     _useOrEquipPrompt.text = "Unequip";
                 }
 
@@ -237,24 +250,31 @@ public class InventoryDisplayer : SelectionMenu
     {
         for (int i = 0; i < _equipIndicators.Length; i++)
         {
-            if (i >= InventoryManager.Instance.Inventory.Count)
+            if (i >= InventoryManager.Instance.InventoryItems.Count)
             {
                 _equipIndicators[i].text = "";
 
                 continue;
             }
 
-            if (InventoryManager.Instance.Inventory.ElementAt(i).Key is not Equipment)
+            if (InventoryManager.Instance.InventoryItems[i] is not Equipment)
+            {
+                _equipIndicators[i].text = "";
+
+                continue;
+            }
+
+            var equipment = (Equipment)InventoryManager.Instance.InventoryItems[i];
+
+            if (InventoryManager.Instance.CurrentEquipment.Contains(equipment))
+            {
+                if (!CheckEquipment(equipment))
                 {
                     _equipIndicators[i].text = "";
 
                     continue;
                 }
 
-            var equipment = (Equipment)InventoryManager.Instance.Inventory.ElementAt(i).Key;
-
-            if (InventoryManager.Instance.CurrentEquipment.Contains(equipment))
-            {
                 _equipIndicators[i].text = "E";
             }
             else
@@ -262,5 +282,58 @@ public class InventoryDisplayer : SelectionMenu
                 _equipIndicators[i].text = "";
             }
         }
+
+        ResetEquipmentCounters();
+    }
+
+    private bool CheckEquipment(Item item)
+    {
+        if (item is not Equipment)
+        {
+            return false;
+        }
+
+        var equipment = (Equipment)item;
+
+        var equipmentType = equipment.equipmentType;
+
+        switch (equipmentType)
+        {
+            case Equipment.EquipmentType.isRing:
+                if (_ringCount < InventoryManager.Instance.NumberOfRings)
+                {
+                    _ringCount++;
+                    return true;
+                }
+
+                return false;
+
+            case Equipment.EquipmentType.isAmulet:
+                if (_amuletCount < InventoryManager.Instance.NumberOfAmulets)
+                {
+                    _amuletCount++;
+                    return true;
+                }
+
+                return false;
+
+            case Equipment.EquipmentType.isSword:
+                if (_swordCount < InventoryManager.Instance.NumberOfAmulets)
+                {
+                    _swordCount++;
+                    return true;
+                }
+
+                return false;
+        }
+
+        return false;
+    }
+
+    private void ResetEquipmentCounters()
+    {
+        _ringCount = 0;
+        _amuletCount = 0;
+        _swordCount = 0;
     }
 }

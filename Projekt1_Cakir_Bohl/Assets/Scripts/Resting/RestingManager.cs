@@ -128,7 +128,7 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
 
-        if(InventoryManager.Instance.Inventory.Count > 0)
+        if(InventoryManager.Instance.InventoryItems.Count > 0)
         {
             ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
         }
@@ -209,7 +209,7 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
 
-        if(InventoryManager.Instance.Inventory.Count > 0)
+        if(InventoryManager.Instance.InventoryItems.Count > 0)
         {
             ToggleCanvas(ItemToDoCanvas, true);
         }
@@ -248,7 +248,7 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         InitializePlayerStats();
 
-        if (InventoryManager.Instance.Inventory.Count > 0)
+        if (InventoryManager.Instance.InventoryItems.Count > 0)
         {
             ToggleCanvas(ItemToDoCanvas, true);
         }

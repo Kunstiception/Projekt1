@@ -7,14 +7,15 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
-    public Dictionary<Item, int> Inventory = new Dictionary<Item, int>();
+    // Zwei parallele Listen und kein Dictionary (mehr), da Equipment doppelt vorkommen soll
+    public List<Item> InventoryItems = new List<Item>();
+    public List<int> InventoryAmounts = new List<int>();
     public Dictionary<string, Item> AllItems = new Dictionary<string, Item>();
     public List<Equipment> CurrentEquipment = new List<Equipment>();
     [SerializeField] private Item[] _items;
-    public int TotalNumberOfItems;
-    private int _numberOfRings;
-    private int _numberOfArmor;
-    private int _numberofHelmets;
+    public int NumberOfRings;
+    public int NumberOfAmulets;
+    public int NumberofSwords;
 
     private void Awake()
     {
@@ -39,42 +40,47 @@ public class InventoryManager : MonoBehaviour
 
     public void ManageInventory(Item item, int amount, bool isAdding)
     {
-        if (TotalNumberOfItems >= GameConfig.InventorySlots)
+        if (InventoryItems.Count >= GameConfig.InventorySlots)
         {
             return;
         }
 
-        if (Inventory.ContainsKey(item))
+        if (InventoryItems.Contains(item))
         {
-            int currentCount = Inventory[item];
+            int currentCount = InventoryUtil.ReturnItemAmount(item);
 
             if (isAdding)
             {
                 if (item is Equipment)
                 {
-                    TotalNumberOfItems++;
+                    InventoryItems.Add(item);
+                    InventoryAmounts.Add(amount);
+
+                    return;
                 }
 
-                Inventory[item] = currentCount + amount;
+                InventoryAmounts[InventoryItems.IndexOf(item)] = currentCount + amount;
 
                 return;
             }
 
-            Inventory[item] = currentCount - amount;
+            InventoryAmounts[InventoryItems.IndexOf(item)] = currentCount - amount;
 
-            if (Inventory[item] <= 0)
+            if (InventoryUtil.ReturnItemAmount(item) <= 0)
             {
-                Inventory.Remove(item);
+                InventoryItems.Remove(item);
+                InventoryAmounts.Remove(InventoryAmounts[InventoryItems.IndexOf(item)]);
             }
 
-            TotalNumberOfItems--;
+            // TotalNumberOfItems--;
 
             return;
         }
 
-        Inventory.Add(item, amount);
+        InventoryItems.Add(item);
+        InventoryAmounts.Add(amount);
 
-        TotalNumberOfItems++;
+        //TotalNumberOfItems++;
     }
 
     public bool ManageEquipment(Item selectedEquipment, bool isEquip)
@@ -84,59 +90,59 @@ public class InventoryManager : MonoBehaviour
         switch (equipment.equipmentType)
         {
             case Equipment.EquipmentType.isRing:
-                if (!isEquip && _numberOfRings > 0)
+                if (!isEquip && NumberOfRings > 0)
                 {
-                    _numberOfRings--;
+                    NumberOfRings--;
 
                     CurrentEquipment.Remove(equipment);
 
                     return true;
                 }
 
-                if (_numberOfRings >= 2)
+                if (NumberOfRings >= 2)
                 {
                     return false;
                 }
 
-                _numberOfRings++;
+                NumberOfRings++;
 
                 break;
 
             case Equipment.EquipmentType.isAmulet:
-                if (!isEquip && _numberOfArmor > 0)
+                if (!isEquip && NumberOfAmulets > 0)
                 {
-                    _numberOfArmor--;
+                    NumberOfAmulets--;
 
                     CurrentEquipment.Remove(equipment);
 
                     return true;
                 }
 
-                if (_numberOfArmor >= 1)
+                if (NumberOfAmulets >= 1)
                 {
                     return false;
                 }
 
-                _numberOfArmor++;
+                NumberOfAmulets++;
 
                 break;
 
-            case Equipment.EquipmentType.isWeapon:
-                if (!isEquip && _numberofHelmets > 0)
+            case Equipment.EquipmentType.isSword:
+                if (!isEquip && NumberofSwords > 0)
                 {
-                    _numberofHelmets--;
+                    NumberofSwords--;
 
                     CurrentEquipment.Remove(equipment);
 
                     return true;
                 }
 
-                if (_numberofHelmets >= 1)
+                if (NumberofSwords >= 1)
                 {
                     return false;
                 }
 
-                _numberofHelmets++;
+                NumberofSwords++;
 
                 break;
 
