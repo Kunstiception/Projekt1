@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class InventoryDisplayer : SelectionMenu
     public delegate void ItemSelection(Item item);
     public static ItemSelection itemSelection;
     protected string _name;
+    private List<Equipment> _tempEquipment;
     private int _amount;
     private int _ringCount = 0;
     private int _amuletCount = 0;
@@ -223,10 +225,6 @@ public class InventoryDisplayer : SelectionMenu
                 }
                 else
                 {
-                    // Kein Unequip anzeigen, wenn Equipment nicht ausgerüstet
-
-                    //var index = InventoryManager.Instance.InventoryItems.IndexOf(item);
-
                     if (_equipIndicators[_currentMenuPoint].text == "")
                     {
                         _useOrEquipPrompt.text = "Equip";
@@ -248,6 +246,8 @@ public class InventoryDisplayer : SelectionMenu
 
     public void UpdateEquipIndicators()
     {
+        ResetTempEquipment();
+
         for (int i = 0; i < _equipIndicators.Length; i++)
         {
             if (i >= InventoryManager.Instance.InventoryItems.Count)
@@ -282,58 +282,23 @@ public class InventoryDisplayer : SelectionMenu
                 _equipIndicators[i].text = "";
             }
         }
-
-        ResetEquipmentCounters();
     }
 
-    private bool CheckEquipment(Item item)
+    private bool CheckEquipment(Equipment equipment)
     {
-        if (item is not Equipment)
+        if (_tempEquipment.Contains(equipment))
         {
-            return false;
-        }
+            _tempEquipment.Remove(equipment);
 
-        var equipment = (Equipment)item;
-
-        var equipmentType = equipment.equipmentType;
-
-        switch (equipmentType)
-        {
-            case Equipment.EquipmentType.isRing:
-                if (_ringCount < InventoryManager.Instance.NumberOfRings)
-                {
-                    _ringCount++;
-                    return true;
-                }
-
-                return false;
-
-            case Equipment.EquipmentType.isAmulet:
-                if (_amuletCount < InventoryManager.Instance.NumberOfAmulets)
-                {
-                    _amuletCount++;
-                    return true;
-                }
-
-                return false;
-
-            case Equipment.EquipmentType.isSword:
-                if (_swordCount < InventoryManager.Instance.NumberOfAmulets)
-                {
-                    _swordCount++;
-                    return true;
-                }
-
-                return false;
+            return true;
         }
 
         return false;
     }
 
-    private void ResetEquipmentCounters()
+    private void ResetTempEquipment()
     {
-        _ringCount = 0;
-        _amuletCount = 0;
-        _swordCount = 0;
+        //https://stackoverflow.com/questions/1952185/how-do-i-copy-items-from-list-to-list-without-foreach
+        _tempEquipment = new List<Equipment>(InventoryManager.Instance.CurrentEquipment);
     }
 }

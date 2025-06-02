@@ -159,6 +159,13 @@ public class RestingManager : Manager, ISelectable, ICondition
 
                 if (InventoryManager.Instance.CurrentEquipment.Contains((Equipment)_currentItem))
                 {
+                    if (InventoryUtil.CheckIfEquipable(_currentItem))
+                    {
+                        StartCoroutine(EquipSelectedItem(true));
+
+                        break;
+                    }
+                    
                     StartCoroutine(EquipSelectedItem(false));
 
                     break;
@@ -230,8 +237,11 @@ public class RestingManager : Manager, ISelectable, ICondition
                 _currentLine = "Cannot equip item!";
                 yield return HandleTextOutput(_currentLine, false);
             }
+            else
+            {
+                yield return PrintMultipleLines(_currentItem.GetComponent<IEquipable>().EquipItem(true).ToArray());
+            }
 
-            yield return PrintMultipleLines(_currentItem.GetComponent<IEquipable>().EquipItem(true).ToArray());
         }
         else
         {
