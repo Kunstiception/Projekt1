@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -11,7 +9,7 @@ public class InventoryManager : MonoBehaviour
     public List<Item> InventoryItems = new List<Item>();
     public List<int> InventoryAmounts = new List<int>();
     public Dictionary<string, Item> AllItems = new Dictionary<string, Item>();
-    public List<Equipment> CurrentEquipment = new List<Equipment>();
+    public Dictionary<int, bool> EquippedItems = new Dictionary<int, bool>();
     [SerializeField] private Item[] _items;
     public int NumberOfRings;
     public int NumberOfAmulets;
@@ -34,17 +32,12 @@ public class InventoryManager : MonoBehaviour
     {
         foreach (Item item in _items)
         {
-            AllItems.Add(item.name, item);
+            AllItems.Add(item.Name, item);
         }
     }
 
     public void ManageInventory(Item item, int amount, bool isAdding)
     {
-        if (InventoryItems.Count >= GameConfig.InventorySlots)
-        {
-            return;
-        }
-
         if (InventoryItems.Contains(item))
         {
             int currentCount = InventoryUtil.ReturnItemAmount(item);
@@ -53,8 +46,15 @@ public class InventoryManager : MonoBehaviour
             {
                 if (item is Equipment)
                 {
+                    if (InventoryItems.Count >= GameConfig.InventorySlots)
+                    {
+                        return;
+                    }
+
                     InventoryItems.Add(item);
                     InventoryAmounts.Add(amount);
+
+                    EquippedItems.Add(InventoryItems.Count - 1, false);
 
                     return;
                 }
@@ -70,31 +70,36 @@ public class InventoryManager : MonoBehaviour
             {
                 InventoryItems.Remove(item);
                 InventoryAmounts.Remove(InventoryAmounts[InventoryItems.IndexOf(item)]);
+
+                EquippedItems.Remove(InventoryItems.IndexOf(item));
             }
 
-            // TotalNumberOfItems--;
+            return;
+        }
 
+        if (InventoryItems.Count >= GameConfig.InventorySlots)
+        {
             return;
         }
 
         InventoryItems.Add(item);
         InventoryAmounts.Add(amount);
 
-        //TotalNumberOfItems++;
+        EquippedItems.Add(InventoryItems.Count - 1, false);
     }
 
-    public bool ManageEquipment(Item selectedEquipment, bool isEquip)
+    public bool ManageEquipment(Item selectedEquipment, bool isEquip, int inventoryIndex)
     {
         Equipment equipment = (Equipment)selectedEquipment;
 
         switch (equipment.equipmentType)
         {
-            case Equipment.EquipmentType.isRing:
+            case Equipment.EquipmentType.IsRing:
                 if (!isEquip && NumberOfRings > 0)
                 {
                     NumberOfRings--;
 
-                    CurrentEquipment.Remove(equipment);
+                    EquippedItems[inventoryIndex] = false;
 
                     return true;
                 }
@@ -108,12 +113,12 @@ public class InventoryManager : MonoBehaviour
 
                 break;
 
-            case Equipment.EquipmentType.isAmulet:
+            case Equipment.EquipmentType.IsAmulet:
                 if (!isEquip && NumberOfAmulets > 0)
                 {
                     NumberOfAmulets--;
 
-                    CurrentEquipment.Remove(equipment);
+                    EquippedItems[inventoryIndex] = false;
 
                     return true;
                 }
@@ -127,12 +132,12 @@ public class InventoryManager : MonoBehaviour
 
                 break;
 
-            case Equipment.EquipmentType.isSword:
+            case Equipment.EquipmentType.IsSword:
                 if (!isEquip && NumberofSwords > 0)
                 {
                     NumberofSwords--;
 
-                    CurrentEquipment.Remove(equipment);
+                    EquippedItems[inventoryIndex] = false;
 
                     return true;
                 }
@@ -150,7 +155,7 @@ public class InventoryManager : MonoBehaviour
                 return false;
         }
 
-        CurrentEquipment.Add(equipment);
+        EquippedItems[inventoryIndex] = true;
 
         return true;
     }

@@ -117,7 +117,7 @@ public class Merchant : InventoryDisplayer
                 return;
             } 
 
-            itemSelection?.Invoke(_availabeItems.ElementAt(_currentMenuPoint));
+            itemSelection?.Invoke(_availabeItems.ElementAt(_currentMenuPoint), _currentMenuPoint);
 
             IsActive = false;
         }

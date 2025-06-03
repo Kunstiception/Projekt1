@@ -13,6 +13,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     private string[] _currentItemLines;
     private bool _isAmbush;
     private Item _currentItem;
+    private int _currentIndex;
 
     void Start()
     {
@@ -31,14 +32,14 @@ public class RestingManager : Manager, ISelectable, ICondition
 
     private void OnEnable()
     {      
-        InventoryDisplayer.itemSelection += SetCurrentItem;
+        InventoryDisplayer.itemSelection += SetCurrentItemAndIndex;
         HealingItem.onHeal += SetUIUpdate;
     }
 
     void OnDisable()
     {
         StopAllCoroutines();
-        InventoryDisplayer.itemSelection -= SetCurrentItem;
+        InventoryDisplayer.itemSelection -= SetCurrentItemAndIndex;
         HealingItem.onHeal -= SetUIUpdate;
     }
 
@@ -157,21 +158,14 @@ public class RestingManager : Manager, ISelectable, ICondition
                     break;
                 }
 
-                if (InventoryManager.Instance.CurrentEquipment.Contains((Equipment)_currentItem))
+                if (InventoryUtil.CheckIfEquipable(_currentIndex))
                 {
-                    if (InventoryUtil.CheckIfEquipable(_currentItem))
-                    {
-                        StartCoroutine(EquipSelectedItem(true));
-
-                        break;
-                    }
-                    
-                    StartCoroutine(EquipSelectedItem(false));
+                    StartCoroutine(EquipSelectedItem(true));
 
                     break;
                 }
-
-                StartCoroutine(EquipSelectedItem(true));
+                
+                StartCoroutine(EquipSelectedItem(false));
 
                 break;
 
@@ -197,7 +191,12 @@ public class RestingManager : Manager, ISelectable, ICondition
     // Verbraucht das Item (was eine Liste an strings zurückgibt, um die Aktion zu beschreiben)
     private IEnumerator UseSelectedItem()
     {
-        var iUsable = _currentItem.GetComponent<IUsable>();
+        if (_currentItem is not IUsable)
+        {
+            yield break;
+        }
+
+        var iUsable = _currentItem as IUsable;
 
         _currentItemLines = iUsable.UseItem().ToArray();   
 
@@ -230,24 +229,32 @@ public class RestingManager : Manager, ISelectable, ICondition
     // Equipment anlegen
     private IEnumerator EquipSelectedItem(bool isEquip)
     {
+        if (_currentItem is not IEquipable)
+        {
+            yield break;
+        }
+
+        var iEquipable = _currentItem as IEquipable;
+
         if (isEquip)
         {
-            if (!InventoryManager.Instance.ManageEquipment(_currentItem, true))
+            if (!InventoryManager.Instance.ManageEquipment(_currentItem, true, _currentIndex))
             {
                 _currentLine = "Cannot equip item!";
                 yield return HandleTextOutput(_currentLine, false);
             }
             else
             {
-                yield return PrintMultipleLines(_currentItem.GetComponent<IEquipable>().EquipItem(true).ToArray());
+
+                yield return PrintMultipleLines(iEquipable.EquipItem(true).ToArray());
             }
 
         }
         else
         {
-            InventoryManager.Instance.ManageEquipment(_currentItem, false);
+            InventoryManager.Instance.ManageEquipment(_currentItem, false, _currentIndex);
 
-            yield return PrintMultipleLines(_currentItem.GetComponent<IEquipable>().EquipItem(false).ToArray());            
+            yield return PrintMultipleLines(iEquipable.EquipItem(false).ToArray());
         }
 
         _inventoryDisplayer.UpdateDisplayedInventory(_currentItem);
@@ -392,9 +399,10 @@ public class RestingManager : Manager, ISelectable, ICondition
     }
 
     // Nach Auswahl im Menü wird hier das derzeitige Item gesetzt
-    private void SetCurrentItem(Item item)
+    private void SetCurrentItemAndIndex(Item item, int index)
     {
         _currentItem = item;
+        _currentIndex = index;
     }
 
     // Nimmt die nötigen Infos für das UI-Update auf und startet Coroutine

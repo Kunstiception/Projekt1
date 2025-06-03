@@ -28,7 +28,7 @@ public class StoreManager : Manager, ISelectable
         InventoryDisplayer.itemSelection -= OnItemSelected;
     }
 
-    private void OnItemSelected(Item item)
+    private void OnItemSelected(Item item, int index)
     {
         MerchantInventoryCanvas.GetComponent<Merchant>().IsActive = false;
 

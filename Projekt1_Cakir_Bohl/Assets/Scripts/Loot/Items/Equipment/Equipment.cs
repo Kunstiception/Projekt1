@@ -5,9 +5,9 @@ public class Equipment : Item
 {
     public enum EquipmentType
     {
-        isRing = 0,
-        isAmulet = 1,
-        isSword = 2
+        IsRing = 0,
+        IsAmulet = 1,
+        IsSword = 2
     }
 
     public EquipmentType equipmentType;

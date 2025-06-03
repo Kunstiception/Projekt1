@@ -10,7 +10,7 @@ public class InventoryDisplayer : SelectionMenu
     [SerializeField] protected TextMeshProUGUI _textBox;
     [SerializeField] private TextMeshProUGUI _useOrEquipPrompt;
     [SerializeField] private RestingManager _restingManager;
-    public delegate void ItemSelection(Item item);
+    public delegate void ItemSelection(Item item, int index);
     public static ItemSelection itemSelection;
     protected string _name;
     private List<Equipment> _tempEquipment;
@@ -92,7 +92,7 @@ public class InventoryDisplayer : SelectionMenu
 
             if (InventoryManager.Instance.InventoryItems.Count > 0)
             {
-                itemSelection?.Invoke(InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint));
+                itemSelection?.Invoke(InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint), _currentMenuPoint);
             }
         }
     }
@@ -159,7 +159,7 @@ public class InventoryDisplayer : SelectionMenu
             _restingManager.ToggleCanvas(_restingManager.ItemToDoCanvas, true);
             _restingManager.ToggleCanvas(_restingManager.SelectionMenuCanvas, false);
 
-            itemSelection?.Invoke(InventoryManager.Instance.InventoryItems[_currentMenuPoint]);
+            itemSelection?.Invoke(InventoryManager.Instance.InventoryItems[_currentMenuPoint], _currentMenuPoint);
 
             IsActive = false;
         }
@@ -219,7 +219,7 @@ public class InventoryDisplayer : SelectionMenu
                 break;
 
             case Item.ItemTypes.isEquipment:
-                if (!InventoryManager.Instance.CurrentEquipment.Contains(item))
+                if (InventoryManager.Instance.EquippedItems[_currentMenuPoint] == false)
                 {
                     _useOrEquipPrompt.text = "Equip";
                 }
@@ -246,7 +246,7 @@ public class InventoryDisplayer : SelectionMenu
 
     public void UpdateEquipIndicators()
     {
-        ResetTempEquipment();
+        //ResetTempEquipment();
 
         for (int i = 0; i < _equipIndicators.Length; i++)
         {
@@ -264,17 +264,10 @@ public class InventoryDisplayer : SelectionMenu
                 continue;
             }
 
-            var equipment = (Equipment)InventoryManager.Instance.InventoryItems[i];
+            //var equipment = (Equipment)InventoryManager.Instance.InventoryItems[i];
 
-            if (InventoryManager.Instance.CurrentEquipment.Contains(equipment))
+            if (InventoryManager.Instance.EquippedItems[i] == true)
             {
-                if (!CheckEquipment(equipment))
-                {
-                    _equipIndicators[i].text = "";
-
-                    continue;
-                }
-
                 _equipIndicators[i].text = "E";
             }
             else
@@ -284,21 +277,21 @@ public class InventoryDisplayer : SelectionMenu
         }
     }
 
-    private bool CheckEquipment(Equipment equipment)
-    {
-        if (_tempEquipment.Contains(equipment))
-        {
-            _tempEquipment.Remove(equipment);
+    // private bool CheckEquipment(Equipment equipment)
+    // {
+    //     if (_tempEquipment.Contains(equipment))
+    //     {
+    //         _tempEquipment.Remove(equipment);
 
-            return true;
-        }
+    //         return true;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
-    private void ResetTempEquipment()
-    {
-        //https://stackoverflow.com/questions/1952185/how-do-i-copy-items-from-list-to-list-without-foreach
-        _tempEquipment = new List<Equipment>(InventoryManager.Instance.CurrentEquipment);
-    }
+    // private void ResetTempEquipment()
+    // {
+    //     //https://stackoverflow.com/questions/1952185/how-do-i-copy-items-from-list-to-list-without-foreach
+    //     _tempEquipment = new List<Equipment>(InventoryManager.Instance.EquippedItems);
+    // }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 //https://learn.unity.com/tutorial/implement-data-persistence-between-scenes#634f8281edbc2a65c86270c7
 //https://learn.unity.com/pathway/junior-programmer/unit/manage-scene-flow-and-data/tutorial/676202deedbc2a019fcfe5cc
@@ -23,9 +24,9 @@ public class MainManager : MonoBehaviour
     // Leider kein Speichern von Dictionaries mit JSON-Utitlity möglich, daher zwei Listen
     public List<string> WayPoints;
     public List<int> WayPointTypes;
-    public List<string> InventoryNames;
+    public List<Item> InventoryItems;
     public List<int> InventoryAmounts;
-    public List<Equipment> CurrentEquipment;
+    public List<bool> EquipmentBools;
     public int NumberOfRings;
     public int NumberofAmulets;
     public int NumberofSwords;
@@ -64,9 +65,9 @@ public class MainManager : MonoBehaviour
         public string LastWayPoint;
         public List<string> WayPoints;
         public List<int> WayPointTypes;
-        public List<string> InventoryNames;
+        public List<Item> InventoryItems;
         public List<int> InventoryAmounts;
-        public List<Equipment> CurrentEquipment;
+        public List<bool> EquipmentBools;
         public int NumberOfRings;
         public int NumberofAmulets;
         public int NumberofSwords;
@@ -100,25 +101,29 @@ public class MainManager : MonoBehaviour
         data.IsWerewolf = ConditionManager.Instance.IsWerewolf;
         data.IsZombie = ConditionManager.Instance.IsZombie;
 
-        InventoryNames.Clear();
+        InventoryItems.Clear();
         InventoryAmounts.Clear();
+        EquipmentBools.Clear();
 
-        foreach(Item item in InventoryManager.Instance.InventoryItems)
+        foreach (Item item in InventoryManager.Instance.InventoryItems)
         {
-            InventoryNames.Add(item.name);
+            InventoryItems.Add(item);
             InventoryAmounts.Add(InventoryUtil.ReturnItemAmount(item));
         }
 
-        foreach (Equipment equipment in InventoryManager.Instance.CurrentEquipment)
+        if (InventoryManager.Instance.EquippedItems.Count > 0)
         {
-            CurrentEquipment.Add(equipment);
+            for (int i = 0; i < InventoryManager.Instance.InventoryItems.Count; i++)
+                {
+                    EquipmentBools.Add(InventoryManager.Instance.EquippedItems.ElementAt(i).Value);
+                }          
         }
 
-        data.CurrentEquipment = CurrentEquipment;
+        data.EquipmentBools = EquipmentBools;
         data.NumberOfRings = NumberOfRings;
         data.NumberofAmulets = NumberofAmulets;
         data.NumberofSwords = NumberofSwords;
-        data.InventoryNames = InventoryNames;
+        data.InventoryItems = InventoryItems;
         data.InventoryAmounts = InventoryAmounts;
         data.IsDay = IsDay;
 
@@ -153,11 +158,11 @@ public class MainManager : MonoBehaviour
             LastWayPoint = data.LastWayPoint;
             WayPoints = data.WayPoints;
             WayPointTypes = data.WayPointTypes;
-            CurrentEquipment = data.CurrentEquipment;
+            EquipmentBools = data.EquipmentBools;
             NumberOfRings = data.NumberOfRings;
             NumberofAmulets = data.NumberofAmulets;
             NumberofSwords = data.NumberofSwords;
-            InventoryNames = data.InventoryNames;
+            InventoryItems = data.InventoryItems;
             InventoryAmounts = data.InventoryAmounts;
             IsDay = data.IsDay;
             IsSleepDeprived = data.IsSleepDeprived;
@@ -167,15 +172,15 @@ public class MainManager : MonoBehaviour
 
             if (InventoryManager.Instance != null)
             {
-                for (int i = 0; i < data.InventoryNames.Count; i++)
+                for (int i = 0; i < data.InventoryItems.Count; i++)
                 {
-                    InventoryManager.Instance.InventoryItems.Add(InventoryManager.Instance.AllItems[data.InventoryNames[i]]);
+                    InventoryManager.Instance.InventoryItems.Add(data.InventoryItems[i]);
                     InventoryManager.Instance.InventoryAmounts.Add(data.InventoryAmounts[i]);
                 }
 
-                for (int i = 0; i < data.CurrentEquipment.Count; i++)
+                for (int i = 0; i < data.EquipmentBools.Count; i++)
                 {
-                    InventoryManager.Instance.CurrentEquipment.Add(CurrentEquipment[i]);
+                    InventoryManager.Instance.EquippedItems.Add(i, EquipmentBools[i]);
                 }
             }
 
@@ -210,11 +215,11 @@ public class MainManager : MonoBehaviour
         InsultDamageModifier = 0;
         WayPoints.Clear();
         WayPointTypes.Clear();
-        CurrentEquipment.Clear();
+        EquipmentBools.Clear();
         NumberOfRings = 0;
         NumberofAmulets = 0;
         NumberofSwords = 0;
-        InventoryNames.Clear();
+        InventoryItems.Clear();
         InventoryAmounts.Clear();
         IsSleepDeprived = false;
         IsVampire = false;
