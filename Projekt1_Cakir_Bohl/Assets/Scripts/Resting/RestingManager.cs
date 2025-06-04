@@ -120,28 +120,18 @@ public class RestingManager : Manager, ISelectable, ICondition
 
     private IEnumerator DiscardItem()
     {
+        ToggleCanvas(ItemToDoCanvas, false);
+
         _currentLine = $"You discard {_currentItem.Name}.";
         yield return HandleTextOutput(_currentLine, false);
 
-        InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
-
-        InventoryManager.Instance.UpdateEquipBools(_currentIndex);
+        InventoryManager.Instance.ManageInventory(_currentItem, 1, false, _currentIndex);
 
         _inventoryDisplayer.UpdateDisplayedInventory(_currentItem);
 
-        _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
-
         _inventoryDisplayer.UpdateEquipIndicators();
 
-        if (InventoryManager.Instance.InventoryItems.Count > 0)
-        {
-            ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
-        }
-        else
-        {
-            ToggleCanvas(ItemToDoCanvas, false);
-            ToggleCanvas(InventoryCanvas, true);
-        }
+        ToggleCanvas(InventoryCanvas, true);
     }
 
     // Überprüft, welches Item ausgewählt wurde

@@ -48,8 +48,7 @@ MonoBehaviour:
   Name: Ring of Pride
   Description: A blue topaz sits on top of this otherwise unremarkable silver ring.
     It is said to boost your ego.
-  LookAtText: 
   MinimumAmountOnLoot: 1
   MaximumAmountOnLoot: 1
-  StorePrice: 0
+  StorePrice: 10
   equipmentType: 0

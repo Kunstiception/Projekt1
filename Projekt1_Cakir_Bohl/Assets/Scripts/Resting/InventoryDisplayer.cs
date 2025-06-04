@@ -90,7 +90,8 @@ public class InventoryDisplayer : SelectionMenu
                 _amountTexts[i].text = _amountTexts[i + 1].text;
             }
 
-            if (InventoryManager.Instance.InventoryItems.Count > 0)
+            if (InventoryManager.Instance.InventoryItems.Count > 0
+                && _currentMenuPoint < InventoryManager.Instance.InventoryItems.Count)
             {
                 itemSelection?.Invoke(InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint), _currentMenuPoint);
             }

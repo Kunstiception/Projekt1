@@ -31,7 +31,7 @@ public static class GameConfig
     public static int AdditionalEgoPoints = 2;
 
     // Inventory
-    public static int InventorySlots = 10;
+    public static int MaxInventorySlots = 10;
 
     // Conditions
     public static int VampireSunDamage = 1;

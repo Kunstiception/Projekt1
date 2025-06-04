@@ -37,7 +37,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void ManageInventory(Item item, int amount, bool isAdding)
+    public void ManageInventory(Item item, int amount, bool isAdding, int index = 0)
     {
         if (InventoryItems.Contains(item))
         {
@@ -47,7 +47,7 @@ public class InventoryManager : MonoBehaviour
             {
                 if (item is Equipment)
                 {
-                    if (InventoryItems.Count >= GameConfig.InventorySlots)
+                    if (InventoryItems.Count >= GameConfig.MaxInventorySlots)
                     {
                         return;
                     }
@@ -69,16 +69,21 @@ public class InventoryManager : MonoBehaviour
 
             if (InventoryUtil.ReturnItemAmount(item) <= 0)
             {
-                //UpdateEquipBools(item);
+                if (item is Equipment)
+                {
+                    ManageEquipment(item, false, index);
 
-                InventoryItems.Remove(item);
+                    UpdateEquipBools(index);
+                }
+
                 InventoryAmounts.Remove(InventoryAmounts[InventoryItems.IndexOf(item)]);
+                InventoryItems.Remove(item);
             }
 
             return;
         }
 
-        if (InventoryItems.Count >= GameConfig.InventorySlots)
+        if (InventoryItems.Count >= GameConfig.MaxInventorySlots)
         {
             return;
         }
