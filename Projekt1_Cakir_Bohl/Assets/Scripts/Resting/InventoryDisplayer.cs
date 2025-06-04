@@ -72,7 +72,7 @@ public class InventoryDisplayer : SelectionMenu
             _amountTexts[0].text = "";
         }
 
-        if (InventoryManager.Instance.InventoryItems.Contains(item))
+        if (InventoryManager.Instance.InventoryItems.Contains(item) && item is not Equipment)
         {
             _amount = InventoryManager.Instance.InventoryAmounts.ElementAt(_currentMenuPoint);
             _amountTexts[_currentMenuPoint].text = $"x {_amount}";
@@ -219,19 +219,13 @@ public class InventoryDisplayer : SelectionMenu
                 break;
 
             case Item.ItemTypes.isEquipment:
-                if (InventoryManager.Instance.EquippedItems[_currentMenuPoint] == false)
+                if (InventoryManager.Instance.EquippedItems[_currentMenuPoint] == false ||
+                    !InventoryManager.Instance.EquippedItems.ContainsKey(_currentMenuPoint))
                 {
                     _useOrEquipPrompt.text = "Equip";
                 }
                 else
                 {
-                    if (_equipIndicators[_currentMenuPoint].text == "")
-                    {
-                        _useOrEquipPrompt.text = "Equip";
-
-                        break;
-                    }
-
                     _useOrEquipPrompt.text = "Unequip";
                 }
 
@@ -246,11 +240,11 @@ public class InventoryDisplayer : SelectionMenu
 
     public void UpdateEquipIndicators()
     {
-        //ResetTempEquipment();
 
         for (int i = 0; i < _equipIndicators.Length; i++)
         {
-            if (i >= InventoryManager.Instance.InventoryItems.Count)
+            if (!InventoryManager.Instance.EquippedItems.ContainsKey(i) || 
+                i >= InventoryManager.Instance.InventoryItems.Count)
             {
                 _equipIndicators[i].text = "";
 
@@ -264,8 +258,6 @@ public class InventoryDisplayer : SelectionMenu
                 continue;
             }
 
-            //var equipment = (Equipment)InventoryManager.Instance.InventoryItems[i];
-
             if (InventoryManager.Instance.EquippedItems[i] == true)
             {
                 _equipIndicators[i].text = "E";
@@ -276,22 +268,4 @@ public class InventoryDisplayer : SelectionMenu
             }
         }
     }
-
-    // private bool CheckEquipment(Equipment equipment)
-    // {
-    //     if (_tempEquipment.Contains(equipment))
-    //     {
-    //         _tempEquipment.Remove(equipment);
-
-    //         return true;
-    //     }
-
-    //     return false;
-    // }
-
-    // private void ResetTempEquipment()
-    // {
-    //     //https://stackoverflow.com/questions/1952185/how-do-i-copy-items-from-list-to-list-without-foreach
-    //     _tempEquipment = new List<Equipment>(InventoryManager.Instance.EquippedItems);
-    // }
 }

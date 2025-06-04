@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -68,10 +69,10 @@ public class InventoryManager : MonoBehaviour
 
             if (InventoryUtil.ReturnItemAmount(item) <= 0)
             {
+                //UpdateEquipBools(item);
+
                 InventoryItems.Remove(item);
                 InventoryAmounts.Remove(InventoryAmounts[InventoryItems.IndexOf(item)]);
-
-                EquippedItems.Remove(InventoryItems.IndexOf(item));
             }
 
             return;
@@ -86,6 +87,18 @@ public class InventoryManager : MonoBehaviour
         InventoryAmounts.Add(amount);
 
         EquippedItems.Add(InventoryItems.Count - 1, false);
+    }
+
+    public void UpdateEquipBools(int index)
+    {
+        for (int i = index + 1; i < EquippedItems.Count; i++)
+        {
+            var kvp = new KeyValuePair<int, bool>(EquippedItems.ElementAt(i).Key - 1, EquippedItems.ElementAt(i).Value);
+
+            EquippedItems.Remove(i - 1);
+
+            EquippedItems.Add(kvp.Key, kvp.Value);
+        }
     }
 
     public bool ManageEquipment(Item selectedEquipment, bool isEquip, int inventoryIndex)

@@ -125,11 +125,15 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         InventoryManager.Instance.ManageInventory(_currentItem, 1, false);
 
+        InventoryManager.Instance.UpdateEquipBools(_currentIndex);
+
         _inventoryDisplayer.UpdateDisplayedInventory(_currentItem);
 
         _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
 
-        if(InventoryManager.Instance.InventoryItems.Count > 0)
+        _inventoryDisplayer.UpdateEquipIndicators();
+
+        if (InventoryManager.Instance.InventoryItems.Count > 0)
         {
             ItemToDoCanvas.GetComponent<ItemToDoManager>().IsActive = true;
         }
@@ -256,8 +260,6 @@ public class RestingManager : Manager, ISelectable, ICondition
 
             yield return PrintMultipleLines(iEquipable.EquipItem(false).ToArray());
         }
-
-        _inventoryDisplayer.UpdateDisplayedInventory(_currentItem);
 
         _inventoryDisplayer.UpdateEquipIndicators();
 
