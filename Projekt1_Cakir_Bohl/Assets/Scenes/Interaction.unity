@@ -2243,7 +2243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8249907704972992955, guid: 188d878cd651a054b8a7db44d14fd706, type: 3}
       propertyPath: m_Name
-      value: Canvas_Inventory
+      value: Canvas_Merchant
       objectReference: {fileID: 0}
     - target: {fileID: 8249907704972992955, guid: 188d878cd651a054b8a7db44d14fd706, type: 3}
       propertyPath: m_IsActive
@@ -4480,12 +4480,14 @@ MonoBehaviour:
   - {fileID: 1229493853}
   _connectedScript: {fileID: 1719405261}
   _amountTexts: []
+  _equipIndicators: []
   _textBox: {fileID: 1647918672}
   _useOrEquipPrompt: {fileID: 0}
   _restingManager: {fileID: 0}
   _availabeItems:
   - {fileID: 6130178259746579057, guid: 2d7400668fecd4b4683e6e9e95c2c2ce, type: 3}
   - {fileID: 7636313497080733404, guid: 0b5235ee86cddaa4a8e91344b3e9762a, type: 3}
+  _availableEquipment:
   - {fileID: 8213404129468873995, guid: 19f4074a2def78542a4a26dfbbd99423, type: 3}
   - {fileID: 2375575768247096063, guid: 4fe1fab4a8a6595419c72b47815f5298, type: 3}
   _priceTexts:

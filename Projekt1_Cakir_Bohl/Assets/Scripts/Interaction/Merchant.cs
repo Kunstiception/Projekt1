@@ -1,14 +1,17 @@
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class Merchant : InventoryDisplayer
 {
-    [SerializeField] private Item[] _availabeItems;
+    [SerializeField] private List<Item> _availabeItems = new List<Item>();
+    [SerializeField] private Item[] _availableEquipment;
     [SerializeField] private TextMeshProUGUI[] _priceTexts;
     [SerializeField] private InteractionManager _interactionManager;
     public delegate void OnTryPurchase();
     public static OnTryPurchase onTryPurchase;
+    private List<Item> _tempAdditionalEquipment = new List<Item>();
     private int _price;
 
     public override void Start()
@@ -21,11 +24,30 @@ public class Merchant : InventoryDisplayer
         ListenForInputs();
     }
 
+    private void AddEquipment()
+    {
+        foreach (Item item in _availableEquipment)
+        {
+            _tempAdditionalEquipment.Add(item);
+        }
+
+        for (int i = 0; i < GameConfig.EquipmentToAdd; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, _tempAdditionalEquipment.Count);
+
+            _availabeItems.Add(_tempAdditionalEquipment[randomIndex]);
+
+            _tempAdditionalEquipment.RemoveAt(randomIndex);
+        }
+    }
+
     public override void InitializeMenu()
     {
+        AddEquipment();
+
         IsActive = true;
 
-        for (int i = 0; i < _availabeItems.Length; i++)
+        for (int i = 0; i < _availabeItems.Count; i++)
         {
             _name = _availabeItems.ElementAt(i).Name;
             _price = _availabeItems.ElementAt(i).StorePrice;
@@ -34,16 +56,16 @@ public class Merchant : InventoryDisplayer
             _priceTexts[i].text = $"{_price} G";
         }
 
-        _menuPoints[_availabeItems.Length].text = "Return";
-        _priceTexts[_availabeItems.Length].text = "";
+        _menuPoints[_availabeItems.Count].text = "Return";
+        _priceTexts[_availabeItems.Count].text = "";
 
-        for (int i = _availabeItems.Length + 1; i < _menuPoints.Length; i++)
+        for (int i = _availabeItems.Count + 1; i < _menuPoints.Length; i++)
         {
             _menuPoints[i].text = "";
             _priceTexts[i].text = "";
             _pointers[i].enabled = false;
         }
-        
+
         _textBox.text = _availabeItems.ElementAt(_currentMenuPoint).Description;
 
         SetInitialPointer();
@@ -51,7 +73,7 @@ public class Merchant : InventoryDisplayer
 
     public override void UpdateDisplayedInventory(Item item)
     {            
-        if(_availabeItems.Length <= 0)
+        if(_availabeItems.Count <= 0)
         {
             _menuPoints[0].text = "Return";
             _priceTexts[0].text = "";
@@ -104,7 +126,7 @@ public class Merchant : InventoryDisplayer
         }
         else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            if(_currentMenuPoint == _availabeItems.Length || _availabeItems.Length == 0)
+            if(_currentMenuPoint == _availabeItems.Count || _availabeItems.Count == 0)
             {
                 _interactionManager.ToggleCanvas(_interactionManager.InitialMenuCanvas, true);
                 _interactionManager.ToggleCanvas(_interactionManager.MerchantInventoryCanvas, false);
@@ -136,7 +158,7 @@ public class Merchant : InventoryDisplayer
         }
         else
         {
-            if(_currentMenuPoint == _availabeItems.Length)
+            if(_currentMenuPoint == _availabeItems.Count)
             {
                 return;
             }
@@ -155,7 +177,7 @@ public class Merchant : InventoryDisplayer
             _pointers[i].gameObject.SetActive(false);
         }
         
-        if(_currentMenuPoint == _availabeItems.Length)
+        if(_currentMenuPoint == _availabeItems.Count)
         {
             _textBox.text = "Select no item and go back.";
 

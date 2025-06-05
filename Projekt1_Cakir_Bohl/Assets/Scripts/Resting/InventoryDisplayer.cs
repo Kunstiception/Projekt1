@@ -13,7 +13,6 @@ public class InventoryDisplayer : SelectionMenu
     public delegate void ItemSelection(Item item, int index);
     public static ItemSelection itemSelection;
     protected string _name;
-    private List<Equipment> _tempEquipment;
     private int _amount;
     private int _ringCount = 0;
     private int _amuletCount = 0;

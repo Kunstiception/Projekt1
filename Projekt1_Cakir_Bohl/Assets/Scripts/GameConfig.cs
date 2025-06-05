@@ -23,6 +23,7 @@ public static class GameConfig
 
     // Looting
     public static int MaximumLootableItems = 3;
+    public static int EquipmentToAdd = 2;
 
     // Items
     public static int MinimumHeal = 4;

@@ -7,9 +7,10 @@ using UnityEngine.UI;
 public class LootManager : Manager
 {
     [SerializeField] private Item[] _possibleItems;
+    [SerializeField] private Item[] _possibleEquipment;
 
     private Item _item;
-    private List<Item> _tempItemsAndAmounts = new List<Item>();
+    private List<Item> _tempItems = new List<Item>();
 
     IEnumerator Start()
     {
@@ -19,13 +20,6 @@ public class LootManager : Manager
 
         Canvas statsCanvas =  _playerHealthbarSection.GetComponentInParent<Canvas>();
         statsCanvas.enabled = false;
-
-        foreach(Item item in _possibleItems)
-        {
-            _tempItemsAndAmounts.Add(item);
-        }
-        
-        int lootCount = UnityEngine.Random.Range(1, GameConfig.MaximumLootableItems + 1);
 
         if(EvaluateVampire())
         {          
@@ -46,7 +40,25 @@ public class LootManager : Manager
             statsCanvas.enabled = false;
         }
 
-        StartCoroutine(SelectRandomItemsAndAmounts(lootCount));
+        if (InventoryManager.Instance.InventoryItems.Count >= GameConfig.MaxInventorySlots)
+        {
+            _currentLine = "Your inventory is already full.";
+            yield return HandleTextOutput(_currentLine, false);
+
+            SceneManager.LoadScene(2);
+
+            yield break;
+        }
+        
+        foreach (Item item in _possibleItems)
+        {
+            _tempItems.Add(item);
+        }
+
+        _currentLine = "There is a treasure chest!";
+        yield return HandleTextOutput(_currentLine, false);
+
+        StartCoroutine(SelectRandomItemsAndAmounts(CreateLootCount()));
     }
 
     void Update()
@@ -64,36 +76,67 @@ public class LootManager : Manager
         }
     }
 
+    private int CreateLootCount()
+    {
+        int lootCount = 0;
+        int maxLootCount = GameConfig.MaxInventorySlots - InventoryManager.Instance.InventoryItems.Count;
+
+        if (maxLootCount >= GameConfig.MaximumLootableItems)
+        {
+            lootCount = UnityEngine.Random.Range(1, GameConfig.MaximumLootableItems + 1);
+        }
+        else
+        {
+            lootCount = UnityEngine.Random.Range(1, maxLootCount + 1);
+        }
+
+        return lootCount;
+    }
+
     private IEnumerator SelectRandomItemsAndAmounts(int lootCount)
-    {     
+    {
         int randomIndex;
         int randomAmount;
 
-        _currentLine = "There is a treasure chest!";
-        yield return HandleTextOutput(_currentLine, false);
-
-        for(int i = 1; i <= lootCount; i++)
+        for (int i = 1; i <= lootCount; i++)
         {
-            randomIndex = UnityEngine.Random.Range(0, _tempItemsAndAmounts.Count);
+            if (!MainManager.Instance.IsDay && i == lootCount)
+            {
+                for (int j = 0; j < GameConfig.EquipmentToAdd; j++)
+                {
+                    randomIndex = UnityEngine.Random.Range(0, _possibleEquipment.Length);
 
-            _item = _tempItemsAndAmounts[randomIndex];
+                    _tempItems.Add(_possibleEquipment[randomIndex]);
+                }
+            }
 
-            randomAmount = UnityEngine.Random.Range(_item.MinimumAmountOnLoot, _item.MaximumAmountOnLoot + 1);
+            randomIndex = UnityEngine.Random.Range(0, _tempItems.Count);
 
-            _tempItemsAndAmounts.RemoveAt(randomIndex);
+            _item = _tempItems[randomIndex];
+
+            if (_item is Equipment)
+            {
+                randomAmount = 1;
+            }
+            else
+            {
+                randomAmount = UnityEngine.Random.Range(_item.MinimumAmountOnLoot, _item.MaximumAmountOnLoot + 1);         
+            }
+
+            _tempItems.RemoveAt(randomIndex);                       
 
             InventoryManager.Instance.ManageInventory(_item, randomAmount, true);
 
-            _currentLine = DialogueUtil.AddEnding($"You have found {randomAmount} {_item.Name}" !, randomAmount);
+            _currentLine = DialogueUtil.AddEnding($"You have found {randomAmount} {_item.Name}"!, randomAmount);
 
             yield return HandleTextOutput(_currentLine, false);
         }
 
-        foreach(Item item in InventoryManager.Instance.InventoryItems)
+        foreach (Item item in InventoryManager.Instance.InventoryItems)
         {
             Debug.Log(item);
             Debug.Log(InventoryUtil.ReturnItemAmount(item));
-        } 
+        }
 
         yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
 
@@ -102,9 +145,7 @@ public class LootManager : Manager
 
     private IEnumerator UpdateUI(int damage, int currentHealth)
     {
-        float hitValue = 0;
-
-        hitValue = (float)damage / (float)PlayerManager.Instance.GetStartingHealth();
+        float hitValue = (float)damage / (float)PlayerManager.Instance.GetStartingHealth();
 
         if(currentHealth <= 0)
         {
