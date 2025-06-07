@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be12544651f4e874faa87de10468cd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InsultLines: {fileID: 0}
+  InsultLines: {fileID: 11400000, guid: e487fe79b43b8424ab32f482cd85b9df, type: 2}
+  DialogueLines: {fileID: 0}
   Name: Bandit
   HealthPoints: 12
   EgoPoints: 10
@@ -55,7 +56,7 @@ MonoBehaviour:
   Initiative: 7
   Accuracy: 7
   Evasion: 6
-  InsultResistance: 7
+  InsultResistance: 8
 --- !u!212 &6733146057372407502
 SpriteRenderer:
   m_ObjectHideFlags: 0

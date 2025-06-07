@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8edae58ba3a75b844bb07dde9ec9e432, type: 3}
+  m_Name: BanditInsults
+  m_EditorClassIdentifier: 
+  Insults:
+  - This is illegal!
+  - Your cloak can't hide that ugly face!
+  - You're about as stealthy as a court jester.
+  - You really embody the stereotype of the smelly bandit.
+  - How much do you make doing this? A coin a day?
+  - Your pockets aren't big enough to carry all my riches.
+  - Don't you miss sleeping in a proper bed?
+  - Your dagger is so small, it might as well be a lockpick
+  Values: 0300000005000000060000000600000004000000050000000500000006000000
+  AnswersWhenHit:
+  - Please don't report me to the guards!
+  - M-My mother says I'm very special!
+  - I shouldn't have worn these squeaky boots...
+  - My last victim didn't have any soap...
+  - I do have to beg sometimes...
+  - Damnit, I need a bigger pouch...
+  - "My back\_*is*\_quite sore..."
+  - It's average...
+  AnswersWhenResisted:
+  - That's the point!
+  - Thank God you have a helmet to hide yours!
+  - I'm already close enough to end you!
+  - I will bathe soon.. in your blood!
+  - Depends on the victim, but after seeing you, I don't have high hopes.
+  - Don't worry, I have enough room to carry your head too.
+  - I'll sell your armor and get myself an inn for a fortnight!
+  - I'll show you it's not about size, it's about technique.

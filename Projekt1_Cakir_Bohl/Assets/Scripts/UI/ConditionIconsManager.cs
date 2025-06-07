@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ConditionIconsManager : MonoBehaviour
 {
@@ -8,14 +7,14 @@ public class ConditionIconsManager : MonoBehaviour
     [SerializeField] private Sprite _vampireIcon;
     [SerializeField] private Sprite _zombieIcon;
     [SerializeField] private Sprite _werewolfIcon;
-    [SerializeField] private Transform[] _iconAnchors;
-    private List<Transform> _tempIconAnchors = new List<Transform>();
+    [SerializeField] private SpriteRenderer[] _iconAnchors;
+    private List<SpriteRenderer> _tempIconAnchors = new List<SpriteRenderer>();
 
     void Start()
     {
-        foreach (Transform transform in _iconAnchors)
+        foreach (SpriteRenderer renderer in _iconAnchors)
         {
-            _tempIconAnchors.Add(transform);
+            _tempIconAnchors.Add(renderer);
         }
 
         SetIcons();
@@ -57,16 +56,16 @@ public class ConditionIconsManager : MonoBehaviour
                     break;
             }
 
-            Instantiate(iconSprite, _tempIconAnchors[0]);
+            _tempIconAnchors[0].sprite = iconSprite;
 
             _tempIconAnchors.RemoveAt(0);
         }
 
         if (_tempIconAnchors.Count > 0)
         {
-            foreach (Transform transform in _tempIconAnchors)
+            foreach (SpriteRenderer renderer in _tempIconAnchors)
             {
-                transform.GetComponent<Image>().enabled = false;
+                renderer.sprite = null;
             }
         }
     }
