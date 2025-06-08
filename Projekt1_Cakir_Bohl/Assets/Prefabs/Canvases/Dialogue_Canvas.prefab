@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 8600163054848665291}
   - component: {fileID: 3406904738380157648}
   m_Layer: 5
-  m_Name: Example_Text
+  m_Name: TextBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

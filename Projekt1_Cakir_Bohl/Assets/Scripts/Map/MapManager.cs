@@ -277,7 +277,7 @@ public class MapManager : MonoBehaviour
 
         switch (_nextWaypoint.GetComponent<WayPoint>().WayPointType)
         {
-            // Empty = 3, Combat = 4, Loot = 5, Interaction = 6, Resting = 7
+            // Empty = 3, Combat = 4, Loot = 5, Interaction = 6, TownReached = 9
             case "Empty":
                 _nextSceneIndex = 3;
                 break;
@@ -291,7 +291,7 @@ public class MapManager : MonoBehaviour
                 _nextSceneIndex = 6;
                 break;
             case "Resting":
-                _nextSceneIndex = 7;
+                _nextSceneIndex = 9;
                 break;
             default:
                 Debug.LogError("No scene found!");

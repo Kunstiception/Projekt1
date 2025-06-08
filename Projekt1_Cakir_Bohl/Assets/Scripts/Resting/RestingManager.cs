@@ -200,7 +200,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         
         if (_currentItemLines.Length > 1)
         {
-            if (DiceUtil.D10() > 7)
+            if (DiceUtil.D10() > GameConfig.ChanceForSecondLine)
             {
                 _currentLine = _currentItemLines[UnityEngine.Random.Range(1, _currentItemLines.Length)];
                 yield return HandleTextOutput(_currentLine, false);
