@@ -45,9 +45,13 @@ public static class UIDialogueStorage
         "This seems to be all your vocal chords can produce.",
         "A rotting brain doesn't think very well.",
         "You shouldn't try this again."};
-    public static string[] StayingOutsideOfTown =
+    public static string[] StayingOutsideOfTownLines =
         {"You make camp just outside of town.",
         "The sky is clear and a million stars twinkle in the sky.",
         "Somewhere a dog barks behind the town's walls.",
         "It's cold but you light a fire to keep warm."};
+    public static string[] ReachingTavernLines =
+        {"The tavern seems quite inviting.",
+        "You enter and sit down at a table.",
+        "Shortly after you hear someone approaching."};
 }

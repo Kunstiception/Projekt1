@@ -46,7 +46,7 @@ public class TownDecisionManager : Manager, ISelectable
 
     private IEnumerator LoadOutside()
     {
-        string[] stayingOutsideLines = UIDialogueStorage.StayingOutsideOfTown;
+        string[] stayingOutsideLines = UIDialogueStorage.StayingOutsideOfTownLines;
 
         // Erste Line immer zeigen, auswürfeln ob auch eine zweite angezeigt wird (eine Art Easter Egg)
         _currentLine = stayingOutsideLines[0];

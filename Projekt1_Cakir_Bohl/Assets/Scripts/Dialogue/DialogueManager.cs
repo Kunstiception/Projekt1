@@ -6,7 +6,7 @@ using UnityEngine;
 // basiert auf: https://www.youtube.com/watch?v=vR6H3mu_xD8&list=PLSR2vNOypvs4Pc72kaB_Y1v3AszNd-UuF
 public class DialogueManager : Manager, ISelectable
 {
-    [SerializeField] private DialogueLines _initialOptions;
+    [SerializeField] public DialogueLines InitialOptions;
     [SerializeField] private GameObject _menuOptions;
 
     private DialogueLines _currentDialogueLines;
@@ -32,12 +32,10 @@ public class DialogueManager : Manager, ISelectable
 
     private IEnumerator DialogueCoroutine()
     {
-        yield return ShowLinesAndHandleSelection(_initialOptions);
+        yield return ShowLinesAndHandleSelection(InitialOptions);
 
         do
         {
-            yield return ShowLinesAndHandleSelection(_currentDialogueLines);
-
             if (_currentDialogueLines.positionInDialogue == PositionInDialogue.IsEnding)
             {
                 yield return PrintMultipleLines(_currentDialogueLines.Lines);
@@ -46,6 +44,9 @@ public class DialogueManager : Manager, ISelectable
 
                 break;
             }
+
+            yield return ShowLinesAndHandleSelection(_currentDialogueLines);
+            
         } while (_isRunning && _textBox.text != _currentLine);
     }
 
@@ -84,7 +85,7 @@ public class DialogueManager : Manager, ISelectable
     {
         if (_currentDialogueLines == null)
         {
-            _currentDialogueLines = _initialOptions.BranchingLines[index];
+            _currentDialogueLines = InitialOptions.BranchingLines[index];
 
             _isRunning = true;
 
@@ -93,7 +94,7 @@ public class DialogueManager : Manager, ISelectable
 
         _currentDialogueLines = _currentDialogueLines.BranchingLines[index];
 
-        if (_currentDialogueLines == _initialOptions)
+        if (_currentDialogueLines == InitialOptions)
         {
             EndDialogue();
 

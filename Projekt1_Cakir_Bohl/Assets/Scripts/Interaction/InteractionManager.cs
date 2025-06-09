@@ -12,8 +12,6 @@ public enum SceneType
 
 public class InteractionManager : Manager, ISelectable
 {
-
-
     public SceneType sceneType;
 
     [SerializeField] public Canvas MerchantInventoryCanvas;
@@ -23,7 +21,7 @@ public class InteractionManager : Manager, ISelectable
     [SerializeField] private DialogueManager _dialogueManager;
     [SerializeField] private GameObject _merchant;
 
-    IEnumerator Start()
+    private IEnumerator Start()
     {
         ToggleCanvas(MerchantInventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
@@ -76,7 +74,7 @@ public class InteractionManager : Manager, ISelectable
         DialogueManager.onDialogueFinished += ResetMenus;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         DialogueManager.onDialogueFinished -= ResetMenus;
 
