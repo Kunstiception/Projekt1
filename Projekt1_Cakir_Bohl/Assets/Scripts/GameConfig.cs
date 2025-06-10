@@ -21,6 +21,7 @@ public static class GameConfig
 
     // Resting
     public static int AmbushChance = 2;
+    public static int RoomCost = 10;
 
     // Looting
     public static int MaximumLootableItems = 3;
@@ -45,7 +46,7 @@ public static class GameConfig
     public static int WerewolfAttackStrengthModifier = 2;
     public static int WerewolfInsultDamageModifier = 1;
 
-    //UI
+    // UI
     public static UnityEngine.Vector3 HealthbarDefaultPosition = new UnityEngine.Vector3(-1150f, -510f, 0f);
     public static UnityEngine.Vector3 HealthbarAlternativePosition = new UnityEngine.Vector3(-675f, -510f, 0f);
 }

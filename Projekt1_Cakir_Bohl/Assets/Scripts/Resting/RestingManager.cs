@@ -9,6 +9,8 @@ public class RestingManager : Manager, ISelectable, ICondition
     [SerializeField] public Canvas SelectionMenuCanvas;
     [SerializeField] public Canvas InventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
+    [SerializeField] private GameObject _outsideBackground;
+    [SerializeField] private GameObject _roomBackground;
     private InventoryDisplayer _inventoryDisplayer;
     private string[] _currentItemLines;
     private bool _isAmbush;
@@ -21,6 +23,17 @@ public class RestingManager : Manager, ISelectable, ICondition
         _promptContinue.enabled = false;
         _promptSkip.enabled = false;
         _inventoryDisplayer = InventoryCanvas.GetComponent<InventoryDisplayer>();
+
+        // if (PlayerManager.Instance.HasRoom)
+        // {
+        //     _roomBackground.SetActive(true);
+        //     _outsideBackground.SetActive(false);
+        // }
+        // else
+        // {
+        //     _roomBackground.SetActive(false);
+        //     _outsideBackground.SetActive(true);          
+        // }
 
         ToggleCanvas(InventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
@@ -271,6 +284,11 @@ public class RestingManager : Manager, ISelectable, ICondition
     // Hier wird festegelegt, ob der Player in der Nacht in einen Kampf gezwungen wird
     private bool DecideIfAmbush()
     {
+        if (PlayerManager.Instance.HasRoom)
+        {
+            return false;
+        }
+
         int random = DiceUtil.D10();
 
         if (random <= GameConfig.AmbushChance)

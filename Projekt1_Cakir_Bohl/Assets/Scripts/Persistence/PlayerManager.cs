@@ -11,6 +11,7 @@ public class PlayerManager: Combatant
     public int InsultResistanceModifier;
     public int AccuracyModifier;
     public int InsultDamageModifier;
+    public bool HasRoom = false;
     public ConditionManager.Conditions LatestCondition;
 
     private void Awake()

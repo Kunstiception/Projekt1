@@ -110,8 +110,7 @@ public class StoreManager : Manager, ISelectable
 
     private void UpdateCoinsText()
     {
-        // https://learn.microsoft.com/de-de/dotnet/api/system.linq.enumerable.firstordefault?view=net-8.0
-        _coinsItem = InventoryManager.Instance.InventoryItems.FirstOrDefault(item => item is Coin);
+        _coinsItem = InventoryUtil.ReturnCoinItem();
 
         if (_coinsItem == null)
         {
