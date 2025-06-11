@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,6 +22,8 @@ public class TavernManager : Manager, ISelectable
 
         ToggleCanvas(DialogueCanvas, false);
         ToggleCanvas(SleepingSelectionCanvas, false);
+
+        yield return CheckConditionsCoroutine();
 
         yield return PrintMultipleLines(UIDialogueStorage.ReachingTavernLines);
 
@@ -46,6 +49,73 @@ public class TavernManager : Manager, ISelectable
         DialogueManager.onDialogueFinished -= ShowSleepDecision;
 
         StopAllCoroutines();
+    }
+
+    private IEnumerator CheckConditionsCoroutine()
+    {
+        var conditions = ConditionManager.Instance.GetCurrentConditions();
+
+        if (conditions.Count == 0)
+        {
+            yield break;
+        }
+
+        if (conditions.Count == 1 && conditions[0] == ConditionManager.Conditions.SleepDeprived)
+        {
+            _currentLine = "You can barely keep your eyes open.";
+            yield return HandleTextOutput(_currentLine, false);
+
+            yield break;
+        }
+
+        List<string> lines = new List<string>();
+
+        foreach (ConditionManager.Conditions condition in conditions)
+        {
+            string conditionName = null;
+
+            if (condition == ConditionManager.Conditions.Werewolf && !MainManager.Instance.IsDay)
+            {
+                conditionName = "Werewolf";
+            }
+
+            if (condition == ConditionManager.Conditions.Zombie)
+            {
+                conditionName = "Zombie";
+            }
+
+            if (conditionName == null)
+            {
+                continue;
+            }
+
+            if (lines.Count == 0)
+            {
+                lines.Add($" {conditionName}");
+
+                continue;
+            }
+
+            lines.Add($" -{conditionName}");
+        }
+
+        if (lines.Count == 0)
+        {
+            yield break;
+        }
+
+        yield return PrintMultipleLines(UIDialogueStorage.GettingCaughtAtTheGateLines);
+
+        _currentLine = "It's a ";
+
+        foreach (string line in lines)
+        {
+            _currentLine += line;
+        }
+
+        _currentLine += ". Catch it!";
+
+        SceneManager.LoadScene(4);
     }
 
     private void ShowSleepDecision()

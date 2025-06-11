@@ -54,4 +54,7 @@ public static class UIDialogueStorage
         {"The tavern seems quite inviting.",
         "You enter and sit down at a table.",
         "Shortly after you hear someone approaching."};
+    public static string[] GettingCaughtAtTheGateLines =
+        {"As you pass the gate the watchful eyes of a guard set upon you.",
+        "For a moment he seems unsure but then he shouts at the top of his lungs:"};
 }
