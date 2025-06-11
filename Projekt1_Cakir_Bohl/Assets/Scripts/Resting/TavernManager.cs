@@ -106,7 +106,7 @@ public class TavernManager : Manager, ISelectable
 
         yield return PrintMultipleLines(UIDialogueStorage.GettingCaughtAtTheGateLines);
 
-        _currentLine = "It's a ";
+        _currentLine = "It's a";
 
         foreach (string line in lines)
         {
@@ -114,6 +114,12 @@ public class TavernManager : Manager, ISelectable
         }
 
         _currentLine += ". Catch it!";
+
+        yield return HandleTextOutput(_currentLine, false);
+
+        _textBox.text = "";
+
+        PlayerManager.Instance.GotCaught = true;
 
         SceneManager.LoadScene(4);
     }
@@ -132,7 +138,7 @@ public class TavernManager : Manager, ISelectable
         }
         else
         {
-            _coinsText.text = $"{_currentCoinAmount}";
+            _coinsText.text = $"Coins: {_currentCoinAmount}";
         }
 
         ToggleCanvas(DialogueCanvas, false);

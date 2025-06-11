@@ -2,7 +2,6 @@ public class PlayerManager: Combatant
 { 
     public static PlayerManager Instance;
 
-    public bool HasDisadvantage = false;
     public int HealthPointsModifier;
     public int EgoPointsModifier;
     public int AttackStrengthModifier;
@@ -12,6 +11,8 @@ public class PlayerManager: Combatant
     public int AccuracyModifier;
     public int InsultDamageModifier;
     public bool HasRoom = false;
+    public bool HasDisadvantage = false;
+    public bool GotCaught = false;
     public ConditionManager.Conditions LatestCondition;
 
     private void Awake()

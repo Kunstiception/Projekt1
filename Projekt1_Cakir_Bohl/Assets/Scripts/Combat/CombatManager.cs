@@ -11,6 +11,7 @@ public class CombatManager : Manager, ISelectable
 {
     [SerializeField] private GameObject[] _enemiesDay;
     [SerializeField] private GameObject[] _enemiesNight;
+    [SerializeField] private GameObject _guard;
     [SerializeField] private TextMeshProUGUI _enemyUIHealth;
     [SerializeField] private TextMeshProUGUI _enemyUIEgo;
     [SerializeField] private Slider _enemyHealthBarBelow;
@@ -66,18 +67,27 @@ public class CombatManager : Manager, ISelectable
 
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
 
-        if(MainManager.Instance.IsDay)
+        if (!PlayerManager.Instance.GotCaught)
         {
-            var randomIndex = UnityEngine.Random.Range(0, _enemiesDay.Length);
-            _enemy = _enemiesDay[randomIndex].GetComponent<Combatant>();
+            if (MainManager.Instance.IsDay)
+            {
+                var randomIndex = UnityEngine.Random.Range(0, _enemiesDay.Length);
+                _enemy = _enemiesDay[randomIndex].GetComponent<Combatant>();
+            }
+            else
+            {
+                var randomIndex = UnityEngine.Random.Range(0, _enemiesNight.Length);
+                _enemy = _enemiesNight[randomIndex].GetComponent<Combatant>();
+            }
         }
         else
         {
-            var randomIndex = UnityEngine.Random.Range(0, _enemiesNight.Length);
-            _enemy = _enemiesNight[randomIndex].GetComponent<Combatant>();
+            _enemy = _guard.GetComponent<Combatant>();
+
+            PlayerManager.Instance.GotCaught = false;
         }
 
-        if(EvaluateVampire())
+        if (EvaluateVampire())
         {
             _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));

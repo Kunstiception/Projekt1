@@ -41,7 +41,7 @@ public static class UIDialogueStorage
         "All the anger vanishes just like the fur on your body.",
         "You seem to be your normal non-werewolf self again."};
     public static string[] ZombieInsultAttemptLines =
-        {"'Grrrrr!!!!!'",
+        {"You: 'Grrrrr!!!!!'",
         "This seems to be all your vocal chords can produce.",
         "A rotting brain doesn't think very well.",
         "You shouldn't try this again."};

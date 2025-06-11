@@ -1118,6 +1118,7 @@ MonoBehaviour:
   - {fileID: 1451417646648548203, guid: 9d5640051b0af1649ae7dd155e96d614, type: 3}
   - {fileID: 1451417646648548203, guid: abb86fe4a2d2c3b4591c1356120805b3, type: 3}
   - {fileID: 1452682680094629213, guid: 18e4e71e84a8a81488ac7671fa561250, type: 3}
+  _guard: {fileID: 198016388627471161, guid: c999b794c0344844896d4262f0b0aede, type: 3}
   _enemyUIHealth: {fileID: 1713162020}
   _enemyUIEgo: {fileID: 1187929111}
   _enemyHealthBarBelow: {fileID: 1747707866}

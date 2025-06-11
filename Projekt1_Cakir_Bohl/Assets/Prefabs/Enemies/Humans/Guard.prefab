@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be12544651f4e874faa87de10468cd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InsultLines: {fileID: 0}
+  InsultLines: {fileID: 11400000, guid: 7fa9e8137e5affa45a8a0a952a357806, type: 2}
+  DialogueLines: {fileID: 0}
   Name: Guard
   HealthPoints: 12
   EgoPoints: 10
