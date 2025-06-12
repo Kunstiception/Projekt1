@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class TavernManager : Manager, ISelectable
 {
     [SerializeField] public Canvas SleepingSelectionCanvas;
+    [SerializeField] public Canvas VampireSelectionCanvas;
     [SerializeField] public Canvas DialogueCanvas;
     [SerializeField] private DialogueLines[] _initialLines;
     [SerializeField] private DialogueManager _dialogueManager;
@@ -22,6 +23,7 @@ public class TavernManager : Manager, ISelectable
 
         ToggleCanvas(DialogueCanvas, false);
         ToggleCanvas(SleepingSelectionCanvas, false);
+        ToggleCanvas(VampireSelectionCanvas, false);
 
         yield return CheckConditionsCoroutine();
 
@@ -147,23 +149,43 @@ public class TavernManager : Manager, ISelectable
 
     public void HandleSelectedMenuPoint(int index)
     {
-        switch (index)
+        if (SleepingSelectionCanvas.isActiveAndEnabled)
         {
-            case 0:
-                StartCoroutine(PurchaseRoomCoroutine());
+            switch (index)
+            {
+                case 0:
+                    StartCoroutine(PurchaseRoomCoroutine());
 
-                break;
+                    break;
 
-            case 1:
-                PlayerManager.Instance.HasRoom = false;
-                
-                SceneManager.LoadScene(7);
+                case 1:
+                    PlayerManager.Instance.HasRoom = false;
 
-                break;
+                    SceneManager.LoadScene(7);
 
-            default:
-                throw new IndexOutOfRangeException();
+                    break;
 
+                default:
+                    throw new IndexOutOfRangeException();
+            }
+        }
+        else
+        {
+            switch (index)
+            {
+                case 0:
+                    StartCoroutine(VampireBiteCoroutine());
+
+                    break;
+
+                case 1:
+                    SceneManager.LoadScene(7);
+
+                    break;
+
+                default:
+                    throw new IndexOutOfRangeException();
+            }
         }
     }
 
@@ -173,10 +195,23 @@ public class TavernManager : Manager, ISelectable
 
         if (_currentCoinAmount >= GameConfig.RoomCost)
         {
+            PlayerManager.Instance.HasRoom = true;
+
             InventoryManager.Instance.InventoryAmounts[InventoryManager.Instance.InventoryItems.IndexOf(_coinsItem)] = _currentCoinAmount - GameConfig.RoomCost;
 
             _currentLine = $"You are led to a warm and cozy room on the first floor of the inn.";
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+            if (ConditionManager.Instance.IsVampire)
+            {
+                yield return PrintMultipleLines(UIDialogueStorage.VampireInTheCityLines);
+
+                _textBox.text = "";
+
+                ToggleCanvas(VampireSelectionCanvas, true);
+
+                yield break;
+            }
 
             SceneManager.LoadScene(7);
         }
@@ -189,5 +224,40 @@ public class TavernManager : Manager, ISelectable
 
             ToggleCanvas(SleepingSelectionCanvas, true);
         }
+    }
+
+    private IEnumerator VampireBiteCoroutine()
+    {
+        ToggleCanvas(VampireSelectionCanvas, false);
+
+        _currentLine = "You start looking for the perfect victim.";
+        yield return HandleTextOutput(_currentLine, false);
+
+        _currentLine = UIDialogueStorage.VampireLookingForVictimLines[UnityEngine.Random.Range(0, UIDialogueStorage.VampireLookingForVictimLines.Length)];
+        yield return HandleTextOutput(_currentLine, false);
+
+        int random = DiceUtil.D10();
+
+        if (random <= GameConfig.VampireCaughtChance)
+        {
+            _currentLine = UIDialogueStorage.VampireCaughtLines[UnityEngine.Random.Range(0, UIDialogueStorage.VampireCaughtLines.Length)];
+            yield return HandleTextOutput(_currentLine, false);
+
+            _textBox.text = "";
+
+            PlayerManager.Instance.GotCaught = true;
+
+            SceneManager.LoadScene(4);
+
+            yield break;
+        }
+
+        yield return PrintMultipleLines(UIDialogueStorage.VampireBiteLines);
+
+        ConditionManager.Instance.ApplyVampire(true);
+
+        _textBox.text = "";
+
+        SceneManager.LoadScene(7);
     }
 }

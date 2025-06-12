@@ -20,8 +20,9 @@ public static class GameConfig
     public static float MaximumDamageModifier = 1.5f;
 
     // Resting
-    public static int AmbushChance = 2;
+    public static int AmbushChance = 3;
     public static int RoomCost = 10;
+    public static int VampireCaughtChance = 3;
 
     // Looting
     public static int MaximumLootableItems = 3;
