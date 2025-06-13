@@ -1024,7 +1024,7 @@ GameObject:
   - component: {fileID: 799655648}
   - component: {fileID: 799655647}
   m_Layer: 5
-  m_Name: Pointer_Sleep
+  m_Name: Pointer_Resist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2206,7 +2206,7 @@ GameObject:
   - component: {fileID: 1731240337}
   - component: {fileID: 1731240336}
   m_Layer: 5
-  m_Name: Sleep
+  m_Name: Resist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2263,7 +2263,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Just go to sleep
+  m_text: Resist the urge
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5d1eef827c2e5864c9bc578192666019, type: 2}
   m_sharedMaterial: {fileID: 3231400802153636268, guid: 5d1eef827c2e5864c9bc578192666019, type: 2}

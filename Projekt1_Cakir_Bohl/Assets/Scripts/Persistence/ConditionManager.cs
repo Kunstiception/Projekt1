@@ -51,13 +51,13 @@ public class ConditionManager : MonoBehaviour
             case Conditions.Vampire:
                 if(isAffected)
                 {
-                    //ApplyVampire(true);
+                    ApplyVampire(true);
 
                     return UIDialogueStorage.VampireLines;
                 }
                 else
                 {
-                    //ApplyVampire(false);
+                    ApplyVampire(false);
 
                     return UIDialogueStorage.HealedVampireLines;
                 }
@@ -140,7 +140,7 @@ public class ConditionManager : MonoBehaviour
         }
     }
 
-    public void ApplyVampire(bool isAffected)
+    private void ApplyVampire(bool isAffected)
     {
         if(isAffected)
         {

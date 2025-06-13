@@ -8,6 +8,8 @@ public static class GameConfig
     public static float TimeBetweenChars = 0.075f;
     public static float TimeBeforeNextLine = 0.75f;
     public static float TimeBeforeLevelLoad = 0.25f;
+    public static float AnticipationCharsSpeed = 0.25f;
+    public static float TimeAfterAnticipation = 0.75f;
     public static int ChanceForSecondLine = 7;
 
     // Map

@@ -327,7 +327,7 @@ public class RestingManager : Manager, ISelectable, ICondition
             PlayerManager.Instance.EgoPoints += egoHeal;
 
             //Wait for anim
-            yield return new WaitForSeconds(5);
+            yield return AnticipationTextCoroutine();
 
             if(healthHeal == 0 && egoHeal == 0)
             {
@@ -356,7 +356,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         else
         {
             //Wait for anim
-            yield return new WaitForSeconds(5);
+            yield return AnticipationTextCoroutine();
 
             bool wasHurt = false;
 

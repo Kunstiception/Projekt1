@@ -83,8 +83,6 @@ public class CombatManager : Manager, ISelectable
         else
         {
             _enemy = _guard.GetComponent<Combatant>();
-
-            PlayerManager.Instance.GotCaught = false;
         }
 
         if (EvaluateVampire())
@@ -150,6 +148,12 @@ public class CombatManager : Manager, ISelectable
 
         _currentLine = $"You encounter a {_enemy.Name}!";
         yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+        if (PlayerManager.Instance.GotCaught)
+        {    
+            _currentLine = UIDialogueStorage.GuardAppearsLines[UnityEngine.Random.Range(0, UIDialogueStorage.GuardAppearsLines.Length)];
+            yield return HandleTextOutput(_currentLine, false);
+        }
 
         _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "goes", "first!");
         if(_combatant1 == PlayerManager.Instance)
@@ -605,6 +609,18 @@ public class CombatManager : Manager, ISelectable
         {
             if(isRetreat)
             {
+                if (PlayerManager.Instance.GotCaught)
+                {
+                    yield return PrintMultipleLines(UIDialogueStorage.EscapedGuardLines);
+
+                    _textBox.text = "";
+
+                    PlayerManager.Instance.GotCaught = false;
+
+                    SceneManager.LoadScene(7);
+
+                    yield break;
+                }
                 _currentLine = "You manage to escape!";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));
             }
@@ -616,7 +632,20 @@ public class CombatManager : Manager, ISelectable
 
             if(winner == PlayerManager.Instance)
             {
-                if(_combatant1 == PlayerManager.Instance)
+                if (PlayerManager.Instance.GotCaught)
+                {
+                    yield return PrintMultipleLines(UIDialogueStorage.SlayedGuardLines);
+
+                    _textBox.text = "";
+
+                    PlayerManager.Instance.GotCaught = false;
+
+                    SceneManager.LoadScene(7);
+
+                    yield break;
+                }
+
+                if (_combatant1 == PlayerManager.Instance)
                 {
                     PlayerManager.Instance.HealthPoints = _combatantHealth1;
                     PlayerManager.Instance.EgoPoints = _combatant1EgoPoints;

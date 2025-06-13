@@ -120,4 +120,31 @@ public class Manager : MonoBehaviour
         childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(_playerEgoBarBelow.gameObject);
         childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
     }
+
+    protected IEnumerator AnticipationTextCoroutine()
+    {
+        float counter = 0f;
+        string singleChar = ". ";
+        string finalLine = ". . . ";
+
+        while (counter < 3.5f) // Hier Animationslänge einfügen
+        {
+            if (_textBox.text != finalLine)
+            {
+                _textBox.text += singleChar;
+            }
+            else
+            {
+                _textBox.text = "";
+            }
+
+            yield return new WaitForSeconds(GameConfig.AnticipationCharsSpeed);
+
+            counter += GameConfig.AnticipationCharsSpeed;
+        }
+
+        _textBox.text = "!!!";
+
+        yield return new WaitForSeconds(GameConfig.TimeAfterAnticipation);
+    }
 }

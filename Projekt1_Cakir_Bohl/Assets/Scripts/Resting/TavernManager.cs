@@ -15,17 +15,36 @@ public class TavernManager : Manager, ISelectable
     [SerializeField] private TextMeshProUGUI _roomText;
     [SerializeField] private TextMeshProUGUI _coinsText;
     private Item _coinsItem;
+    private Coroutine _vampireBiteCoroutine;
     private int _currentCoinAmount;
+    private bool _hasChosenToBite;
 
     IEnumerator Start()
     {
+        _hasChosenToBite = false;
+
         _promptContinue.enabled = false;
 
         ToggleCanvas(DialogueCanvas, false);
         ToggleCanvas(SleepingSelectionCanvas, false);
         ToggleCanvas(VampireSelectionCanvas, false);
 
+        _currentLine = "As you pass the gate the watchful eyes of a guard set upon you.";
+        yield return HandleTextOutput(_currentLine, false);
+
         yield return CheckConditionsCoroutine();
+
+        _currentLine = "He lets you enter.";
+        yield return HandleTextOutput(_currentLine, false);
+
+        // if (ConditionManager.Instance.IsVampire)
+        // {
+        //     yield return PrintMultipleLines(UIDialogueStorage.VampireInTheCityLines);
+
+        //     _textBox.text = "";
+
+        //     yield return _vampireBiteCoroutine = StartCoroutine(VampireBiteCoroutine());
+        // }
 
         yield return PrintMultipleLines(UIDialogueStorage.ReachingTavernLines);
 
@@ -43,12 +62,12 @@ public class TavernManager : Manager, ISelectable
 
     private void OnEnable()
     {
-        DialogueManager.onDialogueFinished += ShowSleepDecision;
+        DialogueManager.onDialogueFinished += DialogueEnded;
     }
 
     private void OnDisable()
     {
-        DialogueManager.onDialogueFinished -= ShowSleepDecision;
+        DialogueManager.onDialogueFinished -= DialogueEnded;
 
         StopAllCoroutines();
     }
@@ -119,11 +138,23 @@ public class TavernManager : Manager, ISelectable
 
         yield return HandleTextOutput(_currentLine, false);
 
-        _textBox.text = "";
+        _textBox.enabled = false;
 
         PlayerManager.Instance.GotCaught = true;
 
         SceneManager.LoadScene(4);
+    }
+
+    private void DialogueEnded()
+    {
+        if (ConditionManager.Instance.IsVampire)
+        {
+            _vampireBiteCoroutine = StartCoroutine(VampireBiteCoroutine());
+
+            return;
+        }
+
+        ShowSleepDecision();
     }
 
     private void ShowSleepDecision()
@@ -174,12 +205,17 @@ public class TavernManager : Manager, ISelectable
             switch (index)
             {
                 case 0:
-                    StartCoroutine(VampireBiteCoroutine());
+                    _hasChosenToBite = true;
 
                     break;
 
                 case 1:
-                    SceneManager.LoadScene(7);
+                    StopCoroutine(_vampireBiteCoroutine);
+
+                    _vampireBiteCoroutine = null;
+                    
+                    ToggleCanvas(VampireSelectionCanvas, false);
+                    ToggleCanvas(SleepingSelectionCanvas, true);
 
                     break;
 
@@ -202,17 +238,6 @@ public class TavernManager : Manager, ISelectable
             _currentLine = $"You are led to a warm and cozy room on the first floor of the inn.";
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-            if (ConditionManager.Instance.IsVampire)
-            {
-                yield return PrintMultipleLines(UIDialogueStorage.VampireInTheCityLines);
-
-                _textBox.text = "";
-
-                ToggleCanvas(VampireSelectionCanvas, true);
-
-                yield break;
-            }
-
             SceneManager.LoadScene(7);
         }
         else
@@ -228,13 +253,26 @@ public class TavernManager : Manager, ISelectable
 
     private IEnumerator VampireBiteCoroutine()
     {
+        yield return PrintMultipleLines(UIDialogueStorage.VampireInTheCityLines);
+
+        _textBox.text = "";
+
+        ToggleCanvas(VampireSelectionCanvas, true);
+
+        //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
+        yield return new WaitUntil(() => _hasChosenToBite == true);
+
         ToggleCanvas(VampireSelectionCanvas, false);
 
-        _currentLine = "You start looking for the perfect victim.";
+        _currentLine = "You start looking for your victim in the tavern.";
         yield return HandleTextOutput(_currentLine, false);
 
         _currentLine = UIDialogueStorage.VampireLookingForVictimLines[UnityEngine.Random.Range(0, UIDialogueStorage.VampireLookingForVictimLines.Length)];
         yield return HandleTextOutput(_currentLine, false);
+
+        _textBox.text = "";
+
+        yield return AnticipationTextCoroutine();
 
         int random = DiceUtil.D10();
 
@@ -243,7 +281,7 @@ public class TavernManager : Manager, ISelectable
             _currentLine = UIDialogueStorage.VampireCaughtLines[UnityEngine.Random.Range(0, UIDialogueStorage.VampireCaughtLines.Length)];
             yield return HandleTextOutput(_currentLine, false);
 
-            _textBox.text = "";
+            _textBox.enabled = false;
 
             PlayerManager.Instance.GotCaught = true;
 
@@ -254,10 +292,11 @@ public class TavernManager : Manager, ISelectable
 
         yield return PrintMultipleLines(UIDialogueStorage.VampireBiteLines);
 
-        ConditionManager.Instance.ApplyVampire(true);
+        // Hier additional buff für einen Tag
+        //ConditionManager.Instance.ApplyVampire(true);
 
         _textBox.text = "";
 
-        SceneManager.LoadScene(7);
+        ToggleCanvas(SleepingSelectionCanvas, true);
     }
 }

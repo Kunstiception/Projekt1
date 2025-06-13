@@ -55,7 +55,7 @@ public static class UIDialogueStorage
         "You enter and sit down at a table.",
         "Shortly after you hear someone approaching."};
     public static string[] GettingCaughtAtTheGateLines =
-        {"As you pass the gate the watchful eyes of a guard set upon you.",
+        {"He looks at you for a long while, studying you.",
         "For a moment he seems unsure but then he shouts at the top of his lungs:"};
     public static string[] VampireInTheCityLines =
         {"Being in the town with so many warm bodies gives you chills.",
@@ -63,15 +63,28 @@ public static class UIDialogueStorage
         "Should you do it?",
         "Bite one?"};
     public static string[] VampireLookingForVictimLines =
-        {"This house seems perfect. It is completely dark in this part of town.",
-        "The smell of the person in the room next to yours is just too good. You decide to enter.",};
+        {"In this room you can hear the loud snoring of someone in deep slumber.",
+        "The smell of the person in the room near the stairs is just too good. You decide to enter."};
     public static string[] VampireCaughtLines =
         {"Just as you bow down over your sleeping victim their eyes open wide and they scream loudly.",
         "You simply take too long trying to pick the lock. A bypasser spots you and calls for the guards.",
-        "You failed to notice the maid in the corner of the lady's bedroom. Her screams alarm the guards."};
+        "You failed to notice the maid in the corner of the lady's room. Her screams alarm the guards."};
     public static string[] VampireBiteLines =
         {"The taste of blood overwhelms you.",
         "You enjoy every drop while you feel your body grow stronger.",
         "With the back of your hand you wipe the blood off your lips",
-        "You head back to your room with a big grin on your face." };
+        "You head back to the main room of the tavern with a big grin on your face."};
+    public static string[] GuardAppearsLines =
+        {"Guard: 'I will banish you from this town, you monster!'",
+        "Guard: 'My blade will end your life, you pitiful creature!'",
+        "Guard: 'Die and burn in the pits of hell for all eternity!'",
+        "Guard: 'I shall defend the citizens of this town with my life!'"};
+    public static string[] SlayedGuardLines =
+        {"Somehow you managed to slay the guard.",
+        "But now the whole town is alerted!",
+        "You have to flee and camp outside of town."};
+    public static string[] EscapedGuardLines =
+        {"Somehow you managed to escape the guard.",
+        "But now the whole town is alerted!",
+        "You have to flee and camp outside of town."};
 }
