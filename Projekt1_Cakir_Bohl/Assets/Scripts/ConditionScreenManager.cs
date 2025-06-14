@@ -21,7 +21,12 @@ public class ConditionScreenManager : Manager
 
         yield return new WaitForSeconds(2);
 
-        yield return StartCoroutine(PrintMultipleLines(CreateLines().ToArray()));
+        _currentLine = CreateConditionLine();
+
+        if (_currentLine != null)
+        {
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));         
+        }
 
         SceneManager.LoadScene(2);
     }
@@ -55,37 +60,65 @@ public class ConditionScreenManager : Manager
         }
     }
 
-    private List<string> CreateLines()
+    private string CreateConditionLine()
     {
-        List<string> lines = new List<string>();
+        string line = "... a ";
 
         var conditions = ConditionManager.Instance.GetCurrentConditions();
-        
-        if(PlayerManager.Instance.LatestCondition == ConditionManager.Conditions.SleepDeprived)
+
+        if (conditions.Count == 1)
         {
-            lines.Add($"You are now sleep deprived.");
+            return null;
         }
 
-        foreach(ConditionManager.Conditions condition in conditions)
+        if (conditions.Contains(ConditionManager.Conditions.SleepDeprived))
         {
-            if(condition != PlayerManager.Instance.LatestCondition)
-            {
-                if(condition == ConditionManager.Conditions.SleepDeprived)
-                {
-                    lines.Add($"... a sleep deprived {_conditionName}");
+            line += "sleep deprived ";
+        }
+        
+        List<string> conditionNames = new List<string>();
 
+        foreach (ConditionManager.Conditions condition in conditions)
+        {
+            string conditionName = null;
+
+            if (condition == ConditionManager.Conditions.Werewolf && !MainManager.Instance.IsDay)
+            {
+                conditionName = "Werewolf";
+            }
+
+            if (condition == ConditionManager.Conditions.Zombie)
+            {
+                conditionName = "Zombie";
+            }
+
+            if (condition == ConditionManager.Conditions.Vampire)
+            {
+                conditionName = "Vampire";
+            }
+
+            if (conditionName == null)
+                {
                     continue;
                 }
 
-                lines[1] = lines[1] + $"-{condition}";
+            if (conditionNames.Count == 0)
+            {
+                conditionNames.Add($" {conditionName}");
+
+                continue;
             }
+
+            conditionNames.Add($" -{conditionName}");
         }
 
-        if (lines.Count > 1)
+        foreach (string name in conditionNames)
         {
-            lines[1] = lines[1] + "!";
+            line += name;
         }
 
-       return lines;
+        line += "!";
+
+        return line;
     }
 }

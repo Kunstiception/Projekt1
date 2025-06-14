@@ -280,21 +280,39 @@ public class MapManager : MonoBehaviour
             // Empty = 3, Combat = 4, Loot = 5, Interaction = 6, TownReached = 9
             case "Empty":
                 _nextSceneIndex = 3;
+
                 break;
+
             case "Fight":
                 _nextSceneIndex = 4;
+
                 break;
+
             case "Loot":
                 _nextSceneIndex = 5;
+
                 break;
+
             case "Interaction":
                 _nextSceneIndex = 6;
+
                 break;
+
             case "Resting":
+                // Beim ersten Tag immer in die Stadt führen, um diese zu zeigen und eh keine Conditios vorhandens sein können
+                if (MainManager.Instance.CurrentDay == 0)
+                {
+                    _nextSceneIndex = 10;
+
+                    break;
+                }
+
                 _nextSceneIndex = 9;
+
                 break;
             default:
                 Debug.LogError("No scene found!");
+
                 break;
         }
 

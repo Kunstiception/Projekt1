@@ -23,7 +23,7 @@ public static class GameConfig
 
     // Resting
     public static int AmbushChance = 3;
-    public static int RoomCost = 10;
+    public static int RoomCost = 8;
     public static int VampireCaughtChance = 3;
 
     // Looting
@@ -46,6 +46,8 @@ public static class GameConfig
     public static int SleepDeprivedInitiativeModifier = 1;
     public static int VampireEvasionModifier = 2;
     public static int VampireInsultDamageModifier = 2;
+    public static int VampireHealthBoost = 2;
+    public static int VampireEgoBoost = 2;
     public static int WerewolfAttackStrengthModifier = 2;
     public static int WerewolfInsultDamageModifier = 1;
 

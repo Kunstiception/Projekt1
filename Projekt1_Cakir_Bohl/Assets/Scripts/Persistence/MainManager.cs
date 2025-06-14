@@ -33,6 +33,7 @@ public class MainManager : MonoBehaviour
     public bool IsDay;
     public bool IsSleepDeprived;
     public bool IsVampire;
+    public bool IsBoostedVampire;
     public bool IsWerewolf;
     public bool IsZombie;
 
@@ -74,6 +75,7 @@ public class MainManager : MonoBehaviour
         public bool IsDay;
         public bool IsSleepDeprived;
         public bool IsVampire;
+        public bool IsBoostedVampire;
         public bool IsWerewolf;
         public bool IsZombie;
     }
@@ -98,6 +100,7 @@ public class MainManager : MonoBehaviour
         data.WayPointTypes = WayPointTypes;
         data.IsSleepDeprived = ConditionManager.Instance.IsSleepDeprived;
         data.IsVampire = ConditionManager.Instance.IsVampire;
+        data.IsBoostedVampire = ConditionManager.Instance.IsBoostedVampire;
         data.IsWerewolf = ConditionManager.Instance.IsWerewolf;
         data.IsZombie = ConditionManager.Instance.IsZombie;
 
@@ -167,6 +170,7 @@ public class MainManager : MonoBehaviour
             IsDay = data.IsDay;
             IsSleepDeprived = data.IsSleepDeprived;
             IsVampire = data.IsVampire;
+            IsBoostedVampire = data.IsBoostedVampire;
             IsWerewolf = data.IsWerewolf;
             IsZombie = data.IsZombie;
 
@@ -223,6 +227,7 @@ public class MainManager : MonoBehaviour
         InventoryAmounts.Clear();
         IsSleepDeprived = false;
         IsVampire = false;
+        IsBoostedVampire = false;
         IsWerewolf = false;
         IsZombie = false;
     }

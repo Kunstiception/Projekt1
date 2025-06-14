@@ -60,8 +60,9 @@ public static class UIDialogueStorage
     public static string[] VampireInTheCityLines =
         {"Being in the town with so many warm bodies gives you chills.",
         "You can almost taste the blood pulsing through their veins.",
+        "Drinking some of this tasty blood would surely boost your body for some time.",
         "Should you do it?",
-        "Bite one?"};
+        "Bite someone?"};
     public static string[] VampireLookingForVictimLines =
         {"In this room you can hear the loud snoring of someone in deep slumber.",
         "The smell of the person in the room near the stairs is just too good. You decide to enter."};
@@ -74,6 +75,9 @@ public static class UIDialogueStorage
         "You enjoy every drop while you feel your body grow stronger.",
         "With the back of your hand you wipe the blood off your lips",
         "You head back to the main room of the tavern with a big grin on your face."};
+    public static string[] VampireBoostLossLines =
+        {"The blood you tasted in the last town has vanished.",
+        "Your strength seems to have returned to a normal level."};
     public static string[] GuardAppearsLines =
         {"Guard: 'I will banish you from this town, you monster!'",
         "Guard: 'My blade will end your life, you pitiful creature!'",

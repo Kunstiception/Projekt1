@@ -15,6 +15,13 @@ public class TownDecisionManager : Manager, ISelectable
         _currentLine = "You have reached a town!";
         yield return HandleTextOutput(_currentLine, false);
 
+        if (ConditionManager.Instance.IsBoostedVampire)
+        {
+            yield return PrintMultipleLines(UIDialogueStorage.VampireBoostLossLines);
+
+            ConditionManager.Instance.ApplyVampireBiteBoost(false);
+        }
+
         _textBox.text = "";
 
         ToggleCanvas(SelectionMenuCanvas, true);
@@ -44,6 +51,7 @@ public class TownDecisionManager : Manager, ISelectable
         }
     }
 
+    // Lädt die Resting-Szene mit dem entsprechenden Hintergrund
     private IEnumerator LoadOutside()
     {
         string[] stayingOutsideLines = UIDialogueStorage.StayingOutsideOfTownLines;
@@ -51,7 +59,7 @@ public class TownDecisionManager : Manager, ISelectable
         // Erste Line immer zeigen, auswürfeln ob auch eine zweite angezeigt wird (eine Art Easter Egg)
         _currentLine = stayingOutsideLines[0];
         yield return HandleTextOutput(_currentLine, false);
-        
+
         if (stayingOutsideLines.Length > 1)
         {
             if (DiceUtil.D10() > GameConfig.ChanceForSecondLine)

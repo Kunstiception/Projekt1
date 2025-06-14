@@ -37,15 +37,6 @@ public class TavernManager : Manager, ISelectable
         _currentLine = "He lets you enter.";
         yield return HandleTextOutput(_currentLine, false);
 
-        // if (ConditionManager.Instance.IsVampire)
-        // {
-        //     yield return PrintMultipleLines(UIDialogueStorage.VampireInTheCityLines);
-
-        //     _textBox.text = "";
-
-        //     yield return _vampireBiteCoroutine = StartCoroutine(VampireBiteCoroutine());
-        // }
-
         yield return PrintMultipleLines(UIDialogueStorage.ReachingTavernLines);
 
         ToggleCanvas(DialogueCanvas, true);
@@ -292,8 +283,8 @@ public class TavernManager : Manager, ISelectable
 
         yield return PrintMultipleLines(UIDialogueStorage.VampireBiteLines);
 
-        // Hier additional buff für einen Tag
-        //ConditionManager.Instance.ApplyVampire(true);
+        // Gewährt exra Boost für Vampir
+        ConditionManager.Instance.ApplyVampireBiteBoost(true);
 
         _textBox.text = "";
 

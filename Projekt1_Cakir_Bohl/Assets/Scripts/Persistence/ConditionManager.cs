@@ -15,6 +15,7 @@ public class ConditionManager : MonoBehaviour
 
     public bool IsSleepDeprived = false;
     public bool IsVampire = false;
+    public bool IsBoostedVampire = false;
     public bool IsWerewolf = false;
     public bool IsZombie = false;
 
@@ -158,9 +159,48 @@ public class ConditionManager : MonoBehaviour
         }
     }
 
-    private void ApplyWerewolf(bool isAffected)
+    public void ApplyVampireBiteBoost(bool isAffected)
     {
         if(isAffected)
+        {
+            PlayerManager.Instance.HealthPointsModifier += GameConfig.VampireHealthBoost;
+            PlayerManager.Instance.EgoPointsModifier += GameConfig.VampireEgoBoost;
+
+            int lostHealth = PlayerManager.Instance.GetStartingHealth() - PlayerManager.Instance.HealthPoints;
+            int lostEgo = PlayerManager.Instance.GetStartingEgo() - PlayerManager.Instance.EgoPoints;
+
+            if (lostHealth > 0 && lostHealth >= GameConfig.VampireHealthBoost)
+            {
+                PlayerManager.Instance.HealthPoints += GameConfig.VampireHealthBoost;
+            }
+            else
+            {
+                PlayerManager.Instance.HealthPoints += lostHealth;
+            }
+
+            if (lostEgo > 0 && lostEgo >= GameConfig.VampireEgoBoost)
+            {
+                PlayerManager.Instance.EgoPoints += GameConfig.VampireEgoBoost;
+            }
+            else
+            {
+                PlayerManager.Instance.EgoPoints += lostEgo;
+            }
+
+            IsBoostedVampire = true;
+        }
+        else
+        {
+            PlayerManager.Instance.HealthPointsModifier -= GameConfig.VampireHealthBoost;
+            PlayerManager.Instance.EgoPointsModifier -= GameConfig.VampireEgoBoost;
+
+            IsBoostedVampire = false;
+        }
+    }
+
+    private void ApplyWerewolf(bool isAffected)
+    {
+        if (isAffected)
         {
             ToggleWerewolfStats(true);
 
@@ -194,20 +234,5 @@ public class ConditionManager : MonoBehaviour
         IsVampire = MainManager.Instance.IsVampire;
         IsWerewolf = MainManager.Instance.IsWerewolf;
         IsZombie = MainManager.Instance.IsZombie;
-
-        // if(IsSleepDeprived)
-        // {
-        //     ApplySleepDeprived(true);
-        // }
-
-        // if(IsVampire)
-        // {
-        //     ApplyVampire(true);
-        // }
-
-        // if(IsWerewolf)
-        // {
-        //     ApplyWerewolf(true);
-        // }
     }
 }
