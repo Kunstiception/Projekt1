@@ -232,6 +232,7 @@ public class ConditionManager : MonoBehaviour
     {
         IsSleepDeprived = MainManager.Instance.IsSleepDeprived;
         IsVampire = MainManager.Instance.IsVampire;
+        IsBoostedVampire = MainManager.Instance.IsBoostedVampire;
         IsWerewolf = MainManager.Instance.IsWerewolf;
         IsZombie = MainManager.Instance.IsZombie;
     }

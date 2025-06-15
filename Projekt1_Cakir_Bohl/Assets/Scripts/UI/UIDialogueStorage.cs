@@ -91,4 +91,9 @@ public static class UIDialogueStorage
         {"Somehow you managed to escape the guard.",
         "But now the whole town is alerted!",
         "You have to flee and camp outside of town."};
+    public static string[] EnemyFleeLines =
+        {"I don't want to be a zombie!",
+        "Fuck this! This is not worth it!",
+        "Good luck to you, man!",
+        "You are one cursed soul..."};
 }

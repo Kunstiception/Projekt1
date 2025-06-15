@@ -255,6 +255,25 @@ public class CombatManager : Manager, ISelectable
             }
         }
 
+        if (ConditionManager.Instance.IsZombie)
+        {
+            if (DiceUtil.D10() < GameConfig.EnemyFleeChance)
+            {
+                _currentLine = $"{_enemy.Name} seems scared.";
+                yield return HandleTextOutput(_currentLine, false);
+
+                yield return PrintMultipleLines(UIDialogueStorage.EnemyFleeLines);
+
+                StopAllCoroutines();
+
+                StartCoroutine(EndFight(PlayerManager.Instance));
+
+                ToggleCanvas(_selectionMenuCanvas, false);
+
+                yield break;
+            }
+        }
+
         var randomIndex = 0;
 
         // wenn keine Insults mehr übrig, bleibt nur Angriff

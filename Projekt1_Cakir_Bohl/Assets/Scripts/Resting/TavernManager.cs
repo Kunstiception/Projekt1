@@ -265,9 +265,7 @@ public class TavernManager : Manager, ISelectable
 
         yield return AnticipationTextCoroutine();
 
-        int random = DiceUtil.D10();
-
-        if (random <= GameConfig.VampireCaughtChance)
+        if (DiceUtil.D10() <= GameConfig.VampireCaughtChance)
         {
             _currentLine = UIDialogueStorage.VampireCaughtLines[UnityEngine.Random.Range(0, UIDialogueStorage.VampireCaughtLines.Length)];
             yield return HandleTextOutput(_currentLine, false);

@@ -221,8 +221,9 @@ public class RestingManager : Manager, ISelectable, ICondition
         }
 
         _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
+        _inventoryDisplayer.UpdateDisplayedInventory(_currentItem);
 
-        if(InventoryManager.Instance.InventoryItems.Count > 0)
+        if (InventoryManager.Instance.InventoryItems.Count > 0)
         {
             ToggleCanvas(ItemToDoCanvas, true);
         }
