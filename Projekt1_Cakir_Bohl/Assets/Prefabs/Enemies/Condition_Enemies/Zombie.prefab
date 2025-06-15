@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5440399557664267112}
   - component: {fileID: -1082420863187593242}
   - component: {fileID: 1091708616443416226}
+  - component: {fileID: 1233174735793034513}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -46,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: dba5392289e30444d985f403a2db61eb, type: 2}
+  DialogueLines: {fileID: 0}
   Name: Zombie
   HealthPoints: 10
   EgoPoints: 1
@@ -108,3 +110,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1233174735793034513
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451417646648548203}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eb4cd1a8ce4b9024892d0e09b992fb09, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
