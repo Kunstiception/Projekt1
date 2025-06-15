@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110237813b270d84aae5ac0e7693fb48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sleepDeprivedIcon: {fileID: 21300000, guid: 11a0f06be84c4ab40b6093340c613c5c, type: 3}
+  _sleepDeprivedIcon: {fileID: 21300000, guid: cc399088e357273478fb3057d77df55a, type: 3}
   _vampireIcon: {fileID: 21300000, guid: 3a16c4956b0aa5e4eb14ae30f3086e9b, type: 3}
   _zombieIcon: {fileID: 21300000, guid: 712f84f42c4cd0145a3f44e051fc42e6, type: 3}
   _werewolfIcon: {fileID: 21300000, guid: 543e49533581a784787e3c0fe1b90e73, type: 3}
