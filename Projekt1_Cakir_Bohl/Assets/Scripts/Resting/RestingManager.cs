@@ -44,7 +44,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     }
 
     private void OnEnable()
-    {      
+    {
         InventoryDisplayer.itemSelection += SetCurrentItemAndIndex;
         HealingItem.onHeal += SetUIUpdate;
     }
@@ -72,9 +72,9 @@ public class RestingManager : Manager, ISelectable, ICondition
         }
 
         ToggleCanvas(SelectionMenuCanvas, false);
-        
+
         // 0 = sleep, 1 = show items, 2 = continue quest
-        switch(index)
+        switch (index)
         {
             case 0:
                 _isAmbush = DecideIfAmbush();
@@ -86,7 +86,7 @@ public class RestingManager : Manager, ISelectable, ICondition
                 break;
 
             case 1:
-                TogglePlayerStatsPosition(false);            
+                TogglePlayerStatsPosition(false);
                 ToggleCanvas(InventoryCanvas, true);
 
                 _textBox.enabled = true;
@@ -107,11 +107,11 @@ public class RestingManager : Manager, ISelectable, ICondition
     {
         switch (index)
         {
-            case 0:  
+            case 0:
                 StartCoroutine(CheckItemType());
 
                 break;
-                
+
             case 1:
                 StartCoroutine(DiscardItem());
 
@@ -125,7 +125,7 @@ public class RestingManager : Manager, ISelectable, ICondition
                 _textBox.text = _currentItem.Description;
 
                 break;
-            
+
             default:
                 throw new IndexOutOfRangeException("Item or equipment could not be handled. Wrong index.");
         }
@@ -171,7 +171,7 @@ public class RestingManager : Manager, ISelectable, ICondition
 
                     break;
                 }
-                
+
                 StartCoroutine(EquipSelectedItem(false));
 
                 break;
@@ -205,12 +205,12 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         var iUsable = _currentItem as IUsable;
 
-        _currentItemLines = iUsable.UseItem().ToArray();   
+        _currentItemLines = iUsable.UseItem().ToArray();
 
         // Erste Line immer zeigen, auswürfeln ob auch eine zweite angezeigt wird (eine Art Easter Egg)
         _currentLine = _currentItemLines[0];
         yield return HandleTextOutput(_currentLine, false);
-        
+
         if (_currentItemLines.Length > 1)
         {
             if (DiceUtil.D10() > GameConfig.ChanceForSecondLine)
@@ -290,7 +290,8 @@ public class RestingManager : Manager, ISelectable, ICondition
             return false;
         }
 
-        int random = DiceUtil.D10();
+        //int random = DiceUtil.D10();
+        int random = 0;
 
         if (random <= GameConfig.AmbushChance)
         {
@@ -306,18 +307,18 @@ public class RestingManager : Manager, ISelectable, ICondition
     private IEnumerator SleepingCoroutine(bool isAmbush)
     {
         _textBox.enabled = true;
-        
+
         _currentLine = "You are falling asleep.";
         yield return HandleTextOutput(_currentLine, false);
 
         _textBox.text = "";
-        
-        if(isAmbush)
+
+        if (isAmbush)
         {
             int healthHeal;
             healthHeal = PlayerManager.Instance.HealthPoints < PlayerManager.Instance.GetStartingHealth() ?
                 UnityEngine.Random.Range(1, PlayerManager.Instance.GetStartingHealth() - PlayerManager.Instance.HealthPoints) : 0;
-            
+
 
             int egoHeal;
             egoHeal = PlayerManager.Instance.EgoPoints < PlayerManager.Instance.GetStartingHealth() ?
@@ -330,7 +331,7 @@ public class RestingManager : Manager, ISelectable, ICondition
             //Wait for anim
             yield return AnticipationTextCoroutine();
 
-            if(healthHeal == 0 && egoHeal == 0)
+            if (healthHeal == 0 && egoHeal == 0)
             {
                 _currentLine = $"You sleep well...";
                 yield return HandleTextOutput(_currentLine, false);
@@ -346,10 +347,13 @@ public class RestingManager : Manager, ISelectable, ICondition
 
             _currentLine = "... before being ambushed!";
             yield return HandleTextOutput(_currentLine, false);
-            
-            PlayerManager.Instance.HasDisadvantage = true;
 
-            SetUpNextDay(false);
+            if (ConditionManager.Instance.IsWerewolf && MainManager.Instance.IsDay)
+            {
+                yield return EvaluateWerewolfCondition(true);
+            }
+
+            PlayerManager.Instance.HasDisadvantage = true;
 
             SceneManager.LoadScene(4);
             yield break;
@@ -390,18 +394,16 @@ public class RestingManager : Manager, ISelectable, ICondition
 
             yield return HandleTextOutput(_currentLine, false);
 
-            if(ConditionManager.Instance.IsSleepDeprived)
+            if (ConditionManager.Instance.IsSleepDeprived)
             {
                 yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, false)));
             }
 
             SetUpNextDay(true);
 
-            if(ConditionManager.Instance.IsWerewolf)
+            if (ConditionManager.Instance.IsWerewolf)
             {
-                ConditionManager.Instance.ToggleWerewolfStats(false);
-                
-                yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.WerewolfDayLines));
+                yield return EvaluateWerewolfCondition(false);
             }
 
             SceneManager.LoadScene(2);
@@ -427,7 +429,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     {
         float healValue = 0;
         Slider slider = null;
-        
+
         if (isHealthChange)
         {
             slider = _playerHealthBarBelow;
@@ -441,7 +443,7 @@ public class RestingManager : Manager, ISelectable, ICondition
             _playerUIEgo.text = $"{initialAmount + healAmount}/{PlayerManager.Instance.GetStartingEgo()}";
         }
 
-        float currentValue = slider.value;       
+        float currentValue = slider.value;
         float nextValue = currentValue + healValue;
         float lerpValue = 0;
 
@@ -463,36 +465,43 @@ public class RestingManager : Manager, ISelectable, ICondition
         childSlider.value = nextValue;
     }
 
-     // Setzt die Variablen im MainManager zurück, damit diese mit den Daten des nächsten Tages befüllt werden können
-    private void SetUpNextDay(bool isDay)
-    {
-        MainManager.Instance.CurrentDay++;
-        MainManager.Instance.WayPoints.Clear();
-        MainManager.Instance.WayPointTypes.Clear();
-        MainManager.Instance.LastWayPoint = "";
-        MainManager.Instance.IsDay = isDay;
-    }
-
     private IEnumerator EndWithoutSleep()
     {
         _textBox.enabled = true;
 
-        if(!ConditionManager.Instance.IsSleepDeprived)
+        if (!ConditionManager.Instance.IsSleepDeprived)
         {
             PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.SleepDeprived;
-            
+
             yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true)));
         }
 
-        SetUpNextDay(false);
-
-        if(ConditionManager.Instance.IsWerewolf)
+        if (MainManager.Instance.IsDay)
         {
-            ConditionManager.Instance.ToggleWerewolfStats(true);
-            
-            yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.WerewolfNightLines));
+            SetUpNextDay(false);
+            if (ConditionManager.Instance.IsWerewolf)
+            {
+                yield return EvaluateWerewolfCondition(true);
+            }
         }
+        else
+        {
+            SetUpNextDay(true);
+            if (ConditionManager.Instance.IsWerewolf)
+            {
+                yield return EvaluateWerewolfCondition(false);
+            }         
+        }
+        
+        _textBox.enabled = false;
 
-        SceneManager.LoadScene(8);
+        if (!ConditionManager.Instance.IsSleepDeprived == true)
+        {
+            SceneManager.LoadScene(8);
+        }
+        else
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 }

@@ -133,6 +133,15 @@ public class CombatManager : Manager, ISelectable
 
         SetInitialStats();
 
+        _currentLine = $"You encounter a {_enemy.Name}!";
+        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+        if (PlayerManager.Instance.GotCaught)
+        {    
+            _currentLine = UIDialogueStorage.GuardAppearsLines[UnityEngine.Random.Range(0, UIDialogueStorage.GuardAppearsLines.Length)];
+            yield return HandleTextOutput(_currentLine, false);
+        }
+        
         if (EvaluateVampire())
         {
             _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
@@ -148,20 +157,11 @@ public class CombatManager : Manager, ISelectable
             }
 
             PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
-            
+
             StartCoroutine(UpdateUI(PlayerManager.Instance, GameConfig.VampireSunDamage, true, PlayerManager.Instance.HealthPoints));
 
             _currentLine = UIDialogueStorage.VampireSunDamageLines[1];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-        }
-
-        _currentLine = $"You encounter a {_enemy.Name}!";
-        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-
-        if (PlayerManager.Instance.GotCaught)
-        {    
-            _currentLine = UIDialogueStorage.GuardAppearsLines[UnityEngine.Random.Range(0, UIDialogueStorage.GuardAppearsLines.Length)];
-            yield return HandleTextOutput(_currentLine, false);
         }
 
         _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "goes", "first!");
@@ -635,7 +635,7 @@ public class CombatManager : Manager, ISelectable
 
         if (winner)
         {
-            if(isRetreat)
+            if (isRetreat)
             {
                 if (PlayerManager.Instance.GotCaught)
                 {

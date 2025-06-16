@@ -51,6 +51,7 @@ public static class GameConfig
     public static int VampireEgoBoost = 2;
     public static int WerewolfAttackStrengthModifier = 2;
     public static int WerewolfInsultDamageModifier = 1;
+    public static int ConditionScreenWaitTime = 2;
 
     // UI
     public static UnityEngine.Vector3 HealthbarDefaultPosition = new UnityEngine.Vector3(-1150f, -510f, 0f);
