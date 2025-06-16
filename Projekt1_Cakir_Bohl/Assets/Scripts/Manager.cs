@@ -147,4 +147,30 @@ public class Manager : MonoBehaviour
 
         yield return new WaitForSeconds(GameConfig.TimeAfterAnticipation);
     }
+
+    protected IEnumerator EvaluateWerewolfCondition(bool turnsToNight)
+    {
+        if (turnsToNight)
+        {
+            ConditionManager.Instance.ToggleWerewolfStats(true);
+
+            yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.WerewolfNightLines));
+        }
+        else
+        {
+            ConditionManager.Instance.ToggleWerewolfStats(false);
+
+            yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.WerewolfDayLines));
+        }
+    }
+     
+    // Setzt die Variablen im MainManager zurück, damit diese mit den Daten des nächsten Tages befüllt werden können
+    protected void SetUpNextDay(bool isDay)
+    {
+        MainManager.Instance.CurrentDay++;
+        MainManager.Instance.WayPoints.Clear();
+        MainManager.Instance.WayPointTypes.Clear();
+        MainManager.Instance.LastWayPoint = "";
+        MainManager.Instance.IsDay = isDay;
+    }
 }

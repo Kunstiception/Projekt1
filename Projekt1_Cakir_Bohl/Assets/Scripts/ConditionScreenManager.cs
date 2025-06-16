@@ -18,15 +18,24 @@ public class ConditionScreenManager : Manager
         _promptSkip.enabled = false;
         _promptContinue.enabled = false;
 
-        SetCondionName();
+        SetConditionName();
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(GameConfig.ConditionScreenWaitTime);
 
         _currentLine = CreateConditionLine();
 
         if (_currentLine != null)
         {
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));         
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        }
+        else
+        {
+            yield return new WaitForSeconds(GameConfig.ConditionScreenWaitTime / 2);
+        }
+
+        if (_conditionName == "sleep deprived")
+        {
+            SetUpNextDay(false);          
         }
 
         SceneManager.LoadScene(2);
@@ -37,9 +46,9 @@ public class ConditionScreenManager : Manager
         ListenForSkip();
     }
 
-    private void SetCondionName()
+    private void SetConditionName()
     {
-        switch(PlayerManager.Instance.LatestCondition)
+        switch (PlayerManager.Instance.LatestCondition)
         {
             case ConditionManager.Conditions.SleepDeprived:
                 _conditionName = "sleep deprived";
