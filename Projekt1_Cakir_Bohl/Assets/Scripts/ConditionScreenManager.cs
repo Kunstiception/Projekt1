@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ConditionScreenManager : Manager
 {
+    [SerializeField] private GameObject _sleepDeprivedText;
     [SerializeField] private GameObject _zombieText;
     [SerializeField] private GameObject _werewolfText;
     [SerializeField] private GameObject _vampireText;
@@ -40,6 +41,12 @@ public class ConditionScreenManager : Manager
     {
         switch(PlayerManager.Instance.LatestCondition)
         {
+            case ConditionManager.Conditions.SleepDeprived:
+                _conditionName = "sleep deprived";
+                Instantiate(_sleepDeprivedText);
+
+                break;
+
             case ConditionManager.Conditions.Vampire:
                 _conditionName = "Vampire";
                 Instantiate(_vampireText);

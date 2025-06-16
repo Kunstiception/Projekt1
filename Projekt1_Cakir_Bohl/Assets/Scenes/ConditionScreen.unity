@@ -313,6 +313,7 @@ MonoBehaviour:
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
   _playerHealthbarSection: {fileID: 0}
+  _sleepDeprivedText: {fileID: 3784989534687983191, guid: 3d8b8992ff4b1c74a9c1dc04f7ad52b8, type: 3}
   _zombieText: {fileID: 3346056810496872483, guid: f35e24107b1571a4db5863bd8eead685, type: 3}
   _werewolfText: {fileID: 4703404049014851626, guid: 84299f3b54b8cd0448696b278ef416b2, type: 3}
   _vampireText: {fileID: 237620921097963046, guid: 2b00bb6e0f33ecd48af7265d65d10085, type: 3}

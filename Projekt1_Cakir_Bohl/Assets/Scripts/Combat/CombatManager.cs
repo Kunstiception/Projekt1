@@ -23,8 +23,8 @@ public class CombatManager : Manager, ISelectable
     private int _intitialPlayerHealth;
     private int _playerRoll;
     private int _enemyRoll;
-    private int _combatantHealth1;
-    private int _combatantHealth2;
+    private int _combatant1Health;
+    private int _combatant2Health;
     private int _attackerHealth;
     private int _defenderHealth;
     private int _defenderEgoPoints;
@@ -85,19 +85,6 @@ public class CombatManager : Manager, ISelectable
             _enemy = _guard.GetComponent<Combatant>();
         }
 
-        if (EvaluateVampire())
-        {
-            _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-
-            StartCoroutine(UpdateUI(PlayerManager.Instance, GameConfig.VampireSunDamage, true, PlayerManager.Instance.HealthPoints));
-
-            PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
-
-            _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-        }
-
         Instantiate(_enemy);
 
         // Alle Insult Lines und Values des jeweiligen Gegners holen
@@ -146,6 +133,28 @@ public class CombatManager : Manager, ISelectable
 
         SetInitialStats();
 
+        if (EvaluateVampire())
+        {
+            _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+            if (PlayerManager.Instance == _combatant1)
+            {
+                _combatant1Health -= GameConfig.VampireSunDamage;
+            }
+            else
+            {
+                _combatant2Health -= GameConfig.VampireSunDamage;
+            }
+
+            PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
+            
+            StartCoroutine(UpdateUI(PlayerManager.Instance, GameConfig.VampireSunDamage, true, PlayerManager.Instance.HealthPoints));
+
+            _currentLine = UIDialogueStorage.VampireSunDamageLines[1];
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        }
+
         _currentLine = $"You encounter a {_enemy.Name}!";
         yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
@@ -173,8 +182,8 @@ public class CombatManager : Manager, ISelectable
     // Anfangswerte zuweisen
     private void SetInitialStats()
     {
-        _combatantHealth1 = _combatant1.HealthPoints;
-        _combatantHealth2 = _combatant2.HealthPoints;
+        _combatant1Health = _combatant1.HealthPoints;
+        _combatant2Health = _combatant2.HealthPoints;
 
         _combatant1EgoPoints = _combatant1.EgoPoints;
         _combatant2EgoPoints = _combatant2.EgoPoints;
@@ -207,8 +216,8 @@ public class CombatManager : Manager, ISelectable
             _attackingCombatant = _combatant1;
             _defendingCombatant = _combatant2;
 
-            _attackerHealth = _combatantHealth1;
-            _defenderHealth = _combatantHealth2;
+            _attackerHealth = _combatant1Health;
+            _defenderHealth = _combatant2Health;
 
             _defenderEgoPoints = _combatant2EgoPoints;
 
@@ -219,8 +228,8 @@ public class CombatManager : Manager, ISelectable
             _attackingCombatant = _combatant2;
             _defendingCombatant = _combatant1;
 
-            _attackerHealth = _combatantHealth2;
-            _defenderHealth = _combatantHealth1;
+            _attackerHealth = _combatant2Health;
+            _defenderHealth = _combatant1Health;
 
             _defenderEgoPoints = _combatant1EgoPoints;
 
@@ -666,12 +675,12 @@ public class CombatManager : Manager, ISelectable
 
                 if (_combatant1 == PlayerManager.Instance)
                 {
-                    PlayerManager.Instance.HealthPoints = _combatantHealth1;
+                    PlayerManager.Instance.HealthPoints = _combatant1Health;
                     PlayerManager.Instance.EgoPoints = _combatant1EgoPoints;
                 }
                 else
                 {
-                    PlayerManager.Instance.HealthPoints = _combatantHealth2;
+                    PlayerManager.Instance.HealthPoints = _combatant2Health;
                     PlayerManager.Instance.EgoPoints = _combatant2EgoPoints;
                 }
 
@@ -725,13 +734,13 @@ public class CombatManager : Manager, ISelectable
                 if(_combatant1 == PlayerManager.Instance)
                 {
                     _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance, 
-                        defenderHealth: _combatantHealth1, defenderEgoPoints: _combatant1EgoPoints, isDisadvantage: true));
+                        defenderHealth: _combatant1Health, defenderEgoPoints: _combatant1EgoPoints, isDisadvantage: true));
 
                     yield break;
                 }
 
                 _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance,
-                        defenderHealth: _combatantHealth2, defenderEgoPoints: _combatant2EgoPoints, isDisadvantage: true));
+                        defenderHealth: _combatant2Health, defenderEgoPoints: _combatant2EgoPoints, isDisadvantage: true));
             }
         }
     }
@@ -754,7 +763,7 @@ public class CombatManager : Manager, ISelectable
                 case 1:
                     if (_turnCoroutine == null)
                     {
-                        var enemyHealth = _combatant2 == _enemy ? _combatantHealth2 : _combatantHealth1;
+                        var enemyHealth = _combatant2 == _enemy ? _combatant2Health : _combatant1Health;
 
                         var enemyEgoPoints = _combatant2 == _enemy ? _combatant2EgoPoints : _combatant1EgoPoints;
                         
@@ -861,7 +870,7 @@ public class CombatManager : Manager, ISelectable
         {
             if (isHealthDamage)
             {
-                _combatantHealth1 = newValue;
+                _combatant1Health = newValue;
             }
             else
             {
@@ -873,7 +882,7 @@ public class CombatManager : Manager, ISelectable
 
         if(isHealthDamage)
         {
-            _combatantHealth2 = newValue;
+            _combatant2Health = newValue;
         }
         else
         {
