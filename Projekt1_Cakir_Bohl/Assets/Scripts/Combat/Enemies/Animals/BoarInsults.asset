@@ -17,14 +17,26 @@ MonoBehaviour:
   - The last boar I met had much larger tusks!
   - Your fur is dirty!
   - Out of my way, foul creature!
-  Values: 04000000070000000500000003000000
+  - You truly are the rat of the forest!
+  - You will make a great trophy on my wall!
+  - You'd make a nice hog roast!
+  - Shouldn't you be rolling in mud or something?
+  Values: 0400000007000000050000000300000005000000060000000700000004000000
   AnswersWhenHit:
   - How dare you?!
   - How embarassing...
   - Is it really?! Where?!
   - Alright alright...
+  - No need to be so mean...
+  - '*gulp*'
+  - D-Don't come any closer!
+  - T-That's a stereotype!
   AnswersWhenResisted:
   - And I'm proud of it!
   - Not a single boar in this forest has mightier tusks than me!
   - As it should be!
   - Same to you!
+  - And just like a rat I will feast on your corpse!
+  - I could say the same!
+  - You'd love to get a bite of me, wouldn't you?
+  - No, I'd actually prefer to bathe in your blood!

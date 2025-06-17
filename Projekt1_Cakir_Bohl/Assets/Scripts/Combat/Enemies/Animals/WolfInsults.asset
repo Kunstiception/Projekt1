@@ -17,14 +17,26 @@ MonoBehaviour:
   - Did your pack cast you out?
   - Your fur is dirty!
   - Out of my way, foul creature!
-  Values: 04000000070000000500000003000000
+  - I thought a wolf's howl was more... majestic.
+  - You'd have made a better pet than a predator.
+  - You must've been the runt of the pack.
+  - You'd be much more pleasant with a muzzle.
+  Values: 0400000007000000050000000300000006000000050000000600000004000000
   AnswersWhenHit:
   - How dare you?!
   - I don't want to talk about it...
   - Is it really?! Where?!
   - Alright alright...
+  - I have a cold...
+  - I didn't think you fight that dirty...
+  - My brothers got all the good genes.
+  - They did try to put one on me once...
   AnswersWhenResisted:
   - And I'm proud of it!
   - I don't need a pack to rip you to shreds!
   - As it should be!
   - Same to you!
+  - No, but my bite is legendary!
+  - Like you are the King's pet?
+  - And yet I will still crush you like an alpha!
+  - Afraid of these razor sharp teeth?

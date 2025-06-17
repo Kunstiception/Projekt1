@@ -17,9 +17,7 @@ public static class UIDialogueStorage
         {"Was your arm always this hairy?",
         "Your teeth feel like they are growing.",
         "This is not good!",
-        "But you feel strong. So incredibly strong!",
-        "It feels like you could lift a horse and then...",
-        "Howl at the moon!"};
+        "But you feel strong. So incredibly strong!"};
     public static string[] HealedWerewolfLines =
         {"The fur seems to be growing back.",
         "Your aggression gets replaced with a certain dizziness.",
@@ -45,6 +43,9 @@ public static class UIDialogueStorage
         "This seems to be all your vocal chords can produce.",
         "A rotting brain doesn't think very well.",
         "You shouldn't try this again."};
+    public static string[] ZombieInsultResistLines =
+        {"You don't understand a word.",
+        "Ignorance truly is bliss."};
     public static string[] StayingOutsideOfTownLines =
         {"You make camp just outside of town.",
         "The sky is clear and a million stars twinkle in the sky.",

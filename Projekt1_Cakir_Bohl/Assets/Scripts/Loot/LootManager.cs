@@ -127,7 +127,8 @@ public class LootManager : Manager
 
             InventoryManager.Instance.ManageInventory(_item, randomAmount, true);
 
-            _currentLine = DialogueUtil.AddEnding($"You have found {randomAmount} {_item.Name}"!, randomAmount);
+            _currentLine = DialogueUtil.AddEnding($"You have found {randomAmount} {_item.Name}", randomAmount);
+            _currentLine += "!";
 
             yield return HandleTextOutput(_currentLine, false);
         }

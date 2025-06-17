@@ -290,8 +290,7 @@ public class RestingManager : Manager, ISelectable, ICondition
             return false;
         }
 
-        //int random = DiceUtil.D10();
-        int random = 0;
+        int random = DiceUtil.D10();
 
         if (random <= GameConfig.AmbushChance)
         {
@@ -467,6 +466,8 @@ public class RestingManager : Manager, ISelectable, ICondition
 
     private IEnumerator EndWithoutSleep()
     {
+        bool becameSleepDeprived = false;
+
         _textBox.enabled = true;
 
         if (!ConditionManager.Instance.IsSleepDeprived)
@@ -474,6 +475,8 @@ public class RestingManager : Manager, ISelectable, ICondition
             PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.SleepDeprived;
 
             yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true)));
+
+            becameSleepDeprived = true;
         }
 
         if (MainManager.Instance.IsDay)
@@ -495,7 +498,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         
         _textBox.enabled = false;
 
-        if (!ConditionManager.Instance.IsSleepDeprived == true)
+        if (becameSleepDeprived)
         {
             SceneManager.LoadScene(8);
         }

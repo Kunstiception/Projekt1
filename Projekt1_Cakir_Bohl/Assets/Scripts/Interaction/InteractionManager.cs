@@ -36,6 +36,8 @@ public class InteractionManager : Manager, ISelectable
         _promptSkip.enabled = false;
         _promptContinue.enabled = false;
 
+        TogglePlayerStatsPosition(true);
+
         if (EvaluateVampire())
         {
             InitializePlayerStats();
@@ -144,6 +146,7 @@ public class InteractionManager : Manager, ISelectable
         switch (index)
         {
             case 0:
+                TogglePlayerStatsPosition(false);
                 ToggleCanvas(MerchantInventoryCanvas, true);
                 ToggleCanvas(InitialMenuCanvas, false);
 

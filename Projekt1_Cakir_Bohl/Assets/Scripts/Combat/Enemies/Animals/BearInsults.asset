@@ -17,14 +17,26 @@ MonoBehaviour:
   - Have you gained weight again?
   - Your fur is dirty!
   - Out of my way, foul creature!
-  Values: 04000000060000000600000003000000
+  - Shouldn't you be hibernating?
+  - You seem to have trouble clawing at me. Getting old?
+  - You think you can hurt me? You are literally living in a hole.
+  - Is this the example you set for your cubs?
+  Values: 0400000006000000060000000300000007000000060000000500000005000000
   AnswersWhenHit:
   - How dare you?!
   - How embarassing...
   - Is it really?! Where?!
   - Alright alright...
+  - Oh crap!
+  - I have become a bit rusty...
+  - Damn elitist knights...
+  - A-Am I not a good parent?!
   AnswersWhenResisted:
   - And I'm proud of it!
   - Yes, so I can crush you!
   - As it should be!
   - Same to you!
+  - I just woke up and now I'm hungry!
+  - All those who know how fast I am are dead
+  - And you literally sleep under a tree every night.
+  - They could be the ones tearing into YOUR children one day!

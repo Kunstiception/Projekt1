@@ -54,6 +54,6 @@ public static class GameConfig
     public static int ConditionScreenWaitTime = 2;
 
     // UI
-    public static UnityEngine.Vector3 HealthbarDefaultPosition = new UnityEngine.Vector3(-1150f, -510f, 0f);
-    public static UnityEngine.Vector3 HealthbarAlternativePosition = new UnityEngine.Vector3(-675f, -510f, 0f);
+    public static UnityEngine.Vector3 HealthbarDefaultPosition = new UnityEngine.Vector3(-379f, 29f, 0f);
+    public static UnityEngine.Vector3 HealthbarAlternativePosition = new UnityEngine.Vector3(113, 29f, 0f);
 }

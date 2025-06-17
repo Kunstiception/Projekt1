@@ -17,14 +17,26 @@ MonoBehaviour:
   - 'Be honest, does anyone even take you seriously?  '
   - That chainmail must be heavy on your scrawny arms.
   - You're a glorified guard dog. Actually no, not even glorified.
-  Values: 03000000040000000400000005000000
+  - Has this whole loyal guard thing ever actually worked for you?
+  - Have you ever ACTUALLY caught anyone?
+  - Didn't have it in you to become a real knight, did you?
+  - Must be so hard sitting on your ass all day... "guarding" the town.
+  Values: 0300000004000000040000000500000004000000060000000700000005000000
   AnswersWhenHit:
   - I feel so invisible...
   - I'm not getting paid enough for my struggles...
   - They are a little sore...
   - And you-! You're-! Damn it...
+  - Sigh.. not really.
+  - Y-Yes! Last year... one.
+  - I... didn't make the training...
+  - I've already asked for a cushion...
   AnswersWhenResisted:
   - Thanks. I've trained a long time to be this good.
   - They do once I hang the noose around their neck.
   - It's definitely heavier than your tin armor.
   - Well, I do bite just the same.
+  - It works well when I'm cashing the check for your head.
+  - Well, sometimes the idiots just run straight into my arms.
+  - And end up like YOU? Ha!
+  - It's pretty comfortable actually. I get paid either way.

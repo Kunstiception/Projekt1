@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8edae58ba3a75b844bb07dde9ec9e432, type: 3}
+  m_Name: FarmerInsults
+  m_EditorClassIdentifier: 
+  Insults:
+  - Oh no, the scarecrow has come alive!
+  - Your wheat SUCKS!
+  - This is what you call a bountiful harvest? 'Tis but a mere pile of crap!
+  - Is that your wife or just another one of your cows?
+  - That straw hat looks like you've been using it as a chamber pot!
+  - It looks like the King's taxes are doing a number on your pitiful farm.
+  - That pathetic pitchfork will break before I do.
+  - I know you're a farmer, but really? Those rags for clothing?
+  Values: 0500000003000000040000000400000005000000060000000700000004000000
+  AnswersWhenHit:
+  - You bastard...
+  - It wasn't a good harvest this year...
+  - I-I'm doing my best, okay!
+  - Leave my wife alone!
+  - Accidents happen!
+  - These tax rates are outrageous!
+  - Damn, do you really think so?
+  - No need for armor when you've got abs of STEEL!
+  AnswersWhenResisted:
+  - "Come find out how scary I really am!\_"
+  - I'm sorry it's not the rotten, tasteless crumbs you're used to!
+  - And what exactly is your contribution to society?
+  - You'd know all about sleeping with cows, wouldn't you?
+  - I think your helmet would make a much better one!
+  - I'm sure your head will pay for the entire next year.
+  - Not when I drive it through your face!
+  - They've been passed down from my father... and passed down to him by his father...
+    and passed down to him-

@@ -359,82 +359,95 @@ public class CombatManager : Manager, ISelectable
 
         _textBox.enabled = true;
 
-        if (attacker == PlayerManager.Instance)
+        if (defenderEgoPoints <= 0)
         {
-            if (ConditionManager.Instance.IsZombie)
+            ToggleCanvas(_persuasionMenuCanvas, false);
+
+            _currentLine = DialogueUtil.CreateCombatLog(defender, "has", $"no ego left to damage!");
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+            if (attacker != _enemy)
             {
-                ToggleCanvas(_persuasionMenuCanvas, false);
-
-                yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.ZombieInsultAttemptLines));
-
-                StartCoroutine(EndFight(null));
-
-                yield break;
+                _currentLine = "There is no need for cruelty.";
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));            
             }
 
-            // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden
-            // Nicht gewählte Option wieder dem Original-Dictionary hinzufügen
-            switch (optionIndex)
-            {
-                case 0:
-                    line = $"{PlayerManager.Instance.Name}: '{_enemyCurrentInsultsAndValues.ElementAt(0).Key}'";
-                    value = _enemyCurrentInsultsAndValues.ElementAt(0).Value;
+            ResetInsultTurn();
 
-                    _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
-                    _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
-
-                    _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(1).Key, _enemyCurrentInsultsAndValues.ElementAt(1).Value);
-
-                    break;
-
-                case 1:
-                    line = $"{PlayerManager.Instance.Name}: '{_enemyCurrentInsultsAndValues.ElementAt(1).Key}'";
-                    value = _enemyCurrentInsultsAndValues.ElementAt(1).Value;
-
-                    _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
-                    _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
-
-                    _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(0).Key, _enemyCurrentInsultsAndValues.ElementAt(0).Value);
-
-                    break;
-
-                case 2:
-                    _textBox.enabled = false;
-                    _persuasionMenuCanvas.enabled = false;
-                    break;
-
-                default:
-                    Debug.LogError("Insult index not set correctly!");
-                    break;
-            }
+            yield break;
         }
-        else
-        {
-            ToggleCanvas(_selectionMenuCanvas, false);
 
-            if (_enemy.Name != "Zombie")
+        if (attacker == PlayerManager.Instance)
             {
-                var random = UnityEngine.Random.Range(0, _playerInsultsAndValues.Count - 1);
+                if (ConditionManager.Instance.IsZombie)
+                {
+                    ToggleCanvas(_persuasionMenuCanvas, false);
 
-                line = $"{_enemy.Name}: '{_playerInsultsAndValues.ElementAt(random).Key}'";
-                value = _playerInsultsAndValues.ElementAt(random).Value;
+                    yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.ZombieInsultAttemptLines));
 
-                _egoHitLine = PlayerManager.Instance.InsultLines.AnswersWhenHit[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
-                _egoResistLine = PlayerManager.Instance.InsultLines.AnswersWhenResisted[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
+                    StartCoroutine(EndFight(null));
 
-                _playerInsultsAndValues.Remove(_playerInsultsAndValues.ElementAt(random).Key);
+                    yield break;
+                }
+
+                // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden
+                // Nicht gewählte Option wieder dem Original-Dictionary hinzufügen
+                switch (optionIndex)
+                {
+                    case 0:
+                        line = $"{PlayerManager.Instance.Name}: '{_enemyCurrentInsultsAndValues.ElementAt(0).Key}'";
+                        value = _enemyCurrentInsultsAndValues.ElementAt(0).Value;
+
+                        _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
+                        _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(0).Key)];
+
+                        _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(1).Key, _enemyCurrentInsultsAndValues.ElementAt(1).Value);
+
+                        break;
+
+                    case 1:
+                        line = $"{PlayerManager.Instance.Name}: '{_enemyCurrentInsultsAndValues.ElementAt(1).Key}'";
+                        value = _enemyCurrentInsultsAndValues.ElementAt(1).Value;
+
+                        _egoHitLine = _enemy.InsultLines.AnswersWhenHit[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
+                        _egoResistLine = _enemy.InsultLines.AnswersWhenResisted[Array.IndexOf(_enemy.InsultLines.Insults, _enemyCurrentInsultsAndValues.ElementAt(1).Key)];
+
+                        _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(0).Key, _enemyCurrentInsultsAndValues.ElementAt(0).Value);
+
+                        break;
+
+                    default:
+                        Debug.LogError("Insult index not set correctly!");
+                        break;
+                }
             }
             else
             {
-                _currentLine = $"The zombie can't think of anything to insult you with.";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                ToggleCanvas(_selectionMenuCanvas, false);
 
-                _insultTurn = null;
-                StartCoroutine(EndFight(null));
-                yield break;              
+                if (_enemy.Name != "Zombie")
+                {
+                    var random = UnityEngine.Random.Range(0, _playerInsultsAndValues.Count - 1);
+
+                    line = $"{_enemy.Name}: '{_playerInsultsAndValues.ElementAt(random).Key}'";
+                    value = _playerInsultsAndValues.ElementAt(random).Value;
+
+                    _egoHitLine = PlayerManager.Instance.InsultLines.AnswersWhenHit[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
+                    _egoResistLine = PlayerManager.Instance.InsultLines.AnswersWhenResisted[Array.IndexOf(PlayerManager.Instance.InsultLines.Insults, _playerInsultsAndValues.ElementAt(random).Key)];
+
+                    _playerInsultsAndValues.Remove(_playerInsultsAndValues.ElementAt(random).Key);
+                }
+                else
+                {
+                    _currentLine = $"The zombie can't think of anything to insult you with.";
+                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+                    _insultTurn = null;
+                    StartCoroutine(EndFight(null));
+                    yield break;
+                }
+
             }
-
-        }
 
         _textBox.enabled = true;
 
@@ -461,8 +474,14 @@ public class CombatManager : Manager, ISelectable
 
             if (defender is PlayerManager)
             {
-                _finalDamage = attackRoll - PlayerManager.Instance.GetEgoResistence();
-
+                if (ConditionManager.Instance.IsZombie)
+                {
+                    _finalDamage = 0;
+                }
+                else
+                {
+                    _finalDamage = attackRoll - PlayerManager.Instance.GetEgoResistence();                  
+                }
             }
             else
             {
@@ -492,8 +511,15 @@ public class CombatManager : Manager, ISelectable
             }
             else
             {
-                _currentLine = $"{defender.Name}: '{_egoResistLine}'";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                if (defender == PlayerManager.Instance && ConditionManager.Instance.IsZombie)
+                {
+                    yield return PrintMultipleLines(UIDialogueStorage.ZombieInsultResistLines);
+                }
+                else
+                {
+                    _currentLine = $"{defender.Name}: '{_egoResistLine}'";
+                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));                
+                }
 
                 _currentLine = DialogueUtil.CreateCombatLog(defender, "has", "resisted the insult!");
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));
@@ -506,7 +532,12 @@ public class CombatManager : Manager, ISelectable
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
-        //Insult-Kampf abwickeln
+        ResetInsultTurn();
+    }
+
+    //Insult-Kampf abwickeln
+    private void ResetInsultTurn()
+    {
         _enemyCurrentInsultsAndValues.Clear();
         _textBox.text = "";
         _textBox.enabled = false;
@@ -553,7 +584,7 @@ public class CombatManager : Manager, ISelectable
         if (_finalDamage <= 0)
         {
             _currentLine = $"The attack does not pierce throught the ego.";
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));         
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 
         if (_finalDamage >= defenderHealth)
@@ -794,6 +825,18 @@ public class CombatManager : Manager, ISelectable
                     break;
 
                 case 2:
+                    for (int i = 0; i < _enemyCurrentInsultsAndValues.Count; i++)
+                    {
+                        if (_enemyInsultsAndValues.ContainsKey(_enemyCurrentInsultsAndValues.ElementAt(i).Key))
+                        {
+                            continue;
+                        }
+
+                        _enemyInsultsAndValues.Add(_enemyCurrentInsultsAndValues.ElementAt(i).Key, _enemyCurrentInsultsAndValues.ElementAt(i).Value);
+                    }
+
+                    _enemyCurrentInsultsAndValues.Clear();
+
                     ToggleCanvas(_persuasionMenuCanvas, false);
 
                     ToggleCanvas(_selectionMenuCanvas, true);
