@@ -14,6 +14,8 @@ public class LootManager : Manager
 
     IEnumerator Start()
     {
+        ToggleCursorState(true);
+
         _textBox.enabled = true;
         _promptSkip.enabled = true;
         _promptContinue.enabled = false;

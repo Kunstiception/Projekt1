@@ -1845,7 +1845,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &249408752
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4210,6 +4210,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39074334ea41ac843ae8519839816a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _texts: []
+  _textBox: {fileID: 0}
+  _promptSkip: {fileID: 0}
+  _promptContinue: {fileID: 0}
+  _playerUIHealth: {fileID: 0}
+  _playerUIEgo: {fileID: 0}
+  _playerHealthBarBelow: {fileID: 0}
+  _playerEgoBarBelow: {fileID: 0}
+  _playerHealthbarSection: {fileID: 0}
   _player: {fileID: 439538100}
   _firstWaypoints:
   - {fileID: 931179231}

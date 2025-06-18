@@ -49,5 +49,5 @@ MonoBehaviour:
   Description: A deep blue liquid in a little flask. It's supposed to restore your
     sense of self worth. You guess it's alcoholic.
   MinimumAmountOnLoot: 1
-  MaximumAmountOnLoot: 2
+  MaximumAmountOnLoot: 1
   StorePrice: 5

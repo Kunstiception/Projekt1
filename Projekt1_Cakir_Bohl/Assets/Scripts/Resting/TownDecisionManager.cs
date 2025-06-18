@@ -8,6 +8,8 @@ public class TownDecisionManager : Manager, ISelectable
 
     IEnumerator Start()
     {
+        ToggleCursorState(true);
+
         ToggleCanvas(SelectionMenuCanvas, false);
 
         _promptContinue.enabled = false;

@@ -17,7 +17,9 @@ MonoBehaviour:
   PlayerOptions:
   - So... could I get a discount?
   - How's business?
+  - Nevermind. (return)
   BranchingLines:
   - {fileID: 11400000, guid: 21889cd404d1ab048b487d02494780d0, type: 2}
   - {fileID: 11400000, guid: e84c22476e8a398459e28b163f929deb, type: 2}
+  - {fileID: 11400000}
   positionInDialogue: 0

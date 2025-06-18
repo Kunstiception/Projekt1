@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MapManager : MonoBehaviour
+public class MapManager : Manager
 {
     [SerializeField] private Transform _player;
     [SerializeField] private Transform[] _firstWaypoints;
@@ -30,12 +31,14 @@ public class MapManager : MonoBehaviour
     {
         if(MainManager.Instance == null)
         {
-            return;
+            throw new NullReferenceException("MainManager not set to an instance of an object.");
         }
 
-        foreach(GameObject day in _days)
+        ToggleCursorState(false);
+
+        foreach (GameObject day in _days)
         {
-            if(day == _days[MainManager.Instance.CurrentDay])
+            if (day == _days[MainManager.Instance.CurrentDay])
             {
                 day.SetActive(true);
             }
@@ -75,7 +78,7 @@ public class MapManager : MonoBehaviour
         SetCurrentPosition();
         SetNextWayPointsTag();      
 
-        _daysCounter.text = $"Day: {MainManager.Instance.CurrentDay + 1}";
+        //_daysCounter.text = $"Day: {MainManager.Instance.CurrentDay + 1}";
     }
 
     private void OnEnable()
@@ -103,7 +106,7 @@ public class MapManager : MonoBehaviour
         // 0 = empty, 1 = fight, 2 = loot, 3 = interaction, 4 = resting
         for (int i = 0; i < foundWayPoints.Length; i++)
         {
-            WayPoint currentWayPoint = tempWayPoints[Random.Range(0, tempWayPoints.Count)];
+            WayPoint currentWayPoint = tempWayPoints[UnityEngine.Random.Range(0, tempWayPoints.Count)];
 
             MainManager.Instance.WayPoints.Add(currentWayPoint.gameObject.name);
 
@@ -131,7 +134,7 @@ public class MapManager : MonoBehaviour
             }
             else
             {
-                randomIndex = Random.Range(1, 3);
+                randomIndex = UnityEngine.Random.Range(1, 3);
             }
 
             switch (randomIndex)

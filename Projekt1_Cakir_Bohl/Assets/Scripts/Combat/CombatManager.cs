@@ -56,6 +56,8 @@ public class CombatManager : Manager, ISelectable
 
     IEnumerator Start()
     {
+        ToggleCursorState(true);
+
         _hasFightStarted = false;
         _isFighting = true;
         _textBox.enabled = true;

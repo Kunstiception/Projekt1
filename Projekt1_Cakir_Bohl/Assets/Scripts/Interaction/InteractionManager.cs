@@ -22,6 +22,7 @@ public class InteractionManager : Manager, ISelectable
 
     private IEnumerator Start()
     {
+        ToggleCursorState(true);
         ToggleCanvas(MerchantInventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
         ToggleCanvas(InitialMenuCanvas, false);

@@ -21,6 +21,8 @@ public class TavernManager : Manager, ISelectable
 
     IEnumerator Start()
     {
+        ToggleCursorState(true);
+
         _hasChosenToBite = false;
 
         _promptContinue.enabled = false;

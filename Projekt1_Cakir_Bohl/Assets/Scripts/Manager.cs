@@ -62,14 +62,17 @@ public class Manager : MonoBehaviour
     {
         canvas.enabled = isActive;
 
-        var selectionMenu = canvas.GetComponent<SelectionMenu>();
-
-        selectionMenu.SetInitialPointer();
-        selectionMenu.enabled = isActive;
-
-        if (isActive)
+        // Zb im Falle der Dialoge trägt der Canvas hier selbst kein Selection Menu
+        // https://docs.unity3d.com/ScriptReference/Component.TryGetComponent.html
+        if (canvas.TryGetComponent(out SelectionMenu selectionMenu))
         {
-            selectionMenu.InitializeMenu();
+            selectionMenu.SetInitialPointer();
+            selectionMenu.enabled = isActive;
+
+            if (isActive)
+            {
+                selectionMenu.InitializeMenu();
+            }
         }
     }
 
@@ -163,7 +166,7 @@ public class Manager : MonoBehaviour
             yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.WerewolfDayLines));
         }
     }
-     
+
     // Setzt die Variablen im MainManager zurück, damit diese mit den Daten des nächsten Tages befüllt werden können
     protected void SetUpNextDay(bool isDay)
     {
@@ -172,5 +175,17 @@ public class Manager : MonoBehaviour
         MainManager.Instance.WayPointTypes.Clear();
         MainManager.Instance.LastWayPoint = "";
         MainManager.Instance.IsDay = isDay;
+    }
+
+    protected void ToggleCursorState(bool isLocked)
+    {
+        if (isLocked)
+        {
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.visible = true;
+        }
     }
 }

@@ -14,6 +14,8 @@ public class ConditionScreenManager : Manager
     
     IEnumerator Start()
     {
+        ToggleCursorState(true);
+
         _textBox.text = "";
         _promptSkip.enabled = false;
         _promptContinue.enabled = false;
@@ -31,11 +33,6 @@ public class ConditionScreenManager : Manager
         else
         {
             yield return new WaitForSeconds(GameConfig.ConditionScreenWaitTime / 2);
-        }
-
-        if (_conditionName == "sleep deprived")
-        {
-            SetUpNextDay(false);          
         }
 
         SceneManager.LoadScene(2);

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
@@ -7,7 +6,8 @@ using UnityEngine;
 public class DialogueManager : Manager, ISelectable
 {
     [SerializeField] public DialogueLines InitialOptions;
-    [SerializeField] private GameObject _menuOptions;
+    [SerializeField] private GameObject _followingMenuOptions;
+    [SerializeField] private GameObject _initialMenuOptions;
 
     private DialogueLines _currentDialogueLines;
     private TextMeshProUGUI[] _dialogueOptions;
@@ -20,9 +20,9 @@ public class DialogueManager : Manager, ISelectable
 
     void Start()
     {
-        _dialogueOptions = _menuOptions.GetComponentsInChildren<TextMeshProUGUI>();
+        _dialogueCanvas = _initialMenuOptions.GetComponentInParent<Canvas>();
 
-        _dialogueCanvas = _menuOptions.GetComponentInParent<Canvas>();
+        ToggleMenus(true);
     }
 
     void Update()
@@ -46,7 +46,7 @@ public class DialogueManager : Manager, ISelectable
             }
 
             yield return ShowLinesAndHandleSelection(_currentDialogueLines);
-            
+
         } while (_isRunning && _textBox.text != _currentLine);
     }
 
@@ -59,6 +59,15 @@ public class DialogueManager : Manager, ISelectable
         _textBox.text = "";
 
         _isRunning = false;
+
+        if (dialogueLines == InitialOptions)
+        {
+            ToggleMenus(true);
+        }
+        else
+        {
+            ToggleMenus(false);
+        }
 
         for (int i = 0; i < _dialogueOptions.Length; i++)
         {
@@ -73,19 +82,18 @@ public class DialogueManager : Manager, ISelectable
         ToggleCanvas(_dialogueCanvas, false);
     }
 
-    // Reset to initial options without used option
-
     public void StartDialogue()
     {
         _dialogueCoroutine = StartCoroutine(DialogueCoroutine());
         _isRunning = true;
+        _currentDialogueLines = InitialOptions;
     }
 
     public void HandleSelectedMenuPoint(int index)
     {
         if (_currentDialogueLines == null)
         {
-            _currentDialogueLines = InitialOptions.BranchingLines[index];
+            _currentDialogueLines = InitialOptions;
 
             _isRunning = true;
 
@@ -111,7 +119,35 @@ public class DialogueManager : Manager, ISelectable
         onDialogueFinished?.Invoke();
 
         _isRunning = false;
-        _currentDialogueLines = null;
         _textBox.text = "";
+    }
+
+    private void ToggleMenus(bool isInitialMenu)
+    {
+        SelectionMenu _nextSelectionMenu;
+
+        if (isInitialMenu)
+        {
+            _initialMenuOptions.SetActive(true);
+            _nextSelectionMenu = _initialMenuOptions.GetComponent<SelectionMenu>();
+            _nextSelectionMenu.InitializeMenu();
+
+            _followingMenuOptions.SetActive(false);
+            // _followingMenuOptions.GetComponent<SelectionMenu>().IsActive = true;
+
+            _dialogueOptions = _initialMenuOptions.GetComponentsInChildren<TextMeshProUGUI>();
+        }
+        else
+        {
+            _followingMenuOptions.SetActive(true);
+            _nextSelectionMenu = _followingMenuOptions.GetComponent<SelectionMenu>();
+            _nextSelectionMenu.InitializeMenu();
+
+
+            _initialMenuOptions.SetActive(false);
+            // _initialMenuOptions.GetComponent<SelectionMenu>().IsActive = false;
+
+            _dialogueOptions = _followingMenuOptions.GetComponentsInChildren<TextMeshProUGUI>();
+        }
     }
 }
