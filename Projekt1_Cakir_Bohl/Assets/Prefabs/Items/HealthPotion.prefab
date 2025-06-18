@@ -47,7 +47,6 @@ MonoBehaviour:
   ItemType: 0
   Name: Health Potion
   Description: A bright red liquid in a little flask. It's supposed to heal the wounded.
-  LookAtText: 
   MinimumAmountOnLoot: 1
-  MaximumAmountOnLoot: 3
+  MaximumAmountOnLoot: 2
   StorePrice: 5

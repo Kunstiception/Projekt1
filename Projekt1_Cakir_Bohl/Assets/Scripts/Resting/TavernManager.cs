@@ -41,7 +41,8 @@ public class TavernManager : Manager, ISelectable
 
         ToggleCanvas(DialogueCanvas, true);
 
-        _dialogueManager.InitialOptions = _initialLines[MainManager.Instance.CurrentDay];
+        //_dialogueManager.InitialOptions = _initialLines[MainManager.Instance.CurrentDay];
+        _dialogueManager.InitialOptions = _initialLines[0];
 
         _dialogueManager.StartDialogue();
     }

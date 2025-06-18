@@ -307,7 +307,7 @@ public class MapManager : MonoBehaviour
                     break;
                 }
 
-                if (MainManager.Instance.CurrentDay == _days.Length)
+                if (MainManager.Instance.CurrentDay == _days.Length - 1)
                 {
                     _nextSceneIndex = 11;
 

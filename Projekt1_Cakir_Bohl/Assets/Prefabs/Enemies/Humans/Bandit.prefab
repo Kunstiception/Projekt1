@@ -57,7 +57,7 @@ MonoBehaviour:
   Initiative: 7
   Accuracy: 7
   Evasion: 6
-  InsultResistance: 8
+  InsultResistance: 7
 --- !u!212 &6733146057372407502
 SpriteRenderer:
   m_ObjectHideFlags: 0

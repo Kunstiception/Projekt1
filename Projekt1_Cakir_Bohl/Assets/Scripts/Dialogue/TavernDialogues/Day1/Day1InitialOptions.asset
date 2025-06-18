@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Day1InitialOptions
   m_EditorClassIdentifier: 
   Lines:
-  - Hey, this is day 1!
+  - Hey, you could have a conversation here!
   PlayerOptions:
-  - Is it really?
-  - Fuck off! (return)
+  - Really, that is insane!!!
+  - Crazy!!!
   BranchingLines:
-  - {fileID: 11400000, guid: 59f5d70c8d094ef43a71088c9c326893, type: 2}
-  - {fileID: 11400000}
+  - {fileID: 11400000, guid: 2e0ec131dfe9a5e428f3a2470485c103, type: 2}
+  - {fileID: 11400000, guid: 2e0ec131dfe9a5e428f3a2470485c103, type: 2}
   positionInDialogue: 0

@@ -48,7 +48,6 @@ MonoBehaviour:
   Name: Ego Potion
   Description: A deep blue liquid in a little flask. It's supposed to restore your
     sense of self worth. You guess it's alcoholic.
-  LookAtText: 
   MinimumAmountOnLoot: 1
-  MaximumAmountOnLoot: 3
+  MaximumAmountOnLoot: 2
   StorePrice: 5

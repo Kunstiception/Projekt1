@@ -20,6 +20,8 @@ public static class GameConfig
     public static float BarsLerpSpeed = 0.75f;
     public static float TimeBeforeHealthbarUpdate = 0.25f;
     public static float MaximumDamageModifier = 1.5f;
+    public static float HitParticlesLength = 0.25f;
+    public static float ExclamationLength = 1f;
     public static int EnemyFleeChance = 5;
 
     // Resting

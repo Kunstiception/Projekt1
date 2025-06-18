@@ -52,12 +52,12 @@ MonoBehaviour:
   HealthPoints: 10
   EgoPoints: 8
   MinAttackStrength: 2
-  MaxAttackStrength: 5
+  MaxAttackStrength: 4
   ArmorStrength: 0
   Initiative: 4
   Accuracy: 4
   Evasion: 3
-  InsultResistance: 3
+  InsultResistance: 4
 --- !u!212 &5610142864896458150
 SpriteRenderer:
   m_ObjectHideFlags: 0
