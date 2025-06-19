@@ -141,7 +141,7 @@ public class LootManager : Manager
             Debug.Log(InventoryUtil.ReturnItemAmount(item));
         }
 
-        yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
+        yield return new WaitForSeconds(GameConfig.WaitTimeAfterLoot);
 
         SceneManager.LoadScene(2);
     }

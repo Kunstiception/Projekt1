@@ -7,7 +7,7 @@ public static class GameConfig
     // Dialogue
     public static float TimeBetweenChars = 0.05f;
     public static float TimeBeforeNextLine = 0.75f;
-    public static float TimeBeforeLevelLoad = 0.25f;
+    public static float TimeBeforeLevelLoad = 0.5f;
     public static float AnticipationCharsSpeed = 0.25f;
     public static float TimeAfterAnticipation = 0.75f;
     public static int ChanceForSecondLine = 7;
@@ -25,13 +25,14 @@ public static class GameConfig
     public static int EnemyFleeChance = 5;
 
     // Resting
-    public static int AmbushChance = 3;
+    public static int AmbushChance = 10;
     public static int RoomCost = 8;
     public static int VampireCaughtChance = 3;
 
     // Looting
     public static int MaximumLootableItems = 3;
     public static int EquipmentToAdd = 2;
+    public static float WaitTimeAfterLoot = 0.25f;
 
     // Items
     public static int MinimumHeal = 4;

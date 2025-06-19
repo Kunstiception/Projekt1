@@ -11,7 +11,7 @@ public class ConditionScreenManager : Manager
     [SerializeField] private GameObject _vampireText;
 
     private string _conditionName;
-    
+
     IEnumerator Start()
     {
         ToggleCursorState(true);
@@ -35,7 +35,14 @@ public class ConditionScreenManager : Manager
             yield return new WaitForSeconds(GameConfig.ConditionScreenWaitTime / 2);
         }
 
-        SceneManager.LoadScene(2);
+        if (!PlayerManager.Instance.HasFinishedDay)
+        {
+            SceneManager.LoadScene(2);
+
+            yield break;
+        }
+
+        SceneManager.LoadScene(1);
     }
 
     void Update()

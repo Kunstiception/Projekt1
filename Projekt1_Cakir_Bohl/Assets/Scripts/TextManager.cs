@@ -1,16 +1,30 @@
 using System.Collections;
-using TMPro;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : Manager
+public class TextManager : Manager
 {
+    [TextArea]
+    [SerializeField] private string[] _textDay0;
+    [TextArea]
+    [SerializeField] private string[] _textDay1;
+    [TextArea]
+    [SerializeField] private string[] _textDay2;
+    [TextArea]
+    [SerializeField] private string[] _textDay3;
+    [TextArea]
+    [SerializeField] private string[] _textDay4;
+    [TextArea]
+    [SerializeField] private string[] _textDay5;
+
+    private Dictionary<int, string[]> _texts = new Dictionary<int, string[]>();
+
     void Start()
     {
         _promptContinue.enabled = false;
 
-        StartCoroutine(Dialogue(_texts));
+        StartCoroutine(Dialogue(_textDay0));
     }
 
     void Update()
