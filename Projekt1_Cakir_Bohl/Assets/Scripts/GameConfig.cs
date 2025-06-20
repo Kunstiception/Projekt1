@@ -25,8 +25,8 @@ public static class GameConfig
     public static int EnemyFleeChance = 5;
 
     // Resting
-    public static int AmbushChance = 3;
-    public static int RoomCost = 8;
+    public static int AmbushChance = 4;
+    public static int RoomCost = 10;
     public static int VampireCaughtChance = 3;
 
     // Looting

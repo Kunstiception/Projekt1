@@ -746,7 +746,7 @@ public class CombatManager : Manager, ISelectable
         }
     }
 
-    // Wenn erfolgreich, dann aus Kampf geflohen, wenn nicht, Gegner greift einmal an
+    // Wenn erfolgreich, dann aus Kampf geflohen, wenn nicht, dann ist der Gegner dran
     private IEnumerator TryRetreat()
     {
         _textBox.enabled = true;
@@ -769,20 +769,6 @@ public class CombatManager : Manager, ISelectable
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
             StartCoroutine(EndFight(null));
-
-            // if (_turnCoroutine == null)
-            // {
-            //     if (_combatant1 == PlayerManager.Instance)
-            //     {
-            //         _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance,
-            //             defenderHealth: _combatant1Health, defenderEgoPoints: _combatant1EgoPoints, isDisadvantage: false));
-
-            //         yield break;
-            //     }
-
-            //     _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance,
-            //             defenderHealth: _combatant2Health, defenderEgoPoints: _combatant2EgoPoints, isDisadvantage: false));
-            // }
         }
     }
 
