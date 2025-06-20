@@ -175,15 +175,15 @@ MonoBehaviour:
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
   _playerHealthbarSection: {fileID: 0}
-  _textDay0:
-  - Hey, this is the voice.
-  - I will haunt you on your journey.
-  - Have a nice trip!
-  _textDay1: []
-  _textDay2: []
-  _textDay3: []
-  _textDay4: []
-  _textDay5: []
+  _voiceLines:
+  - {fileID: 11400000, guid: f20cc207aeb8c0f43891b9ef7bbc42b2, type: 2}
+  - {fileID: 11400000, guid: e0084389ea735b1408d2bfc924a9cb2a, type: 2}
+  - {fileID: 11400000, guid: c1e722980e1754947bfcf7569a6c4ffc, type: 2}
+  - {fileID: 11400000, guid: 34107e9bb2ff8484e82a851ee897dfd1, type: 2}
+  - {fileID: 11400000, guid: 4590f76703aa6074aa6a1f7dac5bd481, type: 2}
+  - {fileID: 11400000, guid: 3dece8de61b81cf4f9bfabede545f2c4, type: 2}
+  - {fileID: 11400000, guid: ee25b96e9e013cb469064b21a3e7e1f8, type: 2}
+  - {fileID: 11400000, guid: 6ebb3f0929fc4f84eb73042291e3999b, type: 2}
 --- !u!1 &192181521
 GameObject:
   m_ObjectHideFlags: 0
