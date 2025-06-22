@@ -30,8 +30,12 @@ public static class GameConfig
     public static int VampireCaughtChance = 3;
 
     // Looting
-    public static int MaximumLootableItems = 3;
+    public static int MaximumLootableItems = 2;
     public static int EquipmentToAdd = 2;
+    public static int MinimumCoinAmountDay = 2;
+    public static int MaximumCoinAmountDay = 8;
+    public static int MinimumCoinAmountNight = 6;
+    public static int MaximumCoinAmountNight = 12;
 
     // Items
     public static int MinimumHeal = 4;

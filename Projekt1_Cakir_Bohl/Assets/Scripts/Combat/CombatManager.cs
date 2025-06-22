@@ -12,14 +12,15 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] private GameObject[] _enemiesDay;
     [SerializeField] private GameObject[] _enemiesNight;
     [SerializeField] private GameObject _guard;
+    [SerializeField] private GameObject _hitParticles;
+    [SerializeField] private GameObject[] _exclamations;
+    [SerializeField] private Item _coin;
     [SerializeField] private TextMeshProUGUI _enemyUIHealth;
     [SerializeField] private TextMeshProUGUI _enemyUIEgo;
     [SerializeField] private Slider _enemyHealthBarBelow;
     [SerializeField] private Slider _enemyEgoBarBelow;
     [SerializeField] private Canvas _selectionMenuCanvas;
     [SerializeField] private Canvas _persuasionMenuCanvas;
-    [SerializeField] private GameObject _hitParticles;
-    [SerializeField] private GameObject[] _exclamations;
 
     private int _intitialPlayerHealth;
     private int _playerRoll;
@@ -699,6 +700,11 @@ public class CombatManager : Manager, ISelectable
 
             if (winner == PlayerManager.Instance)
             {
+                if (!isRetreat)
+                {                  
+                    yield return StartCoroutine(ManageLoot());
+                }
+
                 if (PlayerManager.Instance.GotCaught)
                 {
                     yield return PrintMultipleLines(UIDialogueStorage.SlayedGuardLines);
@@ -1015,5 +1021,24 @@ public class CombatManager : Manager, ISelectable
         yield return new WaitForSeconds(GameConfig.ExclamationLength);
 
         _exclamations[randomIndex].SetActive(false);
+    }
+
+    private IEnumerator ManageLoot()
+    {
+        int randomAmount = 0;
+
+        if (MainManager.Instance.IsDay)
+        {
+            randomAmount = UnityEngine.Random.Range(GameConfig.MinimumCoinAmountDay, GameConfig.MaximumCoinAmountDay + 1);
+        }
+        else
+        {
+            randomAmount = UnityEngine.Random.Range(GameConfig.MinimumCoinAmountNight, GameConfig.MaximumCoinAmountNight + 1);
+        }
+
+        InventoryManager.Instance.ManageInventory(_coin, randomAmount, true);
+
+        _currentLine = $"You have received {randomAmount} coins.";
+        yield return HandleTextOutput(_currentLine, false); 
     }
 }

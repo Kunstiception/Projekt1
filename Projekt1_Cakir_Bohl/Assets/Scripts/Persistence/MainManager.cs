@@ -39,7 +39,7 @@ public class MainManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null)
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
@@ -117,9 +117,9 @@ public class MainManager : MonoBehaviour
         if (InventoryManager.Instance.EquippedItems.Count > 0)
         {
             for (int i = 0; i < InventoryManager.Instance.InventoryItems.Count; i++)
-                {
-                    EquipmentBools.Add(InventoryManager.Instance.EquippedItems.ElementAt(i).Value);
-                }          
+            {
+                EquipmentBools.Add(InventoryManager.Instance.EquippedItems.ElementAt(i).Value);
+            }
         }
 
         data.EquipmentBools = EquipmentBools;
@@ -141,7 +141,7 @@ public class MainManager : MonoBehaviour
     {
         string path = Application.persistentDataPath + "/savefile.json";
 
-        if(File.Exists(path))
+        if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
 
@@ -188,18 +188,18 @@ public class MainManager : MonoBehaviour
                 }
             }
 
-            if(PlayerManager.Instance != null)
+            if (PlayerManager.Instance != null)
             {
                 PlayerManager.Instance.InitializePlayerStats();
             }
 
-            if(ConditionManager.Instance != null)
+            if (ConditionManager.Instance != null)
             {
                 ConditionManager.Instance.InitializeConditions();
             }
 
             Debug.Log(json);
-        }  
+        }
     }
 
     public void RevertAll()
@@ -230,5 +230,22 @@ public class MainManager : MonoBehaviour
         IsBoostedVampire = false;
         IsWerewolf = false;
         IsZombie = false;
+
+        PlayerManager.Instance.ResetStats();
+        ConditionManager.Instance.ResetStats();
+        InventoryManager.Instance.ResetStats();
+
+        SaveAll();
+    }
+
+    private void CreateEmptySave()
+    {
+        SaveData data = new SaveData();
+
+        string json = JsonUtility.ToJson(data);
+
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+
+        Debug.Log(json);
     }
 }

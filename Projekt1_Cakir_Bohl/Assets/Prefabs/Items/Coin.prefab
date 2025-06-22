@@ -47,8 +47,7 @@ MonoBehaviour:
   ItemType: 2
   Name: Coin
   Description: A small golden coin.
-  LookAtText: The coin bears the the ever grinning face of the dark king on it.
-  MinimumAmountOnLoot: 1
+  MinimumAmountOnLoot: 2
   MaximumAmountOnLoot: 10
   StorePrice: 0
-  _lines: []
+  LookAtText: The coin bears the the ever grinning face of the dark king on it.
