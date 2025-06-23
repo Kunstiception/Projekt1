@@ -97,4 +97,11 @@ public static class UIDialogueStorage
         "Fuck this! This is not worth it!",
         "Good luck to you, man!",
         "You are one cursed soul..."};
+    public static string[] PondReachedLines =
+        {"You reach a small pond.",
+        "The world around you is silent."};
+    public static string[] PondEntryLines =
+        {"You take off your armor.",
+        "Slowly you enter the pond step by step until the cold water covers most of your body",
+        "You feel your ailments wash away."};
 }
