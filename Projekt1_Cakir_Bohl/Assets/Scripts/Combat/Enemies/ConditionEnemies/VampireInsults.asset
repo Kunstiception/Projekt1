@@ -17,14 +17,27 @@ MonoBehaviour:
   - You are missing a button on your jacket!
   - You seem a little pale, buddy. Are you alright?
   - Out of my way, foul creature!
-  Values: 03000000060000000600000003000000
+  - Why do all vampires wear the same clichee suit? You all have the same tailor?
+  - What's your diet? Rats and squirrels?
+  - Sorry, do you need an invitation to hit me? Being a vampire and all?
+  - Your meek little fangs can't even pierce my armor!
+  Values: 0300000006000000060000000300000005000000040000000400000007000000
   AnswersWhenHit:
   - How dare you?!
   - I must have lost it...
   - That must be the moonlight...
   - Alright alright...
+  - S-So what?!
+  - Sometimes they're all I can find..
+  - A-Actually, yes...
+  - My dentist told me to be careful!
   AnswersWhenResisted:
   - Yes and you are my next victim!
   - That's how you're SUPPOSED to wear it!
   - I'm just in need of a little... BLOOD!
   - Same to you!
+  - You look like you could use some well-tailored garments yourself instead of that
+    cheap tin you're wearing.
+  - My taste is much more sopisthicated than that, I can assure you.
+  - Oh, no. I can let myself in just fine.
+  - That's fine, I can just sink them into your face instead.

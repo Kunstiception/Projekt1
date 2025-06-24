@@ -17,14 +17,26 @@ MonoBehaviour:
   - So... you have to buy new clothes each time you transform?
   - It must be hard maintaining a stable relationship with your condition.
   - Out of my way, foul creature!
-  Values: 07000000040000000500000003000000
+  - Your fur really needs some conditioner, those split ends are atrocious.
+  - "Is your human form just as hairy? Or, wait.. is\_this your human form?"
+  - Be honest, what is this massive werewolf form compensating for?
+  - Does your mom know about this.. phase?
+  Values: 0700000004000000050000000300000004000000060000000600000005000000
   AnswersWhenHit:
   - How embarassing...
   - It's so costly...
   - It's a lonely life...
   - Alright alright...
+  - What?! I just got a haircut!
+  - Really?! Come on!
+  - This is a private matter!
+  - Who do you think I got it from?
   AnswersWhenResisted:
   - Take him to me and we shall see!
   - Of course I undress first, you fool!
-  - My wife likes this side of me especially!
+  - Haven't heard any complaints. Wouldn't care if I did.
   - Same to you!
+  - I hear blood works well for that. Care to help me out?
+  - The ladies love it either way.
+  - I can safely say, what you see is what you get.
+  - I-It's not a phase!

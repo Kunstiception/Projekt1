@@ -16,12 +16,27 @@ MonoBehaviour:
   - Your helmet has a dent!
   - Your blade is dull!
   - Your armor is rusty!
-  Values: 030000000300000004000000
+  - You seem a little... short for a fancy knight.
+  - Don't you have any other weapons than that pathetic sword? A bow, a mace? Nothing?
+  - Does your mom write your name inside of your helmet too, little knight?
+  - Wait.. you're the "glorious knight" they were talking about? You?
+  - You think you're so special, the cute little hero in your own fairytale?
+  Values: 03000000030000000400000004000000050000000300000004000000
   AnswersWhenHit:
   - Impossible!
   - I must have forgotten to sharpen it...
   - It has been raining lately...
+  - The weight of my armor is wearing me down...
+  - I can't afford anything else, okay?
+  - She even misspelled my name...
+  - Perhaps...
+  - Why can't you just let me have one nice thing!?
   AnswersWhenResisted:
   - It only shows how many battles I have fought in. I wear it proudly.
   - Is it really? Why don't you come here and check?
   - Those are blood stains, my friend!
+  - But tall enough to take your head!
+  - I only pull those out for the worthy ones.
+  - I bet you'd like a mom who loved you too, wouldn't you?
+  - I know, I know. My reputation precedes me.
+  - Matter of fact, I am.
