@@ -25,14 +25,18 @@ public static class GameConfig
     public static int EnemyFleeChance = 5;
 
     // Resting
-    public static int AmbushChance = 10;
-    public static int RoomCost = 8;
+    public static int AmbushChance = 4;
+    public static int RoomCost = 10;
     public static int VampireCaughtChance = 3;
 
     // Looting
-    public static int MaximumLootableItems = 3;
+    public static int MaximumLootableItems = 2;
     public static int EquipmentToAdd = 2;
     public static float WaitTimeAfterLoot = 0.25f;
+    public static int MinimumCoinAmountDay = 2;
+    public static int MaximumCoinAmountDay = 8;
+    public static int MinimumCoinAmountNight = 6;
+    public static int MaximumCoinAmountNight = 12;
 
     // Items
     public static int MinimumHeal = 4;

@@ -37,6 +37,13 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void ResetStats()
+    {
+        InventoryItems.Clear();
+        InventoryAmounts.Clear();
+        EquippedItems.Clear();
+    }
+
     public void ManageInventory(Item item, int amount, bool isAdding, int index = 0)
     {
         if (InventoryItems.Contains(item))

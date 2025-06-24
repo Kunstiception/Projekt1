@@ -14,6 +14,7 @@ public class WayPoint : MonoBehaviour
     public WayPointCategory wayPointCategory;
     [SerializeField] public Transform[] AdjacentWaypoints;
     [SerializeField] private GameObject[] _waypointVisuals;
+    [SerializeField] private GameObject _particles;
     private string _interactableTag = "Interactable";
     private string _nonInteractableTag = "Non_Interactable";
     private string[] _possibleWayPointTypes = GameConfig.WayPointTypes;
@@ -24,11 +25,13 @@ public class WayPoint : MonoBehaviour
     public static event Action OnClicked;
 
     private void Awake()
-    {     
-        foreach(GameObject sprite in _waypointVisuals)
+    {
+        foreach (GameObject sprite in _waypointVisuals)
         {
             sprite.SetActive(false);
         }
+
+        _particles.SetActive(false);
     }
 
     private void OnEnable()
@@ -45,7 +48,7 @@ public class WayPoint : MonoBehaviour
     {
         if (gameObject.CompareTag(_interactableTag))
         {
-            //transform.GetComponent<Renderer>().material.color = _hoverColor;
+            _particles.SetActive(true);
         }
     }
 
@@ -53,7 +56,7 @@ public class WayPoint : MonoBehaviour
     {
         if (gameObject.CompareTag(_interactableTag))
         {
-            //transform.GetComponent<Renderer>().material.color = _originalColor;
+            _particles.SetActive(false);
         }
     }
 
@@ -63,6 +66,7 @@ public class WayPoint : MonoBehaviour
         {
             clickAction?.Invoke(transform);
             OnClicked?.Invoke();
+            _particles.SetActive(false);
         }
     }
 

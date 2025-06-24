@@ -20,7 +20,7 @@ public class ConditionIconsManager : MonoBehaviour
         SetIcons();
     }
 
-    private void SetIcons()
+    public void SetIcons()
     {
         var _conditions = ConditionManager.Instance.GetCurrentConditions();
 
@@ -67,6 +67,11 @@ public class ConditionIconsManager : MonoBehaviour
             {
                 renderer.sprite = null;
             }
+        }
+
+        foreach (SpriteRenderer renderer in _iconAnchors)
+        {
+            _tempIconAnchors.Add(renderer);
         }
     }
 }

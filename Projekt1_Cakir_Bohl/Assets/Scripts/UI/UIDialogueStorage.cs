@@ -19,7 +19,7 @@ public static class UIDialogueStorage
         "This is not good!",
         "But you feel strong. So incredibly strong!"};
     public static string[] HealedWerewolfLines =
-        {"The fur seems to be growing back.",
+        {"The fur seems to be receding.",
         "Your aggression gets replaced with a certain dizziness.",
         "You need to sleep and not dream about the moon."};
     public static string[] ZombieLines =
@@ -97,4 +97,11 @@ public static class UIDialogueStorage
         "Fuck this! This is not worth it!",
         "Good luck to you, man!",
         "You are one cursed soul..."};
+    public static string[] PondReachedLines =
+        {"You reach a small pond.",
+        "The world around you is silent."};
+    public static string[] PondEntryLines =
+        {"You take off your armor.",
+        "Slowly you enter the pond step by step until the cold water covers most of your body",
+        "You feel your ailments wash away."};
 }

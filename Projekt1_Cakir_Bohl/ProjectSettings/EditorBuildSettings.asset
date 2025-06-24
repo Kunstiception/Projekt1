@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Ending.unity
     guid: 6002af5ac5fe98548803ef2ba1316d54
+  - enabled: 1
+    path: Assets/Scenes/Pond.unity
+    guid: 78dd1d9fbe2d32d46b7bc04ffbe4a9e1
   m_configObjects: {}

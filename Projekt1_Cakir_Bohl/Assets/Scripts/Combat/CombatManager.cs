@@ -12,14 +12,15 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] private GameObject[] _enemiesDay;
     [SerializeField] private GameObject[] _enemiesNight;
     [SerializeField] private GameObject _guard;
+    [SerializeField] private GameObject _hitParticles;
+    [SerializeField] private GameObject[] _exclamations;
+    [SerializeField] private Item _coin;
     [SerializeField] private TextMeshProUGUI _enemyUIHealth;
     [SerializeField] private TextMeshProUGUI _enemyUIEgo;
     [SerializeField] private Slider _enemyHealthBarBelow;
     [SerializeField] private Slider _enemyEgoBarBelow;
     [SerializeField] private Canvas _selectionMenuCanvas;
     [SerializeField] private Canvas _persuasionMenuCanvas;
-    [SerializeField] private GameObject _hitParticles;
-    [SerializeField] private GameObject[] _exclamations;
 
     private int _intitialPlayerHealth;
     private int _playerRoll;
@@ -150,27 +151,7 @@ public class CombatManager : Manager, ISelectable
             yield return HandleTextOutput(_currentLine, false);
         }
 
-        if (EvaluateVampire())
-        {
-            _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-
-            if (PlayerManager.Instance == _combatant1)
-            {
-                _combatant1Health -= GameConfig.VampireSunDamage;
-            }
-            else
-            {
-                _combatant2Health -= GameConfig.VampireSunDamage;
-            }
-
-            PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
-
-            StartCoroutine(UpdateUI(PlayerManager.Instance, GameConfig.VampireSunDamage, true, PlayerManager.Instance.HealthPoints));
-
-            _currentLine = UIDialogueStorage.VampireSunDamageLines[1];
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-        }
+        yield return StartCoroutine(EvaluateVampire());
 
         _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "goes", "first!");
         if (_combatant1 == PlayerManager.Instance)
@@ -699,6 +680,11 @@ public class CombatManager : Manager, ISelectable
 
             if (winner == PlayerManager.Instance)
             {
+                if (!isRetreat)
+                {                  
+                    yield return StartCoroutine(ManageLoot());
+                }
+
                 if (PlayerManager.Instance.GotCaught)
                 {
                     yield return PrintMultipleLines(UIDialogueStorage.SlayedGuardLines);
@@ -746,7 +732,7 @@ public class CombatManager : Manager, ISelectable
         }
     }
 
-    // Wenn erfolgreich, dann aus Kampf geflohen, wenn nicht, Gegner greift einmal an
+    // Wenn erfolgreich, dann aus Kampf geflohen, wenn nicht, dann ist der Gegner dran
     private IEnumerator TryRetreat()
     {
         _textBox.enabled = true;
@@ -769,20 +755,6 @@ public class CombatManager : Manager, ISelectable
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
             StartCoroutine(EndFight(null));
-
-            // if (_turnCoroutine == null)
-            // {
-            //     if (_combatant1 == PlayerManager.Instance)
-            //     {
-            //         _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance,
-            //             defenderHealth: _combatant1Health, defenderEgoPoints: _combatant1EgoPoints, isDisadvantage: false));
-
-            //         yield break;
-            //     }
-
-            //     _turnCoroutine = StartCoroutine(CombatTurn(attacker: _enemy, defender: PlayerManager.Instance,
-            //             defenderHealth: _combatant2Health, defenderEgoPoints: _combatant2EgoPoints, isDisadvantage: false));
-            // }
         }
     }
 
@@ -1041,5 +1013,24 @@ public class CombatManager : Manager, ISelectable
         yield return new WaitForSeconds(GameConfig.ExclamationLength);
 
         _exclamations[randomIndex].SetActive(false);
+    }
+
+    private IEnumerator ManageLoot()
+    {
+        int randomAmount = 0;
+
+        if (MainManager.Instance.IsDay)
+        {
+            randomAmount = UnityEngine.Random.Range(GameConfig.MinimumCoinAmountDay, GameConfig.MaximumCoinAmountDay + 1);
+        }
+        else
+        {
+            randomAmount = UnityEngine.Random.Range(GameConfig.MinimumCoinAmountNight, GameConfig.MaximumCoinAmountNight + 1);
+        }
+
+        InventoryManager.Instance.ManageInventory(_coin, randomAmount, true);
+
+        _currentLine = $"You have received {randomAmount} coins.";
+        yield return HandleTextOutput(_currentLine, false); 
     }
 }

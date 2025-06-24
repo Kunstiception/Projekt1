@@ -210,6 +210,7 @@ public class TavernManager : Manager, ISelectable
                     
                     ToggleCanvas(VampireSelectionCanvas, false);
                     ToggleCanvas(SleepingSelectionCanvas, true);
+                    ShowSleepDecision();
 
                     break;
 
@@ -247,6 +248,8 @@ public class TavernManager : Manager, ISelectable
 
     private IEnumerator VampireBiteCoroutine()
     {
+        ToggleCanvas(DialogueCanvas, false);
+
         yield return PrintMultipleLines(UIDialogueStorage.VampireInTheCityLines);
 
         _textBox.text = "";

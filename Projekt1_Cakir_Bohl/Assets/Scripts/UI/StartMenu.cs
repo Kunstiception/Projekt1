@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StartMenu : MonoBehaviour
+public class StartMenu : Manager
 {
     [SerializeField] private string _question;
     [SerializeField] private TextMeshProUGUI _uiTextElement;
@@ -13,6 +13,7 @@ public class StartMenu : MonoBehaviour
 
     private IEnumerator Start()
     {
+        ToggleCursorState(false);
         _buttonLoad.enabled = false;
         _buttonNew.enabled = false;
 

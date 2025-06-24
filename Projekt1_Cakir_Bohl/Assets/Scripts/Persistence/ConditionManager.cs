@@ -31,12 +31,21 @@ public class ConditionManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void ResetStats()
+    {
+        IsSleepDeprived = false;
+        IsVampire = false;
+        IsBoostedVampire = false;
+        IsWerewolf = false;
+        IsZombie = false;
+    }
+
     public string[] ApplyCondition(Conditions condition, bool isAffected)
     {
-        switch(condition)
+        switch (condition)
         {
             case Conditions.SleepDeprived:
-                if(isAffected)
+                if (isAffected)
                 {
                     ApplySleepDeprived(true);
 
@@ -48,9 +57,9 @@ public class ConditionManager : MonoBehaviour
 
                     return UIDialogueStorage.HealedSleepDeprivedLines;
                 }
-            
+
             case Conditions.Vampire:
-                if(isAffected)
+                if (isAffected)
                 {
                     ApplyVampire(true);
 
@@ -64,7 +73,7 @@ public class ConditionManager : MonoBehaviour
                 }
 
             case Conditions.Werewolf:
-                if(isAffected)
+                if (isAffected)
                 {
                     ApplyWerewolf(true);
 
@@ -78,14 +87,14 @@ public class ConditionManager : MonoBehaviour
                 }
 
             case Conditions.Zombie:
-                if(isAffected)
+                if (isAffected)
                 {
                     IsZombie = true;
 
                     return UIDialogueStorage.ZombieLines;
                 }
                 else
-                {   
+                {
                     IsZombie = false;
                     return UIDialogueStorage.HealedZombieLines;
                 }

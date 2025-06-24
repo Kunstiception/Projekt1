@@ -28,6 +28,11 @@ public class PlayerManager: Combatant
         DontDestroyOnLoad(gameObject);
     }
 
+    public void ResetStats()
+    {
+
+    }
+
     public void InitializePlayerStats()
     {
         HealthPointsModifier = MainManager.Instance.HealthPointsModifier;
