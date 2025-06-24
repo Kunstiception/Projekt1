@@ -735,6 +735,11 @@ Transform:
   - {fileID: 1900629871}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!223 &1570577746 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8789542719385904145, guid: 2d39bc619015665469a2c44c840b0328, type: 3}
+  m_PrefabInstance: {fileID: 426919260}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1647918669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -920,6 +925,7 @@ MonoBehaviour:
   _promptContinue: {fileID: 1647918670}
   _playerUIHealth: {fileID: 426919263}
   _playerUIEgo: {fileID: 426919262}
+  _statsCanvas: {fileID: 1570577746}
   _playerHealthBarBelow: {fileID: 426919265}
   _playerEgoBarBelow: {fileID: 426919264}
   _playerHealthbarSection: {fileID: 426919261}

@@ -7,13 +7,16 @@ using UnityEngine.UI;
 public class PondManager : Manager, ISelectable
 {
     [SerializeField] private Canvas _selectionMenuCanvas;
-    [SerializeField] private Canvas _statsCanvas;
     [SerializeField] private ConditionIconsManager _conditionIconsManager;
 
     IEnumerator Start()
     {
+        ToggleCursorState(true);
+
         ToggleCanvas(_selectionMenuCanvas, false);
         ToggleCanvas(_statsCanvas, false);
+
+        yield return StartCoroutine(EvaluateVampire());
 
         InitializePlayerStats();
 
@@ -60,10 +63,6 @@ public class PondManager : Manager, ISelectable
 
         ToggleCanvas(_statsCanvas, true);
 
-        ConditionManager.Instance.ResetStats();
-
-        _conditionIconsManager.SetIcons();
-        
         if (PlayerManager.Instance.HealthPoints < PlayerManager.Instance.GetStartingHealth())
         {
             StartCoroutine(UpdateUI(PlayerManager.Instance.GetStartingHealth() - PlayerManager.Instance.HealthPoints, true, PlayerManager.Instance.HealthPoints));
@@ -82,6 +81,11 @@ public class PondManager : Manager, ISelectable
             wasHurt = true;
         }
 
+        yield return StartCoroutine(CleanseConditions());
+
+        ConditionManager.Instance.ResetStats();
+
+        _conditionIconsManager.SetIcons();
 
         if (wasHurt)
         {
@@ -95,6 +99,14 @@ public class PondManager : Manager, ISelectable
         yield return HandleTextOutput(_currentLine, false);
 
         SceneManager.LoadScene(2);
+    }
+
+    private IEnumerator CleanseConditions()
+    {
+        foreach (ConditionManager.Conditions condition in ConditionManager.Instance.GetCurrentConditions())
+        {
+            yield return PrintMultipleLines(ConditionManager.Instance.ApplyCondition(condition, false));
+        }
     }
 
     // Visualisiert Heilung von Health oder Ego in den Leisten

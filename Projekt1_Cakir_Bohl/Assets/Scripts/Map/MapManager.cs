@@ -20,7 +20,7 @@ public class MapManager : Manager
     private float _movementLength;
     private float _timer;
     private string _interactableTag = "Interactable";
-    private string _nonInteractableTag = "Non_Interactable";
+    //private string _nonInteractableTag = "Non_Interactable";
     private Transform _nextWaypoint;
     private Coroutine _movementCoroutine;
     private Transform _currentWaypoint;
@@ -29,7 +29,7 @@ public class MapManager : Manager
     // Hier werden die Wegpunkte entweder erstmalig gesetzt oder die Informationen aus einem existierenden Spielstand aus dem MainManager geladen
     void Start()
     {
-        if(MainManager.Instance == null)
+        if (MainManager.Instance == null)
         {
             throw new NullReferenceException("MainManager not set to an instance of an object.");
         }
@@ -48,7 +48,7 @@ public class MapManager : Manager
             }
         }
 
-        if(MainManager.Instance.WayPoints.Count == 0)
+        if (MainManager.Instance.WayPoints.Count == 0)
         {
             GetWayPoints();
         }
@@ -57,14 +57,14 @@ public class MapManager : Manager
             SetWayPointTypes();
         }
 
-        if(MainManager.Instance.LastWayPoint.Length == 0 && PlayerManager.Instance != null && MainManager.Instance.CurrentDay == 0)
+        if (MainManager.Instance.LastWayPoint.Length == 0 && PlayerManager.Instance != null && MainManager.Instance.CurrentDay == 0)
         {
             PlayerManager.Instance.InitializePlayerStats();
         }
 
         MainManager.Instance.SaveAll();
- 
-        if(MainManager.Instance.IsDay == true)
+
+        if (MainManager.Instance.IsDay == true)
         {
             _timeOfDayIcon.sprite = _dayIcon;
         }
@@ -76,13 +76,13 @@ public class MapManager : Manager
         _playerAnimator = _player.GetComponentInChildren<Animator>();
 
         SetCurrentPosition();
-        SetNextWayPointsTag();      
+        SetNextWayPointsTag();
 
         //_daysCounter.text = $"Day: {MainManager.Instance.CurrentDay + 1}";
     }
 
     private void OnEnable()
-    {      
+    {
         WayPoint.clickAction += SetNextPosition;
     }
 
@@ -92,7 +92,7 @@ public class MapManager : Manager
     }
 
     // Ist kein Spielstand vorhanden, werden die Wegpunkte und ihre Type des jetzigen Tages im MainManager abgespeichert
-    // Es soll immer genau 2 Interactions geben und die restlichen Wegpunkte (abzüglich Anfang und Ende) teilen sich Fight und Looting
+    // Es soll immer genau eine Interaction geben und die restlichen Wegpunkte (abzüglich Anfang und Ende) teilen sich Fight und Looting
     // Auch diesen wird aus Balancing-Gründen eine maximale Anzahl vorgegeben
     private void GetWayPoints()
     {
@@ -182,25 +182,25 @@ public class MapManager : Manager
     {
         var foundWayPoints = _days[MainManager.Instance.CurrentDay].GetComponentsInChildren<WayPoint>();
 
-        foreach(var wayPoint in foundWayPoints)
+        foreach (var wayPoint in foundWayPoints)
         {
             //https://learn.microsoft.com/de-de/dotnet/api/system.collections.generic.list-1.indexof?view=net-8.0
             var index = MainManager.Instance.WayPoints.IndexOf(wayPoint.gameObject.name);
 
             wayPoint.SetType(MainManager.Instance.WayPointTypes[index]);
-        }   
+        }
     }
 
     // Startposition setzen
     private void SetCurrentPosition()
     {
-        if(MainManager.Instance == null)
+        if (MainManager.Instance == null)
         {
             return;
         }
-         
+
         //string nie null
-        if(MainManager.Instance.LastWayPoint.Length == 0)
+        if (MainManager.Instance.LastWayPoint.Length == 0)
         {
             _currentWaypoint = _firstWaypoints[MainManager.Instance.CurrentDay];
         }
@@ -215,9 +215,9 @@ public class MapManager : Manager
     // Tags der Wegpunkte setzen, ob diese anklickbar sind oder nicht
     private void SetNextWayPointsTag()
     {
-        if(_nextWaypoint == null)
+        if (_nextWaypoint == null)
         {
-            foreach(Transform wayPoint in _currentWaypoint.GetComponent<WayPoint>().AdjacentWaypoints)
+            foreach (Transform wayPoint in _currentWaypoint.GetComponent<WayPoint>().AdjacentWaypoints)
             {
                 if (wayPoint.GetComponent<WayPoint>().WayPointType == "Empty")
                 {
@@ -230,7 +230,7 @@ public class MapManager : Manager
             return;
         }
 
-        foreach(Transform wayPoint in _nextWaypoint.GetComponent<WayPoint>().AdjacentWaypoints)
+        foreach (Transform wayPoint in _nextWaypoint.GetComponent<WayPoint>().AdjacentWaypoints)
         {
             if (wayPoint.GetComponent<WayPoint>().WayPointType == "Empty")
             {
@@ -244,7 +244,7 @@ public class MapManager : Manager
     // Setzen der Position des nächsten Wegpunkts nach Klick auf diesen
     private void SetNextPosition(Transform transform)
     {
-        if(_movementCoroutine != null)
+        if (_movementCoroutine != null)
         {
             return;
         }
@@ -280,7 +280,7 @@ public class MapManager : Manager
 
         switch (_nextWaypoint.GetComponent<WayPoint>().WayPointType)
         {
-            // Empty = 3, Combat = 4, Loot = 5, Interaction = 6, TownReached = 9
+            // Empty = 3, Combat = 4, Loot = 5, Merchant = 6, Pond = 12, TownReached = 9
             case "Empty":
                 _nextSceneIndex = 3;
 
@@ -296,8 +296,8 @@ public class MapManager : Manager
 
                 break;
 
-            case "Interaction":
-                _nextSceneIndex = 6;
+            case "Interaction":          
+                _nextSceneIndex = ChooseInteractionType();
 
                 break;
 
@@ -310,6 +310,7 @@ public class MapManager : Manager
                     break;
                 }
 
+                // Bosskampf nach dem letzten Tag
                 if (MainManager.Instance.CurrentDay == _days.Length - 1)
                 {
                     _nextSceneIndex = 11;
@@ -333,5 +334,29 @@ public class MapManager : Manager
         MainManager.Instance.WayPointTypes[index] = 0;
 
         SceneManager.LoadScene(_nextSceneIndex);
+    }
+
+    private int ChooseInteractionType()
+    {
+        //List<int> waypoints = new List<int> { 6, 12, 13 };
+
+        List<int> indexPool = new List<int> { 6, 12};
+
+        // if (MainManager.Instance.CurrentDay == 0)
+        // {
+        //     return waypoints[3];
+        // }
+
+        if (ConditionManager.Instance.GetCurrentConditions().Count == 0)
+        {
+            indexPool.Remove(12);
+        }
+
+        if (indexPool.Count == 1)
+        {
+            return indexPool[0];
+        }
+
+        return indexPool[UnityEngine.Random.Range(0, indexPool.Count)];
     }
 }

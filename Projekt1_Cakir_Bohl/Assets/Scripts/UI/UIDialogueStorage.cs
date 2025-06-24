@@ -19,7 +19,7 @@ public static class UIDialogueStorage
         "This is not good!",
         "But you feel strong. So incredibly strong!"};
     public static string[] HealedWerewolfLines =
-        {"The fur seems to be growing back.",
+        {"The fur seems to be receding.",
         "Your aggression gets replaced with a certain dizziness.",
         "You need to sleep and not dream about the moon."};
     public static string[] ZombieLines =

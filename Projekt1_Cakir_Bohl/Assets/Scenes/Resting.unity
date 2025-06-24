@@ -920,6 +920,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!223 &181590269 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8789542719385904145, guid: 2d39bc619015665469a2c44c840b0328, type: 3}
+  m_PrefabInstance: {fileID: 1950976042321550614}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &189268455
 GameObject:
   m_ObjectHideFlags: 0
@@ -3808,6 +3813,7 @@ MonoBehaviour:
   _promptContinue: {fileID: 1312706951}
   _playerUIHealth: {fileID: 1950976042321550620}
   _playerUIEgo: {fileID: 1950976042321550619}
+  _statsCanvas: {fileID: 181590269}
   _playerHealthBarBelow: {fileID: 1950976042321550618}
   _playerEgoBarBelow: {fileID: 1950976042321550617}
   _playerHealthbarSection: {fileID: 1950976042321550616}

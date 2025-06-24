@@ -151,27 +151,7 @@ public class CombatManager : Manager, ISelectable
             yield return HandleTextOutput(_currentLine, false);
         }
 
-        if (EvaluateVampire())
-        {
-            _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-
-            if (PlayerManager.Instance == _combatant1)
-            {
-                _combatant1Health -= GameConfig.VampireSunDamage;
-            }
-            else
-            {
-                _combatant2Health -= GameConfig.VampireSunDamage;
-            }
-
-            PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
-
-            StartCoroutine(UpdateUI(PlayerManager.Instance, GameConfig.VampireSunDamage, true, PlayerManager.Instance.HealthPoints));
-
-            _currentLine = UIDialogueStorage.VampireSunDamageLines[1];
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-        }
+        yield return StartCoroutine(EvaluateVampire());
 
         _currentLine = DialogueUtil.CreateCombatLog(_combatant1, "goes", "first!");
         if (_combatant1 == PlayerManager.Instance)
