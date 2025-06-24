@@ -78,6 +78,7 @@ public class MapManager : Manager
         SetCurrentPosition();
         SetNextWayPointsTag();
 
+        PlayerManager.Instance.HasFinishedDay = false;
         //_daysCounter.text = $"Day: {MainManager.Instance.CurrentDay + 1}";
     }
 

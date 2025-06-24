@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0250b9b98474545839af6a63d12ca4, type: 3}
+  m_Name: Day3
+  m_EditorClassIdentifier: 
+  Lines:
+  - You're still here, that's good.
+  - Really good.
+  - It shows you have what it takes.
+  - And I think we're getting along well, aren't we?
+  - The King's Crown is looming in the distance, can you see it?
+  - I hope to see you soon.

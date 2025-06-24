@@ -17,7 +17,7 @@ MonoBehaviour:
   PlayerOptions:
   - Really, that is insane!!!
   - Crazy!!!
-  - Please leave me alone... (return)
+  - Please leave me alone... (skip dialogue)
   BranchingLines:
   - {fileID: 11400000, guid: 2e0ec131dfe9a5e428f3a2470485c103, type: 2}
   - {fileID: 11400000, guid: 2e0ec131dfe9a5e428f3a2470485c103, type: 2}

@@ -954,18 +954,23 @@ public class CombatManager : Manager, ISelectable
     // Überpürfen, ob SleepDeprived-Condition angewendet werden soll
     IEnumerator CheckForSleepDeprived()
     {
-        if (_intitialPlayerHealth > PlayerManager.Instance.HealthPoints && !MainManager.Instance.IsDay)
+        if (_hasDisadvantage)
         {
-            if (_hasDisadvantage)
-            {
-                ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true);
-                PlayerManager.Instance.HasDisadvantage = false;
-            }
-
-            StartCoroutine(EndSceneWithCondition());
-
-            yield break;
+            PlayerManager.Instance.HasFinishedDay = true;
         }
+
+        if (_intitialPlayerHealth > PlayerManager.Instance.HealthPoints && !MainManager.Instance.IsDay)
+            {
+                if (_hasDisadvantage)
+                {
+                    ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true);
+                    PlayerManager.Instance.HasDisadvantage = false;
+                }
+
+                StartCoroutine(EndSceneWithCondition());
+
+                yield break;
+            }
 
         if (_hasDisadvantage && !ConditionManager.Instance.IsSleepDeprived)
         {
@@ -978,9 +983,16 @@ public class CombatManager : Manager, ISelectable
             yield break;
         }
 
-        SceneManager.LoadScene(2);
+        if (!PlayerManager.Instance.HasFinishedDay)
+        {
+            SceneManager.LoadScene(2);
 
-        yield break;
+            yield break;
+        }
+        else
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 
     private IEnumerator PlayHitParticles()

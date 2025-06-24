@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
-    [SerializeField] protected string[] _texts;
     [SerializeField] protected TextMeshProUGUI _textBox;
     [SerializeField] protected TextMeshProUGUI _promptSkip;
     [SerializeField] protected TextMeshProUGUI _promptContinue;

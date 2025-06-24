@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0250b9b98474545839af6a63d12ca4, type: 3}
+  m_Name: Day0
+  m_EditorClassIdentifier: 
+  Lines:
+  - "For weeks, even months now,\_you've had that same itch, a tingling sensation
+    that makes your skin crawl."
+  - There's something calling for you, waiting to be found.
+  - You have no idea what it is, do you?
+  - But maybe it's worth finding out.
+  - "If anyone can do it, it's\_you."
+  - You're strong. The strongest. The bravest and the best.
+  - Wear your pride as a shield.
+  - It'll always keep you safe.
+  - Always.

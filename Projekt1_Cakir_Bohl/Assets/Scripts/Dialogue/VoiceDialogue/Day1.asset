@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0250b9b98474545839af6a63d12ca4, type: 3}
+  m_Name: Day1
+  m_EditorClassIdentifier: 
+  Lines:
+  - Well done.
+  - You made it so far, it's only up from here.
+  - Don't forget to keep your head up, there's all sorts out there trying to put
+    you down.
+  - Just make your way to the King's Crown.
+  - I'll see you tomorrow.

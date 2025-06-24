@@ -13,6 +13,7 @@ public class PlayerManager: Combatant
     public bool HasRoom = false;
     public bool HasDisadvantage = false;
     public bool GotCaught = false;
+    public bool HasFinishedDay = false;
     public ConditionManager.Conditions LatestCondition;
 
     private void Awake()

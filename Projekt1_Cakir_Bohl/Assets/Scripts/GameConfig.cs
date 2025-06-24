@@ -7,7 +7,7 @@ public static class GameConfig
     // Dialogue
     public static float TimeBetweenChars = 0.05f;
     public static float TimeBeforeNextLine = 0.75f;
-    public static float TimeBeforeLevelLoad = 0.25f;
+    public static float TimeBeforeLevelLoad = 0.5f;
     public static float AnticipationCharsSpeed = 0.25f;
     public static float TimeAfterAnticipation = 0.75f;
     public static int ChanceForSecondLine = 7;
@@ -32,6 +32,7 @@ public static class GameConfig
     // Looting
     public static int MaximumLootableItems = 2;
     public static int EquipmentToAdd = 2;
+    public static float WaitTimeAfterLoot = 0.25f;
     public static int MinimumCoinAmountDay = 2;
     public static int MaximumCoinAmountDay = 8;
     public static int MinimumCoinAmountNight = 6;

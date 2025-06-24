@@ -356,6 +356,8 @@ public class RestingManager : Manager, ISelectable, ICondition
 
             PlayerManager.Instance.HasDisadvantage = true;
 
+            PlayerManager.Instance.HasFinishedDay = false;
+
             SceneManager.LoadScene(4);
             yield break;
         }
@@ -407,7 +409,7 @@ public class RestingManager : Manager, ISelectable, ICondition
                 yield return EvaluateWerewolfCondition(false);
             }
 
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(1);
             yield break;
         }
     }
@@ -497,6 +499,8 @@ public class RestingManager : Manager, ISelectable, ICondition
                 yield return EvaluateWerewolfCondition(false);
             }         
         }
+
+        PlayerManager.Instance.HasFinishedDay = true;
         
         _textBox.enabled = false;
 
@@ -506,7 +510,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         }
         else
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(1);
         }
     }
 }
