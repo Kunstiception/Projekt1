@@ -5839,6 +5839,8 @@ MonoBehaviour:
   - {fileID: 772440671}
   - {fileID: 1983951581}
   - {fileID: 1541606227}
+  - {fileID: 593813408}
+  - {fileID: 1093875401}
   _daysCounter: {fileID: 249408753}
   _timeOfDayIcon: {fileID: 908925475}
   _dayIcon: {fileID: 21300000, guid: 31683869df7d15c45bb955650ed42860, type: 3}
