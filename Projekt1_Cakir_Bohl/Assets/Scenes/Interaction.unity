@@ -167,7 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd2b8b22a0e45c48aa97b237d21921b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _texts: []
   _textBox: {fileID: 1647918672}
   _promptSkip: {fileID: 1647918671}
   _promptContinue: {fileID: 1647918670}
@@ -845,7 +844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70a980ab0be62c044a9ebe1e1b591efb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _texts: []
   _textBox: {fileID: 1647918672}
   _promptSkip: {fileID: 1647918671}
   _promptContinue: {fileID: 1647918670}
@@ -3231,9 +3229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24fa35ebaed64d4bbe0aa296ac235b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _texts:
-  - A witty conversation with a memorable NPC!
-  - You continue the quest!
   _textBox: {fileID: 1647918672}
   _promptSkip: {fileID: 1647918671}
   _promptContinue: {fileID: 1647918670}
@@ -3665,7 +3660,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b67846e334801b54e9a0cfacfd4bf415, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5e68093391c005f4ea5225554d3757c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

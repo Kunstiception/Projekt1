@@ -1514,7 +1514,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b67846e334801b54e9a0cfacfd4bf415, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31166daca9bd0ae44bf2d61c9b0b853b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2239,12 +2239,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd2b8b22a0e45c48aa97b237d21921b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _texts: []
   _textBox: {fileID: 674254178}
   _promptSkip: {fileID: 674254177}
   _promptContinue: {fileID: 674254176}
   _playerUIHealth: {fileID: 0}
   _playerUIEgo: {fileID: 0}
+  _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
   _playerHealthbarSection: {fileID: 0}
@@ -2476,12 +2476,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2645aea6c9b02264f93f55f19fe522e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _texts: []
   _textBox: {fileID: 674254178}
   _promptSkip: {fileID: 674254177}
   _promptContinue: {fileID: 674254176}
   _playerUIHealth: {fileID: 0}
   _playerUIEgo: {fileID: 0}
+  _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
   _playerHealthbarSection: {fileID: 0}
