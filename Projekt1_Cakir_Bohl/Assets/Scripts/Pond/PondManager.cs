@@ -27,7 +27,6 @@ public class PondManager : Manager, ISelectable
         ToggleCanvas(_selectionMenuCanvas, true);
     }
 
-    // Update is called once per frame
     void Update()
     {
         ListenForSkip();
@@ -89,11 +88,7 @@ public class PondManager : Manager, ISelectable
 
         if (wasHurt)
         {
-            _currentLine = "Both your body and mind are now fully recovered!";
-        }
-        else
-        {
-            _currentLine = "The water has cleansed you of your unfortunate conditions.";
+            _currentLine = "You are now fully recovered!";
         }
 
         yield return HandleTextOutput(_currentLine, false);
@@ -103,7 +98,17 @@ public class PondManager : Manager, ISelectable
 
     private IEnumerator CleanseConditions()
     {
-        foreach (ConditionManager.Conditions condition in ConditionManager.Instance.GetCurrentConditions())
+        ConditionManager.Conditions[] conditions = ConditionManager.Instance.GetCurrentConditions().ToArray();
+
+        if (conditions.Length == GameConfig.TotalAmountOfConditions)
+        {
+            _currentLine = "The water has cleansed you of your unfortunate conditions.";
+            yield return HandleTextOutput(_currentLine, false);
+
+            yield break;
+        }
+
+        foreach (ConditionManager.Conditions condition in conditions)
         {
             yield return PrintMultipleLines(ConditionManager.Instance.ApplyCondition(condition, false));
         }

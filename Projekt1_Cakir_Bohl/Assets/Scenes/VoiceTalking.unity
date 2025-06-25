@@ -172,6 +172,7 @@ MonoBehaviour:
   _promptContinue: {fileID: 1351162744}
   _playerUIHealth: {fileID: 0}
   _playerUIEgo: {fileID: 0}
+  _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
   _playerHealthbarSection: {fileID: 0}
@@ -184,6 +185,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3dece8de61b81cf4f9bfabede545f2c4, type: 2}
   - {fileID: 11400000, guid: ee25b96e9e013cb469064b21a3e7e1f8, type: 2}
   - {fileID: 11400000, guid: 6ebb3f0929fc4f84eb73042291e3999b, type: 2}
+  _condtionComments:
+  - {fileID: 11400000, guid: 926ef7f3e1328fd4a81aca2c65ae72ef, type: 2}
+  - {fileID: 11400000, guid: ddadc4a9c74f89a41b4736882265d7c4, type: 2}
+  - {fileID: 11400000, guid: 12f40f91e69fa454c80740f3153df3b6, type: 2}
+  - {fileID: 11400000, guid: 68edfb428b7ba5d42b76b62d4b5bccd7, type: 2}
 --- !u!1 &192181521
 GameObject:
   m_ObjectHideFlags: 0

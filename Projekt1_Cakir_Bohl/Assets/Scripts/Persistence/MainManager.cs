@@ -30,6 +30,7 @@ public class MainManager : MonoBehaviour
     public int NumberOfRings;
     public int NumberofAmulets;
     public int NumberofSwords;
+    public int ConditionAmount;
     public bool IsDay;
     public bool IsSleepDeprived;
     public bool IsVampire;
@@ -72,6 +73,7 @@ public class MainManager : MonoBehaviour
         public int NumberOfRings;
         public int NumberofAmulets;
         public int NumberofSwords;
+        public int ConditionAmount;
         public bool IsDay;
         public bool IsSleepDeprived;
         public bool IsVampire;
@@ -98,6 +100,7 @@ public class MainManager : MonoBehaviour
         data.LastWayPoint = LastWayPoint;
         data.WayPoints = WayPoints;
         data.WayPointTypes = WayPointTypes;
+        data.ConditionAmount = ConditionAmount;
         data.IsSleepDeprived = ConditionManager.Instance.IsSleepDeprived;
         data.IsVampire = ConditionManager.Instance.IsVampire;
         data.IsBoostedVampire = ConditionManager.Instance.IsBoostedVampire;
@@ -168,6 +171,7 @@ public class MainManager : MonoBehaviour
             InventoryItems = data.InventoryItems;
             InventoryAmounts = data.InventoryAmounts;
             IsDay = data.IsDay;
+            ConditionAmount = data.ConditionAmount;
             IsSleepDeprived = data.IsSleepDeprived;
             IsVampire = data.IsVampire;
             IsBoostedVampire = data.IsBoostedVampire;

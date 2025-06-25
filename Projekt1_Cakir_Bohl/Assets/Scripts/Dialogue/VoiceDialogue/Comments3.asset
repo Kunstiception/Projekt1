@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc0250b9b98474545839af6a63d12ca4, type: 3}
-  m_Name: Day1
+  m_Name: Comments3
   m_EditorClassIdentifier: 
   Lines:
-  - You made it so far, it's only up from here.
-  - Don't forget to keep your head up, there's all sorts out there trying to put
-    you down.
-  - Just make your way to the King's Crown.
-  - I'll see you tomorrow.
+  - You alright? You seem... strange.
+  - Getting into plenty of fights I see.
+  - Woah, take a rest. You look like shit!
