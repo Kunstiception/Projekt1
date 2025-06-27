@@ -12,9 +12,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     [SerializeField] private GameObject _outsideBackground;
     [SerializeField] private GameObject _roomBackground;
     private InventoryDisplayer _inventoryDisplayer;
-    private string[] _currentItemLines;
     private bool _isAmbush;
-    private Item _currentItem;
     private int _currentIndex;
 
     void Start()
@@ -195,29 +193,31 @@ public class RestingManager : Manager, ISelectable, ICondition
     }
 
     // Verbraucht das Item (was eine Liste an strings zurückgibt, um die Aktion zu beschreiben)
-    private IEnumerator UseSelectedItem()
+    public override IEnumerator UseSelectedItem()
     {
-        if (_currentItem is not IUsable)
-        {
-            yield break;
-        }
+        // if (_currentItem is not IUsable)
+        // {
+        //     yield break;
+        // }
 
-        var iUsable = _currentItem as IUsable;
+        // var iUsable = _currentItem as IUsable;
 
-        _currentItemLines = iUsable.UseItem().ToArray();
+        // string[] currentItemLines = iUsable.UseItem().ToArray();
 
-        // Erste Line immer zeigen, auswürfeln ob auch eine zweite angezeigt wird (eine Art Easter Egg)
-        _currentLine = _currentItemLines[0];
-        yield return HandleTextOutput(_currentLine, false);
+        // // Erste Line immer zeigen, auswürfeln ob auch eine zweite angezeigt wird (eine Art Easter Egg)
+        // _currentLine = currentItemLines[0];
+        // yield return HandleTextOutput(_currentLine, false);
 
-        if (_currentItemLines.Length > 1)
-        {
-            if (DiceUtil.D10() > GameConfig.ChanceForSecondLine)
-            {
-                _currentLine = _currentItemLines[UnityEngine.Random.Range(1, _currentItemLines.Length)];
-                yield return HandleTextOutput(_currentLine, false);
-            }
-        }
+        // if (currentItemLines.Length > 1)
+        // {
+        //     if (DiceUtil.D10() > GameConfig.ChanceForSecondLine)
+        //     {
+        //         _currentLine = currentItemLines[UnityEngine.Random.Range(1, currentItemLines.Length)];
+        //         yield return HandleTextOutput(_currentLine, false);
+        //     }
+        // }
+
+        yield return base.UseSelectedItem();
 
         _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
         _inventoryDisplayer.UpdateDisplayedInventory(_currentItem);

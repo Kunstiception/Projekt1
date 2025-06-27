@@ -19,6 +19,7 @@ public class Manager : MonoBehaviour
     protected Coroutine _waitForContinueCoroutine;
     protected int _currentStringIndex = 0;
     protected string _currentLine;
+    protected Item _currentItem;
 
     void Update()
     {
@@ -126,7 +127,7 @@ public class Manager : MonoBehaviour
     {
         float hitValue = (float)damage / (float)PlayerManager.Instance.GetStartingHealth();
 
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
             // GameOver Screen
@@ -134,7 +135,7 @@ public class Manager : MonoBehaviour
 
         _playerUIHealth.text = $"{currentHealth - damage}/{PlayerManager.Instance.GetStartingHealth()}";
 
-        float currentValue = _playerHealthBarBelow.value;       
+        float currentValue = _playerHealthBarBelow.value;
         float nextValue = currentValue - hitValue;
         float lerpValue = 0;
 
@@ -231,6 +232,31 @@ public class Manager : MonoBehaviour
         else
         {
             Cursor.visible = true;
+        }
+    }
+
+    public virtual IEnumerator UseSelectedItem()
+    {
+        if (_currentItem is not IUsable)
+        {
+            yield break;
+        }
+
+        var iUsable = _currentItem as IUsable;
+
+        string[] currentItemLines = iUsable.UseItem().ToArray();
+
+        // Erste Line immer zeigen, auswürfeln ob auch eine zweite angezeigt wird (eine Art Easter Egg)
+        _currentLine = currentItemLines[0];
+        yield return HandleTextOutput(_currentLine, false);
+
+        if (currentItemLines.Length > 1)
+        {
+            if (DiceUtil.D10() > GameConfig.ChanceForSecondLine)
+            {
+                _currentLine = currentItemLines[UnityEngine.Random.Range(1, currentItemLines.Length)];
+                yield return HandleTextOutput(_currentLine, false);
+            }
         }
     }
 }

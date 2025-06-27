@@ -8,7 +8,6 @@ public class StoreManager : Manager, ISelectable
     [SerializeField] public Canvas MerchantInventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] private TextMeshProUGUI _coinsText;
-    private Item _currentItem;
     private Item _coinsItem;
 
     void Start()

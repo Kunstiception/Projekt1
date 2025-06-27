@@ -19,8 +19,9 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] private TextMeshProUGUI _enemyUIEgo;
     [SerializeField] private Slider _enemyHealthBarBelow;
     [SerializeField] private Slider _enemyEgoBarBelow;
-    [SerializeField] private Canvas _selectionMenuCanvas;
-    [SerializeField] private Canvas _persuasionMenuCanvas;
+    [SerializeField] private Canvas _initialSelectionMenuCanvas;
+    [SerializeField] private Canvas _insultMenuCanvas;
+    [SerializeField] private Canvas _itemUseCanvas;
 
     private int _intitialPlayerHealth;
     private int _playerRoll;
@@ -73,8 +74,9 @@ public class CombatManager : Manager, ISelectable
             exclamation.SetActive(false);
         }
 
-        ToggleCanvas(_selectionMenuCanvas, false);
-        ToggleCanvas(_persuasionMenuCanvas, false);
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
+        ToggleCanvas(_insultMenuCanvas, false);
+        ToggleCanvas(_itemUseCanvas, false);
 
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
 
@@ -200,7 +202,7 @@ public class CombatManager : Manager, ISelectable
     // Gibt falls Player an der Reihe die Auswahlmöglichkeit, wenn Enemy wird Aktion zufälig ausgewürfelt
     private IEnumerator CreateTurn()
     {
-        ToggleCanvas(_selectionMenuCanvas, false);
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
 
         if (_isFirstCombatant)
         {
@@ -239,7 +241,7 @@ public class CombatManager : Manager, ISelectable
 
             _textBox.enabled = false;
 
-            ToggleCanvas(_selectionMenuCanvas, true);
+            ToggleCanvas(_initialSelectionMenuCanvas, true);
 
             _isFighting = true;
             _hasFightStarted = true;
@@ -270,7 +272,7 @@ public class CombatManager : Manager, ISelectable
 
                 StartCoroutine(EndFight(PlayerManager.Instance));
 
-                ToggleCanvas(_selectionMenuCanvas, false);
+                ToggleCanvas(_initialSelectionMenuCanvas, false);
 
                 yield break;
             }
@@ -306,7 +308,7 @@ public class CombatManager : Manager, ISelectable
 
     private IEnumerator DisplayInsultOptions()
     {
-        ToggleCanvas(_selectionMenuCanvas, false);
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
 
         // Wenn keine 2 Optionen mehr gegeben werden können: Ende
         if (_enemyInsultsAndValues.Count < 2)
@@ -318,14 +320,14 @@ public class CombatManager : Manager, ISelectable
 
             _textBox.enabled = false;
 
-            ToggleCanvas(_persuasionMenuCanvas, false);
-            ToggleCanvas(_selectionMenuCanvas, true);
+            ToggleCanvas(_insultMenuCanvas, false);
+            ToggleCanvas(_initialSelectionMenuCanvas, true);
             yield break;
         }
 
-        ToggleCanvas(_persuasionMenuCanvas, true);
+        ToggleCanvas(_insultMenuCanvas, true);
 
-        TextMeshProUGUI[] options = _persuasionMenuCanvas.GetComponentsInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI[] options = _insultMenuCanvas.GetComponentsInChildren<TextMeshProUGUI>();
 
         // Zwei zufällige Optionen und Werte zuweisen und temporärem Dicitionary hinzufügen (falls nicht schon vorhanden, wenn zuvor return ausgewählt wurde und man wieder zurückkehrt)
         // Option aus Original-Dictionary entfernen
@@ -354,7 +356,7 @@ public class CombatManager : Manager, ISelectable
 
         if (defenderEgoPoints <= 0)
         {
-            ToggleCanvas(_persuasionMenuCanvas, false);
+            ToggleCanvas(_insultMenuCanvas, false);
 
             _currentLine = DialogueUtil.CreateCombatLog(defender, "has", $"no ego left to damage!");
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
@@ -374,7 +376,7 @@ public class CombatManager : Manager, ISelectable
         {
             if (ConditionManager.Instance.IsZombie)
             {
-                ToggleCanvas(_persuasionMenuCanvas, false);
+                ToggleCanvas(_insultMenuCanvas, false);
 
                 yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.ZombieInsultAttemptLines));
 
@@ -416,7 +418,7 @@ public class CombatManager : Manager, ISelectable
         }
         else
         {
-            ToggleCanvas(_selectionMenuCanvas, false);
+            ToggleCanvas(_initialSelectionMenuCanvas, false);
 
             if (_enemy.Name != "Zombie")
             {
@@ -447,7 +449,7 @@ public class CombatManager : Manager, ISelectable
         // Insult-Kampf nur ausführen, wenn eine Option ausgewählt wurde
         if (line.Length > 0)
         {
-            ToggleCanvas(_persuasionMenuCanvas, false);
+            ToggleCanvas(_insultMenuCanvas, false);
 
             _currentLine = DialogueUtil.CreateCombatLog(attacker, "attempts", $"to insult {defender.Name}!");
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
@@ -536,7 +538,7 @@ public class CombatManager : Manager, ISelectable
         _textBox.enabled = false;
         _insultTurn = null;
 
-        ToggleCanvas(_selectionMenuCanvas, false);
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
 
         StartCoroutine(EndFight(null));
     }
@@ -544,7 +546,7 @@ public class CombatManager : Manager, ISelectable
     // Eine Runde Kampf
     private IEnumerator CombatTurn(Combatant attacker, Combatant defender, int defenderHealth, int defenderEgoPoints, bool isDisadvantage)
     {
-        ToggleCanvas(_selectionMenuCanvas, false);
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
 
         _textBox.enabled = true;
 
@@ -686,14 +688,14 @@ public class CombatManager : Manager, ISelectable
                 else
                 {
                     _currentLine = DialogueUtil.CreateCombatLog(winner, "has", $"won by scaring off {_enemy.Name} with your despicable existence!");
-                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));              
+                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
                 }
             }
 
             if (winner == PlayerManager.Instance)
             {
                 if (!isRetreat)
-                {                  
+                {
                     yield return StartCoroutine(ManageLoot());
                 }
 
@@ -749,7 +751,7 @@ public class CombatManager : Manager, ISelectable
     {
         _textBox.enabled = true;
 
-        ToggleCanvas(_selectionMenuCanvas, false);
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
 
         _playerRoll = PlayerManager.Instance.GetInitiative() - DiceUtil.D6();
         print($"Player Initiative: {_playerRoll}");
@@ -773,9 +775,9 @@ public class CombatManager : Manager, ISelectable
     // Bestimmt, was die Auswahl im Menü auslöst, zwei Menü-Ebenen möglich
     public void HandleSelectedMenuPoint(int index)
     {
-        if (_selectionMenuCanvas.isActiveAndEnabled)
+        if (_initialSelectionMenuCanvas.isActiveAndEnabled)
         {
-            _selectionMenuCanvas.enabled = false;
+            _initialSelectionMenuCanvas.enabled = false;
 
             // 0 = Insult, 1 = Fight, 2 = Retreat
             switch (index)
@@ -795,14 +797,27 @@ public class CombatManager : Manager, ISelectable
                         _turnCoroutine = StartCoroutine(CombatTurn(attacker: PlayerManager.Instance, defender: _enemy,
                             defenderHealth: enemyHealth, defenderEgoPoints: enemyEgoPoints, isDisadvantage: false));
                     }
+
                     break;
 
                 case 2:
+                    ToggleCanvas(_initialSelectionMenuCanvas, false);
+                    ToggleCanvas(_itemUseCanvas, true);
+
+                    StartCoroutine(SetItemDisplay());
+
+                    break;
+
+                case 3:
                     StartCoroutine(TryRetreat());
+
                     break;
             }
+
+            return;
         }
-        else
+
+        if (_insultMenuCanvas.isActiveAndEnabled)
         {
             var enemyEgo = _combatant2 == _enemy ? _combatant2EgoPoints : _combatant1EgoPoints;
 
@@ -831,11 +846,21 @@ public class CombatManager : Manager, ISelectable
 
                     _enemyCurrentInsultsAndValues.Clear();
 
-                    ToggleCanvas(_persuasionMenuCanvas, false);
+                    ToggleCanvas(_insultMenuCanvas, false);
 
-                    ToggleCanvas(_selectionMenuCanvas, true);
+                    ToggleCanvas(_initialSelectionMenuCanvas, true);
                     break;
             }
+
+            return;
+        }
+
+        if (_itemUseCanvas.isActiveAndEnabled)
+        {
+            // switch (index)
+            // {
+
+            // }
         }
     }
 
@@ -972,17 +997,17 @@ public class CombatManager : Manager, ISelectable
         }
 
         if (_intitialPlayerHealth > PlayerManager.Instance.HealthPoints && !MainManager.Instance.IsDay)
+        {
+            if (_hasDisadvantage)
             {
-                if (_hasDisadvantage)
-                {
-                    ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true);
-                    PlayerManager.Instance.HasDisadvantage = false;
-                }
-
-                StartCoroutine(EndSceneWithCondition());
-
-                yield break;
+                ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true);
+                PlayerManager.Instance.HasDisadvantage = false;
             }
+
+            StartCoroutine(EndSceneWithCondition());
+
+            yield break;
+        }
 
         if (_hasDisadvantage && !ConditionManager.Instance.IsSleepDeprived)
         {
@@ -1043,6 +1068,56 @@ public class CombatManager : Manager, ISelectable
         InventoryManager.Instance.ManageInventory(_coin, randomAmount, true);
 
         _currentLine = $"You have received {randomAmount} coins.";
-        yield return HandleTextOutput(_currentLine, false); 
+        yield return HandleTextOutput(_currentLine, false);
+    }
+
+    private IEnumerator SetItemDisplay()
+    {
+        List<Item> healingItems = new List<Item>();
+
+        List<int> amounts = new List<int>();
+
+        foreach (Item item in InventoryManager.Instance.InventoryItems)
+        {
+            if (item is IUsable && item is HealingItem)
+            {
+                int itemAmount = InventoryManager.Instance.InventoryAmounts[InventoryManager.Instance.InventoryItems.IndexOf(item)];
+
+                if (itemAmount == 0)
+                {
+                    continue;
+                }
+
+                amounts.Add(InventoryManager.Instance.InventoryAmounts[InventoryManager.Instance.InventoryItems.IndexOf(item)]);
+
+                healingItems.Add(item);
+            }
+        }
+
+        if (healingItems.Count == 0)
+        {
+            _currentLine = "You don't carry any potions with you.";
+            yield return HandleTextOutput(_currentLine, false);
+
+            ToggleCanvas(_itemUseCanvas, false);
+            ToggleCanvas(_initialSelectionMenuCanvas, true);
+
+            yield break;
+        }
+
+        TextMeshProUGUI[] texts = _itemUseCanvas.GetComponentsInChildren<TextMeshProUGUI>();
+
+        Image[] pointers = _itemUseCanvas.GetComponentsInChildren<Image>();
+
+        for (int i = 0; i < texts.Length; i++)
+        {
+            if (i > healingItems.Count - 1)
+            {
+                texts[i].text = "";
+                pointers[i].enabled = false;
+            }
+
+            texts[i].text = $"{healingItems[i].Name} x {amounts[i]}";
+        }
     }
 }
