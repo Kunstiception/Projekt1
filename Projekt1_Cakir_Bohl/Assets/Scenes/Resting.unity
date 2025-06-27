@@ -3679,7 +3679,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1418912215
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4006,7 +4006,6 @@ MonoBehaviour:
   _statsCanvas: {fileID: 181590269}
   _playerHealthBarBelow: {fileID: 1950976042321550617}
   _playerEgoBarBelow: {fileID: 1950976042321550616}
-  _playerHealthbarSection: {fileID: 0}
   SelectionMenuCanvas: {fileID: 151432286}
   InventoryCanvas: {fileID: 297626854}
   ItemToDoCanvas: {fileID: 1318539852}

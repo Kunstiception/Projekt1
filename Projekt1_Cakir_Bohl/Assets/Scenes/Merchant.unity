@@ -175,7 +175,6 @@ MonoBehaviour:
   _statsCanvas: {fileID: 1044499555}
   _playerHealthBarBelow: {fileID: 364088642}
   _playerEgoBarBelow: {fileID: 364088640}
-  _playerHealthbarSection: {fileID: 0}
   InitialOptions: {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}
   _followingMenuOptions: {fileID: 1661182318}
   _initialMenuOptions: {fileID: 84388496}
@@ -911,7 +910,6 @@ MonoBehaviour:
   _statsCanvas: {fileID: 1044499555}
   _playerHealthBarBelow: {fileID: 364088642}
   _playerEgoBarBelow: {fileID: 364088640}
-  _playerHealthbarSection: {fileID: 0}
   MerchantInventoryCanvas: {fileID: 132518831}
   ItemToDoCanvas: {fileID: 847975255}
   _coinsText: {fileID: 504542298}
@@ -2710,7 +2708,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1472870298
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3296,7 +3294,6 @@ MonoBehaviour:
   _statsCanvas: {fileID: 1044499555}
   _playerHealthBarBelow: {fileID: 364088642}
   _playerEgoBarBelow: {fileID: 364088640}
-  _playerHealthbarSection: {fileID: 0}
   sceneType: 0
   MerchantInventoryCanvas: {fileID: 132518831}
   ItemToDoCanvas: {fileID: 847975255}
