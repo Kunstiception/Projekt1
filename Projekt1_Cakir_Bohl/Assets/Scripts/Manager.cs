@@ -15,7 +15,6 @@ public class Manager : MonoBehaviour
     [SerializeField] protected Canvas _statsCanvas;
     [SerializeField] protected Slider _playerHealthBarBelow;
     [SerializeField] protected Slider _playerEgoBarBelow;
-    [SerializeField] protected RectTransform _playerHealthbarSection;
     protected Coroutine _textCoroutine;
     protected Coroutine _waitForContinueCoroutine;
     protected int _currentStringIndex = 0;
@@ -77,18 +76,6 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public void TogglePlayerStatsPosition(bool isDefaultPosition)
-    {
-        if (isDefaultPosition)
-        {
-            _playerHealthbarSection.SetLocalPositionAndRotation(GameConfig.HealthbarDefaultPosition, quaternion.identity);
-        }
-        else
-        {
-            _playerHealthbarSection.SetLocalPositionAndRotation(GameConfig.HealthbarAlternativePosition, quaternion.identity);
-        }
-    }
-
     protected IEnumerator PrintMultipleLines(string[] lines)
     {
         _textBox.enabled = true;
@@ -109,7 +96,7 @@ public class Manager : MonoBehaviour
             _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-            _statsCanvas.enabled = true;
+            //_statsCanvas.enabled = true;
 
             StartCoroutine(UpdateUI(GameConfig.VampireSunDamage, PlayerManager.Instance.HealthPoints));
 
@@ -118,7 +105,7 @@ public class Manager : MonoBehaviour
             _currentLine = UIDialogueStorage.VampireSunDamageLines[1];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-            _statsCanvas.enabled = false;
+            //_statsCanvas.enabled = false;
 
             if (PlayerManager.Instance.HealthPoints <= 0)
             {

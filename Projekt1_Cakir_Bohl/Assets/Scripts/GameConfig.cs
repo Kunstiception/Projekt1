@@ -15,6 +15,7 @@ public static class GameConfig
     // Map
     public static float MovementSpeed = 1.5f;
     public static string[] WayPointTypes = { "Empty", "Fight", "Loot", "Interaction", "Resting" };
+    public static int TotalNumberOfDays = 7;
 
     // Combat
     public static float BarsLerpSpeed = 0.75f;
@@ -60,10 +61,6 @@ public static class GameConfig
     public static int WerewolfInsultDamageModifier = 1;
     public static int ConditionScreenWaitTime = 2;
     public static int TotalAmountOfConditions = 4;
-
-    // UI
-    public static UnityEngine.Vector3 HealthbarDefaultPosition = new UnityEngine.Vector3(-379f, 29f, 0f);
-    public static UnityEngine.Vector3 HealthbarAlternativePosition = new UnityEngine.Vector3(113, 29f, 0f);
 
     // Ending
     public static float AnimationTime = 3f;

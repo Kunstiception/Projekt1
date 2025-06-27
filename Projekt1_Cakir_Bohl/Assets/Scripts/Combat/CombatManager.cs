@@ -40,6 +40,7 @@ public class CombatManager : Manager, ISelectable
     private bool _isFighting;
     private bool _hasDisadvantage;
     private bool _isFirstCombatant;
+    private bool _hasEnemyFled;
     private string _egoHitLine;
     private string _egoResistLine;
     private Combatant _enemy;
@@ -60,6 +61,7 @@ public class CombatManager : Manager, ISelectable
         ToggleCursorState(true);
 
         _hasFightStarted = false;
+        _hasEnemyFled = false;
         _isFighting = true;
         _textBox.enabled = true;
         _promptSkip.enabled = true;
@@ -261,6 +263,8 @@ public class CombatManager : Manager, ISelectable
                 yield return HandleTextOutput(_currentLine, false);
 
                 yield return PrintMultipleLines(UIDialogueStorage.EnemyFleeLines);
+
+                _hasEnemyFled = true;
 
                 StopAllCoroutines();
 
@@ -674,8 +678,16 @@ public class CombatManager : Manager, ISelectable
             }
             else
             {
-                _currentLine = DialogueUtil.CreateCombatLog(winner, "has", "won the fight!");
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                if (!_hasEnemyFled)
+                {
+                    _currentLine = DialogueUtil.CreateCombatLog(winner, "has", "won the fight!");
+                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                }
+                else
+                {
+                    _currentLine = DialogueUtil.CreateCombatLog(winner, "has", $"won by scaring off {_enemy.Name} with your despicable existence!");
+                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));              
+                }
             }
 
             if (winner == PlayerManager.Instance)

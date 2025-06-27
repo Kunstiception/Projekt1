@@ -26,21 +26,19 @@ public class RestingManager : Manager, ISelectable, ICondition
         _promptSkip.enabled = false;
         _inventoryDisplayer = InventoryCanvas.GetComponent<InventoryDisplayer>();
 
-        // if (PlayerManager.Instance.HasRoom)
-        // {
-        //     _roomBackground.SetActive(true);
-        //     _outsideBackground.SetActive(false);
-        // }
-        // else
-        // {
-        //     _roomBackground.SetActive(false);
-        //     _outsideBackground.SetActive(true);          
-        // }
+        if (PlayerManager.Instance.HasRoom)
+        {
+            _roomBackground.SetActive(true);
+            _outsideBackground.SetActive(false);
+        }
+        else
+        {
+            _roomBackground.SetActive(false);
+            _outsideBackground.SetActive(true);          
+        }
 
         ToggleCanvas(InventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);
-
-        TogglePlayerStatsPosition(true);
 
         InitializePlayerStats();
     }
@@ -88,7 +86,6 @@ public class RestingManager : Manager, ISelectable, ICondition
                 break;
 
             case 1:
-                TogglePlayerStatsPosition(false);
                 ToggleCanvas(InventoryCanvas, true);
 
                 _textBox.enabled = true;

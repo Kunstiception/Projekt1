@@ -314,7 +314,9 @@ public class MapManager : Manager
                 // Bosskampf nach dem letzten Tag
                 if (MainManager.Instance.CurrentDay == _days.Length - 1)
                 {
-                    _nextSceneIndex = 11;
+                    MainManager.Instance.CurrentDay++;
+
+                    _nextSceneIndex = 1;
 
                     break;
                 }

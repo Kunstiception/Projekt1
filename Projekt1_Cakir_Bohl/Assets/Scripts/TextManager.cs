@@ -22,6 +22,14 @@ public class TextManager : Manager
 
         yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
 
+        // Bosskampf nach dem letzten Tag
+        if (MainManager.Instance.CurrentDay == GameConfig.TotalNumberOfDays)
+        {
+            SceneManager.LoadScene(11);
+
+            yield break;
+        }
+
         SceneManager.LoadScene(2);
     }
 

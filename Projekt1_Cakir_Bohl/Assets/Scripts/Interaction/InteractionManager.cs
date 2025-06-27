@@ -28,16 +28,13 @@ public class InteractionManager : Manager, ISelectable
         ToggleCanvas(InitialMenuCanvas, false);
         ToggleCanvas(DialogueCanvas, false);
 
-        _merchant.SetActive(false);
+        InitializePlayerStats();
 
-        Canvas statsCanvas = _playerHealthbarSection.GetComponentInParent<Canvas>();
-        statsCanvas.enabled = false;
+        _merchant.SetActive(false);
 
         _textBox.enabled = true;
         _promptSkip.enabled = false;
         _promptContinue.enabled = false;
-
-        TogglePlayerStatsPosition(true);
 
         yield return StartCoroutine(EvaluateVampire());
 
@@ -96,7 +93,6 @@ public class InteractionManager : Manager, ISelectable
         switch (index)
         {
             case 0:
-                TogglePlayerStatsPosition(false);
                 ToggleCanvas(MerchantInventoryCanvas, true);
                 ToggleCanvas(InitialMenuCanvas, false);
 

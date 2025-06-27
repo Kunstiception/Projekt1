@@ -20,8 +20,7 @@ public class LootManager : Manager
         _promptSkip.enabled = true;
         _promptContinue.enabled = false;
 
-        Canvas statsCanvas =  _playerHealthbarSection.GetComponentInParent<Canvas>();
-        statsCanvas.enabled = false;
+        InitializePlayerStats();
 
         yield return StartCoroutine(EvaluateVampire());
 

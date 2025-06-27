@@ -131,7 +131,6 @@ public class Merchant : InventoryDisplayer
                 _interactionManager.ToggleCanvas(_interactionManager.InitialMenuCanvas, true);
                 _interactionManager.ToggleCanvas(_interactionManager.MerchantInventoryCanvas, false);
                 _interactionManager.ToggleCanvas(_interactionManager.ItemToDoCanvas, false);
-                _interactionManager.TogglePlayerStatsPosition(true);
 
                 _textBox.text = "";
 
