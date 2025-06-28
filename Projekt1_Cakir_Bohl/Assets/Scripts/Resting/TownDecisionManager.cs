@@ -12,6 +12,8 @@ public class TownDecisionManager : Manager, ISelectable
 
         ToggleCanvas(SelectionMenuCanvas, false);
 
+        InitializePlayerStats();
+
         _promptContinue.enabled = false;
 
         _currentLine = "You have reached a town!";

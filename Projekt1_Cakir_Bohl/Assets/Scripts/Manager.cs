@@ -99,7 +99,7 @@ public class Manager : MonoBehaviour
 
             //_statsCanvas.enabled = true;
 
-            StartCoroutine(UpdateUI(GameConfig.VampireSunDamage, PlayerManager.Instance.HealthPoints));
+            StartCoroutine(UpdateUIDamage(GameConfig.VampireSunDamage, PlayerManager.Instance.HealthPoints));
 
             PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
 
@@ -123,14 +123,14 @@ public class Manager : MonoBehaviour
         yield break;
     }
 
-    public virtual IEnumerator UpdateUI(int damage, int currentHealth)
+    // Visualisiert Schaden von Health in den Leisten
+    public virtual IEnumerator UpdateUIDamage(int damage, int currentHealth)
     {
         float hitValue = (float)damage / (float)PlayerManager.Instance.GetStartingHealth();
 
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            // GameOver Screen
         }
 
         _playerUIHealth.text = $"{currentHealth - damage}/{PlayerManager.Instance.GetStartingHealth()}";
@@ -153,6 +153,47 @@ public class Manager : MonoBehaviour
         }
 
         _playerHealthBarBelow.value = nextValue;
+    }
+
+    // Visualisiert Heilung von Health oder Ego in den Leisten
+    protected IEnumerator UpdateUIHeal(int healAmount, bool isHealthChange, int initialAmount)
+    {
+        float healValue = 0;
+        Slider slider = null;
+
+        if (isHealthChange)
+        {
+            slider = _playerHealthBarBelow;
+            healValue = (float)healAmount / (float)PlayerManager.Instance.GetStartingHealth();
+            _playerUIHealth.text = $"{initialAmount + healAmount}/{PlayerManager.Instance.GetStartingHealth()}";
+        }
+        else
+        {
+            slider = _playerEgoBarBelow;
+            healValue = (float)healAmount / (float)PlayerManager.Instance.GetStartingEgo();
+            _playerUIEgo.text = $"{initialAmount + healAmount}/{PlayerManager.Instance.GetStartingEgo()}";
+        }
+
+        float currentValue = slider.value;
+        float nextValue = currentValue + healValue;
+        float lerpValue = 0;
+
+        // Untere Healthbar setzen
+        slider.value = nextValue;
+
+        yield return new WaitForSeconds(GameConfig.TimeBeforeHealthbarUpdate);
+
+        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(slider.gameObject);
+        childSlider.GetComponent<Slider>().value = nextValue;
+
+        while (lerpValue <= 1 && lerpValue >= 0)
+        {
+            lerpValue += GameConfig.BarsLerpSpeed * Time.deltaTime;
+            childSlider.value = Mathf.Lerp(currentValue, nextValue, lerpValue / healValue);
+            yield return null;
+        }
+
+        childSlider.value = nextValue;
     }
 
     protected void InitializePlayerStats()

@@ -14,6 +14,7 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] private GameObject _guard;
     [SerializeField] private GameObject _hitParticles;
     [SerializeField] private GameObject[] _exclamations;
+    [SerializeField] private GameObject[] _itemOptions;
     [SerializeField] private Item _coin;
     [SerializeField] private TextMeshProUGUI _enemyUIHealth;
     [SerializeField] private TextMeshProUGUI _enemyUIEgo;
@@ -54,6 +55,7 @@ public class CombatManager : Manager, ISelectable
     private Dictionary<string, int> _enemyInsultsAndValues = new Dictionary<string, int>();
     private Dictionary<string, int> _enemyCurrentInsultsAndValues = new Dictionary<string, int>();
     private Dictionary<string, int> _playerInsultsAndValues = new Dictionary<string, int>();
+    private List<Item> _healingItems = new List<Item>();
 
     public static event Action OnFightFinished;
 
@@ -77,6 +79,11 @@ public class CombatManager : Manager, ISelectable
         ToggleCanvas(_initialSelectionMenuCanvas, false);
         ToggleCanvas(_insultMenuCanvas, false);
         ToggleCanvas(_itemUseCanvas, false);
+
+        foreach (GameObject option in _itemOptions)
+        {
+            option.SetActive(false);
+        }
 
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
 
@@ -116,9 +123,16 @@ public class CombatManager : Manager, ISelectable
         yield return StartCoroutine(RollInitiative(_hasDisadvantage));
     }
 
+    void OnEnable()
+    {
+        HealingItem.onHeal += SetUIUpdate;
+    }
+
     void OnDisable()
     {
         StopAllCoroutines();
+
+        HealingItem.onHeal -= SetUIUpdate;
     }
 
     void Update()
@@ -712,16 +726,16 @@ public class CombatManager : Manager, ISelectable
                     yield break;
                 }
 
-                if (_combatant1 == PlayerManager.Instance)
-                {
-                    PlayerManager.Instance.HealthPoints = _combatant1Health;
-                    PlayerManager.Instance.EgoPoints = _combatant1EgoPoints;
-                }
-                else
-                {
-                    PlayerManager.Instance.HealthPoints = _combatant2Health;
-                    PlayerManager.Instance.EgoPoints = _combatant2EgoPoints;
-                }
+                // if (_combatant1 == PlayerManager.Instance)
+                // {
+                //     PlayerManager.Instance.HealthPoints = _combatant1Health;
+                //     PlayerManager.Instance.EgoPoints = _combatant1EgoPoints;
+                // }
+                // else
+                // {
+                //     PlayerManager.Instance.HealthPoints = _combatant2Health;
+                //     PlayerManager.Instance.EgoPoints = _combatant2EgoPoints;
+                // }
 
                 StartCoroutine(CheckForSleepDeprived());
 
@@ -738,6 +752,17 @@ public class CombatManager : Manager, ISelectable
         }
         else
         {
+            if (_combatant1 == PlayerManager.Instance)
+            {
+                PlayerManager.Instance.HealthPoints = _combatant1Health;
+                PlayerManager.Instance.EgoPoints = _combatant1EgoPoints;
+            }
+            else
+            {
+                PlayerManager.Instance.HealthPoints = _combatant2Health;
+                PlayerManager.Instance.EgoPoints = _combatant2EgoPoints;
+            }
+
             _textBox.enabled = false;
             _isFighting = false;
             _promptSkip.enabled = false;
@@ -772,7 +797,7 @@ public class CombatManager : Manager, ISelectable
         }
     }
 
-    // Bestimmt, was die Auswahl im Menü auslöst, zwei Menü-Ebenen möglich
+    // Bestimmt, was die Auswahl im Menü auslöst
     public void HandleSelectedMenuPoint(int index)
     {
         if (_initialSelectionMenuCanvas.isActiveAndEnabled)
@@ -825,12 +850,13 @@ public class CombatManager : Manager, ISelectable
             switch (index)
             {
                 case 0:
-
                     _turnCoroutine = StartCoroutine(InsultTurn(PlayerManager.Instance, _enemy, enemyEgo, 0));
+
                     break;
 
                 case 1:
                     _turnCoroutine = StartCoroutine(InsultTurn(PlayerManager.Instance, _enemy, enemyEgo, 1));
+
                     break;
 
                 case 2:
@@ -849,6 +875,7 @@ public class CombatManager : Manager, ISelectable
                     ToggleCanvas(_insultMenuCanvas, false);
 
                     ToggleCanvas(_initialSelectionMenuCanvas, true);
+
                     break;
             }
 
@@ -857,11 +884,46 @@ public class CombatManager : Manager, ISelectable
 
         if (_itemUseCanvas.isActiveAndEnabled)
         {
-            // switch (index)
-            // {
+            switch (index)
+            {
+                case 0:
+                    _currentItem = _healingItems[index];
 
-            // }
+                    StartCoroutine(UseSelectedItem());
+
+                    ToggleCanvas(_itemUseCanvas, false);
+
+                    break;
+
+                case 1:
+                    if (_healingItems.Count <= index)
+                    {
+                        ToggleCanvas(_itemUseCanvas, false);
+                    }
+                    else
+                    {
+                        _currentItem = _healingItems[index];
+
+                        StartCoroutine(UseSelectedItem());
+
+                        ToggleCanvas(_itemUseCanvas, false);
+                    }
+
+                    break;
+
+                case 2:
+                    ToggleCanvas(_itemUseCanvas, false);
+                    ToggleCanvas(_initialSelectionMenuCanvas, true);
+
+                    break;
+            }
         }
+    }
+
+        // Nimmt die nötigen Infos für das UI-Update auf und startet Coroutine
+    private void SetUIUpdate(bool isHealthHeal, int initialAmount, int healingAmount)
+    {
+        StartCoroutine(UpdateUIHeal(healingAmount, isHealthHeal, initialAmount));
     }
 
     // Zeigt visuelles Feedback bei den Health- und Ego-Balken an, zuerst wird ein Balken auf den Zielwert gesetzt und der andere gelerpt
@@ -1073,7 +1135,12 @@ public class CombatManager : Manager, ISelectable
 
     private IEnumerator SetItemDisplay()
     {
-        List<Item> healingItems = new List<Item>();
+        _healingItems.Clear();
+
+        foreach (GameObject option in _itemOptions)
+        {
+            option.SetActive(false);
+        }
 
         List<int> amounts = new List<int>();
 
@@ -1090,14 +1157,20 @@ public class CombatManager : Manager, ISelectable
 
                 amounts.Add(InventoryManager.Instance.InventoryAmounts[InventoryManager.Instance.InventoryItems.IndexOf(item)]);
 
-                healingItems.Add(item);
+                _healingItems.Add(item);
             }
         }
 
-        if (healingItems.Count == 0)
+        if (_healingItems.Count == 0)
         {
+            _textBox.enabled = true;
+
+            ToggleCanvas(_itemUseCanvas, false);
+
             _currentLine = "You don't carry any potions with you.";
             yield return HandleTextOutput(_currentLine, false);
+
+            _textBox.text = "";
 
             ToggleCanvas(_itemUseCanvas, false);
             ToggleCanvas(_initialSelectionMenuCanvas, true);
@@ -1105,19 +1178,95 @@ public class CombatManager : Manager, ISelectable
             yield break;
         }
 
-        TextMeshProUGUI[] texts = _itemUseCanvas.GetComponentsInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI[] texts;
 
-        Image[] pointers = _itemUseCanvas.GetComponentsInChildren<Image>();
+        if (_healingItems.Count == 1)
+        {
+            _itemOptions[0].SetActive(true);
+            _itemOptions[0].GetComponent<SelectionMenu>().IsActive = true;
+
+            texts = _itemOptions[0].GetComponentsInChildren<TextMeshProUGUI>();
+        }
+        else
+        {
+            _itemOptions[1].SetActive(true);
+            _itemOptions[1].GetComponent<SelectionMenu>().IsActive = true;
+
+            texts = _itemOptions[1].GetComponentsInChildren<TextMeshProUGUI>();
+        }
 
         for (int i = 0; i < texts.Length; i++)
         {
-            if (i > healingItems.Count - 1)
+            if (i > _healingItems.Count)
             {
-                texts[i].text = "";
-                pointers[i].enabled = false;
+                texts[i].enabled = false;
+
+                continue;
             }
 
-            texts[i].text = $"{healingItems[i].Name} x {amounts[i]}";
+            if (i == _healingItems.Count)
+            {
+                texts[i].text = "Return";
+
+                continue;
+            }
+
+            texts[i].text = $"{_healingItems[i].Name} x {amounts[i]}";
         }
+    }
+
+    public override IEnumerator UseSelectedItem()
+    {
+        _textBox.enabled = true;
+
+        bool isHealthHeal = false;
+        bool isEgoHeal = false;
+
+        int egoBefore = PlayerManager.Instance.EgoPoints;
+        int healthBefore = PlayerManager.Instance.HealthPoints;
+
+        yield return base.UseSelectedItem();
+
+        int egoAfter = PlayerManager.Instance.EgoPoints;
+        int healthAfter = PlayerManager.Instance.HealthPoints;
+
+        if (egoAfter > egoBefore)
+        {
+            isEgoHeal = true;
+        }
+
+        if (healthAfter > healthBefore)
+        {
+            isHealthHeal = true;
+        }     
+
+        if (_combatant1 == PlayerManager.Instance)
+            {
+                if (isHealthHeal)
+                {
+                    _combatant1Health = PlayerManager.Instance.HealthPoints;               
+                }
+
+                if (isEgoHeal)
+                {
+                    _combatant1EgoPoints = PlayerManager.Instance.EgoPoints;           
+                }
+            }
+            else
+            {
+                if (isHealthHeal)
+                {
+                    _combatant2Health = PlayerManager.Instance.HealthPoints;               
+                }
+
+                if (isEgoHeal)
+                {
+                    _combatant2EgoPoints = PlayerManager.Instance.EgoPoints;           
+                }
+            }
+
+        StartCoroutine(EndFight(null));
+
+        ToggleCanvas(_initialSelectionMenuCanvas, true);
     }
 }

@@ -195,28 +195,6 @@ public class RestingManager : Manager, ISelectable, ICondition
     // Verbraucht das Item (was eine Liste an strings zurückgibt, um die Aktion zu beschreiben)
     public override IEnumerator UseSelectedItem()
     {
-        // if (_currentItem is not IUsable)
-        // {
-        //     yield break;
-        // }
-
-        // var iUsable = _currentItem as IUsable;
-
-        // string[] currentItemLines = iUsable.UseItem().ToArray();
-
-        // // Erste Line immer zeigen, auswürfeln ob auch eine zweite angezeigt wird (eine Art Easter Egg)
-        // _currentLine = currentItemLines[0];
-        // yield return HandleTextOutput(_currentLine, false);
-
-        // if (currentItemLines.Length > 1)
-        // {
-        //     if (DiceUtil.D10() > GameConfig.ChanceForSecondLine)
-        //     {
-        //         _currentLine = currentItemLines[UnityEngine.Random.Range(1, currentItemLines.Length)];
-        //         yield return HandleTextOutput(_currentLine, false);
-        //     }
-        // }
-
         yield return base.UseSelectedItem();
 
         _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
@@ -336,8 +314,8 @@ public class RestingManager : Manager, ISelectable, ICondition
             }
             else
             {
-                StartCoroutine(UpdateUI(healthHeal, true, PlayerManager.Instance.HealthPoints - healthHeal));
-                StartCoroutine(UpdateUI(egoHeal, false, PlayerManager.Instance.EgoPoints - egoHeal));
+                StartCoroutine(UpdateUIHeal(healthHeal, true, PlayerManager.Instance.HealthPoints - healthHeal));
+                StartCoroutine(UpdateUIHeal(egoHeal, false, PlayerManager.Instance.EgoPoints - egoHeal));
 
                 _currentLine = $"You have recovered {healthHeal} health and {egoHeal} ego...";
                 yield return HandleTextOutput(_currentLine, false);
@@ -367,7 +345,7 @@ public class RestingManager : Manager, ISelectable, ICondition
 
             if (PlayerManager.Instance.HealthPoints < PlayerManager.Instance.GetStartingHealth())
             {
-                StartCoroutine(UpdateUI(PlayerManager.Instance.GetStartingHealth() - PlayerManager.Instance.HealthPoints, true, PlayerManager.Instance.HealthPoints));
+                StartCoroutine(UpdateUIHeal(PlayerManager.Instance.GetStartingHealth() - PlayerManager.Instance.HealthPoints, true, PlayerManager.Instance.HealthPoints));
 
                 PlayerManager.Instance.HealthPoints = PlayerManager.Instance.GetStartingHealth();
 
@@ -376,7 +354,7 @@ public class RestingManager : Manager, ISelectable, ICondition
 
             if (PlayerManager.Instance.EgoPoints < PlayerManager.Instance.GetStartingEgo())
             {
-                StartCoroutine(UpdateUI(PlayerManager.Instance.GetStartingEgo() - PlayerManager.Instance.EgoPoints, false, PlayerManager.Instance.EgoPoints));
+                StartCoroutine(UpdateUIHeal(PlayerManager.Instance.GetStartingEgo() - PlayerManager.Instance.EgoPoints, false, PlayerManager.Instance.EgoPoints));
 
                 PlayerManager.Instance.EgoPoints = PlayerManager.Instance.GetStartingEgo();
 
@@ -421,48 +399,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     // Nimmt die nötigen Infos für das UI-Update auf und startet Coroutine
     private void SetUIUpdate(bool isHealthHeal, int initialAmount, int healingAmount)
     {
-        StartCoroutine(UpdateUI(healingAmount, isHealthHeal, initialAmount));
-    }
-
-    // Visualisiert Heilung von Health oder Ego in den Leisten
-    private IEnumerator UpdateUI(int healAmount, bool isHealthChange, int initialAmount)
-    {
-        float healValue = 0;
-        Slider slider = null;
-
-        if (isHealthChange)
-        {
-            slider = _playerHealthBarBelow;
-            healValue = (float)healAmount / (float)PlayerManager.Instance.GetStartingHealth();
-            _playerUIHealth.text = $"{initialAmount + healAmount}/{PlayerManager.Instance.GetStartingHealth()}";
-        }
-        else
-        {
-            slider = _playerEgoBarBelow;
-            healValue = (float)healAmount / (float)PlayerManager.Instance.GetStartingEgo();
-            _playerUIEgo.text = $"{initialAmount + healAmount}/{PlayerManager.Instance.GetStartingEgo()}";
-        }
-
-        float currentValue = slider.value;
-        float nextValue = currentValue + healValue;
-        float lerpValue = 0;
-
-        // Untere Healthbar setzen
-        slider.value = nextValue;
-
-        yield return new WaitForSeconds(GameConfig.TimeBeforeHealthbarUpdate);
-
-        var childSlider = UnityUtil.GetFirstComponentInChildren<Slider>(slider.gameObject);
-        childSlider.GetComponent<Slider>().value = nextValue;
-
-        while (lerpValue <= 1 && lerpValue >= 0)
-        {
-            lerpValue += GameConfig.BarsLerpSpeed * Time.deltaTime;
-            childSlider.value = Mathf.Lerp(currentValue, nextValue, lerpValue / healValue);
-            yield return null;
-        }
-
-        childSlider.value = nextValue;
+        StartCoroutine(UpdateUIHeal(healingAmount, isHealthHeal, initialAmount));
     }
 
     private IEnumerator EndWithoutSleep()

@@ -14,7 +14,6 @@ public class PondManager : Manager, ISelectable
         ToggleCursorState(true);
 
         ToggleCanvas(_selectionMenuCanvas, false);
-        ToggleCanvas(_statsCanvas, false);
 
         yield return StartCoroutine(EvaluateVampire());
 
@@ -59,8 +58,6 @@ public class PondManager : Manager, ISelectable
         bool wasHurt = false;
 
         yield return PrintMultipleLines(UIDialogueStorage.PondEntryLines);
-
-        ToggleCanvas(_statsCanvas, true);
 
         if (PlayerManager.Instance.HealthPoints < PlayerManager.Instance.GetStartingHealth())
         {

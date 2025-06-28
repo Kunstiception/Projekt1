@@ -19,9 +19,9 @@ public class EgoPotion : HealingItem, IUsable
 
         _healingAmount = Random.Range(GameConfig.MinimumHeal, GameConfig.MaximumHeal + 1);
 
-        if((PlayerManager.Instance.EgoPoints + _healingAmount) > _initialAmount)
+        if((PlayerManager.Instance.EgoPoints + _healingAmount) > PlayerManager.Instance.GetStartingEgo())
         {
-            _healingAmount = PlayerManager.Instance.GetStartingEgo() - _initialAmount;
+            _healingAmount = PlayerManager.Instance.GetStartingEgo() - PlayerManager.Instance.EgoPoints;
         }
 
         PlayerManager.Instance.EgoPoints += _healingAmount;

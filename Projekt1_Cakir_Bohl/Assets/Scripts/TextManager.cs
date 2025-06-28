@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +11,8 @@ public class TextManager : Manager
 
     IEnumerator Start()
     {
+        ToggleCursorState(true);
+
         _promptContinue.enabled = false;
 
         yield return CheckConditionAmount();
@@ -49,7 +50,7 @@ public class TextManager : Manager
 
         MainManager.Instance.ConditionAmount = conditionAmount;
 
-        VoiceLines voiceLines = _condtionComments[conditionAmount];
+        VoiceLines voiceLines = _condtionComments[conditionAmount - 1];
 
         _currentLine = voiceLines.Lines[UnityEngine.Random.Range(0, voiceLines.Lines.Length)];
         yield return HandleTextOutput(_currentLine, false);
