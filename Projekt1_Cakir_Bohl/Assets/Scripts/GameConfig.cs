@@ -31,7 +31,9 @@ public static class GameConfig
     public static int VampireCaughtChance = 3;
 
     // Looting
-    public static int MaximumLootableItems = 2;
+    public static int LootCountDay = 1;
+    public static int LootCountNight = 2;
+    public static int EquipmentChance = 5;
     public static int EquipmentToAdd = 2;
     public static float WaitTimeAfterLoot = 0.25f;
     public static int MinimumCoinAmountDay = 2;

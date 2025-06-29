@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class RestingManager : Manager, ISelectable, ICondition
 {
@@ -331,7 +330,7 @@ public class RestingManager : Manager, ISelectable, ICondition
 
             PlayerManager.Instance.HasDisadvantage = true;
 
-            PlayerManager.Instance.HasFinishedDay = false;
+            SetUpNextDay(false);
 
             SceneManager.LoadScene(4);
             yield break;

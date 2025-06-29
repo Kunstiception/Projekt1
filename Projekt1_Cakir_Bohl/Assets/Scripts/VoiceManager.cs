@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TextManager : Manager
+public class VoiceManager : Manager
 {
     [SerializeField] private VoiceLines[] _voiceLines;
     [SerializeField] private VoiceLines[] _condtionComments;

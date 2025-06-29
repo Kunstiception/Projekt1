@@ -23,6 +23,8 @@ public class TavernManager : Manager, ISelectable
     {
         ToggleCursorState(true);
 
+        InitializePlayerStats();
+
         _hasChosenToBite = false;
 
         _promptContinue.enabled = false;

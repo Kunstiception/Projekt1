@@ -92,20 +92,21 @@ public class CombatManager : Manager, ISelectable
             if (MainManager.Instance.IsDay)
             {
                 var randomIndex = UnityEngine.Random.Range(0, _enemiesDay.Length);
+                Instantiate(_enemiesDay[randomIndex]);
                 _enemy = _enemiesDay[randomIndex].GetComponent<Combatant>();
             }
             else
             {
                 var randomIndex = UnityEngine.Random.Range(0, _enemiesNight.Length);
+                Instantiate(_enemiesNight[randomIndex]);
                 _enemy = _enemiesNight[randomIndex].GetComponent<Combatant>();
             }
         }
         else
         {
+            Instantiate(_guard);
             _enemy = _guard.GetComponent<Combatant>();
         }
-
-        Instantiate(_enemy);
 
         // Alle Insult Lines und Values des jeweiligen Gegners holen
         for (int i = 0; i < _enemy.InsultLines.Insults.Length; i++)
@@ -726,17 +727,6 @@ public class CombatManager : Manager, ISelectable
                     yield break;
                 }
 
-                // if (_combatant1 == PlayerManager.Instance)
-                // {
-                //     PlayerManager.Instance.HealthPoints = _combatant1Health;
-                //     PlayerManager.Instance.EgoPoints = _combatant1EgoPoints;
-                // }
-                // else
-                // {
-                //     PlayerManager.Instance.HealthPoints = _combatant2Health;
-                //     PlayerManager.Instance.EgoPoints = _combatant2EgoPoints;
-                // }
-
                 StartCoroutine(CheckForSleepDeprived());
 
                 yield break;
@@ -761,6 +751,11 @@ public class CombatManager : Manager, ISelectable
             {
                 PlayerManager.Instance.HealthPoints = _combatant2Health;
                 PlayerManager.Instance.EgoPoints = _combatant2EgoPoints;
+            }
+
+            if (PlayerManager.Instance.EgoPoints < 0)
+            {
+                PlayerManager.Instance.EgoPoints = 0;
             }
 
             _textBox.enabled = false;
@@ -899,6 +894,9 @@ public class CombatManager : Manager, ISelectable
                     if (_healingItems.Count <= index)
                     {
                         ToggleCanvas(_itemUseCanvas, false);
+                        ToggleCanvas(_initialSelectionMenuCanvas, true);
+
+                        _itemOptions[0].GetComponent<SelectionMenu>().SetInitialPointer();
                     }
                     else
                     {
@@ -914,6 +912,8 @@ public class CombatManager : Manager, ISelectable
                 case 2:
                     ToggleCanvas(_itemUseCanvas, false);
                     ToggleCanvas(_initialSelectionMenuCanvas, true);
+
+                    _itemOptions[1].GetComponent<SelectionMenu>().SetInitialPointer();
 
                     break;
             }
@@ -1266,7 +1266,5 @@ public class CombatManager : Manager, ISelectable
             }
 
         StartCoroutine(EndFight(null));
-
-        ToggleCanvas(_initialSelectionMenuCanvas, true);
     }
 }

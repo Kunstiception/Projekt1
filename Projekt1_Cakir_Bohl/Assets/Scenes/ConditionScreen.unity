@@ -304,15 +304,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b8e38244f5c6740a1a6cd9ef1d57d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _texts: []
   _textBox: {fileID: 2124248409}
   _promptSkip: {fileID: 2124248408}
   _promptContinue: {fileID: 2124248407}
   _playerUIHealth: {fileID: 0}
   _playerUIEgo: {fileID: 0}
+  _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
-  _playerHealthbarSection: {fileID: 0}
   _sleepDeprivedText: {fileID: 3784989534687983191, guid: 3d8b8992ff4b1c74a9c1dc04f7ad52b8, type: 3}
   _zombieText: {fileID: 3346056810496872483, guid: f35e24107b1571a4db5863bd8eead685, type: 3}
   _werewolfText: {fileID: 4703404049014851626, guid: 84299f3b54b8cd0448696b278ef416b2, type: 3}
@@ -420,6 +419,14 @@ PrefabInstance:
     - target: {fileID: 3371196376612260389, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -488.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406904738380157648, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_margin.x
+      value: -339.25665
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406904738380157648, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_margin.z
+      value: -338.29932
       objectReference: {fileID: 0}
     - target: {fileID: 5521054877559550573, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
       propertyPath: m_AnchoredPosition.y

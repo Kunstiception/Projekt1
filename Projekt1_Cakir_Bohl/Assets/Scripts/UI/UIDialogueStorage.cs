@@ -3,7 +3,7 @@ public static class UIDialogueStorage
     public static string[] SleepDeprivedLines =
         {"You feel weakened by your lack of sleep."};
     public static string[] HealedSleepDeprivedLines =
-        {"A good night's sleep has made your body regain its agility."};
+        {"Your body has regained its agility."};
     public static string[] VampireLines =
         {"You feel... a hunger.",
         "A hunger for BLOOD!"};
@@ -102,6 +102,6 @@ public static class UIDialogueStorage
         "The world around you is silent."};
     public static string[] PondEntryLines =
         {"You take off your armor.",
-        "Slowly you enter the pond step by step until the cold water covers most of your body",
+        "Slowly you enter the pond step by step until the cold water covers most of your body.",
         "You feel your ailments wash away."};
 }

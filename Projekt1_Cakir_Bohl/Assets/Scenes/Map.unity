@@ -5825,7 +5825,6 @@ MonoBehaviour:
   _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
-  _playerHealthbarSection: {fileID: 0}
   _player: {fileID: 439538100}
   _firstWaypoints:
   - {fileID: 931179231}
@@ -7586,7 +7585,7 @@ PrefabInstance:
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: AdjacentWaypoints.Array.data[0]
       value: 
-      objectReference: {fileID: 1143202424}
+      objectReference: {fileID: 1233284663}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 

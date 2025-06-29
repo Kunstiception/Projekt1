@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LootManager : Manager
 {
@@ -10,7 +8,6 @@ public class LootManager : Manager
     [SerializeField] private Item[] _possibleEquipment;
 
     private Item _item;
-    private List<Item> _tempItems = new List<Item>();
 
     IEnumerator Start()
     {
@@ -32,11 +29,6 @@ public class LootManager : Manager
             SceneManager.LoadScene(2);
 
             yield break;
-        }
-        
-        foreach (Item item in _possibleItems)
-        {
-            _tempItems.Add(item);
         }
 
         _currentLine = "There is a treasure chest!";
@@ -62,16 +54,24 @@ public class LootManager : Manager
 
     private int CreateLootCount()
     {
-        int lootCount = 0;
+        int lootCount;
+
         int maxLootCount = GameConfig.MaxInventorySlots - InventoryManager.Instance.InventoryItems.Count;
 
-        if (maxLootCount >= GameConfig.MaximumLootableItems)
+        if (MainManager.Instance.IsDay)
         {
-            lootCount = UnityEngine.Random.Range(1, GameConfig.MaximumLootableItems + 1);
+            lootCount = GameConfig.LootCountDay;
         }
         else
         {
-            lootCount = UnityEngine.Random.Range(1, maxLootCount + 1);
+            if (DiceUtil.D10() > GameConfig.EquipmentChance)
+            {
+                lootCount = GameConfig.LootCountNight;
+            }
+            else
+            {
+                lootCount = GameConfig.LootCountDay;
+            }
         }
 
         return lootCount;
@@ -80,40 +80,25 @@ public class LootManager : Manager
     private IEnumerator SelectRandomItemsAndAmounts(int lootCount)
     {
         int randomIndex;
-        int randomAmount;
 
         for (int i = 1; i <= lootCount; i++)
         {
             if (!MainManager.Instance.IsDay && i == lootCount)
             {
-                for (int j = 0; j < GameConfig.EquipmentToAdd; j++)
-                {
-                    randomIndex = UnityEngine.Random.Range(0, _possibleEquipment.Length);
+                randomIndex = UnityEngine.Random.Range(0, _possibleEquipment.Length);
 
-                    _tempItems.Add(_possibleEquipment[randomIndex]);
-                }
-            }
-
-            randomIndex = UnityEngine.Random.Range(0, _tempItems.Count);
-
-            _item = _tempItems[randomIndex];
-
-            if (_item is Equipment)
-            {
-                randomAmount = 1;
+                _item = _possibleEquipment[randomIndex];
             }
             else
-            {
-                randomAmount = UnityEngine.Random.Range(_item.MinimumAmountOnLoot, _item.MaximumAmountOnLoot + 1);         
+            {         
+                randomIndex = UnityEngine.Random.Range(0, _possibleItems.Length);
+
+                _item = _possibleItems[randomIndex];
             }
 
-            _tempItems.RemoveAt(randomIndex);                       
+            InventoryManager.Instance.ManageInventory(_item, 1, true);  
 
-            InventoryManager.Instance.ManageInventory(_item, randomAmount, true);
-
-            _currentLine = DialogueUtil.AddEnding($"You have found {randomAmount} {_item.Name}", randomAmount);
-            _currentLine += "!";
-
+            _currentLine = _currentLine = $"You have found {_item.Name}!";
             yield return HandleTextOutput(_currentLine, false);
         }
 
