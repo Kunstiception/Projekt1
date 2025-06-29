@@ -89,17 +89,25 @@ public class CombatManager : Manager, ISelectable
 
         if (!PlayerManager.Instance.GotCaught)
         {
-            if (MainManager.Instance.IsDay)
+            if (!PlayerManager.Instance.HasReachedBoss)
             {
-                var randomIndex = UnityEngine.Random.Range(0, _enemiesDay.Length);
-                Instantiate(_enemiesDay[randomIndex]);
-                _enemy = _enemiesDay[randomIndex].GetComponent<Combatant>();
+                if (MainManager.Instance.IsDay)
+                {
+                    var randomIndex = UnityEngine.Random.Range(0, _enemiesDay.Length);
+                    Instantiate(_enemiesDay[randomIndex]);
+                    _enemy = _enemiesDay[randomIndex].GetComponent<Combatant>();
+                }
+                else
+                {
+                    var randomIndex = UnityEngine.Random.Range(0, _enemiesNight.Length);
+                    Instantiate(_enemiesNight[randomIndex]);
+                    _enemy = _enemiesNight[randomIndex].GetComponent<Combatant>();
+                }
             }
             else
             {
-                var randomIndex = UnityEngine.Random.Range(0, _enemiesNight.Length);
-                Instantiate(_enemiesNight[randomIndex]);
-                _enemy = _enemiesNight[randomIndex].GetComponent<Combatant>();
+                // Instantiate(_endBoss);
+                // _enemy = _endBoss.GetComponent<Combatant>();
             }
         }
         else
@@ -799,7 +807,7 @@ public class CombatManager : Manager, ISelectable
         {
             _initialSelectionMenuCanvas.enabled = false;
 
-            // 0 = Insult, 1 = Fight, 2 = Retreat
+            // 0 = Insult, 1 = Fight, 2 = UsePotion, 3 = Retreat
             switch (index)
             {
                 case 0:

@@ -20,7 +20,6 @@ public class MapManager : Manager
     private float _movementLength;
     private float _timer;
     private string _interactableTag = "Interactable";
-    //private string _nonInteractableTag = "Non_Interactable";
     private Transform _nextWaypoint;
     private Coroutine _movementCoroutine;
     private Transform _currentWaypoint;
@@ -315,6 +314,8 @@ public class MapManager : Manager
                 if (MainManager.Instance.CurrentDay == _days.Length - 1)
                 {
                     MainManager.Instance.CurrentDay++;
+
+                    PlayerManager.Instance.HasReachedBoss = true;
 
                     _nextSceneIndex = 1;
 
