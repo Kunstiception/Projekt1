@@ -9,54 +9,55 @@ using UnityEngine.UI;
 
 public class CombatManager : Manager, ISelectable
 {
+    [SerializeField] protected GameObject _hitParticles;
+    [SerializeField] protected GameObject[] _exclamations;
+    [SerializeField] protected TextMeshProUGUI _enemyUIHealth;
+    [SerializeField] protected TextMeshProUGUI _enemyUIEgo;
+    [SerializeField] protected Slider _enemyHealthBarBelow;
+    [SerializeField] protected Slider _enemyEgoBarBelow;
+    [SerializeField] protected Canvas _initialSelectionMenuCanvas;
+    [SerializeField] protected GameObject _endBoss;
     [SerializeField] private GameObject[] _enemiesDay;
     [SerializeField] private GameObject[] _enemiesNight;
     [SerializeField] private GameObject _guard;
-    [SerializeField] private GameObject _hitParticles;
-    [SerializeField] private GameObject[] _exclamations;
+    [SerializeField] private Canvas _insultMenuCanvas;
     [SerializeField] private GameObject[] _itemOptions;
     [SerializeField] private Item _coin;
-    [SerializeField] private TextMeshProUGUI _enemyUIHealth;
-    [SerializeField] private TextMeshProUGUI _enemyUIEgo;
-    [SerializeField] private Slider _enemyHealthBarBelow;
-    [SerializeField] private Slider _enemyEgoBarBelow;
-    [SerializeField] private Canvas _initialSelectionMenuCanvas;
-    [SerializeField] private Canvas _insultMenuCanvas;
     [SerializeField] private Canvas _itemUseCanvas;
 
-    private int _intitialPlayerHealth;
-    private int _playerRoll;
-    private int _enemyRoll;
-    private int _combatant1Health;
-    private int _combatant2Health;
-    private int _attackerHealth;
-    private int _defenderHealth;
-    private int _defenderEgoPoints;
-    private int _rawDamage;
-    private int _finalDamage;
-    private int _accuracy;
-    private int _evasion;
-    private int _combatant1EgoPoints;
-    private int _combatant2EgoPoints;
-    private bool _hasFightStarted;
-    private bool _isFighting;
-    private bool _hasDisadvantage;
-    private bool _isFirstCombatant;
+    protected int _playerRoll;
+    protected int _enemyRoll;
+    protected int _combatant1Health;
+    protected int _combatant2Health;
+    protected int _attackerHealth;
+    protected int _defenderHealth;
+    protected int _defenderEgoPoints;
+    protected int _rawDamage;
+    protected int _finalDamage;
+    protected int _accuracy;
+    protected int _evasion;
+    protected int _combatant1EgoPoints;
+    protected int _combatant2EgoPoints;
+    protected bool _hasFightStarted;
+    protected bool _isFighting;
+    protected bool _isFirstCombatant;
+    protected string _egoHitLine;
+    protected string _egoResistLine;
+    protected Combatant _enemy;
+    protected Combatant _attackingCombatant;
+    protected Combatant _defendingCombatant;
+    protected Combatant _combatant1;
+    protected Combatant _combatant2;
+    protected Coroutine _turnCoroutine;
+    protected Coroutine _insultTurn;
+    protected Dictionary<string, int> _enemyInsultsAndValues = new Dictionary<string, int>();
+    protected Dictionary<string, int> _enemyCurrentInsultsAndValues = new Dictionary<string, int>();
+    protected Dictionary<string, int> _playerInsultsAndValues = new Dictionary<string, int>();
     private bool _hasEnemyFled;
-    private string _egoHitLine;
-    private string _egoResistLine;
-    private Combatant _enemy;
-    private Combatant _attackingCombatant;
-    private Combatant _defendingCombatant;
-    private Combatant _combatant1;
-    private Combatant _combatant2;
-    private Coroutine _turnCoroutine;
-    private Coroutine _insultTurn;
-    private Dictionary<string, int> _enemyInsultsAndValues = new Dictionary<string, int>();
-    private Dictionary<string, int> _enemyCurrentInsultsAndValues = new Dictionary<string, int>();
-    private Dictionary<string, int> _playerInsultsAndValues = new Dictionary<string, int>();
+    private int _intitialPlayerHealth;
+    private int _bossCounter;
+    private bool _hasDisadvantage;
     private List<Item> _healingItems = new List<Item>();
-
     public static event Action OnFightFinished;
 
     IEnumerator Start()
@@ -106,8 +107,8 @@ public class CombatManager : Manager, ISelectable
             }
             else
             {
-                // Instantiate(_endBoss);
-                // _enemy = _endBoss.GetComponent<Combatant>();
+                Instantiate(_endBoss);
+                _enemy = _endBoss.GetComponent<Combatant>();
             }
         }
         else
@@ -196,7 +197,7 @@ public class CombatManager : Manager, ISelectable
     }
 
     // Anfangswerte zuweisen
-    private void SetInitialStats()
+    protected void SetInitialStats()
     {
         _combatant1Health = _combatant1.HealthPoints;
         _combatant2Health = _combatant2.HealthPoints;
@@ -210,7 +211,7 @@ public class CombatManager : Manager, ISelectable
         InitializePlayerStats();
     }
 
-    private IEnumerator CombatCoroutine()
+    protected IEnumerator CombatCoroutine()
     {
         while (true)
         {
@@ -682,96 +683,111 @@ public class CombatManager : Manager, ISelectable
             _turnCoroutine = null;
         }
 
-        if (winner)
+        if (_enemy.Name == "Voice" && _attackingCombatant == PlayerManager.Instance)
         {
-            if (isRetreat)
+            if (_bossCounter >= 3)
             {
-                if (PlayerManager.Instance.GotCaught)
-                {
-                    yield return PrintMultipleLines(UIDialogueStorage.EscapedGuardLines);
+                _textBox.enabled = true;
 
-                    _textBox.text = "";
+                _currentLine = $"You realize you cannot win this way.";
+                yield return HandleTextOutput(_currentLine, false);
 
-                    PlayerManager.Instance.GotCaught = false;
-
-                    SceneManager.LoadScene(7);
-
-                    yield break;
-                }
-                _currentLine = "You manage to escape!";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                SceneManager.LoadScene(13);
             }
-            else
+
+            _bossCounter++;
+        }
+
+        if (winner)
             {
-                if (!_hasEnemyFled)
+                if (isRetreat)
                 {
-                    _currentLine = DialogueUtil.CreateCombatLog(winner, "has", "won the fight!");
+                    if (PlayerManager.Instance.GotCaught)
+                    {
+                        yield return PrintMultipleLines(UIDialogueStorage.EscapedGuardLines);
+
+                        _textBox.text = "";
+
+                        PlayerManager.Instance.GotCaught = false;
+
+                        SceneManager.LoadScene(7);
+
+                        yield break;
+                    }
+                    _currentLine = "You manage to escape!";
                     yield return StartCoroutine(HandleTextOutput(_currentLine, false));
                 }
                 else
                 {
-                    _currentLine = DialogueUtil.CreateCombatLog(winner, "has", $"won by scaring off {_enemy.Name} with your despicable existence!");
-                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                    if (!_hasEnemyFled)
+                    {
+                        _currentLine = DialogueUtil.CreateCombatLog(winner, "has", "won the fight!");
+                        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                    }
+                    else
+                    {
+                        _currentLine = DialogueUtil.CreateCombatLog(winner, "has", $"won by scaring off {_enemy.Name} with your despicable existence!");
+                        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                    }
                 }
-            }
 
-            if (winner == PlayerManager.Instance)
-            {
-                if (!isRetreat)
+                if (winner == PlayerManager.Instance)
                 {
-                    yield return StartCoroutine(ManageLoot());
-                }
+                    if (!isRetreat)
+                    {
+                        yield return StartCoroutine(ManageLoot());
+                    }
 
-                if (PlayerManager.Instance.GotCaught)
-                {
-                    yield return PrintMultipleLines(UIDialogueStorage.SlayedGuardLines);
+                    if (PlayerManager.Instance.GotCaught)
+                    {
+                        yield return PrintMultipleLines(UIDialogueStorage.SlayedGuardLines);
 
-                    _textBox.text = "";
+                        _textBox.text = "";
 
-                    PlayerManager.Instance.GotCaught = false;
+                        PlayerManager.Instance.GotCaught = false;
 
-                    SceneManager.LoadScene(7);
+                        SceneManager.LoadScene(7);
+
+                        yield break;
+                    }
+
+                    StartCoroutine(CheckForSleepDeprived());
 
                     yield break;
                 }
+                else
+                {
+                    _currentLine = "You have died. Your quest has ended.";
+                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-                StartCoroutine(CheckForSleepDeprived());
-
-                yield break;
+                    SceneManager.LoadScene("StartMenu");
+                    yield break;
+                }
             }
             else
             {
-                _currentLine = "You have died. Your quest has ended.";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                if (_combatant1 == PlayerManager.Instance)
+                {
+                    PlayerManager.Instance.HealthPoints = _combatant1Health;
+                    PlayerManager.Instance.EgoPoints = _combatant1EgoPoints;
+                }
+                else
+                {
+                    PlayerManager.Instance.HealthPoints = _combatant2Health;
+                    PlayerManager.Instance.EgoPoints = _combatant2EgoPoints;
+                }
 
-                SceneManager.LoadScene("StartMenu");
-                yield break;
-            }
-        }
-        else
-        {
-            if (_combatant1 == PlayerManager.Instance)
-            {
-                PlayerManager.Instance.HealthPoints = _combatant1Health;
-                PlayerManager.Instance.EgoPoints = _combatant1EgoPoints;
-            }
-            else
-            {
-                PlayerManager.Instance.HealthPoints = _combatant2Health;
-                PlayerManager.Instance.EgoPoints = _combatant2EgoPoints;
-            }
+                if (PlayerManager.Instance.EgoPoints < 0)
+                {
+                    PlayerManager.Instance.EgoPoints = 0;
+                }
 
-            if (PlayerManager.Instance.EgoPoints < 0)
-            {
-                PlayerManager.Instance.EgoPoints = 0;
+                _textBox.enabled = false;
+                _isFighting = false;
+                _promptSkip.enabled = false;
+                _promptContinue.enabled = false;
+                OnFightFinished?.Invoke();
             }
-
-            _textBox.enabled = false;
-            _isFighting = false;
-            _promptSkip.enabled = false;
-            _promptContinue.enabled = false;
-            OnFightFinished?.Invoke();
-        }
     }
 
     // Wenn erfolgreich, dann aus Kampf geflohen, wenn nicht, dann ist der Gegner dran

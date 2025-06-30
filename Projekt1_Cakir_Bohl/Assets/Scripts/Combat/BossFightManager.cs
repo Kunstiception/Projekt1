@@ -1,23 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class BossFightManager : Manager, ISelectable
+public class BossFightManager : CombatManager, ISelectable
 {
-    [SerializeField] Canvas _initialSelectionMenuCanvas;
-    [SerializeField] Canvas _dialogueCanvas;
+    [SerializeField] private Canvas _dialogueCanvas;
+    [SerializeField] private VoiceLines _attackLines;
+    [SerializeField] private VoiceLines _potionLines;
+    [SerializeField] private VoiceLines _retreatLines;
 
-    void Start()
+    IEnumerator Start()
     {
-        
+        Instantiate(_endBoss);
+        _enemy = _endBoss.GetComponent<Combatant>();
+
+        SetCombatants();
+
+        SetInitialStats();
+
+        _hitParticles.SetActive(false);
+
+        foreach (GameObject exclamation in _exclamations)
+        {
+            exclamation.SetActive(false);
+        }
+
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
+        ToggleCanvas(_dialogueCanvas, false);
+
+        _currentLine = $"{_enemy.Name}: Give me all your ego!";
+        yield return HandleTextOutput(_currentLine, false);
+
+        StartCoroutine(CombatCoroutine());
     }
 
     void Update()
     {
-        
+        ListenForSkip();
     }
 
-    public void HandleSelectedMenuPoint(int index)
+    new public void HandleSelectedMenuPoint(int index)
     {
         ToggleCanvas(_initialSelectionMenuCanvas, false);
 
@@ -30,23 +54,39 @@ public class BossFightManager : Manager, ISelectable
                 break;
 
             case 1:
-                _currentLine = "This enemy does not seem to take any damage from your attacks!";
-                // yield return HandleTextOutput(_currentLine, false);
-
-                ToggleCanvas(_initialSelectionMenuCanvas, true);
+                StartCoroutine(PrintRandomLine(_attackLines));
 
                 break;
 
             case 2:
-                _currentLine = "You don't need those!";
-                // yield return HandleTextOutput(_currentLine, false);
+                StartCoroutine(PrintRandomLine(_potionLines));
 
                 break;
 
             case 3:
-                // Eine random Line
+                StartCoroutine(PrintRandomLine(_retreatLines));
 
                 break;
         }
+    }
+
+    private IEnumerator PrintRandomLine(VoiceLines possibleLines)
+    {
+        _textBox.enabled = true;
+
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
+
+        _currentLine = possibleLines.Lines[UnityEngine.Random.Range(0, possibleLines.Lines.Length)];
+        yield return HandleTextOutput(_currentLine, false);
+
+        ToggleCanvas(_initialSelectionMenuCanvas, true);
+
+        _textBox.text = "";
+    }
+
+    private void SetCombatants()
+    {
+        _combatant1 = _enemy;
+        _combatant2 = PlayerManager.Instance;
     }
 }

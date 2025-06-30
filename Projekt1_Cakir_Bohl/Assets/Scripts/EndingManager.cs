@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndingManager : Manager
 {
@@ -38,5 +38,7 @@ public class EndingManager : Manager
 
             yield return new WaitForSeconds(GameConfig.AnimationTime);
         }
+
+        SceneManager.LoadScene(4);
     }
 }
