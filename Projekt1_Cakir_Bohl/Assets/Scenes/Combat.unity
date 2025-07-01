@@ -1365,7 +1365,8 @@ MonoBehaviour:
   _statsCanvas: {fileID: 1137210555}
   _playerHealthBarBelow: {fileID: 217618192}
   _playerEgoBarBelow: {fileID: 217618189}
-  _hitParticles: {fileID: 1784966547}
+  _hitParticlesInsult: {fileID: 9156820866719904538}
+  _hitParticlesStrike: {fileID: 1784966547}
   _exclamations:
   - {fileID: 654358091}
   - {fileID: 629279530}
@@ -5617,7 +5618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2208596845760918241, guid: 2cbbdb4abc422db48bdb3bd9d2c00f19, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5246751381431433005, guid: 2cbbdb4abc422db48bdb3bd9d2c00f19, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5664,6 +5665,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cbbdb4abc422db48bdb3bd9d2c00f19, type: 3}
+--- !u!1 &9156820866719904538 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2208596845760918241, guid: 2cbbdb4abc422db48bdb3bd9d2c00f19, type: 3}
+  m_PrefabInstance: {fileID: 9156820866719904537}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

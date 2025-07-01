@@ -9,18 +9,19 @@ using UnityEngine.UI;
 
 public class CombatManager : Manager, ISelectable
 {
-    [SerializeField] protected GameObject _hitParticles;
+    [SerializeField] protected GameObject _hitParticlesInsult;
+    [SerializeField] protected GameObject _hitParticlesStrike;
     [SerializeField] protected GameObject[] _exclamations;
     [SerializeField] protected TextMeshProUGUI _enemyUIHealth;
     [SerializeField] protected TextMeshProUGUI _enemyUIEgo;
     [SerializeField] protected Slider _enemyHealthBarBelow;
     [SerializeField] protected Slider _enemyEgoBarBelow;
     [SerializeField] protected Canvas _initialSelectionMenuCanvas;
+    [SerializeField] protected Canvas _insultMenuCanvas;
     [SerializeField] protected GameObject _endBoss;
     [SerializeField] private GameObject[] _enemiesDay;
     [SerializeField] private GameObject[] _enemiesNight;
     [SerializeField] private GameObject _guard;
-    [SerializeField] private Canvas _insultMenuCanvas;
     [SerializeField] private GameObject[] _itemOptions;
     [SerializeField] private Item _coin;
     [SerializeField] private Canvas _itemUseCanvas;
@@ -50,9 +51,9 @@ public class CombatManager : Manager, ISelectable
     protected Combatant _combatant2;
     protected Coroutine _turnCoroutine;
     protected Coroutine _insultTurn;
-    protected Dictionary<string, int> _enemyInsultsAndValues = new Dictionary<string, int>();
-    protected Dictionary<string, int> _enemyCurrentInsultsAndValues = new Dictionary<string, int>();
     protected Dictionary<string, int> _playerInsultsAndValues = new Dictionary<string, int>();
+    private Dictionary<string, int> _enemyInsultsAndValues = new Dictionary<string, int>();
+    private Dictionary<string, int> _enemyCurrentInsultsAndValues = new Dictionary<string, int>();
     private bool _hasEnemyFled;
     private int _intitialPlayerHealth;
     private int _bossCounter;
@@ -70,7 +71,8 @@ public class CombatManager : Manager, ISelectable
         _textBox.enabled = true;
         _promptSkip.enabled = true;
         _promptContinue.enabled = false;
-        _hitParticles.SetActive(false);
+        _hitParticlesInsult.SetActive(false);
+        _hitParticlesStrike.SetActive(false);
 
         foreach (GameObject exclamation in _exclamations)
         {
@@ -685,7 +687,7 @@ public class CombatManager : Manager, ISelectable
 
         if (_enemy.Name == "Voice" && _attackingCombatant == PlayerManager.Instance)
         {
-            if (_bossCounter >= 3)
+            if (_bossCounter >= GameConfig.TurnsBeforeSecondStage)
             {
                 _textBox.enabled = true;
 
@@ -951,7 +953,7 @@ public class CombatManager : Manager, ISelectable
     }
 
     // Zeigt visuelles Feedback bei den Health- und Ego-Balken an, zuerst wird ein Balken auf den Zielwert gesetzt und der andere gelerpt
-    private IEnumerator UpdateUI(Combatant combatant, int damage, bool isHealthDamage, int currentHealth = 0, int currentEgo = 0)
+    protected IEnumerator UpdateUI(Combatant combatant, int damage, bool isHealthDamage, int currentHealth = 0, int currentEgo = 0)
     {
         float hitValue = 0;
         Slider slider = null;
@@ -994,7 +996,7 @@ public class CombatManager : Manager, ISelectable
 
         if (combatant == _enemy)
         {
-            StartCoroutine(PlayHitParticles());
+            StartCoroutine(PlayHitParticles(isHealthDamage));
             StartCoroutine(PlayExclamation());
         }
 
@@ -1118,13 +1120,24 @@ public class CombatManager : Manager, ISelectable
         }
     }
 
-    private IEnumerator PlayHitParticles()
+    private IEnumerator PlayHitParticles(bool isHealthDamage)
     {
-        _hitParticles.SetActive(true);
+        GameObject hitParticles;
+
+        if (isHealthDamage)
+        {
+            hitParticles = _hitParticlesStrike;
+        }
+        else
+        {
+            hitParticles = _hitParticlesInsult;
+        }
+
+        hitParticles.SetActive(true);
 
         yield return new WaitForSeconds(GameConfig.HitParticlesLength);
 
-        _hitParticles.SetActive(false);
+        hitParticles.SetActive(false);
     }
 
     private IEnumerator PlayExclamation()
