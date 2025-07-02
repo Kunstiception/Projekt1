@@ -104,4 +104,11 @@ public static class UIDialogueStorage
         {"You take off your armor.",
         "Slowly you enter the pond step by step until the cold water covers most of your body.",
         "You feel your ailments wash away."};
+    public static string[] ReadyToAttackBossLines =
+        {"You have rid yourself of all your ego!",
+        "The voice seems confused."};
+    public static string[] BossDefeatedLines =
+        {"You have won the fight and become a better person!",
+        "That's it.",
+        "You can go now."};
 }

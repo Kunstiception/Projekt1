@@ -213,7 +213,7 @@ public class CombatManager : Manager, ISelectable
         InitializePlayerStats();
     }
 
-    protected IEnumerator CombatCoroutine()
+    private IEnumerator CombatCoroutine()
     {
         while (true)
         {
@@ -307,7 +307,8 @@ public class CombatManager : Manager, ISelectable
         var randomIndex = 0;
 
         // wenn keine Insults mehr übrig, bleibt nur Angriff
-        if (_playerInsultsAndValues.Count < 1)
+        // der Endboss greift nur die Lebenspunkte an
+        if (_playerInsultsAndValues.Count < 1 && _enemy.Name == "Voice")
         {
             randomIndex = UnityEngine.Random.Range(1, 2);
         }
@@ -1120,7 +1121,7 @@ public class CombatManager : Manager, ISelectable
         }
     }
 
-    private IEnumerator PlayHitParticles(bool isHealthDamage)
+    protected IEnumerator PlayHitParticles(bool isHealthDamage)
     {
         GameObject hitParticles;
 
@@ -1140,7 +1141,7 @@ public class CombatManager : Manager, ISelectable
         hitParticles.SetActive(false);
     }
 
-    private IEnumerator PlayExclamation()
+    protected IEnumerator PlayExclamation()
     {
         var randomIndex = UnityEngine.Random.Range(0, _exclamations.Length);
 

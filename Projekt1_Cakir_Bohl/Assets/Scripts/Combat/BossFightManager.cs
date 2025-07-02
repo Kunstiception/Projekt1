@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BossFightManager : CombatManager, ISelectable
 {
@@ -12,7 +11,9 @@ public class BossFightManager : CombatManager, ISelectable
     [SerializeField] private VoiceLines _attackLines;
     [SerializeField] private VoiceLines _potionLines;
     [SerializeField] private VoiceLines _retreatLines;
+    [SerializeField] private VoiceLines _noMoreEgoLines;
     [SerializeField] private InsultLines _selfInsultLines;
+    private bool _isAbleToAttack = false;
 
     private Dictionary<string, int> _currentPlayerInsultsAndValues = new Dictionary<string, int>();
 
@@ -39,13 +40,14 @@ public class BossFightManager : CombatManager, ISelectable
         }
 
         ToggleCanvas(_initialSelectionMenuCanvas, false);
-        ToggleCanvas(_dialogueCanvas, false);
         ToggleCanvas(_insultMenuCanvas, false);
 
         _currentLine = $"{_enemy.Name}: Give me all your ego!";
         yield return HandleTextOutput(_currentLine, false);
 
-        StartCoroutine(CombatCoroutine());
+        _textBox.text = "";
+
+        ToggleCanvas(_initialSelectionMenuCanvas, true);
     }
 
     void Update()
@@ -58,19 +60,31 @@ public class BossFightManager : CombatManager, ISelectable
         if (_initialSelectionMenuCanvas.isActiveAndEnabled)
         {
             _initialSelectionMenuCanvas.enabled = false;
-            //ToggleCanvas(_initialSelectionMenuCanvas, false);
+
             // 0 = Insult, 1 = Fight, 2 = UsePotion, 3 = Retreat
             switch (index)
             {
                 case 0:
-                    DisplaySelfInsultOptions();
+                    if (PlayerManager.Instance.EgoPoints > 0)
+                    {
+                        DisplaySelfInsultOptions();
+                    }
+                    else
+                    {
+                        StartCoroutine(PrintRandomLine(_noMoreEgoLines));
+                    }
 
-                    ToggleCanvas(_insultMenuCanvas, true);
-                    
                     break;
 
                 case 1:
-                    StartCoroutine(PrintRandomLine(_attackLines));
+                    if (!_isAbleToAttack)
+                    {
+                        StartCoroutine(PrintRandomLine(_attackLines));
+
+                        break;
+                    }
+
+                    StartCoroutine(PerformFinishingBlow());
 
                     break;
 
@@ -90,16 +104,16 @@ public class BossFightManager : CombatManager, ISelectable
 
         if (_insultMenuCanvas.isActiveAndEnabled)
         {
-             // 0 = Option 1, 1 = Option 2, 2 = Return
+            // 0 = Option 1, 1 = Option 2, 2 = Return
             switch (index)
             {
                 case 0:
-                    _turnCoroutine = StartCoroutine(SelfInsultTurn(PlayerManager.Instance.EgoPoints, 0));
+                    _turnCoroutine = StartCoroutine(SelfInsultTurn(0));
 
                     break;
 
                 case 1:
-                    _turnCoroutine = StartCoroutine(SelfInsultTurn(PlayerManager.Instance.EgoPoints, 1));
+                    _turnCoroutine = StartCoroutine(SelfInsultTurn(1));
 
                     break;
 
@@ -146,15 +160,13 @@ public class BossFightManager : CombatManager, ISelectable
     }
 
     // Eine Runde Insult-Kampf, variiert je nachdem ob Player oder Enemy Angreifer ist
-    private IEnumerator SelfInsultTurn(int currentEgoPoints, int optionIndex = 0)
+    private IEnumerator SelfInsultTurn(int optionIndex = 0)
     {
         string line = "";
         int value = 0;
 
         _textBox.enabled = true;
 
-        // Je nach ausgewählter Option Line und Value zuweisen sowie mögliche Antworten bereits laden
-        // Nicht gewählte Option wieder dem Original-Dictionary hinzufügen
         switch (optionIndex)
         {
             case 0:
@@ -182,6 +194,8 @@ public class BossFightManager : CombatManager, ISelectable
                 break;
         }
 
+        _currentPlayerInsultsAndValues.Clear();
+
         ToggleCanvas(_initialSelectionMenuCanvas, false);
 
         _textBox.enabled = true;
@@ -191,22 +205,39 @@ public class BossFightManager : CombatManager, ISelectable
         {
             ToggleCanvas(_insultMenuCanvas, false);
 
-            //_currentLine = DialogueUtil.CreateCombatLog(PlayerManager.Instance, "attempts", $"insult yourself!");
             _currentLine = "You attempt to insult yourself!";
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            yield return HandleTextOutput(_currentLine, false);
 
-            // hier ausgwählte Line
+            _currentLine = line;
+            yield return HandleTextOutput(_currentLine, false);
+
+            PlayerManager.Instance.EgoPoints -= value;
+
+            StartCoroutine(UpdateUI(PlayerManager.Instance, value, false, currentEgo: PlayerManager.Instance.EgoPoints));
+
+            _currentLine = $"{PlayerManager.Instance.Name} take {value} ego damage!";
+            yield return HandleTextOutput(_currentLine, false);
+
+
+            if (PlayerManager.Instance.EgoPoints < 0)
+            {
+                PlayerManager.Instance.EgoPoints = 0;
+            }
+
+            _currentLine = _egoHitLine;
+            yield return HandleTextOutput(_currentLine, false);
         }
 
-        if (currentEgoPoints <= 0)
+        if (PlayerManager.Instance.EgoPoints <= 0)
         {
-            _currentLine = "You have lost all ego!";
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            yield return PrintMultipleLines(UIDialogueStorage.ReadyToAttackBossLines);
+
+            _isAbleToAttack = true;
         }
 
-        //dann Voice-Line und dann noch mal random VoiceLine später
+        _textBox.text = "";
 
-        //ResetInsultTurn();
+        ToggleCanvas(_initialSelectionMenuCanvas, true);
     }
 
     private void DisplaySelfInsultOptions()
@@ -230,5 +261,20 @@ public class BossFightManager : CombatManager, ISelectable
                 _playerInsultsAndValues.Remove(options[i].text);
             }
         }
+
+        ToggleCanvas(_insultMenuCanvas, true);
+    }
+
+    private IEnumerator PerformFinishingBlow()
+    {
+        _currentLine = "You prepare to strike!";
+        yield return HandleTextOutput(_currentLine, false);
+
+        StartCoroutine(UpdateUI(_enemy, _enemy.HealthPoints, true, currentHealth: 0));
+
+        _currentLine = $"{_enemy.Name} takes {_enemy.HealthPoints} health damage!";
+        yield return HandleTextOutput(_currentLine, false);
+
+        yield return PrintMultipleLines(UIDialogueStorage.BossDefeatedLines);
     }
 }

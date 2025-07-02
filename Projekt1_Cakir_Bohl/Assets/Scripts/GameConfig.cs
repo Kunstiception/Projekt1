@@ -24,7 +24,7 @@ public static class GameConfig
     public static float HitParticlesLength = 0.5f;
     public static float ExclamationLength = 1f;
     public static int EnemyFleeChance = 5;
-    public static int TurnsBeforeSecondStage = 0;
+    public static int TurnsBeforeSecondStage = 3;
 
     // Resting
     public static int AmbushChance = 4;
@@ -66,5 +66,5 @@ public static class GameConfig
     public static int TotalAmountOfConditions = 4;
 
     // Ending
-    public static float AnimationTime = 3f;
+    public static float AnimationTime = 2f;
 }

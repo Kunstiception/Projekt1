@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -97,16 +96,12 @@ public class Manager : MonoBehaviour
             _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-            //_statsCanvas.enabled = true;
-
             StartCoroutine(UpdateUIDamage(GameConfig.VampireSunDamage, PlayerManager.Instance.HealthPoints));
 
             PlayerManager.Instance.HealthPoints -= GameConfig.VampireSunDamage;
 
             _currentLine = UIDialogueStorage.VampireSunDamageLines[1];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-
-            //_statsCanvas.enabled = false;
 
             if (PlayerManager.Instance.HealthPoints <= 0)
             {
