@@ -920,13 +920,13 @@ MonoBehaviour:
   _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
-  _playerHealthbarSection: {fileID: 0}
   _animations:
   - {fileID: 190952807}
   - {fileID: 1733698436}
   - {fileID: 390578398}
   - {fileID: 1773387507}
   - {fileID: 1154814424}
+  _lines: {fileID: 11400000, guid: fd3c0907965a6eb4da94d8455bef75bd, type: 2}
 --- !u!1 &1356537584
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,6 +1281,18 @@ PrefabInstance:
     - target: {fileID: 1210496621870757361, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569486816775903898, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -506
+      objectReference: {fileID: 0}
+    - target: {fileID: 3371196376612260389, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -506
+      objectReference: {fileID: 0}
+    - target: {fileID: 5521054877559550573, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -285
       objectReference: {fileID: 0}
     - target: {fileID: 5688818620958266870, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
       propertyPath: m_Pivot.x

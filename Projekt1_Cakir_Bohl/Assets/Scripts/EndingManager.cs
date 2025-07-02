@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 public class EndingManager : Manager
 {
     [SerializeField] private GameObject[] _animations;
+    [SerializeField] private VoiceLines _lines;
 
     void Start()
     {
-        _textBox.enabled = false;
         _promptSkip.enabled = false;
         _promptContinue.enabled = false;
 
@@ -22,7 +22,7 @@ public class EndingManager : Manager
 
     void Update()
     {
-
+        ListenForSkip();
     }
 
     private IEnumerator PlayEnding()
@@ -36,7 +36,8 @@ public class EndingManager : Manager
 
             _animations[i].SetActive(true);
 
-            yield return new WaitForSeconds(GameConfig.AnimationTime);
+            _currentLine = _lines.Lines[i];
+            yield return HandleTextOutput(_currentLine, false);
         }
 
         SceneManager.LoadScene(4);
