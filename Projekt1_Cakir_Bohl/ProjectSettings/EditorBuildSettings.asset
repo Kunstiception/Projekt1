@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BossFight.unity
     guid: 5c5a4ca1fd041f14698ed71ff1b328f9
+  - enabled: 1
+    path: Assets/Scenes/Dog.unity
+    guid: 02e7873bd96d2c54e9599ba870abb40e
   m_configObjects: {}

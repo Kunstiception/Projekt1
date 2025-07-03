@@ -15,11 +15,18 @@ public class VoiceManager : Manager
 
         _promptContinue.enabled = false;
 
-        yield return CheckConditionAmount();
-
         _currentVoiceLines = _voiceLines[MainManager.Instance.CurrentDay];
 
-        yield return PrintMultipleLines(_currentVoiceLines.Lines);
+        _currentLine = _currentVoiceLines.Lines[0];
+        yield return HandleTextOutput(_currentLine, false);
+
+        yield return CheckConditionAmount();
+
+        for (int i = 1; i < _currentVoiceLines.Lines.Length; i++)
+        {
+            _currentLine = _currentVoiceLines.Lines[i];
+            yield return HandleTextOutput(_currentLine, false);
+        }
 
         yield return new WaitForSeconds(GameConfig.TimeBeforeLevelLoad);
 

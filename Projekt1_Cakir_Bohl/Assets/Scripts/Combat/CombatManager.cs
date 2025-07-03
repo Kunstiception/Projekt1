@@ -187,10 +187,20 @@ public class CombatManager : Manager, ISelectable
         if (_combatant1 == PlayerManager.Instance)
         {
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+            if (MainManager.Instance.IsDay && ConditionManager.Instance.IsVampire)
+            {
+                _combatant1Health -= GameConfig.VampireSunDamage;          
+            }
         }
         else
         {
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+            if (MainManager.Instance.IsDay && ConditionManager.Instance.IsVampire)
+            {
+                _combatant2Health -= GameConfig.VampireSunDamage;          
+            }
         }
 
         _isFirstCombatant = true;
@@ -290,7 +300,11 @@ public class CombatManager : Manager, ISelectable
                 _currentLine = $"{_enemy.Name} seems scared.";
                 yield return HandleTextOutput(_currentLine, false);
 
-                yield return PrintMultipleLines(UIDialogueStorage.EnemyFleeLines);
+                foreach (string line in UIDialogueStorage.EnemyFleeLines)
+                {
+                    _currentLine = $"{_enemy.Name}: " + "'" + line + "'";
+                    yield return HandleTextOutput(_currentLine, false);
+                }
 
                 _hasEnemyFled = true;
 

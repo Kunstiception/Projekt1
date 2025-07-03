@@ -38,6 +38,13 @@ public class ConditionManager : MonoBehaviour
         IsBoostedVampire = false;
         IsWerewolf = false;
         IsZombie = false;
+
+        foreach (Conditions condition in GetCurrentConditions())
+        {
+            ApplyCondition(condition, false);
+        }
+
+        ApplyVampireBiteBoost(false);
     }
 
     public string[] ApplyCondition(Conditions condition, bool isAffected)

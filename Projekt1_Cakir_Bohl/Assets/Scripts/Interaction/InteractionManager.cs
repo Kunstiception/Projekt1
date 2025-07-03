@@ -1,18 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-public enum SceneType
-{
-    IsMerchant  = 0,
-    IsDog  = 1,
-    IsNPC = 2
-}
 
 public class InteractionManager : Manager, ISelectable
 {
-    public SceneType sceneType;
-
     [SerializeField] public Canvas MerchantInventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] public Canvas InitialMenuCanvas;
@@ -30,7 +21,7 @@ public class InteractionManager : Manager, ISelectable
 
         InitializePlayerStats();
 
-        _merchant.SetActive(false);
+        _merchant.SetActive(true);
 
         _textBox.enabled = true;
         _promptSkip.enabled = false;
@@ -38,13 +29,8 @@ public class InteractionManager : Manager, ISelectable
 
         yield return StartCoroutine(EvaluateVampire());
 
-        SetScene();
-
-        if (sceneType == SceneType.IsMerchant)
-        {
-            _currentLine = "Feel free to take a look at my merchandise, dear knight.";
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-        }
+        _currentLine = "Feel free to take a look at my merchandise, dear knight.";
+        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
         _textBox.text = "";
 
@@ -61,31 +47,6 @@ public class InteractionManager : Manager, ISelectable
         DialogueManager.onDialogueFinished -= ResetMenus;
 
         StopAllCoroutines();
-    }
-
-    private void SetScene()
-    {
-        int randomIndex = Random.Range(0, 1);
-
-        switch (randomIndex)
-        {
-            case 0:
-                sceneType = SceneType.IsMerchant;
-
-                _merchant.SetActive(true);
-
-                break;
-
-            case 1:
-                sceneType = SceneType.IsDog;
-
-                break;
-
-            case 2:
-                sceneType = SceneType.IsNPC;
-
-                break;
-        }
     }
 
     public void HandleSelectedMenuPoint(int index)

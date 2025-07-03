@@ -18,6 +18,12 @@ public class EndingManager : Manager
         }
 
         StartCoroutine(PlayEnding());
+
+        ConditionManager.Instance.ResetStats();
+
+        PlayerManager.Instance.HealthPoints = PlayerManager.Instance.GetStartingHealth();
+
+        PlayerManager.Instance.EgoPoints = PlayerManager.Instance.GetStartingEgo();
     }
 
     void Update()
