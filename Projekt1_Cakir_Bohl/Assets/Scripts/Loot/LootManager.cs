@@ -34,7 +34,7 @@ public class LootManager : Manager
         _currentLine = "There is a treasure chest!";
         yield return HandleTextOutput(_currentLine, false);
 
-        StartCoroutine(SelectRandomItemsAndAmounts(CreateLootCount()));
+        StartCoroutine(SelectRandomItems(CreateLootCount()));
     }
 
     void Update()
@@ -77,7 +77,7 @@ public class LootManager : Manager
         return lootCount;
     }
 
-    private IEnumerator SelectRandomItemsAndAmounts(int lootCount)
+    private IEnumerator SelectRandomItems(int lootCount)
     {
         int randomIndex;
 

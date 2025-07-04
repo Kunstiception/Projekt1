@@ -37,6 +37,7 @@ public class MainManager : MonoBehaviour
     public bool IsBoostedVampire;
     public bool IsWerewolf;
     public bool IsZombie;
+    public bool HasBefriendedDog;
 
     private void Awake()
     {
@@ -80,6 +81,7 @@ public class MainManager : MonoBehaviour
         public bool IsBoostedVampire;
         public bool IsWerewolf;
         public bool IsZombie;
+        public bool HasBefriendedDog;
     }
 
     public void SaveAll()
@@ -106,6 +108,7 @@ public class MainManager : MonoBehaviour
         data.IsBoostedVampire = ConditionManager.Instance.IsBoostedVampire;
         data.IsWerewolf = ConditionManager.Instance.IsWerewolf;
         data.IsZombie = ConditionManager.Instance.IsZombie;
+        data.HasBefriendedDog = HasBefriendedDog;
 
         InventoryItems.Clear();
         InventoryAmounts.Clear();
@@ -177,6 +180,7 @@ public class MainManager : MonoBehaviour
             IsBoostedVampire = data.IsBoostedVampire;
             IsWerewolf = data.IsWerewolf;
             IsZombie = data.IsZombie;
+            HasBefriendedDog = data.HasBefriendedDog;
 
             if (InventoryManager.Instance != null)
             {
@@ -234,6 +238,7 @@ public class MainManager : MonoBehaviour
         IsBoostedVampire = false;
         IsWerewolf = false;
         IsZombie = false;
+        HasBefriendedDog = false;
 
         PlayerManager.Instance.ResetStats();
         ConditionManager.Instance.ResetStats();
