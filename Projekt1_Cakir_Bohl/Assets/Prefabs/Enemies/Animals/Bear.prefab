@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1451417646648548203}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: e44b0439eb3b9334199f3b9dc3c8515f, type: 2}
-  DialogueLines: {fileID: 0}
   Name: Bear
   HealthPoints: 12
   EgoPoints: 10

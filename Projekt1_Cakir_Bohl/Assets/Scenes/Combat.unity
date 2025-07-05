@@ -1375,6 +1375,7 @@ MonoBehaviour:
   _enemyHealthBarBelow: {fileID: 3622441544289599737}
   _enemyEgoBarBelow: {fileID: 3622441544289599736}
   _initialSelectionMenuCanvas: {fileID: 606613458}
+  _insultMenuCanvas: {fileID: 1713258031}
   _endBoss: {fileID: 1451417646648548203, guid: 357faea739e6422449e945112ce4147a, type: 3}
   _enemiesDay:
   - {fileID: 1451417646648548203, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
@@ -1387,7 +1388,6 @@ MonoBehaviour:
   - {fileID: 1451417646648548203, guid: abb86fe4a2d2c3b4591c1356120805b3, type: 3}
   - {fileID: 1452682680094629213, guid: 18e4e71e84a8a81488ac7671fa561250, type: 3}
   _guard: {fileID: 198016388627471161, guid: c999b794c0344844896d4262f0b0aede, type: 3}
-  _insultMenuCanvas: {fileID: 1713258031}
   _itemOptions:
   - {fileID: 775157936}
   - {fileID: 1694425454}
@@ -5622,7 +5622,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5246751381431433005, guid: 2cbbdb4abc422db48bdb3bd9d2c00f19, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.009162545
+      value: 0.59
       objectReference: {fileID: 0}
     - target: {fileID: 5246751381431433005, guid: 2cbbdb4abc422db48bdb3bd9d2c00f19, type: 3}
       propertyPath: m_LocalPosition.y
