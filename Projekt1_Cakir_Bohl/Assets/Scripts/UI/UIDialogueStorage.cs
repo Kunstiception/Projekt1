@@ -111,4 +111,15 @@ public static class UIDialogueStorage
         {"You have won the fight and become a better person!",
         "That's it.",
         "You can go now."};
+    public static string[] MeetingDogLines =
+        {"You see a dog coming towards you.",
+        "He stops infront of you, eying you curiously.",
+        "What will you do?"};
+    public static string[] MeetingDogAgainLines =
+        {"You see the dog again.",
+        "What will you do?"};
+    public static string[] PetDogLines =
+        {"You pet the dog slowly.",
+        "His fur is rough and bit dirty.",
+        "His expression is hard to read, so you can't really tell if he actually enjoys this treatment."};
 }

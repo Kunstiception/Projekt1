@@ -342,14 +342,17 @@ public class MapManager : Manager
 
     private int ChooseInteractionType()
     {
-        //List<int> waypoints = new List<int> { 6, 12, 13 };
+        List<int> indexPool = new List<int> { 6, 12, 14 };
 
-        List<int> indexPool = new List<int> { 6, 12};
+        if (MainManager.Instance.CurrentDay == 0)
+        {
+            return indexPool[2];
+        }
 
-        // if (MainManager.Instance.CurrentDay == 0)
-        // {
-        //     return waypoints[3];
-        // }
+        if (InventoryManager.Instance.InventoryItems.Count >= GameConfig.MaxInventorySlots)
+        {
+            indexPool.Remove(13);
+        }
 
         if (ConditionManager.Instance.GetCurrentConditions().Count == 0)
         {

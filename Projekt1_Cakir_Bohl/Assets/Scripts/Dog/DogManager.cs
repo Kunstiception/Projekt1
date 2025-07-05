@@ -11,14 +11,18 @@ public class DogManager : Manager, ISelectable
     [SerializeField] private Item[] _possibleItems;
     [SerializeField] private DialogueManager _dialogueManager;
 
-    void Start()
+    IEnumerator Start()
     {
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
+        ToggleCanvas(_dialogueCanvas, false);
+
+        InitializePlayerStats();
+
+        yield return EvaluateVampire();
 
         if (MainManager.Instance.CurrentDay == 0)
         {
             _dialogueManager.InitialOptions = _firstMeetingLines;
-
-            return;
         }
         else
         {
@@ -27,16 +31,23 @@ public class DogManager : Manager, ISelectable
 
         if (!MainManager.Instance.HasBefriendedDog)
         {
+            if (MainManager.Instance.CurrentDay == 0)
+            {
+                yield return PrintMultipleLines(UIDialogueStorage.MeetingDogLines);
+            }
+            else
+            {
+                yield return PrintMultipleLines(UIDialogueStorage.MeetingDogAgainLines);
+            }
+
+            _textBox.text = "";
+
             ResetMenus();
         }
         else
         {
             StartCoroutine(GiveItem());
-
-            ToggleCanvas(_initialSelectionMenuCanvas, false);
-            ToggleCanvas(_dialogueCanvas, false);
         }
-
     }
 
     private void OnEnable()
@@ -80,6 +91,8 @@ public class DogManager : Manager, ISelectable
 
     public void HandleSelectedMenuPoint(int index)
     {
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
+        
         switch (index)
         {
             case 0:
@@ -93,14 +106,24 @@ public class DogManager : Manager, ISelectable
                 break;
 
             case 2:
-                // Leaving Coroutine
+                StartCoroutine(LeavingCoroutine());
 
                 break;
         }
     }
 
     // Pet Coroutine
-    
-    // Leaving Coroutine
+    private IEnumerator PetCoroutine()
+    {
+        yield return PrintMultipleLines(UIDialogueStorage.MeetingDogAgainLines);
+
+
+    }
+
+    private IEnumerator LeavingCoroutine()
+    {
+        _currentLine = "You leave the dog behind and continue your quest.";
+        yield return HandleTextOutput(_currentLine, false);
+    }
 
 }
