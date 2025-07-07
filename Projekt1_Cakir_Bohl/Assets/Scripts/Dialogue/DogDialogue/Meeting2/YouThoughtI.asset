@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: YouThoughtI
+  m_EditorClassIdentifier: 
+  Lines:
+  - Well, of course!
+  - Wouldn't have blamed you if you did.
+  - Death lurks around every corner, especially at night.
+  PlayerOptions:
+  - Do you have any more survival tips for me?
+  - How comforting... (return)
+  BranchingLines:
+  - {fileID: 11400000, guid: e813336d0a511e649a00d5ee0ad4b0ef, type: 2}
+  - {fileID: 11400000, guid: a19acb7a0cf912b439927fb62e358d88, type: 2}
+  positionInDialogue: 1

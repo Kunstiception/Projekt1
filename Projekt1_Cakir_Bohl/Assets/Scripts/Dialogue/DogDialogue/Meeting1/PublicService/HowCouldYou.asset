@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: HowCouldYou
+  m_EditorClassIdentifier: 
+  Lines:
+  - First off I'd tell you to stay off the road at night.
+  - The bandits are out because they know there are more valuables to be found.
+  - But you don't want to meet the folks who wander around at night, trust me. The
+    bandits are by far not the worst.
+  PlayerOptions:
+  - Worse than bandits?
+  - Thanks for the heads up! (return)
+  BranchingLines:
+  - {fileID: 11400000, guid: 7152fadea39047145972ae3432771864, type: 2}
+  - {fileID: 11400000, guid: a618e1afa7133b642b21f8e66058d7fa, type: 2}
+  positionInDialogue: 1

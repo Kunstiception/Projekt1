@@ -13,6 +13,8 @@ public class DogManager : Manager, ISelectable
 
     IEnumerator Start()
     {
+        ToggleCursorState(true);
+
         ToggleCanvas(_initialSelectionMenuCanvas, false);
         ToggleCanvas(_dialogueCanvas, false);
 
@@ -91,16 +93,23 @@ public class DogManager : Manager, ISelectable
 
     public void HandleSelectedMenuPoint(int index)
     {
+        if (!_initialSelectionMenuCanvas.isActiveAndEnabled)
+        {
+            return;
+        }
+
         ToggleCanvas(_initialSelectionMenuCanvas, false);
         
         switch (index)
         {
             case 0:
-                // Pet Coroutine
+                StartCoroutine(PetCoroutine());
 
                 break;
 
             case 1:
+                ToggleCanvas(_dialogueCanvas, true);
+
                 _dialogueManager.StartDialogue();
 
                 break;
@@ -112,18 +121,27 @@ public class DogManager : Manager, ISelectable
         }
     }
 
-    // Pet Coroutine
     private IEnumerator PetCoroutine()
     {
-        yield return PrintMultipleLines(UIDialogueStorage.MeetingDogAgainLines);
+        if (!MainManager.Instance.HasBefriendedDog)
+        {
+            yield return PrintMultipleLines(UIDialogueStorage.PetDogLines);
+        }
+        else
+        {
+            yield return PrintMultipleLines(UIDialogueStorage.PetDogAgainLines);
+        }
 
+        _textBox.text = "";
 
+        ResetMenus();
     }
 
     private IEnumerator LeavingCoroutine()
     {
         _currentLine = "You leave the dog behind and continue your quest.";
         yield return HandleTextOutput(_currentLine, false);
-    }
 
+        SceneManager.LoadScene(2);
+    }
 }

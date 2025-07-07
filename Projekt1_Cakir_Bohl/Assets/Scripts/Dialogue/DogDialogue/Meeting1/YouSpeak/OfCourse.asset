@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: OfCourse
+  m_EditorClassIdentifier: 
+  Lines:
+  - Oh please, don't insult my intelligence.
+  - You reek of the cities in the west, knight. No denying it.
+  - What brings you here?
+  PlayerOptions:
+  - There's a voice calling for me, beckoning me to follow it.
+  - Fame and fortune!
+  BranchingLines:
+  - {fileID: 11400000, guid: 783d08d8baef2ed4cb23bbb3d6043063, type: 2}
+  - {fileID: 11400000, guid: bde0b9b09328a63438795f3fefcd590e, type: 2}
+  positionInDialogue: 1

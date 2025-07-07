@@ -122,4 +122,6 @@ public static class UIDialogueStorage
         {"You pet the dog slowly.",
         "His fur is rough and bit dirty.",
         "His expression is hard to read, so you can't really tell if he actually enjoys this treatment."};
+    public static string[] PetDogAgainLines =
+        {"You should know by now I'm not that kind of dog."};
 }

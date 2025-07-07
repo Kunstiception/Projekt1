@@ -133,7 +133,6 @@ public class DialogueManager : Manager, ISelectable
             _nextSelectionMenu.InitializeMenu();
 
             _followingMenuOptions.SetActive(false);
-            // _followingMenuOptions.GetComponent<SelectionMenu>().IsActive = true;
 
             _dialogueOptions = _initialMenuOptions.GetComponentsInChildren<TextMeshProUGUI>();
         }

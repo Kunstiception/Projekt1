@@ -756,8 +756,8 @@ MonoBehaviour:
   _playerEgoBarBelow: {fileID: 364088640}
   _initialSelectionMenuCanvas: {fileID: 356002288}
   _dialogueCanvas: {fileID: 6418808802938281775}
-  _firstMeetingLines: {fileID: 0}
-  _secondMeetingLines: {fileID: 0}
+  _firstMeetingLines: {fileID: 11400000, guid: a618e1afa7133b642b21f8e66058d7fa, type: 2}
+  _secondMeetingLines: {fileID: 11400000, guid: a19acb7a0cf912b439927fb62e358d88, type: 2}
   _possibleItems:
   - {fileID: 6130178259746579057, guid: 2d7400668fecd4b4683e6e9e95c2c2ce, type: 3}
   - {fileID: 7636313497080733404, guid: 0b5235ee86cddaa4a8e91344b3e9762a, type: 3}
@@ -1561,12 +1561,12 @@ MonoBehaviour:
   _promptContinue: {fileID: 1647918670}
   _playerUIHealth: {fileID: 364088644}
   _playerUIEgo: {fileID: 364088643}
-  _statsCanvas: {fileID: 0}
+  _statsCanvas: {fileID: 364088642}
   _playerHealthBarBelow: {fileID: 364088641}
   _playerEgoBarBelow: {fileID: 364088640}
   InitialOptions: {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}
-  _followingMenuOptions: {fileID: 6418808802938281777}
-  _initialMenuOptions: {fileID: 6418808802938281776}
+  _followingMenuOptions: {fileID: 6418808802938281776}
+  _initialMenuOptions: {fileID: 6418808802938281777}
 --- !u!1 &1729492135
 GameObject:
   m_ObjectHideFlags: 0
@@ -2395,7 +2395,7 @@ PrefabInstance:
     - target: {fileID: 6422343011563774531, guid: 77e47cb0b485d9944a0042d45e3b1c21, type: 3}
       propertyPath: _connectedScript
       value: 
-      objectReference: {fileID: 599785203}
+      objectReference: {fileID: 1700114076}
     - target: {fileID: 6805556946198337360, guid: 77e47cb0b485d9944a0042d45e3b1c21, type: 3}
       propertyPath: m_Name
       value: Canvas_DialogueOptions
@@ -2455,7 +2455,7 @@ PrefabInstance:
     - target: {fileID: 8998856996610963717, guid: 77e47cb0b485d9944a0042d45e3b1c21, type: 3}
       propertyPath: _connectedScript
       value: 
-      objectReference: {fileID: 599785203}
+      objectReference: {fileID: 1700114076}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

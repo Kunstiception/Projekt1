@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: AnyMoreSurvival
+  m_EditorClassIdentifier: 
+  Lines:
+  - I would tell you to turn around right now and get back to where you came from.
+  - But that's not going to happen, is it?
+  - So try not to get ambushed would be my best advice.
+  - You are safe in a town but outside you never know who is only waiting for you
+    to fall asleep.
+  PlayerOptions:
+  - I'll never get this image out of my mind now...
+  - But the inn is so expensive!
+  BranchingLines:
+  - {fileID: 11400000, guid: 5fb556e3cf2989941bd19076d545917d, type: 2}
+  - {fileID: 11400000, guid: 46429759fc8671f4cac55e7a159492fd, type: 2}
+  positionInDialogue: 1

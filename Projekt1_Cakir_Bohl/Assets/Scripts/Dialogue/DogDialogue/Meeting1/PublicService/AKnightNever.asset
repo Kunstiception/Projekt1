@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: AKnightNever
+  m_EditorClassIdentifier: 
+  Lines:
+  - Should have guessed as much, when I saw the huge sword...
+  - In case you get wounded maybe the merchant can sell you something or simply take
+    a room at the inn in the next town and rest up, though both will cost you.
+  PlayerOptions:
+  - But I don't have any coins...
+  - Sounds reasonable. Thanks! (return)
+  BranchingLines:
+  - {fileID: 11400000, guid: 794a6639f8a0bb54185e657dca5ccabf, type: 2}
+  - {fileID: 11400000, guid: a618e1afa7133b642b21f8e66058d7fa, type: 2}
+  positionInDialogue: 0

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: InitalDogSelection2
+  m_EditorClassIdentifier: 
+  Lines:
+  - Good to see that you are still alive!
+  - I didn't think you would make it.
+  PlayerOptions:
+  - You thought I would die?
+  - Errr... thanks?
+  - I can't handle this right now. (return)
+  BranchingLines:
+  - {fileID: 11400000, guid: a81007ab77e70d345a74199998b54fd9, type: 2}
+  - {fileID: 11400000, guid: 28316935d75656f499dda39941a83f1b, type: 2}
+  - {fileID: 11400000}
+  positionInDialogue: 1
