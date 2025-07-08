@@ -8,6 +8,7 @@ public class DogManager : Manager, ISelectable
     [SerializeField] private Canvas _dialogueCanvas;
     [SerializeField] private DialogueLines _firstMeetingLines;
     [SerializeField] private DialogueLines _secondMeetingLines;
+    [SerializeField] private DialogueLines[] _hasBefriendedLines;
     [SerializeField] private Item[] _possibleItems;
     [SerializeField] private DialogueManager _dialogueManager;
 
@@ -55,11 +56,13 @@ public class DogManager : Manager, ISelectable
     private void OnEnable()
     {
         DialogueManager.onDialogueFinished += ResetMenus;
+        DialogueManager.onDialogueFinished += CheckForFriend;
     }
 
     private void OnDisable()
     {
         DialogueManager.onDialogueFinished -= ResetMenus;
+        DialogueManager.onDialogueFinished -= CheckForFriend;
 
         StopAllCoroutines();
     }
@@ -67,6 +70,19 @@ public class DogManager : Manager, ISelectable
     void Update()
     {
         ListenForSkip();
+    }
+
+    private void CheckForFriend()
+    {
+        foreach (DialogueLines lines in _hasBefriendedLines)
+        {
+            if (lines == _dialogueManager.ReturnCurrentDialogueLines())
+            {
+                MainManager.Instance.HasBefriendedDog = true;
+
+                return;
+            }
+        }
     }
 
     private void ResetMenus()
@@ -81,7 +97,10 @@ public class DogManager : Manager, ISelectable
 
         Item item = _possibleItems[randomIndex];
 
-        _currentLine = $"Look! The dog brings you {item.Name}";
+        _currentLine = $"Look! The dog brings you something!";
+        yield return HandleTextOutput(_currentLine, false);
+
+        _currentLine = $"You have received {item.Name}.";
         yield return HandleTextOutput(_currentLine, false);
 
         InventoryManager.Instance.ManageInventory(item, 1, true);
@@ -99,7 +118,7 @@ public class DogManager : Manager, ISelectable
         }
 
         ToggleCanvas(_initialSelectionMenuCanvas, false);
-        
+
         switch (index)
         {
             case 0:
@@ -108,6 +127,13 @@ public class DogManager : Manager, ISelectable
                 break;
 
             case 1:
+                if (ConditionManager.Instance.IsZombie)
+                {
+                    StartCoroutine(ZombieConversationAttempt());
+
+                    return;
+                }
+                
                 ToggleCanvas(_dialogueCanvas, true);
 
                 _dialogueManager.StartDialogue();
@@ -123,7 +149,7 @@ public class DogManager : Manager, ISelectable
 
     private IEnumerator PetCoroutine()
     {
-        if (!MainManager.Instance.HasBefriendedDog)
+        if (MainManager.Instance.CurrentDay == 0)
         {
             yield return PrintMultipleLines(UIDialogueStorage.PetDogLines);
         }
@@ -143,5 +169,12 @@ public class DogManager : Manager, ISelectable
         yield return HandleTextOutput(_currentLine, false);
 
         SceneManager.LoadScene(2);
+    }
+
+    public override IEnumerator ZombieConversationAttempt()
+    {
+        yield return base.ZombieConversationAttempt();
+
+        ResetMenus();
     }
 }

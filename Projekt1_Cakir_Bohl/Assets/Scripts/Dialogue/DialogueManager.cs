@@ -89,6 +89,11 @@ public class DialogueManager : Manager, ISelectable
         _currentDialogueLines = InitialOptions;
     }
 
+    public DialogueLines ReturnCurrentDialogueLines()
+    {
+        return _currentDialogueLines;
+    }
+
     public void HandleSelectedMenuPoint(int index)
     {
         if (_currentDialogueLines == null)

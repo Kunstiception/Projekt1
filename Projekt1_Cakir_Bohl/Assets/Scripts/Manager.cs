@@ -118,6 +118,13 @@ public class Manager : MonoBehaviour
         yield break;
     }
 
+    public virtual IEnumerator ZombieConversationAttempt()
+    {
+        yield return PrintMultipleLines(UIDialogueStorage.ZombieCantSpeakLines);
+
+        _textBox.text = "";
+    }
+
     // Visualisiert Schaden von Health in den Leisten
     public virtual IEnumerator UpdateUIDamage(int damage, int currentHealth)
     {

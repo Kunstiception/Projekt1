@@ -76,8 +76,6 @@ public class RestingManager : Manager, ISelectable, ICondition
             case 0:
                 _isAmbush = DecideIfAmbush();
 
-                // Play corresponding animation
-
                 StartCoroutine(SleepingCoroutine(_isAmbush));
 
                 break;
@@ -328,11 +326,27 @@ public class RestingManager : Manager, ISelectable, ICondition
                 yield return EvaluateWerewolfCondition(true);
             }
 
-            PlayerManager.Instance.HasDisadvantage = true;
+            if (DiceUtil.D10() <= GameConfig.DogSaveChance)
+            {
+                yield return PrintMultipleLines(UIDialogueStorage.DogSaveLines);
 
-            SetUpNextDay(false);
+                SetUpNextDay(false);
 
-            SceneManager.LoadScene(4);
+                PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.SleepDeprived;
+
+                yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true)));
+
+                SceneManager.LoadScene(8);
+            }
+            else
+            {
+                PlayerManager.Instance.HasDisadvantage = true;
+
+                SetUpNextDay(false);
+
+                SceneManager.LoadScene(4);
+            }
+
             yield break;
         }
         else

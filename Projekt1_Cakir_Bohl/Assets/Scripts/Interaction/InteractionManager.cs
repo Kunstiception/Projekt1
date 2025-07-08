@@ -60,8 +60,16 @@ public class InteractionManager : Manager, ISelectable
                 break;
 
             case 1:
-                ToggleCanvas(DialogueCanvas, true);
                 ToggleCanvas(InitialMenuCanvas, false);
+                
+                if (ConditionManager.Instance.IsZombie)
+                {
+                    StartCoroutine(ZombieConversationAttempt());
+
+                    return;
+                }
+
+                ToggleCanvas(DialogueCanvas, true);
 
                 _dialogueManager.StartDialogue();
 
@@ -77,6 +85,13 @@ public class InteractionManager : Manager, ISelectable
     private void ResetMenus()
     {
         ToggleCanvas(InitialMenuCanvas, true);
-        ToggleCanvas(DialogueCanvas, false);       
+        ToggleCanvas(DialogueCanvas, false);
+    }
+    
+    public override IEnumerator ZombieConversationAttempt()
+    {
+        yield return base.ZombieConversationAttempt();
+
+        ToggleCanvas(InitialMenuCanvas, true);
     }
 }

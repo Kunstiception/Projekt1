@@ -124,4 +124,11 @@ public static class UIDialogueStorage
         "His expression is hard to read, so you can't really tell if he actually enjoys this treatment."};
     public static string[] PetDogAgainLines =
         {"You should know by now I'm not that kind of dog."};
+    public static string[] ZombieCantSpeakLines =
+        {"You growl a bit in an embarassing attempt to make conversation."};
+    public static string[] DogSaveLines =
+        {"You hear a barking just as the ominous shadow is about to attack you.",
+        "The dog you met earlier takes a brave stand infront of you.",
+        "The shadow vanishes and the dog follows it into the bushes.",
+        "It seems you've made a friend."};
 }

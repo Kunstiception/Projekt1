@@ -758,6 +758,9 @@ MonoBehaviour:
   _dialogueCanvas: {fileID: 6418808802938281775}
   _firstMeetingLines: {fileID: 11400000, guid: a618e1afa7133b642b21f8e66058d7fa, type: 2}
   _secondMeetingLines: {fileID: 11400000, guid: a19acb7a0cf912b439927fb62e358d88, type: 2}
+  _hasBefriendedLines:
+  - {fileID: 11400000, guid: 55f2134930afecb45917f08fa9e25c5a, type: 2}
+  - {fileID: 11400000, guid: 5fb556e3cf2989941bd19076d545917d, type: 2}
   _possibleItems:
   - {fileID: 6130178259746579057, guid: 2d7400668fecd4b4683e6e9e95c2c2ce, type: 3}
   - {fileID: 7636313497080733404, guid: 0b5235ee86cddaa4a8e91344b3e9762a, type: 3}
@@ -1191,12 +1194,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106287032}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1915085438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1472870297
 GameObject:
@@ -1864,6 +1867,7 @@ Transform:
   m_Children:
   - {fileID: 1472870299}
   - {fileID: 1915394045}
+  - {fileID: 1106287034}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1915394043
@@ -2570,4 +2574,3 @@ SceneRoots:
   - {fileID: 1999488424}
   - {fileID: 1989241091}
   - {fileID: 249497571}
-  - {fileID: 1106287034}
