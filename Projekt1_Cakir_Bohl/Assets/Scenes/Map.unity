@@ -1203,9 +1203,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 772403208}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 310471501183469478, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1247,6 +1259,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -1263,6 +1279,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1479552123}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1591,9 +1615,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1159747042}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 310471501183469478, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1635,6 +1671,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -1651,6 +1691,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1759940690}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3029,9 +3077,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1159747042}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 310471501183469478, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3073,6 +3133,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -3089,6 +3153,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1043184076}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4175,9 +4247,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 772403208}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4219,6 +4299,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -4235,6 +4319,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1479552123}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5714,9 +5806,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 818036460}
     m_Modifications:
+    - target: {fileID: 58613503237901929, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1106159825223250780, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2657625200425758128, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5758,6 +5870,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -5777,6 +5893,18 @@ PrefabInstance:
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: AdjacentWaypoints.Array.data[2]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7712861900381335912, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6910,9 +7038,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1765841490}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6954,6 +7090,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -6970,6 +7110,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1225425752}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7043,9 +7191,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1404706943}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 310471501183469478, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7087,6 +7247,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -7099,6 +7263,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[0]
       value: 
       objectReference: {fileID: 592934303}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7530,9 +7702,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2029986926}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 310471501183469478, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7574,6 +7758,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -7590,6 +7778,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1121275848}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7608,9 +7804,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2029986926}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7652,6 +7856,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -7668,6 +7876,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1233284663}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7848,9 +8064,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1159747042}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 310471501183469478, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7892,6 +8120,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -7908,6 +8140,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1759940690}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8000,9 +8240,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1765841490}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8044,6 +8292,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -8056,6 +8308,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[0]
       value: 
       objectReference: {fileID: 1938543273}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8997,9 +9257,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1159747042}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9041,6 +9309,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -9057,6 +9329,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1043184076}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10422,9 +10702,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1159747042}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10466,6 +10754,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 0
@@ -10486,6 +10778,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1759940690}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10647,9 +10947,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1404706943}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10691,6 +10999,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -10703,6 +11015,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[0]
       value: 
       objectReference: {fileID: 1058857989}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11118,9 +11438,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2029986926}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11162,6 +11490,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -11178,6 +11510,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 2147022736}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14385,9 +14725,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2029986926}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 310471501183469478, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14429,6 +14781,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -14445,6 +14801,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1253653069}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16003,9 +16367,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2029986926}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 310471501183469478, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16047,6 +16423,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -16063,6 +16443,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 2147022736}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16247,9 +16635,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 772403208}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16291,6 +16687,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -16311,6 +16711,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[2]
       value: 
       objectReference: {fileID: 932856143}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16497,9 +16905,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 772403208}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 310471501183469478, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16541,6 +16961,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -16557,6 +16981,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 932856143}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17156,9 +17588,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1159747042}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17200,6 +17640,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 1
@@ -17216,6 +17660,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1043184076}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21734,9 +22186,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2029986926}
     m_Modifications:
+    - target: {fileID: 127156704942254967, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1395911305594522456, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_Name
       value: Waypoint (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458835983714046403, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3276051806991313373, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21778,6 +22238,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535236652979069245, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
       value: 0
@@ -21798,6 +22262,14 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 1121275848}
+    - target: {fileID: 7246996027781560694, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389181441131955681, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
