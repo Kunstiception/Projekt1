@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossFightManager : CombatManager, ISelectable
 {
@@ -276,5 +277,7 @@ public class BossFightManager : CombatManager, ISelectable
         yield return HandleTextOutput(_currentLine, false);
 
         yield return PrintMultipleLines(UIDialogueStorage.BossDefeatedLines);
+
+        SceneManager.LoadScene(15);
     }
 }

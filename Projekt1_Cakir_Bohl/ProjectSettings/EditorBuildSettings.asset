@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Dog.unity
     guid: 02e7873bd96d2c54e9599ba870abb40e
+  - enabled: 1
+    path: Assets/Scenes/EndScreen.unity
+    guid: 10ee059d9f36e4040b5944414f0b44c9
   m_configObjects: {}

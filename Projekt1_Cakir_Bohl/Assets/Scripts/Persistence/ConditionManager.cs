@@ -18,6 +18,10 @@ public class ConditionManager : MonoBehaviour
     public bool IsBoostedVampire = false;
     public bool IsWerewolf = false;
     public bool IsZombie = false;
+    public string SleepDeprivedTerm = "sleep deprived";
+    public string ZombieTerm = "Zombie";
+    public string VampireTerm = "Vampire";
+    public string WerewolfTerm = "Werewolf";
 
     private void Awake()
     {
@@ -50,62 +54,82 @@ public class ConditionManager : MonoBehaviour
     public string[] ApplyCondition(Conditions condition, bool isAffected)
     {
         switch (condition)
-        {
-            case Conditions.SleepDeprived:
-                if (isAffected)
-                {
-                    ApplySleepDeprived(true);
+            {
+                case Conditions.SleepDeprived:
+                    if (isAffected)
+                    {
+                        ApplySleepDeprived(true);
 
-                    return UIDialogueStorage.SleepDeprivedLines;
-                }
-                else
-                {
-                    ApplySleepDeprived(false);
+                        if (!MainManager.Instance.ObtainedConditions.Contains(SleepDeprivedTerm))
+                        {
+                            MainManager.Instance.ObtainedConditions.Add(SleepDeprivedTerm);
+                        }
 
-                    return UIDialogueStorage.HealedSleepDeprivedLines;
-                }
+                        return UIDialogueStorage.SleepDeprivedLines;
+                    }
+                    else
+                    {
+                        ApplySleepDeprived(false);
 
-            case Conditions.Vampire:
-                if (isAffected)
-                {
-                    ApplyVampire(true);
+                        return UIDialogueStorage.HealedSleepDeprivedLines;
+                    }
 
-                    return UIDialogueStorage.VampireLines;
-                }
-                else
-                {
-                    ApplyVampire(false);
+                case Conditions.Vampire:
+                    if (isAffected)
+                    {
+                        ApplyVampire(true);
 
-                    return UIDialogueStorage.HealedVampireLines;
-                }
+                        if (!MainManager.Instance.ObtainedConditions.Contains(VampireTerm))
+                        {
+                            MainManager.Instance.ObtainedConditions.Add(VampireTerm);
+                        }
 
-            case Conditions.Werewolf:
-                if (isAffected)
-                {
-                    ApplyWerewolf(true);
+                        return UIDialogueStorage.VampireLines;
+                    }
+                    else
+                    {
+                        ApplyVampire(false);
 
-                    return UIDialogueStorage.WerewolfLines;
-                }
-                else
-                {
-                    ApplyWerewolf(false);
+                        return UIDialogueStorage.HealedVampireLines;
+                    }
 
-                    return UIDialogueStorage.HealedWerewolfLines;
-                }
+                case Conditions.Werewolf:
+                    if (isAffected)
+                    {
+                        ApplyWerewolf(true);
 
-            case Conditions.Zombie:
-                if (isAffected)
-                {
-                    IsZombie = true;
+                        if (!MainManager.Instance.ObtainedConditions.Contains(WerewolfTerm))
+                        {
+                            MainManager.Instance.ObtainedConditions.Add(WerewolfTerm);
+                        }
 
-                    return UIDialogueStorage.ZombieLines;
-                }
-                else
-                {
-                    IsZombie = false;
-                    return UIDialogueStorage.HealedZombieLines;
-                }
-        }
+                        return UIDialogueStorage.WerewolfLines;
+                    }
+                    else
+                    {
+                        ApplyWerewolf(false);
+
+                        return UIDialogueStorage.HealedWerewolfLines;
+                    }
+
+                case Conditions.Zombie:
+                    if (isAffected)
+                    {
+                        IsZombie = true;
+
+                        if (!MainManager.Instance.ObtainedConditions.Contains(ZombieTerm))
+                        {
+                            MainManager.Instance.ObtainedConditions.Add(ZombieTerm);
+                        }
+
+                        return UIDialogueStorage.ZombieLines;
+                    }
+                    else
+                    {
+                        IsZombie = false;
+                        return UIDialogueStorage.HealedZombieLines;
+                    }
+            }
 
         return null;
     }

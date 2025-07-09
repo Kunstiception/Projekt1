@@ -49,6 +49,8 @@ public class TavernManager : Manager, ISelectable
         _dialogueManager.InitialOptions = _initialLines[0];
 
         _dialogueManager.StartDialogue();
+
+        MainManager.Instance.NumberOfVillagersMet++;
     }
 
     void Update()
@@ -291,6 +293,8 @@ public class TavernManager : Manager, ISelectable
 
         // Gewährt exra Boost für Vampir
         ConditionManager.Instance.ApplyVampireBiteBoost(true);
+
+        MainManager.Instance.NumberOfPeopleBitten++;
 
         _textBox.text = "";
 

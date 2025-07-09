@@ -16,9 +16,9 @@ public class Manager : MonoBehaviour
     [SerializeField] protected Slider _playerEgoBarBelow;
     protected Coroutine _textCoroutine;
     protected Coroutine _waitForContinueCoroutine;
+    protected Item _currentItem;
     protected int _currentStringIndex = 0;
     protected string _currentLine;
-    protected Item _currentItem;
 
     void Update()
     {

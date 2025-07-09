@@ -351,7 +351,8 @@ public class RestingManager : Manager, ISelectable, ICondition
         }
         else
         {
-            //Wait for anim
+            MainManager.Instance.NumberOfNightsSlept++;
+            
             yield return AnticipationTextCoroutine();
 
             bool wasHurt = false;

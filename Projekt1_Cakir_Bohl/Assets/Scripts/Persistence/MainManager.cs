@@ -27,10 +27,15 @@ public class MainManager : MonoBehaviour
     public List<Item> InventoryItems;
     public List<int> InventoryAmounts;
     public List<bool> EquipmentBools;
+    public List<string> ObtainedConditions = new List<string>(); 
     public int NumberOfRings;
     public int NumberofAmulets;
     public int NumberofSwords;
     public int ConditionAmount;
+    public int NumberOfDefeatedEnemies;
+    public int NumberOfNightsSlept;
+    public int NumberOfVillagersMet;
+    public int NumberOfPeopleBitten;
     public bool IsDay;
     public bool IsSleepDeprived;
     public bool IsVampire;
@@ -65,12 +70,17 @@ public class MainManager : MonoBehaviour
         public int AccuracyModifier;
         public int InsultDamageModifier;
         public int CurrentDay;
+        public int NumberOfDefeatedEnemies;
+        public int NumberOfNightsSlept;
+        public int NumberOfVillagersMet;
+        public int NumberOfPeopleBitten;
         public string LastWayPoint;
         public List<string> WayPoints;
         public List<int> WayPointTypes;
         public List<Item> InventoryItems;
         public List<int> InventoryAmounts;
         public List<bool> EquipmentBools;
+        public List<string> ObtainedConditions = new List<string>();
         public int NumberOfRings;
         public int NumberofAmulets;
         public int NumberofSwords;
@@ -109,6 +119,11 @@ public class MainManager : MonoBehaviour
         data.IsWerewolf = ConditionManager.Instance.IsWerewolf;
         data.IsZombie = ConditionManager.Instance.IsZombie;
         data.HasBefriendedDog = HasBefriendedDog;
+        data.ObtainedConditions = ObtainedConditions;
+        data.NumberOfDefeatedEnemies = NumberOfDefeatedEnemies;
+        data.NumberOfNightsSlept = NumberOfNightsSlept;
+        data.NumberOfVillagersMet = NumberOfVillagersMet;
+        data.NumberOfPeopleBitten = NumberOfPeopleBitten;
 
         InventoryItems.Clear();
         InventoryAmounts.Clear();
@@ -181,6 +196,11 @@ public class MainManager : MonoBehaviour
             IsWerewolf = data.IsWerewolf;
             IsZombie = data.IsZombie;
             HasBefriendedDog = data.HasBefriendedDog;
+            ObtainedConditions = data.ObtainedConditions;
+            NumberOfDefeatedEnemies = data.NumberOfDefeatedEnemies;
+            NumberOfNightsSlept = data.NumberOfNightsSlept;
+            NumberOfVillagersMet = data.NumberOfVillagersMet;
+            NumberOfPeopleBitten = data.NumberOfPeopleBitten;
 
             if (InventoryManager.Instance != null)
             {
@@ -239,6 +259,11 @@ public class MainManager : MonoBehaviour
         IsWerewolf = false;
         IsZombie = false;
         HasBefriendedDog = false;
+        ObtainedConditions.Clear();
+        NumberOfNightsSlept = 0;
+        NumberOfDefeatedEnemies = 0;
+        NumberOfVillagersMet = 0;
+        NumberOfPeopleBitten = 0;
 
         PlayerManager.Instance.ResetStats();
         ConditionManager.Instance.ResetStats();

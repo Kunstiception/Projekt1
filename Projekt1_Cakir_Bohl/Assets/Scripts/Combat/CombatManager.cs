@@ -322,7 +322,7 @@ public class CombatManager : Manager, ISelectable
 
         // wenn keine Insults mehr übrig, bleibt nur Angriff
         // der Endboss greift nur die Lebenspunkte an
-        if (_playerInsultsAndValues.Count < 1 && _enemy.Name == "Voice")
+        if (_playerInsultsAndValues.Count < 1 || _enemy.Name == "Voice")
         {
             randomIndex = UnityEngine.Random.Range(1, 2);
         }
@@ -461,7 +461,7 @@ public class CombatManager : Manager, ISelectable
         {
             ToggleCanvas(_initialSelectionMenuCanvas, false);
 
-            if (_enemy.Name != "Zombie")
+            if (_enemy.Name != ConditionManager.Instance.ZombieTerm)
             {
                 var random = UnityEngine.Random.Range(0, _playerInsultsAndValues.Count - 1);
 
@@ -521,7 +521,7 @@ public class CombatManager : Manager, ISelectable
             }
             else
             {
-                if (defender.Name != "Zombie")
+                if (defender.Name != ConditionManager.Instance.ZombieTerm)
                 {
                     _finalDamage = attackRoll - defender.InsultResistance;
                 }
@@ -752,6 +752,8 @@ public class CombatManager : Manager, ISelectable
                 {
                     if (!isRetreat)
                     {
+                        MainManager.Instance.NumberOfDefeatedEnemies++;
+
                         yield return StartCoroutine(ManageLoot());
                     }
 

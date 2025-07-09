@@ -131,4 +131,8 @@ public static class UIDialogueStorage
         "The dog you met earlier takes a brave stand infront of you.",
         "The shadow vanishes and the dog follows it into the bushes.",
         "It seems you've made a friend."};
+    public static string[] EndLines =
+        {"Created by Zara Cakir and Lukas Bohl.",
+        "Thank you for playing.",
+        "Until next time, dear knight."};
 }
