@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: e487fe79b43b8424ab32f482cd85b9df, type: 2}
-  DialogueLines: {fileID: 0}
+  EntrySound: {fileID: 8300000, guid: 112c983d2bf23f54aa3fc65079f757aa, type: 3}
   Name: Bandit
   HealthPoints: 12
   EgoPoints: 10

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: 162f82c7acd0dea4c9f87b348ebb986f, type: 2}
-  DialogueLines: {fileID: 0}
+  EntrySound: {fileID: 8300000, guid: d112c54dc3652fa4987e358d7de29c9b, type: 3}
   Name: Farmer
   HealthPoints: 10
   EgoPoints: 8

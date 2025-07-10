@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class CombatManager : Manager, ISelectable
 {
+    [SerializeField] protected AudioSource _audioSource;
     [SerializeField] protected GameObject _hitParticlesInsult;
     [SerializeField] protected GameObject _hitParticlesStrike;
     [SerializeField] protected GameObject[] _exclamations;
@@ -171,6 +172,11 @@ public class CombatManager : Manager, ISelectable
         }
 
         SetInitialStats();
+
+        if (_enemy.EntrySound != null)
+        {
+            _audioSource.PlayOneShot(_enemy.EntrySound, 1.5f);           
+        }
 
         _currentLine = $"You encounter a {_enemy.Name}!";
         yield return StartCoroutine(HandleTextOutput(_currentLine, false));

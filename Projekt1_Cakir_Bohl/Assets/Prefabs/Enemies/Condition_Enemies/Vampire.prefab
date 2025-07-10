@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: 6502782966551ab40993f462e5afb5db, type: 2}
-  DialogueLines: {fileID: 0}
+  EntrySound: {fileID: 8300000, guid: d275bfa94373a134e843c0c2d67486c9, type: 3}
   Name: Vampire
   HealthPoints: 10
   EgoPoints: 12

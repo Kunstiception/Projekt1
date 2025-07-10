@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: 2fda5748273546640a6e28da770af488, type: 2}
-  DialogueLines: {fileID: 0}
+  EntrySound: {fileID: 8300000, guid: b4d451e93dc4dbf4d9c19abdc1fc03df, type: 3}
   Name: Wolf
   HealthPoints: 9
   EgoPoints: 9

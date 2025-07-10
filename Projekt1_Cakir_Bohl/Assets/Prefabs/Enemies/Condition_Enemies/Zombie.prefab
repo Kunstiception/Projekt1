@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: dba5392289e30444d985f403a2db61eb, type: 2}
-  DialogueLines: {fileID: 0}
+  EntrySound: {fileID: 8300000, guid: 83a180248ef5f2d47846ad9576196284, type: 3}
   Name: Zombie
   HealthPoints: 10
   EgoPoints: 1

@@ -13,6 +13,11 @@ public class StartMenu : Manager
 
     private IEnumerator Start()
     {
+        if (!MainManager.Instance.CheckForSaveFile())
+        {
+            _buttonLoad.gameObject.SetActive(false);
+        }
+
         ToggleCursorState(false);
         _buttonLoad.enabled = false;
         _buttonNew.enabled = false;
@@ -33,7 +38,7 @@ public class StartMenu : Manager
     public void LoadNew()
     {
         MainManager.Instance.RevertAll();
-        
+
         SceneManager.LoadScene(1);
     }
 }

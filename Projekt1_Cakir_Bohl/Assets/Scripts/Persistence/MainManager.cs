@@ -272,14 +272,24 @@ public class MainManager : MonoBehaviour
         SaveAll();
     }
 
-    private void CreateEmptySave()
+    public bool CheckForSaveFile()
     {
-        SaveData data = new SaveData();
+        string path = Application.persistentDataPath + "/savefile.json";
 
-        string json = JsonUtility.ToJson(data);
+        if (!File.Exists(path))
+        {
+            return false;
+        }
 
-        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        string json = File.ReadAllText(path);
 
-        Debug.Log(json);
+        SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+        if (data.CurrentDay == 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

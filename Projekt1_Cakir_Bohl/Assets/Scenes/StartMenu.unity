@@ -714,7 +714,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5c1ede3c96bfe464198ac090eca28a0c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1525,15 +1525,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5f8040bafef51409c66f0e7b442267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _texts: []
   _textBox: {fileID: 0}
   _promptSkip: {fileID: 0}
   _promptContinue: {fileID: 0}
   _playerUIHealth: {fileID: 0}
   _playerUIEgo: {fileID: 0}
+  _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
-  _playerHealthbarSection: {fileID: 0}
   _question: Continue quest or start a new one?
   _uiTextElement: {fileID: 534006392}
   _buttonLoad: {fileID: 1625363744}

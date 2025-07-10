@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: a8d7605d1bb932e429365c36671db5fd, type: 2}
-  DialogueLines: {fileID: 0}
+  EntrySound: {fileID: 8300000, guid: 3d4d83dd6480ecf4483feb54b58304fb, type: 3}
   Name: Boar
   HealthPoints: 8
   EgoPoints: 10

@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 11400000, guid: da9b451083b40f44591b789cdc059a1a, type: 2}
+  EntrySound: {fileID: 8300000, guid: ee6491db1e206e74ea1d810f5c5aff19, type: 3}
   Name: Werewolf
   HealthPoints: 12
   EgoPoints: 12
