@@ -24,7 +24,7 @@ public class MainManager : MonoBehaviour
     // Leider kein Speichern von Dictionaries mit JSON-Utitlity möglich, daher zwei Listen
     public List<string> WayPoints;
     public List<int> WayPointTypes;
-    public List<Item> InventoryItems;
+    public List<string> InventoryItems;
     public List<int> InventoryAmounts;
     public List<bool> EquipmentBools;
     public List<string> ObtainedConditions = new List<string>(); 
@@ -77,7 +77,7 @@ public class MainManager : MonoBehaviour
         public string LastWayPoint;
         public List<string> WayPoints;
         public List<int> WayPointTypes;
-        public List<Item> InventoryItems;
+        public List<string> InventoryItems;
         public List<int> InventoryAmounts;
         public List<bool> EquipmentBools;
         public List<string> ObtainedConditions = new List<string>();
@@ -131,7 +131,7 @@ public class MainManager : MonoBehaviour
 
         foreach (Item item in InventoryManager.Instance.InventoryItems)
         {
-            InventoryItems.Add(item);
+            InventoryItems.Add(item.Name);
             InventoryAmounts.Add(InventoryUtil.ReturnItemAmount(item));
         }
 
@@ -144,9 +144,9 @@ public class MainManager : MonoBehaviour
         }
 
         data.EquipmentBools = EquipmentBools;
-        data.NumberOfRings = NumberOfRings;
-        data.NumberofAmulets = NumberofAmulets;
-        data.NumberofSwords = NumberofSwords;
+        data.NumberOfRings = InventoryManager.Instance.NumberOfRings;
+        data.NumberofAmulets = InventoryManager.Instance.NumberOfAmulets;
+        data.NumberofSwords = InventoryManager.Instance.NumberofSwords;
         data.InventoryItems = InventoryItems;
         data.InventoryAmounts = InventoryAmounts;
         data.IsDay = IsDay;
@@ -206,7 +206,7 @@ public class MainManager : MonoBehaviour
             {
                 for (int i = 0; i < data.InventoryItems.Count; i++)
                 {
-                    InventoryManager.Instance.InventoryItems.Add(data.InventoryItems[i]);
+                    InventoryManager.Instance.InventoryItems.Add(InventoryManager.Instance.AllItems[data.InventoryItems[i]]);
                     InventoryManager.Instance.InventoryAmounts.Add(data.InventoryAmounts[i]);
                 }
 
@@ -215,6 +215,8 @@ public class MainManager : MonoBehaviour
                     InventoryManager.Instance.EquippedItems.Add(i, EquipmentBools[i]);
                 }
             }
+
+            InventoryManager.Instance.InitializeNumberOfEquippedItems();
 
             if (PlayerManager.Instance != null)
             {

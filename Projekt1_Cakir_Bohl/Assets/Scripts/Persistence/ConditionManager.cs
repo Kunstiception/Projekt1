@@ -37,18 +37,15 @@ public class ConditionManager : MonoBehaviour
 
     public void ResetStats()
     {
-        IsSleepDeprived = false;
-        IsVampire = false;
-        IsBoostedVampire = false;
-        IsWerewolf = false;
-        IsZombie = false;
-
         foreach (Conditions condition in GetCurrentConditions())
         {
             ApplyCondition(condition, false);
         }
 
-        ApplyVampireBiteBoost(false);
+        if (IsBoostedVampire)
+        {
+            ApplyVampireBiteBoost(false);           
+        }
     }
 
     public string[] ApplyCondition(Conditions condition, bool isAffected)

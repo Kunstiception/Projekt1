@@ -184,4 +184,11 @@ public class InventoryManager : MonoBehaviour
 
         return true;
     }
+
+    public void InitializeNumberOfEquippedItems()
+    {
+        NumberOfRings = MainManager.Instance.NumberOfRings;
+        NumberOfAmulets = MainManager.Instance.NumberofAmulets;
+        NumberofSwords = MainManager.Instance.NumberofSwords;
+    }
 }
