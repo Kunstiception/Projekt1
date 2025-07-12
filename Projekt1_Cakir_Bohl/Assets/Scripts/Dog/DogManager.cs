@@ -11,6 +11,8 @@ public class DogManager : Manager, ISelectable
     [SerializeField] private DialogueLines[] _hasBefriendedLines;
     [SerializeField] private Item[] _possibleItems;
     [SerializeField] private DialogueManager _dialogueManager;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _dogEntrance;
 
     IEnumerator Start()
     {
@@ -31,6 +33,8 @@ public class DogManager : Manager, ISelectable
         {
             _dialogueManager.InitialOptions = _secondMeetingLines;
         }
+
+        _audioSource.PlayOneShot(_dogEntrance);
 
         if (!MainManager.Instance.HasBefriendedDog)
         {

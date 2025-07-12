@@ -13,6 +13,8 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] protected GameObject _hitParticlesInsult;
     [SerializeField] protected GameObject _hitParticlesStrike;
     [SerializeField] protected GameObject[] _exclamations;
+    [SerializeField] protected AudioClip _insultHit;
+    [SerializeField] protected AudioClip _strikeHit;
     [SerializeField] protected TextMeshProUGUI _enemyUIHealth;
     [SerializeField] protected TextMeshProUGUI _enemyUIEgo;
     [SerializeField] protected Slider _enemyHealthBarBelow;
@@ -1019,7 +1021,7 @@ public class CombatManager : Manager, ISelectable
 
         if (combatant == _enemy)
         {
-            StartCoroutine(PlayHitParticles(isHealthDamage));
+            StartCoroutine(PlayHitParticlesAndAudio(isHealthDamage));
             StartCoroutine(PlayExclamation());
         }
 
@@ -1143,16 +1145,20 @@ public class CombatManager : Manager, ISelectable
         }
     }
 
-    protected IEnumerator PlayHitParticles(bool isHealthDamage)
+    protected IEnumerator PlayHitParticlesAndAudio(bool isHealthDamage)
     {
         GameObject hitParticles;
 
         if (isHealthDamage)
         {
+            _audioSource.PlayOneShot(_strikeHit);
+            
             hitParticles = _hitParticlesStrike;
         }
         else
         {
+            _audioSource.PlayOneShot(_insultHit);
+
             hitParticles = _hitParticlesInsult;
         }
 

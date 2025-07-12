@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,21 +10,14 @@ public class StartMenu : Manager
     [SerializeField] private Button _buttonLoad;
     [SerializeField] private Button _buttonNew;
 
-    private IEnumerator Start()
+    private void Start()
     {
         if (!MainManager.Instance.CheckForSaveFile())
         {
-            _buttonLoad.gameObject.SetActive(false);
+            _buttonLoad.interactable = false;
         }
 
         ToggleCursorState(false);
-        _buttonLoad.enabled = false;
-        _buttonNew.enabled = false;
-
-        yield return DialogueUtil.DisplayTextOverTime(_question, _uiTextElement, null, null);
-
-        _buttonLoad.enabled = true;
-        _buttonNew.enabled = true;
     }
 
     public void LoadSave()

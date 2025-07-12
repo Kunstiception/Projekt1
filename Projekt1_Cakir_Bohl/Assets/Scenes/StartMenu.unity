@@ -2369,6 +2369,7 @@ MonoBehaviour:
   _uiTextElement: {fileID: 534006392}
   _buttonLoad: {fileID: 1625363744}
   _buttonNew: {fileID: 1301486768}
+  _buttonDisabledColor: {r: 0.2679245, g: 0.2679245, b: 0.2679245, a: 0}
 --- !u!4 &1729536488
 Transform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -8,6 +7,8 @@ public class StoreManager : Manager, ISelectable
     [SerializeField] public Canvas MerchantInventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] private TextMeshProUGUI _coinsText;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _merchantSold;
     private Item _coinsItem;
 
     void Start()
@@ -68,6 +69,8 @@ public class StoreManager : Manager, ISelectable
                 InventoryManager.Instance.ManageInventory(_currentItem, 1, true);
 
                 UpdateCoinsText();
+
+                _audioSource.PlayOneShot(_merchantSold);
 
                 _currentLine = $"You have purchased {_currentItem.Name} for {_currentItem.StorePrice} coins.";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));

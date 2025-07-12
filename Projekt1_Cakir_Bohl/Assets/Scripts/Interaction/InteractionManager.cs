@@ -8,6 +8,8 @@ public class InteractionManager : Manager, ISelectable
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] public Canvas InitialMenuCanvas;
     [SerializeField] public Canvas DialogueCanvas;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _merchantEntrance;
     [SerializeField] private DialogueManager _dialogueManager;
     [SerializeField] private GameObject _merchant;
 
@@ -28,6 +30,8 @@ public class InteractionManager : Manager, ISelectable
         _promptContinue.enabled = false;
 
         yield return StartCoroutine(EvaluateVampire());
+
+        _audioSource.PlayOneShot(_merchantEntrance);
 
         _currentLine = "Feel free to take a look at my merchandise, dear knight.";
         yield return StartCoroutine(HandleTextOutput(_currentLine, false));
