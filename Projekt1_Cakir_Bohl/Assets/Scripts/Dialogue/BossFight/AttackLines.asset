@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Lines:
   - Your blade does not seem to inflict any damage.
+  - It's like your sword just goes through the creature without harming it in any
+    way.
+  - You're sure you didn't miss and yet your blade did not seem to hit anything.

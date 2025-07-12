@@ -16,6 +16,9 @@ public class DogManager : Manager, ISelectable
 
     IEnumerator Start()
     {
+        _promptContinue.enabled = false;
+        _promptSkip.enabled = false;
+        
         ToggleCursorState(true);
 
         ToggleCanvas(_initialSelectionMenuCanvas, false);
@@ -73,7 +76,7 @@ public class DogManager : Manager, ISelectable
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     private void CheckForFriend()

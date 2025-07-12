@@ -47,7 +47,7 @@ public class ConditionScreenManager : Manager
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     private void SetConditionName()

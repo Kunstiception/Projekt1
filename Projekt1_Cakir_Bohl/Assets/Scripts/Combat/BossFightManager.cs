@@ -53,7 +53,7 @@ public class BossFightManager : CombatManager, ISelectable
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     new public void HandleSelectedMenuPoint(int index)

@@ -66,11 +66,13 @@ public static class UIDialogueStorage
         "Bite someone?"};
     public static string[] VampireLookingForVictimLines =
         {"In this room you can hear the loud snoring of someone in deep slumber.",
-        "The smell of the person in the room near the stairs is just too good. You decide to enter."};
+        "The room at the end of the hall on the first floor is quite secluded.",
+        "The smell of the person in the room near the stairs is just too good. You decide to enter." };
     public static string[] VampireCaughtLines =
         {"Just as you bow down over your sleeping victim their eyes open wide and they scream loudly.",
         "You simply take too long trying to pick the lock. A bypasser spots you and calls for the guards.",
-        "You failed to notice the maid in the corner of the lady's room. Her screams alarm the guards."};
+        "You trip over a cat before reaching the bed. The cat's cries give you away.",
+        "You failed to notice the maid in the corner of the lady's room. Her screams alarm the guards." };
     public static string[] VampireBiteLines =
         {"The taste of blood overwhelms you.",
         "You enjoy every drop while you feel your body grow stronger.",

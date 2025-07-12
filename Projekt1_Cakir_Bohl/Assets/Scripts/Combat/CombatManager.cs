@@ -72,8 +72,9 @@ public class CombatManager : Manager, ISelectable
         _hasEnemyFled = false;
         _isFighting = true;
         _textBox.enabled = true;
-        _promptSkip.enabled = true;
-        _promptContinue.enabled = false;
+
+        SetPrompts();
+
         _hitParticlesInsult.SetActive(false);
         _hitParticlesStrike.SetActive(false);
 
@@ -152,7 +153,7 @@ public class CombatManager : Manager, ISelectable
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     // Initiative würfeln, Reihenfolge festlegen
@@ -181,7 +182,7 @@ public class CombatManager : Manager, ISelectable
         }
 
         _currentLine = $"You encounter a {_enemy.Name}!";
-        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+        yield return HandleTextOutput(_currentLine, false);
 
         if (PlayerManager.Instance.GotCaught)
         {

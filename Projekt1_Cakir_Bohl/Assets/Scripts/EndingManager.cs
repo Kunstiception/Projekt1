@@ -28,7 +28,7 @@ public class EndingManager : Manager
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     private IEnumerator PlayEnding()

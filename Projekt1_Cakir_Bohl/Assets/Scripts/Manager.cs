@@ -22,10 +22,10 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
-    protected void ListenForSkip()
+    public virtual void ListenForSkipOrAuto()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -35,6 +35,28 @@ public class Manager : MonoBehaviour
                 StopCoroutine(_textCoroutine);
                 _textCoroutine = null;
                 DialogueUtil.ShowFullLine(_currentLine, _textBox, _promptSkip);
+            }
+
+            if (PlayerManager.Instance.IsAuto)
+            {
+                PlayerManager.Instance.IsAuto = false;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt))
+        {
+            if (PlayerManager.Instance.IsAuto == true)
+            {
+                PlayerManager.Instance.IsAuto = false;
+
+                _promptSkip.enabled = true;
+            }
+            else
+            {
+                PlayerManager.Instance.IsAuto = true;
+
+                _promptSkip.enabled = false;
+                _promptContinue.enabled = false;
             }
         }
     }
@@ -47,15 +69,23 @@ public class Manager : MonoBehaviour
         //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
         yield return new WaitUntil(() => line == _textBox.text);
 
-        if (isLastLine)
+        if (!PlayerManager.Instance.IsAuto)
         {
-            yield break;
+            // Einen Frame warten, damit Input nicht beide GetKeyDown-Events triggert
+            yield return null;
+
+            yield return StartCoroutine(DialogueUtil.WaitForContinue(_promptContinue));
+        }
+        else
+        {
+            yield return new WaitForSeconds(GameConfig.TimeBeforeNextLine);
         }
 
-        // Einen Frame warten, damit Input nicht beide GetKeyDown-Events triggert
-        yield return null;
+        // if (isLastLine)
+        // {
+        //     yield break;
+        // }
 
-        yield return StartCoroutine(DialogueUtil.WaitForContinue(_promptContinue));
     }
 
     public void ToggleCanvas(Canvas canvas, bool isActive)
@@ -84,6 +114,8 @@ public class Manager : MonoBehaviour
         {
             _currentLine = line;
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+            _textBox.text = "";
         }
     }
 
@@ -301,5 +333,19 @@ public class Manager : MonoBehaviour
                 yield return HandleTextOutput(_currentLine, false);
             }
         }
+    }
+
+    protected void SetPrompts()
+    {
+        if (PlayerManager.Instance.IsAuto)
+        {
+            _promptSkip.enabled = false;
+        }
+        else
+        {
+            _promptSkip.enabled = true;       
+        }
+        
+        _promptContinue.enabled = false;
     }
 }

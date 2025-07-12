@@ -27,7 +27,7 @@ public class DialogueManager : Manager, ISelectable
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     private IEnumerator DialogueCoroutine()
@@ -149,7 +149,6 @@ public class DialogueManager : Manager, ISelectable
 
 
             _initialMenuOptions.SetActive(false);
-            // _initialMenuOptions.GetComponent<SelectionMenu>().IsActive = false;
 
             _dialogueOptions = _followingMenuOptions.GetComponentsInChildren<TextMeshProUGUI>();
         }

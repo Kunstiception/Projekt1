@@ -11,7 +11,7 @@ public static class DialogueUtil
         uiElement.text = "";
         string currentString = "";
 
-        if (promptSkip)
+        if (!PlayerManager.Instance.IsAuto)
         {
             promptSkip.enabled = true;
         }
@@ -26,12 +26,10 @@ public static class DialogueUtil
             }
         }
 
-        if (promptContinue == null && promptSkip == null)
+        if (!PlayerManager.Instance.IsAuto)
         {
-            yield break;
+            promptSkip.enabled = false;
         }
-
-        promptSkip.enabled = false;
     }
 
     public static IEnumerator WaitForContinue(TextMeshProUGUI promptContinue)
@@ -40,7 +38,7 @@ public static class DialogueUtil
 
         promptContinue.enabled = true;
 
-        while (!Input.GetKeyDown(KeyCode.Space))
+        while (!Input.GetKeyDown(KeyCode.Space) && !Input.GetKeyDown(KeyCode.LeftAlt) && !Input.GetKeyDown(KeyCode.RightAlt))
         {
             yield return null;
         }

@@ -91,6 +91,11 @@ public class MapManager : Manager
         WayPoint.clickAction -= SetNextPosition;
     }
 
+    public override void ListenForSkipOrAuto()
+    {
+        return;
+    }
+
     // Ist kein Spielstand vorhanden, werden die Wegpunkte und ihre Type des jetzigen Tages im MainManager abgespeichert
     // Es soll immer genau eine Interaction geben und die restlichen Wegpunkte (abzüglich Anfang und Ende) teilen sich Fight und Looting
     // Auch diesen wird aus Balancing-Gründen eine maximale Anzahl vorgegeben

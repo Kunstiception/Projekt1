@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: NoMoreEgoLines
   m_EditorClassIdentifier: 
   Lines:
-  - You have already lost all ego!
+  - You have already lost all ego.
+  - There is no more ego to harm.
+  - You already have no ego left.

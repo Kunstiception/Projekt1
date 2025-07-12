@@ -15,6 +15,7 @@ public class PlayerManager: Combatant
     public bool GotCaught = false;
     public bool HasFinishedDay = false;
     public bool HasReachedBoss = false;
+    public bool IsAuto = false;
     public ConditionManager.Conditions LatestCondition;
 
     private void Awake()

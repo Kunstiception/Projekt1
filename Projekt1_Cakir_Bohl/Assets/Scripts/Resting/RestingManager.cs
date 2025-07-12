@@ -55,7 +55,7 @@ public class RestingManager : Manager, ISelectable, ICondition
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     // Bestimmt, was die Auswahl im Menü auslöst

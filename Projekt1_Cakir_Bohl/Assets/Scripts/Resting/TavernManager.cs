@@ -27,7 +27,7 @@ public class TavernManager : Manager, ISelectable
 
         _hasChosenToBite = false;
 
-        _promptContinue.enabled = false;
+        SetPrompts();
 
         ToggleCanvas(DialogueCanvas, false);
         ToggleCanvas(SleepingSelectionCanvas, false);
@@ -55,7 +55,7 @@ public class TavernManager : Manager, ISelectable
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     private void OnEnable()

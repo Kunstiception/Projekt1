@@ -33,4 +33,9 @@ public class StartMenu : Manager
 
         SceneManager.LoadScene(1);
     }
+
+    public override void ListenForSkipOrAuto()
+    {
+        return;
+    }
 }

@@ -33,7 +33,7 @@ public class TownDecisionManager : Manager, ISelectable
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     public void HandleSelectedMenuPoint(int index)

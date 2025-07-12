@@ -28,7 +28,7 @@ public class PondManager : Manager, ISelectable
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     public void HandleSelectedMenuPoint(int index)

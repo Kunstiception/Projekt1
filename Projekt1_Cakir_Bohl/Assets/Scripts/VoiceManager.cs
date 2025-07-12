@@ -13,7 +13,7 @@ public class VoiceManager : Manager
     {
         ToggleCursorState(true);
 
-        _promptContinue.enabled = false;
+        SetPrompts();
 
         _currentVoiceLines = _voiceLines[MainManager.Instance.CurrentDay];
 
@@ -43,7 +43,7 @@ public class VoiceManager : Manager
 
     void Update()
     {
-        ListenForSkip();
+        ListenForSkipOrAuto();
     }
 
     private IEnumerator CheckConditionAmount()

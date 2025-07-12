@@ -14,8 +14,8 @@ public class LootManager : Manager
         ToggleCursorState(true);
 
         _textBox.enabled = true;
-        _promptSkip.enabled = true;
-        _promptContinue.enabled = false;
+
+        SetPrompts();
 
         InitializePlayerStats();
 

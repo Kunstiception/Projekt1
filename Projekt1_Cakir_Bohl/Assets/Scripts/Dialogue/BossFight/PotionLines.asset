@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: PotionLines
   m_EditorClassIdentifier: 
   Lines:
-  - There is no need for potion now.
+  - There is no need for a potion now.
+  - A potion is not what you need at the moment.
+  - This is not the time for potions.
