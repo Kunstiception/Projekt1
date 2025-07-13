@@ -10,6 +10,8 @@ public class TownDecisionManager : Manager, ISelectable
     {
         ToggleCursorState(true);
 
+        SetPrompts();
+
         ToggleCanvas(SelectionMenuCanvas, false);
 
         InitializePlayerStats();

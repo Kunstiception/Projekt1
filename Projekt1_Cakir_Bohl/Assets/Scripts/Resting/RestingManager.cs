@@ -19,8 +19,9 @@ public class RestingManager : Manager, ISelectable, ICondition
         ToggleCursorState(true);
 
         _textBox.enabled = false;
-        _promptContinue.enabled = false;
-        _promptSkip.enabled = false;
+
+        SetPrompts();
+
         _inventoryDisplayer = InventoryCanvas.GetComponent<InventoryDisplayer>();
 
         if (PlayerManager.Instance.HasRoom)
@@ -332,7 +333,10 @@ public class RestingManager : Manager, ISelectable, ICondition
 
                 SetUpNextDay(false);
 
-                PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.SleepDeprived;
+                if (!ConditionManager.Instance.GetCurrentConditions().Contains(ConditionManager.Conditions.SleepDeprived))
+                {
+                    PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.SleepDeprived;               
+                }
 
                 yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true)));
 

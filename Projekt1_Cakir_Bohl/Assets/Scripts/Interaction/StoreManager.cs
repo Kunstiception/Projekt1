@@ -123,4 +123,9 @@ public class StoreManager : Manager, ISelectable
 
         _coinsText.text = $"Coins: {InventoryUtil.ReturnItemAmount(_coinsItem)}";
     }
+
+    public override void ListenForSkipOrAuto()
+    {
+        return;
+    }
 }

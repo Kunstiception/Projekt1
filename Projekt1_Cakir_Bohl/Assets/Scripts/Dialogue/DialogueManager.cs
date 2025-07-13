@@ -54,6 +54,8 @@ public class DialogueManager : Manager, ISelectable
     {
         ToggleCanvas(_dialogueCanvas, false);
 
+        _promptSkip.enabled = false;
+
         yield return PrintMultipleLines(dialogueLines.Lines);
 
         _textBox.text = "";
@@ -151,6 +153,25 @@ public class DialogueManager : Manager, ISelectable
             _initialMenuOptions.SetActive(false);
 
             _dialogueOptions = _followingMenuOptions.GetComponentsInChildren<TextMeshProUGUI>();
+        }
+    }
+
+    public override void ListenForSkipOrAuto()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (_textCoroutine != null)
+            {
+                _promptSkip.enabled = false;
+                StopCoroutine(_textCoroutine);
+                _textCoroutine = null;
+                DialogueUtil.ShowFullLine(_currentLine, _textBox, _promptSkip);
+            }
+
+            if (PlayerManager.Instance.IsAuto)
+            {
+                PlayerManager.Instance.IsAuto = false;
+            }
         }
     }
 }

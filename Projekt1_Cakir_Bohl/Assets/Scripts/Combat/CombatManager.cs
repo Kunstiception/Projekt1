@@ -1066,12 +1066,16 @@ public class CombatManager : Manager, ISelectable
     // Checken, welcher Gegner die Condition zugefügt hat
     private IEnumerator EndSceneWithCondition()
     {
+        bool wasApplied = false;
+
         switch (_enemy.Name)
         {
             case "Vampire":
                 if (!ConditionManager.Instance.IsVampire)
                 {
                     PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.Vampire;
+
+                    wasApplied = true;
 
                     yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.Vampire, true)));
                 }
@@ -1083,6 +1087,8 @@ public class CombatManager : Manager, ISelectable
                 {
                     PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.Werewolf;
 
+                    wasApplied = true;
+
                     yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.Werewolf, true)));
                 }
 
@@ -1093,13 +1099,23 @@ public class CombatManager : Manager, ISelectable
                 {
                     PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.Zombie;
 
+                    wasApplied = true;
+
                     yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.Zombie, true)));
                 }
 
                 break;
         }
 
-        SceneManager.LoadScene(8);
+        if (wasApplied)
+        {
+            SceneManager.LoadScene(8);
+        }
+        else
+        {
+            SceneManager.LoadScene(2);
+        }
+
     }
 
     // Überpürfen, ob SleepDeprived-Condition angewendet werden soll
@@ -1114,7 +1130,11 @@ public class CombatManager : Manager, ISelectable
         {
             if (_hasDisadvantage)
             {
-                ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true);
+                if (!ConditionManager.Instance.GetCurrentConditions().Contains(ConditionManager.Conditions.SleepDeprived))
+                {              
+                    ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true);
+                }
+
                 PlayerManager.Instance.HasDisadvantage = false;
             }
 

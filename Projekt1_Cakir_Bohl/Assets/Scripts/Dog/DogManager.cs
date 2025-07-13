@@ -16,9 +16,8 @@ public class DogManager : Manager, ISelectable
 
     IEnumerator Start()
     {
-        _promptContinue.enabled = false;
-        _promptSkip.enabled = false;
-        
+        SetPrompts();
+
         ToggleCursorState(true);
 
         ToggleCanvas(_initialSelectionMenuCanvas, false);
@@ -72,11 +71,6 @@ public class DogManager : Manager, ISelectable
         DialogueManager.onDialogueFinished -= CheckForFriend;
 
         StopAllCoroutines();
-    }
-
-    void Update()
-    {
-        ListenForSkipOrAuto();
     }
 
     private void CheckForFriend()
@@ -140,7 +134,7 @@ public class DogManager : Manager, ISelectable
 
                     return;
                 }
-                
+
                 ToggleCanvas(_dialogueCanvas, true);
 
                 _dialogueManager.StartDialogue();
@@ -184,4 +178,12 @@ public class DogManager : Manager, ISelectable
 
         ResetMenus();
     }
+    
+    // public override void ListenForSkipOrAuto()
+    // {
+    //     if (!_dialogueCanvas.isActiveAndEnabled)
+    //     {
+    //         base.ListenForSkipOrAuto();
+    //     }
+    // }
 }
