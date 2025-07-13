@@ -80,12 +80,6 @@ public class Manager : MonoBehaviour
         {
             yield return new WaitForSeconds(GameConfig.TimeBeforeNextLine);
         }
-
-        // if (isLastLine)
-        // {
-        //     yield break;
-        // }
-
     }
 
     public void ToggleCanvas(Canvas canvas, bool isActive)
@@ -245,13 +239,13 @@ public class Manager : MonoBehaviour
         childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
     }
 
-    protected IEnumerator AnticipationTextCoroutine()
+    protected IEnumerator AnticipationTextCoroutine(bool isGoodOutcome)
     {
         float counter = 0f;
         string singleChar = ". ";
         string finalLine = ". . . ";
 
-        while (counter < 3.5f) // Hier Animationslänge einfügen
+        while (counter < GameConfig.AnticipationLength)
         {
             if (_textBox.text != finalLine)
             {
@@ -267,9 +261,13 @@ public class Manager : MonoBehaviour
             counter += GameConfig.AnticipationCharsSpeed;
         }
 
-        _textBox.text = "!!!";
+        if (!isGoodOutcome)
+        {
+            _textBox.text = "!!!";
 
-        yield return new WaitForSeconds(GameConfig.TimeAfterAnticipation);
+            yield return new WaitForSeconds(GameConfig.TimeAfterAnticipation);
+        }
+
     }
 
     protected IEnumerator EvaluateWerewolfCondition(bool turnsToNight)

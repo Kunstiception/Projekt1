@@ -273,10 +273,11 @@ public class TavernManager : Manager, ISelectable
 
         _textBox.text = "";
 
-        yield return AnticipationTextCoroutine();
-
         if (DiceUtil.D10() <= GameConfig.VampireCaughtChance)
         {
+
+            yield return AnticipationTextCoroutine(false);
+
             _currentLine = UIDialogueStorage.VampireCaughtLines[UnityEngine.Random.Range(0, UIDialogueStorage.VampireCaughtLines.Length)];
             yield return HandleTextOutput(_currentLine, false);
 
@@ -288,6 +289,9 @@ public class TavernManager : Manager, ISelectable
 
             yield break;
         }
+
+        yield return AnticipationTextCoroutine(true);
+
 
         yield return PrintMultipleLines(UIDialogueStorage.VampireBiteLines);
 

@@ -303,7 +303,7 @@ public class RestingManager : Manager, ISelectable, ICondition
             PlayerManager.Instance.EgoPoints += egoHeal;
 
             //Wait for anim
-            yield return AnticipationTextCoroutine();
+            yield return AnticipationTextCoroutine(false);
 
             if (healthHeal == 0 && egoHeal == 0)
             {
@@ -357,7 +357,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         {
             MainManager.Instance.NumberOfNightsSlept++;
             
-            yield return AnticipationTextCoroutine();
+            yield return AnticipationTextCoroutine(true);
 
             bool wasHurt = false;
 
