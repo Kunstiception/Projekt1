@@ -8,7 +8,7 @@ public class StartMenu : Manager
     [SerializeField] private string _question;
     [SerializeField] private TextMeshProUGUI _uiTextElement;
     [SerializeField] private Button _buttonLoad;
-    [SerializeField] private Button _buttonNew;
+    [SerializeField] private GameObject _infoScreen;
 
     private void Start()
     {
@@ -16,6 +16,8 @@ public class StartMenu : Manager
         {
             _buttonLoad.interactable = false;
         }
+
+        _infoScreen.SetActive(false);
 
         ToggleCursorState(false);
     }
@@ -32,6 +34,16 @@ public class StartMenu : Manager
         MainManager.Instance.RevertAll();
 
         SceneManager.LoadScene(1);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void ToggleInfoScreen()
+    {
+        _infoScreen.SetActive(_infoScreen.activeSelf ? false : true);
     }
 
     public override void ListenForSkipOrAuto()
