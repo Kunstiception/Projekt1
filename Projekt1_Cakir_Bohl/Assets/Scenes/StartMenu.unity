@@ -1262,7 +1262,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1729536487}
         m_TargetAssemblyTypeName: StartMenu, Assembly-CSharp
-        m_MethodName: LoadNew
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2636,8 +2636,6 @@ MonoBehaviour:
   _question: Continue quest or start a new one?
   _uiTextElement: {fileID: 534006392}
   _buttonLoad: {fileID: 1625363744}
-  _buttonNew: {fileID: 1301486768}
-  _buttonQuit: {fileID: 955289089}
   _infoScreen: {fileID: 1558035308}
 --- !u!4 &1729536488
 Transform:
