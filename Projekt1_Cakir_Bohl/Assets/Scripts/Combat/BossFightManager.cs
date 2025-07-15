@@ -160,7 +160,6 @@ public class BossFightManager : CombatManager, ISelectable
         _combatant2 = PlayerManager.Instance;
     }
 
-    // Eine Runde Insult-Kampf, variiert je nachdem ob Player oder Enemy Angreifer ist
     private IEnumerator SelfInsultTurn(int optionIndex = 0)
     {
         string line = "";
@@ -174,7 +173,7 @@ public class BossFightManager : CombatManager, ISelectable
                 line = $"{PlayerManager.Instance.Name}: '{_currentPlayerInsultsAndValues.ElementAt(0).Key}'";
                 value = _currentPlayerInsultsAndValues.ElementAt(0).Value;
 
-                _egoHitLine = _selfInsultLines.AnswersWhenHit[Array.IndexOf(_selfInsultLines.Insults, _currentPlayerInsultsAndValues.ElementAt(0).Key)];
+                _egoHitLine = $"{_enemy.Name}: '{_selfInsultLines.AnswersWhenHit[Array.IndexOf(_selfInsultLines.Insults, _currentPlayerInsultsAndValues.ElementAt(0).Key)]}'";
 
                 _playerInsultsAndValues.Add(_currentPlayerInsultsAndValues.ElementAt(1).Key, _currentPlayerInsultsAndValues.ElementAt(1).Value);
 
@@ -184,7 +183,7 @@ public class BossFightManager : CombatManager, ISelectable
                 line = $"{PlayerManager.Instance.Name}: '{_currentPlayerInsultsAndValues.ElementAt(1).Key}'";
                 value = _currentPlayerInsultsAndValues.ElementAt(1).Value;
 
-                _egoHitLine = _selfInsultLines.AnswersWhenHit[Array.IndexOf(_selfInsultLines.Insults, _currentPlayerInsultsAndValues.ElementAt(1).Key)];
+                _egoHitLine = $"{_enemy.Name}: '{_selfInsultLines.AnswersWhenHit[Array.IndexOf(_selfInsultLines.Insults, _currentPlayerInsultsAndValues.ElementAt(1).Key)]}'";
 
                 _playerInsultsAndValues.Add(_currentPlayerInsultsAndValues.ElementAt(0).Key, _currentPlayerInsultsAndValues.ElementAt(0).Value);
 

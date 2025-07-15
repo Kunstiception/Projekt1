@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8edae58ba3a75b844bb07dde9ec9e432, type: 3}
+  m_Name: VoiceInsults
+  m_EditorClassIdentifier: 
+  Insults:
+  - Your voice promised something more epic than whatever you're supposed to be.
+  - So... you live in that tree?
+  - Did you forget your physical body at home today?
+  - Be honest, you are just looking for someone to talk to.
+  - Seeing you makes me feel like this wasn't worth the trip.
+  - This better be good...
+  Values: 00000000000000000000000000000000000000000000000000000000
+  AnswersWhenHit:
+  - Impossible!
+  - Impossible!
+  - Impossible!
+  - Impossible!
+  - Impossible!
+  - Impossible!
+  AnswersWhenResisted:
+  - You stand infront of a god, mortal. You seem unable to comprehend that.
+  - The tree is merely a place of worship to me.
+  - I'm not bound by chains made of flesh.
+  - I am not bothered by loneliness, in fact, I prefer it.
+  - Just surrender and you will find out.
+  - It's the best thing you'll ever experience... trust me.

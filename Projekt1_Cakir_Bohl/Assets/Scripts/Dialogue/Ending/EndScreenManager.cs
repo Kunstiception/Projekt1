@@ -9,6 +9,8 @@ public class EndScreenManager : Manager
     {
         ToggleCursorState(true);
 
+        SetPrompts();
+
         _textBox.text = "";
 
         yield return PrintMultipleLines(CreateLines());
@@ -20,11 +22,6 @@ public class EndScreenManager : Manager
         yield return PrintMultipleLines(UIDialogueStorage.EndLines);
 
         SceneManager.LoadScene(0);
-    }
-
-    void Update()
-    {
-
     }
 
     private string[] CreateLines()
@@ -44,7 +41,7 @@ public class EndScreenManager : Manager
         }
 
         // Villagers
-        if (MainManager.Instance.NumberOfDefeatedEnemies != 1)
+        if (MainManager.Instance.NumberOfVillagersMet != 1)
         {
             lines.Add($"... met {MainManager.Instance.NumberOfVillagersMet} villagers.");
         }

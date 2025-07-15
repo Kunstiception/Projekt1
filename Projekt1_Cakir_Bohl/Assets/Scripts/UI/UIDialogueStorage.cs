@@ -108,11 +108,11 @@ public static class UIDialogueStorage
         "You feel your ailments wash away."};
     public static string[] ReadyToAttackBossLines =
         {"You have rid yourself of all your ego!",
-        "The voice seems confused."};
+        "The voice seems confused.",
+        "Something is different about it."};
     public static string[] BossDefeatedLines =
-        {"You have won the fight and become a better person!",
-        "That's it.",
-        "You can go now."};
+        {"You have won the fight!",
+        "You have finished your quest!"};
     public static string[] MeetingDogLines =
         {"You see a dog coming towards you.",
         "He stops infront of you, eying you curiously.",

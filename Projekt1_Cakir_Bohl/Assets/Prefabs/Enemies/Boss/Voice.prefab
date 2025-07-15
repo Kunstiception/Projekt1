@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be12544651f4e874faa87de10468cd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InsultLines: {fileID: 11400000, guid: da9b451083b40f44591b789cdc059a1a, type: 2}
+  InsultLines: {fileID: 11400000, guid: 59498a7946884904a823a0c0f7cddec2, type: 2}
   EntrySound: {fileID: 0}
   Name: Voice
   HealthPoints: 100
@@ -54,7 +54,7 @@ MonoBehaviour:
   MinAttackStrength: 4
   MaxAttackStrength: 6
   ArmorStrength: 100
-  Initiative: 7
+  Initiative: 100
   Accuracy: 7
   Evasion: 0
   InsultResistance: 100
