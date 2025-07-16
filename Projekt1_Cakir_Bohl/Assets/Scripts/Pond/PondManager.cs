@@ -13,6 +13,8 @@ public class PondManager : Manager, ISelectable
     {
         ToggleCursorState(true);
 
+        SetPrompts();
+
         ToggleCanvas(_selectionMenuCanvas, false);
 
         yield return StartCoroutine(EvaluateVampire());
@@ -86,9 +88,8 @@ public class PondManager : Manager, ISelectable
         if (wasHurt)
         {
             _currentLine = "You are now fully recovered!";
+            yield return HandleTextOutput(_currentLine, false);
         }
-
-        yield return HandleTextOutput(_currentLine, false);
 
         SceneManager.LoadScene(2);
     }

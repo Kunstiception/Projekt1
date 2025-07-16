@@ -26,6 +26,7 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] private GameObject[] _enemiesNight;
     [SerializeField] private GameObject _guard;
     [SerializeField] private GameObject[] _itemOptions;
+    [SerializeField] private GameObject _bossfightBackground;
     [SerializeField] private Item _coin;
     [SerializeField] private Canvas _itemUseCanvas;
 
@@ -98,6 +99,8 @@ public class CombatManager : Manager, ISelectable
         {
             if (!PlayerManager.Instance.HasReachedBoss)
             {
+                _bossfightBackground.SetActive(false);
+
                 if (MainManager.Instance.IsDay)
                 {
                     var randomIndex = UnityEngine.Random.Range(0, _enemiesDay.Length);
@@ -113,7 +116,10 @@ public class CombatManager : Manager, ISelectable
             }
             else
             {
+                _bossfightBackground.SetActive(true);
+
                 Instantiate(_endBoss);
+
                 _enemy = _endBoss.GetComponent<Combatant>();
             }
         }

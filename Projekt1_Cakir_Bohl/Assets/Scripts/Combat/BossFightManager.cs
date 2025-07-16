@@ -23,6 +23,8 @@ public class BossFightManager : CombatManager, ISelectable
         Instantiate(_endBoss);
         _enemy = _endBoss.GetComponent<Combatant>();
 
+        SetPrompts();
+
         SetCombatants();
 
         SetInitialStats();

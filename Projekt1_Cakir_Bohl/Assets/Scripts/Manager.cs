@@ -49,7 +49,10 @@ public class Manager : MonoBehaviour
             {
                 PlayerManager.Instance.IsAuto = false;
 
-                _promptSkip.enabled = true;
+                if (_currentLine != "")
+                {
+                    _promptSkip.enabled = true;                  
+                }
             }
             else
             {
@@ -80,6 +83,8 @@ public class Manager : MonoBehaviour
         {
             yield return new WaitForSeconds(GameConfig.TimeBeforeNextLine);
         }
+
+        _currentLine = "";
     }
 
     public void ToggleCanvas(Canvas canvas, bool isActive)

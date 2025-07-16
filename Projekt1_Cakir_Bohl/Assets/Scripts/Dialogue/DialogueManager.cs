@@ -47,7 +47,7 @@ public class DialogueManager : Manager, ISelectable
 
             yield return ShowLinesAndHandleSelection(_currentDialogueLines);
 
-        } while (_isRunning && _textBox.text != _currentLine);
+        } while (_isRunning);
     }
 
     private IEnumerator ShowLinesAndHandleSelection(DialogueLines dialogueLines)

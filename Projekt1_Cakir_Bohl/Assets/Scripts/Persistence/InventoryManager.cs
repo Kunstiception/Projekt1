@@ -191,4 +191,11 @@ public class InventoryManager : MonoBehaviour
         NumberOfAmulets = MainManager.Instance.NumberofAmulets;
         NumberofSwords = MainManager.Instance.NumberofSwords;
     }
+
+    public void ClearInventory()
+    {
+        InventoryItems.Clear();
+        InventoryAmounts.Clear();
+        EquippedItems.Clear();
+    }
 }

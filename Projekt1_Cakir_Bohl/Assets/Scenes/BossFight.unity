@@ -195,6 +195,8 @@ MonoBehaviour:
   _enemiesNight: []
   _guard: {fileID: 0}
   _itemOptions: []
+  _normalBackground: {fileID: 0}
+  _bossfightBackground: {fileID: 0}
   _coin: {fileID: 0}
   _itemUseCanvas: {fileID: 0}
   _dialogueCanvas: {fileID: 0}

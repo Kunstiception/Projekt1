@@ -202,6 +202,8 @@ public class MainManager : MonoBehaviour
             NumberOfVillagersMet = data.NumberOfVillagersMet;
             NumberOfPeopleBitten = data.NumberOfPeopleBitten;
 
+            InventoryManager.Instance.ClearInventory();
+            
             if (InventoryManager.Instance != null)
             {
                 for (int i = 0; i < data.InventoryItems.Count; i++)
