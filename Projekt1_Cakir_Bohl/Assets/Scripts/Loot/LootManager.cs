@@ -23,7 +23,7 @@ public class LootManager : Manager
 
         if (InventoryManager.Instance.InventoryItems.Count >= GameConfig.MaxInventorySlots)
         {
-            _currentLine = "Your inventory is already full.";
+            _currentLine = UIDialogueStorage.InventoryFull;
             yield return HandleTextOutput(_currentLine, false);
 
             SceneManager.LoadScene(2);
@@ -31,7 +31,7 @@ public class LootManager : Manager
             yield break;
         }
 
-        _currentLine = "There is a treasure chest!";
+        _currentLine = UIDialogueStorage.FoundLoot;
         yield return HandleTextOutput(_currentLine, false);
 
         StartCoroutine(SelectRandomItems(CreateLootCount()));
@@ -64,7 +64,7 @@ public class LootManager : Manager
         }
         else
         {
-            if (DiceUtil.D10() > GameConfig.EquipmentChance)
+            if (DiceUtil.D10() < GameConfig.EquipmentChance)
             {
                 lootCount = GameConfig.LootCountNight;
             }
@@ -98,7 +98,7 @@ public class LootManager : Manager
 
             InventoryManager.Instance.ManageInventory(_item, 1, true);  
 
-            _currentLine = _currentLine = $"You have found {_item.Name}!";
+            _currentLine = _currentLine = $"You have found one {_item.Name}!";
             yield return HandleTextOutput(_currentLine, false);
         }
 

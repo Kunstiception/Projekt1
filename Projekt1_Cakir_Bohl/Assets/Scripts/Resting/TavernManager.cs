@@ -14,6 +14,9 @@ public class TavernManager : Manager, ISelectable
     [SerializeField] private DialogueManager _dialogueManager;
     [SerializeField] private TextMeshProUGUI _roomText;
     [SerializeField] private TextMeshProUGUI _coinsText;
+    [SerializeField] private GameObject _tavernOutside;
+    [SerializeField] private GameObject _tavernInside;
+
     private Item _coinsItem;
     private Coroutine _vampireBiteCoroutine;
     private int _currentCoinAmount;
@@ -29,19 +32,28 @@ public class TavernManager : Manager, ISelectable
 
         SetPrompts();
 
+        _tavernInside.SetActive(false);
+        _tavernOutside.SetActive(true);
+
         ToggleCanvas(DialogueCanvas, false);
         ToggleCanvas(SleepingSelectionCanvas, false);
         ToggleCanvas(VampireSelectionCanvas, false);
 
-        _currentLine = "As you pass the gate the watchful eyes of a guard set upon you.";
+        _currentLine = UIDialogueStorage.PassingTheGate;
         yield return HandleTextOutput(_currentLine, false);
 
         yield return CheckConditionsCoroutine();
 
-        _currentLine = "He lets you enter.";
+        _currentLine = UIDialogueStorage.LetPassed;
         yield return HandleTextOutput(_currentLine, false);
 
-        yield return PrintMultipleLines(UIDialogueStorage.ReachingTavernLines);
+        _currentLine = UIDialogueStorage.InfrontOfTavern;
+        yield return HandleTextOutput(_currentLine, false);
+
+        _tavernInside.SetActive(true);
+        _tavernOutside.SetActive(false);
+
+        yield return PrintMultipleLines(UIDialogueStorage.ReachedTavernLines);
 
         ToggleCanvas(DialogueCanvas, true);
 

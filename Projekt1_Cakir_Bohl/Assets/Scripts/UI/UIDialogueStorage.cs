@@ -1,5 +1,10 @@
 public static class UIDialogueStorage
 {
+    public static string FoundLoot = "There is a treasure chest!";
+    public static string InventoryFull = "Your inventory is already full.";
+    public static string PassingTheGate = "As you pass the gate the watchful eyes of a guard set upon you.";
+    public static string LetPassed = "He lets you enter.";
+    public static string InfrontOfTavern = "The tavern seems quite inviting.";
     public static string[] SleepDeprivedLines =
         {"You feel weakened by your lack of sleep."};
     public static string[] HealedSleepDeprivedLines =
@@ -51,9 +56,8 @@ public static class UIDialogueStorage
         "The sky is clear and a million stars twinkle in the sky.",
         "Somewhere a dog barks behind the town's walls.",
         "It's cold but you light a fire to keep warm."};
-    public static string[] ReachingTavernLines =
-        {"The tavern seems quite inviting.",
-        "You enter and sit down at a table.",
+    public static string[] ReachedTavernLines =
+        {"You enter and sit down at a table.",
         "Shortly after you hear someone approaching."};
     public static string[] GettingCaughtAtTheGateLines =
         {"He looks at you for a long while, studying you.",
