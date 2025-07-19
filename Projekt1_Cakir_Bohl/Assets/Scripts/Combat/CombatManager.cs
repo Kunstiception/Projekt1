@@ -184,7 +184,7 @@ public class CombatManager : Manager, ISelectable
 
         if (_enemy.EntrySound != null)
         {
-            _audioSource.PlayOneShot(_enemy.EntrySound, 1.5f);           
+            _audioSource.PlayOneShot(_enemy.EntrySound, 1f);           
         }
 
         _currentLine = $"You encounter a {_enemy.Name}!";

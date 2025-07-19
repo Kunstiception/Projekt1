@@ -231,6 +231,9 @@ public class ConditionManager : MonoBehaviour
             PlayerManager.Instance.HealthPointsModifier -= GameConfig.VampireHealthBoost;
             PlayerManager.Instance.EgoPointsModifier -= GameConfig.VampireEgoBoost;
 
+            PlayerManager.Instance.HealthPoints -= GameConfig.VampireHealthBoost;
+            PlayerManager.Instance.EgoPoints -= GameConfig.VampireEgoBoost;
+
             IsBoostedVampire = false;
         }
     }

@@ -26,6 +26,8 @@ public class TownDecisionManager : Manager, ISelectable
             yield return PrintMultipleLines(UIDialogueStorage.VampireBoostLossLines);
 
             ConditionManager.Instance.ApplyVampireBiteBoost(false);
+
+            InitializePlayerStats();
         }
 
         _textBox.text = "";

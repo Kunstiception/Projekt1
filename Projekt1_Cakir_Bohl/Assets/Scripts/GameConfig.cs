@@ -36,7 +36,7 @@ public static class GameConfig
     // Looting
     public static int LootCountDay = 1;
     public static int LootCountNight = 2;
-    public static int EquipmentChance = 4;
+    public static int EquipmentChance = 3;
     public static int EquipmentToAdd = 2;
     public static float WaitTimeAfterLoot = 0.25f;
     public static int MinimumCoinAmountDay = 3;

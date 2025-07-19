@@ -16,14 +16,18 @@ public class TavernManager : Manager, ISelectable
     [SerializeField] private TextMeshProUGUI _coinsText;
     [SerializeField] private GameObject _tavernOutside;
     [SerializeField] private GameObject _tavernInside;
+    [SerializeField] private AudioClip _vampireBite;
 
     private Item _coinsItem;
     private Coroutine _vampireBiteCoroutine;
+    private AudioSource _audioSource;
     private int _currentCoinAmount;
     private bool _hasChosenToBite;
 
     IEnumerator Start()
     {
+        _audioSource = GetComponent<AudioSource>();
+
         ToggleCursorState(true);
 
         InitializePlayerStats();
@@ -304,6 +308,7 @@ public class TavernManager : Manager, ISelectable
 
         yield return AnticipationTextCoroutine(true);
 
+        _audioSource.PlayOneShot(_vampireBite, 1f);
 
         yield return PrintMultipleLines(UIDialogueStorage.VampireBiteLines);
 
