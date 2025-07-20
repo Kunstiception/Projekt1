@@ -15,12 +15,12 @@ MonoBehaviour:
   Speakers: []
   Lines:
   - More or less, there is.
-  - You are in the first of seven valleys that are pretty much lined up like pearls
-    on a string, from west to east.
-  - At the end of the last valley you'll see a gigantic tree.
+  - You are in the first of seven valleys that are lined up, almost like pearls on
+    a string, from west to east.
+  - By the end of the last valley, you'll see a gigantic tree.
   - They call it the King's Crown.
-  - I would strongly advise against going there but it's a good point of reference
-    in case you are headed to the east.
+  - I would strongly advise against going there, but it's a good landmark in case
+    you are headed to the east.
   - Or where is it you want to go?
   SpeakerIndex: 000000000000000000000000000000000000000000000000
   PlayerOptions:

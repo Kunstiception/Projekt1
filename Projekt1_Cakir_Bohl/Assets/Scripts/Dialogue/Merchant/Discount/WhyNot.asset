@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: WhyNot
   m_EditorClassIdentifier: 
-  Speaker: []
+  Speakers: []
   Lines:
-  - I'd be broke if I gave a discount to every guy who comes along here.
+  - I'd be broke if I gave a discount to every guy who comes along.
   SpeakerIndex: 00000000
   PlayerOptions:
   - How about ten percent?

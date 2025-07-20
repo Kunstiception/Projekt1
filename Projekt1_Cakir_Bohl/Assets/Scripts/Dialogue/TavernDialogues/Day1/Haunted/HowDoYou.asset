@@ -15,8 +15,8 @@ MonoBehaviour:
   Speakers: []
   Lines:
   - They vanish into thin air! Poof! Gone!
-  - No trace. It's like they were never here.
-  - I don't know about you, but this stuff makes my skin crawl.
+  - Without a trace. It's like they were never here.
+  - I don't know about you, but that makes my skin crawl.
   SpeakerIndex: 
   PlayerOptions: []
   BranchingLines: []

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: CanBeCured
   m_EditorClassIdentifier: 
-  Speaker: []
+  Speakers: []
   Lines:
-  - Usually people visit the ponds for treating ailments. Melted glacier ice. Great
+  - Usually people visit the pond for treating ailments. Melted glacier ice. Great
     stuff!
-  - But I don't think it makes the voice go away though.
+  - Though sadly I don't think it makes the voice go away.
   SpeakerIndex: 0000000000000000
   PlayerOptions: []
   BranchingLines: []

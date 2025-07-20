@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: AKnightNever
   m_EditorClassIdentifier: 
-  Speaker: []
+  Speakers: []
   Lines:
   - Should have guessed as much, when I saw the huge sword...
-  - In case you get wounded maybe the merchant can sell you something or simply take
-    a room at the inn in the next town and rest up, though both will cost you.
+  - In case you get wounded maybe the merchant can sell you something or you could
+    simply take a room at the inn in the next town and rest up, though both will
+    cost you.
   SpeakerIndex: 0000000000000000
   PlayerOptions:
-  - But I don't have any coins...
+  - But I don't have any coin...
   - Sounds reasonable. Thanks! (return)
   BranchingLines:
   - {fileID: 11400000, guid: 794a6639f8a0bb54185e657dca5ccabf, type: 2}

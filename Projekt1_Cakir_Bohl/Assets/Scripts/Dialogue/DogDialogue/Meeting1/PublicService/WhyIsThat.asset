@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: WhyIsThat
   m_EditorClassIdentifier: 
-  Speaker: []
+  Speakers: []
   Lines:
-  - You don't usually see many people walking around in full armor in bright daylight.
+  - You don't usually see many people walking around in full armor in broad daylight.
   - But I understand why, there is always a fight around the corner, it seems.
-  - If you get into one just run away, got it?
+  - If you get into one.. just run away, got it?
   SpeakerIndex: 000000000000000000000000
   PlayerOptions:
   - A knight never shies away from a battle!

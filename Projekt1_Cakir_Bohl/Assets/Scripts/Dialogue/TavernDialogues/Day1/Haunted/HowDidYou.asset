@@ -15,10 +15,10 @@ MonoBehaviour:
   Speakers: []
   Lines:
   - I didn't - but now I do.
-  - So... are you going to harrass us like the last one?
+  - So... are you going to harass us like the last one?
   SpeakerIndex: 0000000000000000
   PlayerOptions:
-  - The last one? I feel like there is a story.
+  - The last one? I feel like there's a story there.
   - I'm simply here to rest for the night. (return)
   BranchingLines:
   - {fileID: 11400000, guid: 8f930e03ed8758247a22c0a66244ffcf, type: 2}

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: RetreatLines
   m_EditorClassIdentifier: 
   Lines:
-  - Running away in the final fight? Come on!
+  - Running away from the final fight? Come on!
   - The developers really don't want you to escape.
-  - 'Voice: ''You coward! There is no escape!'''
+  - 'Voice: ''Coward. There is no escape.'''

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: AVoice
   m_EditorClassIdentifier: 
-  Speaker: []
+  Speakers: []
   Lines:
-  - Oh shit... I knew  eventually I would meet one.
+  - Oh... I knew eventually I would meet one.
   - And not even a guard around. This is not my lucky day.
-  - You truly are one of those people. Crazy.
+  - You truly are one of those people. Astounding.
   SpeakerIndex: 000000000000000000000000
   PlayerOptions:
   - Why do you wish a guard were here?

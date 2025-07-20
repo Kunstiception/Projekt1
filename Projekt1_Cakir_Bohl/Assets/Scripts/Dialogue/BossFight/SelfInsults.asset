@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: SelfInsults
   m_EditorClassIdentifier: 
   Insults:
-  - I'm really beginning to doubt myself.
+  - I'm really starting to doubt myself...
   - Why am I doing this?
   - I was so mean to that farmer...
   - I was such an idiot for listening to you.
   - Being a knight never truly made me happy.
-  - I am so pathetic!
+  - I am so pathetic. I'll never account to anything.
   Values: 020000000300000003000000040000000400000005000000
   AnswersWhenHit:
-  - How do you mean doubt? Don't doubt, sprout!
-  - For m- For your own sake! Cant you see?
-  - Well... maybe yes, but that's not the point!
+  - What do you mean doubt? Don't doubt, sprout!
+  - For m- For your own sake! Can't you see?
+  - Yes, exactly. That's the point of all of this!
   - You are an idiot for not listening NOW!
-  - But you can look down on other people? Isn't that great?
-  - ust give yourself to me and stop whining already!
+  - But you can look down on other people! Isn't that great?
+  - Just give yourself to me and stop whining already!
   AnswersWhenResisted: []

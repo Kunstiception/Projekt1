@@ -16,8 +16,8 @@ MonoBehaviour:
   Lines:
   - The one and only King's Crown.
   - If you are looking for a haunted place... there you have it.
-  - Us villagers tell the voice-followers to stay away but it's no use.
-  - They go there and they are never seen again.
+  - Us villagers tell the voice-followers to stay away, but it's no use.
+  - They go there, never to be seen again.
   SpeakerIndex: 
   PlayerOptions: []
   BranchingLines: []

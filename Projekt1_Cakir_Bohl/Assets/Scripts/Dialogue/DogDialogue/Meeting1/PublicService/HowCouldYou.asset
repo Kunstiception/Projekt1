@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: HowCouldYou
   m_EditorClassIdentifier: 
-  Speaker: []
+  Speakers: []
   Lines:
-  - First off I'd tell you to stay off the road at night.
-  - The bandits are out because they know there are more valuables to be found.
-  - But you don't want to meet the folks who wander around at night, trust me. The
-    bandits are by far not the worst.
+  - First off, I'd tell you to stay off the road at night.
+  - Bandits are out because they know there are more valuables to be found.
+  - But you don't want to meet the monsters who wander around at night, trust me.
+    The bandits are only the tip of the iceberg.
   SpeakerIndex: 000000000000000000000000
   PlayerOptions:
   - Worse than bandits?
