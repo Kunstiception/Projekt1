@@ -11,13 +11,20 @@ public enum PositionInDialogue
 [CreateAssetMenu(fileName = "New DialogueLines", menuName = "Scriptable Object/DialogueLines")]
 public class DialogueLines : ScriptableObject
 {
+    [Header("Name")]
+    public string[] Speakers;
+
     [Header("Lines")]
     [TextArea]
     public string[] Lines;
 
+    [Header("Speaker Order")]
+    public int[] SpeakerIndex;
+
     [Header("Player Options")]
     [TextArea]
     public string[] PlayerOptions;
+
     public DialogueLines[] BranchingLines;
 
     [Header("PositionInDialogue")]

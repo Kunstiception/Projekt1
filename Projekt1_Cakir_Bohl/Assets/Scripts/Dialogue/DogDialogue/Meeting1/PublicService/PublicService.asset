@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: PublicService
   m_EditorClassIdentifier: 
+  Speaker: []
   Lines:
   - I simply like helping out a weary traveller.
   - Though you don't look like the usual weary traveller, I must say.
+  SpeakerIndex: 0000000000000000
   PlayerOptions:
   - Why is that?
   - How could you possibly help me?

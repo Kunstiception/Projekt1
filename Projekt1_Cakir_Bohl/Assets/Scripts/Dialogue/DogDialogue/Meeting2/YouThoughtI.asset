@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: YouThoughtI
   m_EditorClassIdentifier: 
+  Speaker: []
   Lines:
   - Well, of course!
   - Wouldn't have blamed you if you did.
   - Death lurks around every corner, especially at night.
+  SpeakerIndex: 000000000000000000000000
   PlayerOptions:
   - Do you have any more survival tips for me?
   - How comforting... (return)

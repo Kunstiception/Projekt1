@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: Mysterious
   m_EditorClassIdentifier: 
+  Speaker: []
   Lines:
   - My profession requires a certain amount of... discretion.
   - I hope you understand.
+  SpeakerIndex: 00000000
   PlayerOptions:
   - I do and I will not ask any more questions! (Return)
   - Are these stolen goods?

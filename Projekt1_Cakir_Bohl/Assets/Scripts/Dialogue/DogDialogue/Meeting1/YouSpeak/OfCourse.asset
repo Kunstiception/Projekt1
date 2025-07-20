@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: OfCourse
   m_EditorClassIdentifier: 
+  Speaker: []
   Lines:
   - Oh please, don't insult my intelligence.
   - You reek of the cities in the west, knight. No denying it.
   - What brings you here?
+  SpeakerIndex: 000000000000000000000000
   PlayerOptions:
   - There's a voice calling for me, beckoning me to follow it.
   - Fame and fortune!

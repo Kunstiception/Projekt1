@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: ThosePeople
   m_EditorClassIdentifier: 
+  Speaker: []
   Lines:
   - Weird folks following some kind of mysterious voice, just like you are. Really
     unfriendly people.
@@ -19,6 +20,7 @@ MonoBehaviour:
     out of them and in the end...
   - In the end they simply disappear.
   - But maybe you are different, I'm no expert.
+  SpeakerIndex: 00000000000000000000000000000000
   PlayerOptions:
   - That's scary.
   - Can it be cured?

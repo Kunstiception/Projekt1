@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: ButIDont
   m_EditorClassIdentifier: 
+  Speaker: []
   Lines:
   - "I do not condone violence, but in case you actually win a fight...\_"
   - Your opponents don't really need their purses anymore if they are missing their
     head.
+  SpeakerIndex: 0000000000000000
   PlayerOptions: []
   BranchingLines: []
   positionInDialogue: 2

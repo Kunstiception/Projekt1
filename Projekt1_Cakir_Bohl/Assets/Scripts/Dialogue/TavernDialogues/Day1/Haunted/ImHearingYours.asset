@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: ImHearingYours
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - Haha you are a funny one, I see.
+  - But the voice-followers are no laughing matter, knight.
+  - Oh no, not at all!
+  - We've had them for years. Suddenly they show up, cause trouble and then they
+    all go the tree and only gods know what happens to them there.
+  SpeakerIndex: 00000000000000000000000000000000
+  PlayerOptions:
+  - How do you mean?
+  - A tree?
+  BranchingLines:
+  - {fileID: 11400000, guid: dc0225f555f20b549b93898527cc4ad9, type: 2}
+  - {fileID: 11400000, guid: cfc2d3236dfc43a4a855125a57fddfb6, type: 2}
+  positionInDialogue: 1

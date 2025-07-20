@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: InitalDogSelection2
   m_EditorClassIdentifier: 
+  Speaker:
+  - Dog
   Lines:
   - Good to see that you are still alive!
   - I didn't think you would make it.
+  SpeakerIndex: 00000000
   PlayerOptions:
   - You thought I would die?
   - Errr... thanks?

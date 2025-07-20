@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: WorseThanBandits
   m_EditorClassIdentifier: 
+  Speaker: []
   Lines:
   - Real scary folks! They are making the fur on my back stand straight up!
   - People say you turn into one of them if they touch you.
   - If you have the coin to spare then spend your nights at an inn.
+  SpeakerIndex: 000000000000000000000000
   PlayerOptions: []
   BranchingLines: []
   positionInDialogue: 2

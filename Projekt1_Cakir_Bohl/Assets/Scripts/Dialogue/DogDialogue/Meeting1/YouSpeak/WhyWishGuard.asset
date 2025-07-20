@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: WhyWishGuard
   m_EditorClassIdentifier: 
+  Speaker: []
   Lines:
   - Well, they are the ones who have to take care of the voice-followers when they
     come into town.
   - The towns here are places of peace and quiet and the voice-followers are usually
     the ones to cause trouble.
   - But maybe you are different, I'm no expert.
+  SpeakerIndex: 000000000000000000000000
   PlayerOptions:
   - Of course I am! I wouldn't hurt a fly! (return)
   - Can it be cured?

@@ -38,7 +38,7 @@ public class DialogueManager : Manager, ISelectable
         {
             if (_currentDialogueLines.positionInDialogue == PositionInDialogue.IsEnding)
             {
-                yield return PrintMultipleLines(_currentDialogueLines.Lines);
+                yield return PrintDialogueLines(_currentDialogueLines.Lines);
 
                 EndDialogue();
 
@@ -56,7 +56,7 @@ public class DialogueManager : Manager, ISelectable
 
         _promptSkip.enabled = false;
 
-        yield return PrintMultipleLines(dialogueLines.Lines);
+        yield return PrintDialogueLines(dialogueLines.Lines);
 
         _textBox.text = "";
 
@@ -172,6 +172,27 @@ public class DialogueManager : Manager, ISelectable
             {
                 PlayerManager.Instance.IsAuto = false;
             }
+        }
+    }
+
+    private IEnumerator PrintDialogueLines(string[] lines)
+    {
+        _textBox.enabled = true;
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            if (lines[i].StartsWith("("))
+            {
+                _currentLine = lines[i];
+            }
+            else
+            {
+                _currentLine = $"{InitialOptions.Speakers[_currentDialogueLines.SpeakerIndex[i]]}: '{lines[i]}'";             
+            }
+
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+            _textBox.text = "";
         }
     }
 }
