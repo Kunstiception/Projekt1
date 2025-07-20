@@ -1,25 +1,31 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StartMenu : Manager
 {
-    [SerializeField] private string _question;
-    [SerializeField] private TextMeshProUGUI _uiTextElement;
-    [SerializeField] private Button _buttonLoad;
+    [SerializeField] private Canvas _optionsCanvas;
+    [SerializeField] private Button _loadButton;
     [SerializeField] private GameObject _infoScreen;
 
     private void Start()
     {
         if (!MainManager.Instance.CheckForSaveFile())
         {
-            _buttonLoad.interactable = false;
+            _loadButton.interactable = false;
         }
 
         _infoScreen.SetActive(false);
 
         ToggleCursorState(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            _optionsCanvas.enabled = _optionsCanvas.isActiveAndEnabled ? false : true;       
+        }
     }
 
     public void LoadSave()

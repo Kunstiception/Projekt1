@@ -25,6 +25,11 @@ public class HealthRing : Equipment, IEquipable
             PlayerManager.Instance.HealthPoints -= GameConfig.AdditionalHealthPoints;
 
             lines.Add($"You put {Name} back into your pocket.");
+
+            if (PlayerManager.Instance.HealthPoints >= 0)
+            {
+                ConditionManager.Instance.PreventDying();
+            }
             
             return lines;
         }

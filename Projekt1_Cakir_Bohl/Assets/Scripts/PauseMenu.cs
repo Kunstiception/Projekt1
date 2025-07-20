@@ -5,11 +5,17 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject _pauseMenu;
-    [SerializeField] private Button _settingsButton;
+    [SerializeField] private Button _resumeButton;
+    [SerializeField] private Button _mainMenuButton;
 
     void Start()
     {
-        _settingsButton.interactable = false;
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
+        {
+            _resumeButton.interactable = false;
+            _mainMenuButton.interactable = false;    
+        }
+
         _pauseMenu.SetActive(false);
     }
 
@@ -24,9 +30,9 @@ public class PauseMenu : MonoBehaviour
                 Time.timeScale = 1;
 
                 if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
-                {
-                    Cursor.visible = false;                 
-                }
+                    {
+                        Cursor.visible = false;
+                    }
             }
             else
             {

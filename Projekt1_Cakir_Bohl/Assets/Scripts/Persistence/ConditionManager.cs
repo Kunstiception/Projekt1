@@ -10,7 +10,7 @@ public class ConditionManager : MonoBehaviour
         Werewolf = 2,
         Zombie = 3
     }
-    
+
     public static ConditionManager Instance;
 
     public bool IsSleepDeprived = false;
@@ -44,89 +44,89 @@ public class ConditionManager : MonoBehaviour
 
         if (IsBoostedVampire)
         {
-            ApplyVampireBiteBoost(false);           
+            ApplyVampireBiteBoost(false);
         }
     }
 
     public string[] ApplyCondition(Conditions condition, bool isAffected)
     {
         switch (condition)
-            {
-                case Conditions.SleepDeprived:
-                    if (isAffected)
+        {
+            case Conditions.SleepDeprived:
+                if (isAffected)
+                {
+                    ApplySleepDeprived(true);
+
+                    if (!MainManager.Instance.ObtainedConditions.Contains(SleepDeprivedTerm))
                     {
-                        ApplySleepDeprived(true);
-
-                        if (!MainManager.Instance.ObtainedConditions.Contains(SleepDeprivedTerm))
-                        {
-                            MainManager.Instance.ObtainedConditions.Add(SleepDeprivedTerm);
-                        }
-
-                        return UIDialogueStorage.SleepDeprivedLines;
-                    }
-                    else
-                    {
-                        ApplySleepDeprived(false);
-
-                        return UIDialogueStorage.HealedSleepDeprivedLines;
+                        MainManager.Instance.ObtainedConditions.Add(SleepDeprivedTerm);
                     }
 
-                case Conditions.Vampire:
-                    if (isAffected)
+                    return UIDialogueStorage.SleepDeprivedLines;
+                }
+                else
+                {
+                    ApplySleepDeprived(false);
+
+                    return UIDialogueStorage.HealedSleepDeprivedLines;
+                }
+
+            case Conditions.Vampire:
+                if (isAffected)
+                {
+                    ApplyVampire(true);
+
+                    if (!MainManager.Instance.ObtainedConditions.Contains(VampireTerm))
                     {
-                        ApplyVampire(true);
-
-                        if (!MainManager.Instance.ObtainedConditions.Contains(VampireTerm))
-                        {
-                            MainManager.Instance.ObtainedConditions.Add(VampireTerm);
-                        }
-
-                        return UIDialogueStorage.VampireLines;
-                    }
-                    else
-                    {
-                        ApplyVampire(false);
-
-                        return UIDialogueStorage.HealedVampireLines;
-                    }
-
-                case Conditions.Werewolf:
-                    if (isAffected)
-                    {
-                        ApplyWerewolf(true);
-
-                        if (!MainManager.Instance.ObtainedConditions.Contains(WerewolfTerm))
-                        {
-                            MainManager.Instance.ObtainedConditions.Add(WerewolfTerm);
-                        }
-
-                        return UIDialogueStorage.WerewolfLines;
-                    }
-                    else
-                    {
-                        ApplyWerewolf(false);
-
-                        return UIDialogueStorage.HealedWerewolfLines;
+                        MainManager.Instance.ObtainedConditions.Add(VampireTerm);
                     }
 
-                case Conditions.Zombie:
-                    if (isAffected)
-                    {
-                        IsZombie = true;
+                    return UIDialogueStorage.VampireLines;
+                }
+                else
+                {
+                    ApplyVampire(false);
 
-                        if (!MainManager.Instance.ObtainedConditions.Contains(ZombieTerm))
-                        {
-                            MainManager.Instance.ObtainedConditions.Add(ZombieTerm);
-                        }
+                    return UIDialogueStorage.HealedVampireLines;
+                }
 
-                        return UIDialogueStorage.ZombieLines;
-                    }
-                    else
+            case Conditions.Werewolf:
+                if (isAffected)
+                {
+                    ApplyWerewolf(true);
+
+                    if (!MainManager.Instance.ObtainedConditions.Contains(WerewolfTerm))
                     {
-                        IsZombie = false;
-                        return UIDialogueStorage.HealedZombieLines;
+                        MainManager.Instance.ObtainedConditions.Add(WerewolfTerm);
                     }
-            }
+
+                    return UIDialogueStorage.WerewolfLines;
+                }
+                else
+                {
+                    ApplyWerewolf(false);
+
+                    return UIDialogueStorage.HealedWerewolfLines;
+                }
+
+            case Conditions.Zombie:
+                if (isAffected)
+                {
+                    IsZombie = true;
+
+                    if (!MainManager.Instance.ObtainedConditions.Contains(ZombieTerm))
+                    {
+                        MainManager.Instance.ObtainedConditions.Add(ZombieTerm);
+                    }
+
+                    return UIDialogueStorage.ZombieLines;
+                }
+                else
+                {
+                    IsZombie = false;
+                    return UIDialogueStorage.HealedZombieLines;
+                }
+        }
 
         return null;
     }
@@ -134,23 +134,23 @@ public class ConditionManager : MonoBehaviour
     public List<Conditions> GetCurrentConditions()
     {
         List<Conditions> conditions = new List<Conditions>();
-        
-        if(IsSleepDeprived)
+
+        if (IsSleepDeprived)
         {
             conditions.Add(Conditions.SleepDeprived);
         }
-        
-        if(IsVampire)
+
+        if (IsVampire)
         {
             conditions.Add(Conditions.Vampire);
         }
 
-        if(IsWerewolf)
+        if (IsWerewolf)
         {
             conditions.Add(Conditions.Werewolf);
         }
 
-        if(IsZombie)
+        if (IsZombie)
         {
             conditions.Add(Conditions.Zombie);
         }
@@ -160,7 +160,7 @@ public class ConditionManager : MonoBehaviour
 
     private void ApplySleepDeprived(bool isAffected)
     {
-        if(isAffected)
+        if (isAffected)
         {
             PlayerManager.Instance.AccuracyModifier -= GameConfig.SleepDeprivedAccuracyModifier;
             PlayerManager.Instance.EvasionModifier -= GameConfig.SleepDeprivedEvasionModifier;
@@ -180,7 +180,7 @@ public class ConditionManager : MonoBehaviour
 
     private void ApplyVampire(bool isAffected)
     {
-        if(isAffected)
+        if (isAffected)
         {
             PlayerManager.Instance.EvasionModifier += GameConfig.VampireEvasionModifier;
             PlayerManager.Instance.InsultDamageModifier += GameConfig.VampireInsultDamageModifier;
@@ -198,7 +198,7 @@ public class ConditionManager : MonoBehaviour
 
     public void ApplyVampireBiteBoost(bool isAffected)
     {
-        if(isAffected)
+        if (isAffected)
         {
             PlayerManager.Instance.HealthPointsModifier += GameConfig.VampireHealthBoost;
             PlayerManager.Instance.EgoPointsModifier += GameConfig.VampireEgoBoost;
@@ -235,6 +235,11 @@ public class ConditionManager : MonoBehaviour
             PlayerManager.Instance.EgoPoints -= GameConfig.VampireEgoBoost;
 
             IsBoostedVampire = false;
+
+            if (PlayerManager.Instance.HealthPoints <= 0)
+            {
+                PreventDying();
+            }
         }
     }
 
@@ -256,7 +261,7 @@ public class ConditionManager : MonoBehaviour
 
     public void ToggleWerewolfStats(bool isActive)
     {
-        if(isActive)
+        if (isActive)
         {
             PlayerManager.Instance.AttackStrengthModifier += GameConfig.WerewolfAttackStrengthModifier;
             PlayerManager.Instance.InsultDamageModifier -= GameConfig.WerewolfInsultDamageModifier;
@@ -275,5 +280,10 @@ public class ConditionManager : MonoBehaviour
         IsBoostedVampire = MainManager.Instance.IsBoostedVampire;
         IsWerewolf = MainManager.Instance.IsWerewolf;
         IsZombie = MainManager.Instance.IsZombie;
+    }
+
+    public void PreventDying()
+    {
+        PlayerManager.Instance.HealthPoints = 1;
     }
 }
