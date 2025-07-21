@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: WhyWouldYou
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - Well, why wouldn't I?
+  - Life is harsh here in the mountains.
+  - Not like in the bright, shining cities in the west, where you undoubtably hail
+    from.
+  - Is it true your streets are so clean they reflect the sunlight?
+  - Do the fountains really give wine?
+  SpeakerIndex: 0000000000000000000000000000000000000000
+  PlayerOptions:
+  - All true, except you forgot the chairs made of gold! (lie)
+  - Actually everything smells like shit there.
+  BranchingLines:
+  - {fileID: 11400000, guid: f1e101fba10ca2f4a9eccadf57186867, type: 2}
+  - {fileID: 11400000, guid: 3c24df0700e74684fbb66a0c72b9796c, type: 2}
+  positionInDialogue: 1

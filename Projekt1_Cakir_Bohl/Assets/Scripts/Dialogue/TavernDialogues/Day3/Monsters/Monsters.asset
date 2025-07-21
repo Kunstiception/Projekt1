@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
-  m_Name: Day2InitialOptions
+  m_Name: Monsters
   m_EditorClassIdentifier: 
-  Speakers:
-  - Patron
+  Speakers: []
   Lines:
-  - Hey, this is day 2!
-  SpeakerIndex: 00000000
+  - A colleague then!
+  - Nice to meet you!
+  SpeakerIndex: 0000000000000000
   PlayerOptions:
-  - Day 2 already?!
-  - Fuck off!
+  - Colleague?
+  - Why are you so cheery?
   BranchingLines:
-  - {fileID: 11400000, guid: 509bc9f48607ee142857303f09717346, type: 2}
-  - {fileID: 11400000}
-  positionInDialogue: 0
+  - {fileID: 11400000, guid: e5264473a44d07d46a5859190e2ba54a, type: 2}
+  - {fileID: 11400000, guid: a46af8b3416da54489a9074b4712c04a, type: 2}
+  positionInDialogue: 1

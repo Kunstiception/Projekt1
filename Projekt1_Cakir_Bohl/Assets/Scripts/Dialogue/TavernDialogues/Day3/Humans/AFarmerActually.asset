@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
-  m_Name: Ending
+  m_Name: AFarmerActually
   m_EditorClassIdentifier: 
   Speakers: []
   Lines:
-  - Oh yes!
+  - I'll keep an eye on you...
   SpeakerIndex: 00000000
   PlayerOptions: []
   BranchingLines: []

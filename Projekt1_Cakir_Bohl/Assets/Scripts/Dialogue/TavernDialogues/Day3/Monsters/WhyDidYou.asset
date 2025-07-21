@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: WhyDidYou
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - What if I told you they are among us?
+  - The vampires, I mean. Right here in town.
+  - The guards often let them pass.
+  - They are hard to spot compared to something like a werewolf.
+  - So lock your door at night or you might just find someone sucking at your throat,
+    and not in a good way.
+  SpeakerIndex: 0000000000000000000000000000000000000000
+  PlayerOptions: []
+  BranchingLines: []
+  positionInDialogue: 2

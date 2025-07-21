@@ -10,21 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
-  m_Name: Day1_InitialOptions
+  m_Name: Day2_InitialOptions
   m_EditorClassIdentifier: 
   Speakers:
-  - Patron
+  - Farmer
   Lines:
-  - (A man approaches your table.)
-  - Hello, stranger.
-  - Haven't seen you here before.
+  - It's rare to see a knight around here.
+  - (The man infront of you is thin and wearing dirty clothing.)
+  - You must be lost.
   SpeakerIndex: 000000000000000000000000
   PlayerOptions:
-  - Is this place haunted?
-  - Where exactly am I?
-  - I have no time for this. (skip dialogue)
+  - Why would you say that?
+  - I'm exactly where I should be.
   BranchingLines:
-  - {fileID: 11400000, guid: 90bef8a2c4250394ca83d6e980414221, type: 2}
-  - {fileID: 11400000, guid: 3ce4e662724aef34d918e667a9820ee9, type: 2}
-  - {fileID: 11400000}
+  - {fileID: 11400000, guid: 26f9b307c3ef39c4691022dc8cca5bb6, type: 2}
+  - {fileID: 11400000, guid: 16c611e0e6ec79540b9595e47596b04b, type: 2}
   positionInDialogue: 0
