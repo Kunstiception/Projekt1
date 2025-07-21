@@ -30,11 +30,6 @@ public class PlayerManager: Combatant
         DontDestroyOnLoad(gameObject);
     }
 
-    public void ResetStats()
-    {
-
-    }
-
     public void InitializePlayerStats()
     {
         HealthPointsModifier = MainManager.Instance.HealthPointsModifier;
@@ -47,6 +42,19 @@ public class PlayerManager: Combatant
         InsultDamageModifier = MainManager.Instance.InsultDamageModifier;
         HealthPoints = MainManager.Instance.PlayerHealthPoints + HealthPointsModifier;
         EgoPoints = MainManager.Instance.PlayerEgoPoints + EgoPointsModifier;
+    }
+
+    public void SetStatsAfterChange()
+    {
+        if (HealthPoints > GetStartingHealth())
+        {
+            HealthPoints = GetStartingHealth();
+        }
+
+        if (EgoPoints > GetStartingEgo())
+        {
+            EgoPoints = GetStartingEgo();
+        }
     }
 
     public int GetStartingHealth()

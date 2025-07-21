@@ -231,15 +231,9 @@ public class ConditionManager : MonoBehaviour
             PlayerManager.Instance.HealthPointsModifier -= GameConfig.VampireHealthBoost;
             PlayerManager.Instance.EgoPointsModifier -= GameConfig.VampireEgoBoost;
 
-            PlayerManager.Instance.HealthPoints -= GameConfig.VampireHealthBoost;
-            PlayerManager.Instance.EgoPoints -= GameConfig.VampireEgoBoost;
+            PlayerManager.Instance.SetStatsAfterChange();
 
             IsBoostedVampire = false;
-
-            if (PlayerManager.Instance.HealthPoints <= 0)
-            {
-                PreventDying();
-            }
         }
     }
 
@@ -280,10 +274,5 @@ public class ConditionManager : MonoBehaviour
         IsBoostedVampire = MainManager.Instance.IsBoostedVampire;
         IsWerewolf = MainManager.Instance.IsWerewolf;
         IsZombie = MainManager.Instance.IsZombie;
-    }
-
-    public void PreventDying()
-    {
-        PlayerManager.Instance.HealthPoints = 1;
     }
 }

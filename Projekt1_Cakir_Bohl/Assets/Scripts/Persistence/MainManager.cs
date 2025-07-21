@@ -269,7 +269,6 @@ public class MainManager : MonoBehaviour
         NumberOfVillagersMet = 0;
         NumberOfPeopleBitten = 0;
 
-        PlayerManager.Instance.ResetStats();
         ConditionManager.Instance.ResetStats();
         InventoryManager.Instance.ResetStats();
 

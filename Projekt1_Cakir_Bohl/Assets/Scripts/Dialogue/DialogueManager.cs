@@ -86,9 +86,9 @@ public class DialogueManager : Manager, ISelectable
 
     public void StartDialogue()
     {
+        _currentDialogueLines = InitialOptions;
         _dialogueCoroutine = StartCoroutine(DialogueCoroutine());
         _isRunning = true;
-        _currentDialogueLines = InitialOptions;
     }
 
     public DialogueLines ReturnCurrentDialogueLines()

@@ -5886,7 +5886,7 @@ MonoBehaviour:
   - {fileID: 1541606227}
   - {fileID: 593813408}
   - {fileID: 1093875401}
-  _daysCounter: {fileID: 249408753}
+  _dogFirstDay: {fileID: 805187128}
   _timeOfDayIcon: {fileID: 908925475}
   _dayIcon: {fileID: 21300000, guid: 31683869df7d15c45bb955650ed42860, type: 3}
   _nightIcon: {fileID: 21300000, guid: 11a0f06be84c4ab40b6093340c613c5c, type: 3}
@@ -8518,6 +8518,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e374de6328e9b6141846094666594672, type: 3}
+--- !u!114 &805187128 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
+  m_PrefabInstance: {fileID: 805187127}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0c9ca680ff66a4d9731558f4d737d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &818036459
 GameObject:
   m_ObjectHideFlags: 0

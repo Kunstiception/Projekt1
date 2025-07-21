@@ -133,11 +133,17 @@ public class RestingManager : Manager, ISelectable, ICondition
         _currentLine = $"You discard {_currentItem.Name}.";
         yield return HandleTextOutput(_currentLine, false);
 
+        var iEquipable = _currentItem as IEquipable;
+
+        iEquipable.EquipItem(false);
+
         InventoryManager.Instance.ManageInventory(_currentItem, 1, false, _currentIndex);
 
         _inventoryDisplayer.UpdateDisplayedInventory(_currentItem);
 
         _inventoryDisplayer.UpdateEquipIndicators();
+
+        InitializePlayerStats();
 
         ToggleCanvas(InventoryCanvas, true);
     }

@@ -10,7 +10,7 @@ public class HealthRing : Equipment, IEquipable
         {
 
             PlayerManager.Instance.HealthPointsModifier += GameConfig.AdditionalHealthPoints;
-            PlayerManager.Instance.HealthPoints += GameConfig.AdditionalHealthPoints;
+            //PlayerManager.Instance.HealthPoints += GameConfig.AdditionalHealthPoints;
 
             lines.Add("The ring slips on your finger easily.");
             lines.Add("You feel good.");
@@ -22,14 +22,11 @@ public class HealthRing : Equipment, IEquipable
         else
         {
             PlayerManager.Instance.HealthPointsModifier -= GameConfig.AdditionalHealthPoints;
-            PlayerManager.Instance.HealthPoints -= GameConfig.AdditionalHealthPoints;
+            //PlayerManager.Instance.HealthPoints -= GameConfig.AdditionalHealthPoints;
+
+            PlayerManager.Instance.SetStatsAfterChange();
 
             lines.Add($"You put {Name} back into your pocket.");
-
-            if (PlayerManager.Instance.HealthPoints >= 0)
-            {
-                ConditionManager.Instance.PreventDying();
-            }
             
             return lines;
         }

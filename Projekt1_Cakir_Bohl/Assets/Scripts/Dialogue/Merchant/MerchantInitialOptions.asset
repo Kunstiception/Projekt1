@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: MerchantInitialOptions
   m_EditorClassIdentifier: 
-  Speakers: []
+  Speakers:
+  - Merchant
   Lines:
   - Is this necessary?
   SpeakerIndex: 00000000

@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: Day2InitialOptions
   m_EditorClassIdentifier: 
+  Speakers:
+  - Patron
   Lines:
   - Hey, this is day 2!
+  SpeakerIndex: 00000000
   PlayerOptions:
   - Day 2 already?!
   - Fuck off!

@@ -18,7 +18,7 @@ MonoBehaviour:
   - If you are looking for a haunted place... there you have it.
   - Us villagers tell the voice-followers to stay away, but it's no use.
   - They go there, never to be seen again.
-  SpeakerIndex: 
+  SpeakerIndex: 00000000000000000000000000000000
   PlayerOptions: []
   BranchingLines: []
   positionInDialogue: 2

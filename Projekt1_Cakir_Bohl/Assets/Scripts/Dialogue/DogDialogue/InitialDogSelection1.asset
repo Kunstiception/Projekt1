@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: InitialDogSelection1
   m_EditorClassIdentifier: 
-  Speaker:
+  Speakers:
   - Dog
   Lines:
   - How can I help you?

@@ -10,18 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
-  m_Name: InitialOptions
+  m_Name: Day1_InitialOptions
   m_EditorClassIdentifier: 
-  Speakers: []
+  Speakers:
+  - Patron
   Lines:
-  - (A man approaches your table.)
+  - A man approaches your table.)
   - Hello, stranger.
   - Haven't seen you here before.
   SpeakerIndex: 000000000000000000000000
   PlayerOptions:
   - Is this place haunted?
   - Where exactly am I?
+  - I have no time for this. (skip dialogue)
   BranchingLines:
   - {fileID: 11400000, guid: 90bef8a2c4250394ca83d6e980414221, type: 2}
   - {fileID: 11400000, guid: 3ce4e662724aef34d918e667a9820ee9, type: 2}
+  - {fileID: 11400000}
   positionInDialogue: 0

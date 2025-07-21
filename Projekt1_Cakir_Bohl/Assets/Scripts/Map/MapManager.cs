@@ -11,7 +11,8 @@ public class MapManager : Manager
     [SerializeField] private Transform _player;
     [SerializeField] private Transform[] _firstWaypoints;
     [SerializeField] private GameObject[] _days;
-    [SerializeField] private TextMeshProUGUI _daysCounter;
+    [SerializeField] private WayPoint _dogFirstDay;
+    //[SerializeField] private TextMeshProUGUI _daysCounter;
     [SerializeField] private SpriteRenderer _timeOfDayIcon;
     [SerializeField] private Sprite _dayIcon;
     [SerializeField] private Sprite _nightIcon;
@@ -108,78 +109,91 @@ public class MapManager : Manager
         int numberOfLooting = 0;
         int randomIndex = 0;
 
+
         // 0 = empty, 1 = fight, 2 = loot, 3 = interaction, 4 = resting
-        for (int i = 0; i < foundWayPoints.Length; i++)
-        {
-            WayPoint currentWayPoint = tempWayPoints[UnityEngine.Random.Range(0, tempWayPoints.Count)];
-
-            MainManager.Instance.WayPoints.Add(currentWayPoint.gameObject.name);
-
-            if (currentWayPoint.wayPointCategory == WayPoint.WayPointCategory.IsResting)
+            for (int i = 0; i < foundWayPoints.Length; i++)
             {
-                currentWayPoint.SetType(4);
-                MainManager.Instance.WayPointTypes.Add(4);
-                tempWayPoints.Remove(currentWayPoint);
+                WayPoint currentWayPoint = tempWayPoints[UnityEngine.Random.Range(0, tempWayPoints.Count)];
 
-                continue;
-            }
+                MainManager.Instance.WayPoints.Add(currentWayPoint.gameObject.name);
 
-            if (currentWayPoint.wayPointCategory == WayPoint.WayPointCategory.IsStart)
-            {
-                currentWayPoint.SetType(0);
-                MainManager.Instance.WayPointTypes.Add(0);
-                tempWayPoints.Remove(currentWayPoint);
+                // Beim ersten Tag ist der Interaktions-Wegpunkt festgelegt (Hund-Tutorial)
+                if (MainManager.Instance.CurrentDay == 0 && currentWayPoint == _dogFirstDay)
+                {
+                    currentWayPoint.SetType(3);
+                    MainManager.Instance.WayPointTypes.Add(3);
+                    tempWayPoints.Remove(currentWayPoint);
 
-                continue;
-            }
-
-            if (numberOfInteractions < 1)
-            {
-                randomIndex = 3;
-            }
-            else
-            {
-                randomIndex = UnityEngine.Random.Range(1, 3);
-            }
-
-            switch (randomIndex)
-            {
-                case 1:
-                    // Anzahl der Wegpunkte ohne Anfang und Ende
-                    if (numberOfFights < (foundWayPoints.Length - 2) / 2)
-                    {
-                        numberOfFights++;
-                    }
-                    else
-                    {
-                        randomIndex = 2;
-                    }
-
-                    break;
-
-                case 2:
-                    if (numberOfLooting < (foundWayPoints.Length - 2) / 2)
-                    {
-                        numberOfLooting++;
-                    }
-                    else
-                    {
-                        randomIndex = 1;
-                    }
-
-                    break;
-
-
-                case 3:
                     numberOfInteractions++;
 
-                    break;
-            }
+                    continue;
+                }
 
-            MainManager.Instance.WayPointTypes.Add(randomIndex);
-            currentWayPoint.SetType(randomIndex);
-            tempWayPoints.Remove(currentWayPoint);
-        }
+                if (currentWayPoint.wayPointCategory == WayPoint.WayPointCategory.IsResting)
+                {
+                    currentWayPoint.SetType(4);
+                    MainManager.Instance.WayPointTypes.Add(4);
+                    tempWayPoints.Remove(currentWayPoint);
+
+                    continue;
+                }
+
+                if (currentWayPoint.wayPointCategory == WayPoint.WayPointCategory.IsStart)
+                {
+                    currentWayPoint.SetType(0);
+                    MainManager.Instance.WayPointTypes.Add(0);
+                    tempWayPoints.Remove(currentWayPoint);
+
+                    continue;
+                }
+
+                if (numberOfInteractions < 1 && MainManager.Instance.CurrentDay != 0)
+                {
+                    randomIndex = 3;
+                }
+                else
+                {
+                    randomIndex = UnityEngine.Random.Range(1, 3);
+                }
+
+                switch (randomIndex)
+                {
+                    case 1:
+                        // Anzahl der Wegpunkte ohne Anfang und Ende
+                        if (numberOfFights < (foundWayPoints.Length - 2) / 2)
+                        {
+                            numberOfFights++;
+                        }
+                        else
+                        {
+                            randomIndex = 2;
+                        }
+
+                        break;
+
+                    case 2:
+                        if (numberOfLooting < (foundWayPoints.Length - 2) / 2)
+                        {
+                            numberOfLooting++;
+                        }
+                        else
+                        {
+                            randomIndex = 1;
+                        }
+
+                        break;
+
+
+                    case 3:
+                        numberOfInteractions++;
+
+                        break;
+                }
+
+                MainManager.Instance.WayPointTypes.Add(randomIndex);
+                currentWayPoint.SetType(randomIndex);
+                tempWayPoints.Remove(currentWayPoint);
+            }
     }
 
     // Vorhandenen Spielstand laden
