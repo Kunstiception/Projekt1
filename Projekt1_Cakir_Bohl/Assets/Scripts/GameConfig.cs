@@ -64,7 +64,7 @@ public static class GameConfig
     public static int VampireEgoBoost = 2;
     public static int WerewolfAttackStrengthModifier = 2;
     public static int WerewolfInsultDamageModifier = 1;
-    public static int ConditionScreenWaitTime = 2;
+    public static int ConditionScreenWaitTime = 4;
     public static int TotalAmountOfConditions = 4;
 
     // Ending

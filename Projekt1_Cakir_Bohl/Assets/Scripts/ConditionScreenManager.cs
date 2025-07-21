@@ -9,7 +9,6 @@ public class ConditionScreenManager : Manager
     [SerializeField] private GameObject _zombieText;
     [SerializeField] private GameObject _werewolfText;
     [SerializeField] private GameObject _vampireText;
-
     private string _conditionName;
 
     IEnumerator Start()
@@ -32,7 +31,7 @@ public class ConditionScreenManager : Manager
         }
         else
         {
-            yield return new WaitForSeconds(GameConfig.ConditionScreenWaitTime / 2);
+            yield return new WaitForSeconds(GameConfig.ConditionScreenWaitTime / 3);
         }
 
         if (!PlayerManager.Instance.HasFinishedDay)

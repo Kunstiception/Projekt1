@@ -6,11 +6,16 @@ public class LootManager : Manager
 {
     [SerializeField] private Item[] _possibleItems;
     [SerializeField] private Item[] _possibleEquipment;
+    [SerializeField] private AudioClip _onLoot1;
+    [SerializeField] private AudioClip _onLoot2;
+    private AudioSource _audioSource;
 
     private Item _item;
 
     IEnumerator Start()
     {
+        _audioSource = GetComponent<AudioSource>();
+
         ToggleCursorState(true);
 
         _textBox.enabled = true;
@@ -39,17 +44,7 @@ public class LootManager : Manager
 
     void Update()
     {
-        // Ermöglicht sofortiges Anzeigen der gesamten derzeitigen Line
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (_textCoroutine != null)
-            {
-                _promptSkip.enabled = false;
-                StopCoroutine(_textCoroutine);
-                _textCoroutine = null;
-                DialogueUtil.ShowFullLine(_currentLine, _textBox, _promptSkip);
-            }
-        }
+        ListenForSkipOrAuto();
     }
 
     private int CreateLootCount()
@@ -96,7 +91,16 @@ public class LootManager : Manager
                 _item = _possibleItems[randomIndex];
             }
 
-            InventoryManager.Instance.ManageInventory(_item, 1, true);  
+            InventoryManager.Instance.ManageInventory(_item, 1, true);
+
+            if (i == 0)
+            {
+                _audioSource.PlayOneShot(_onLoot1);
+            }
+            else
+            {
+                _audioSource.PlayOneShot(_onLoot2); 
+            }
 
             _currentLine = _currentLine = $"You have found one {_item.Name}!";
             yield return HandleTextOutput(_currentLine, false);
