@@ -3209,7 +3209,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continue quest
+  m_text: Venture into the night
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5d1eef827c2e5864c9bc578192666019, type: 2}
   m_sharedMaterial: {fileID: 3231400802153636268, guid: 5d1eef827c2e5864c9bc578192666019, type: 2}
@@ -3272,7 +3272,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -53.036743, w: 0}
+  m_margin: {x: 0, y: 0, z: -193.21436, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
