@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class StartMenu : Manager
 {
-    [SerializeField] private Canvas _optionsCanvas;
     [SerializeField] private Button _loadButton;
     [SerializeField] private GameObject _infoScreen;
 
@@ -18,14 +17,6 @@ public class StartMenu : Manager
         _infoScreen.SetActive(false);
 
         ToggleCursorState(false);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            _optionsCanvas.enabled = _optionsCanvas.isActiveAndEnabled ? false : true;       
-        }
     }
 
     public void LoadSave()

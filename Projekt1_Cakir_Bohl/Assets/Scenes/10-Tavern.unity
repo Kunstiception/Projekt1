@@ -2779,6 +2779,8 @@ MonoBehaviour:
   _statsCanvas: {fileID: 1000728871}
   _playerHealthBarBelow: {fileID: 1000728870}
   _playerEgoBarBelow: {fileID: 1000728869}
+  _audioSource: {fileID: 0}
+  _onHeal: {fileID: 0}
   InitialOptions: {fileID: 0}
   _followingMenuOptions: {fileID: 415699330}
   _initialMenuOptions: {fileID: 415699331}
@@ -3015,6 +3017,8 @@ MonoBehaviour:
   _statsCanvas: {fileID: 1000728871}
   _playerHealthBarBelow: {fileID: 1000728870}
   _playerEgoBarBelow: {fileID: 1000728869}
+  _audioSource: {fileID: 1994004145}
+  _onHeal: {fileID: 0}
   SleepingSelectionCanvas: {fileID: 1476916833}
   VampireSelectionCanvas: {fileID: 208196628}
   DialogueCanvas: {fileID: 415699332}

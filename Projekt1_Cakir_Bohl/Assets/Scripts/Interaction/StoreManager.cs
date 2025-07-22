@@ -7,7 +7,6 @@ public class StoreManager : Manager, ISelectable
     [SerializeField] public Canvas MerchantInventoryCanvas;
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] private TextMeshProUGUI _coinsText;
-    [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _merchantSold;
     private Item _coinsItem;
 

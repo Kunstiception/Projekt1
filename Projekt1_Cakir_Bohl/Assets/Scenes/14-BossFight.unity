@@ -177,6 +177,7 @@ MonoBehaviour:
   _playerHealthBarBelow: {fileID: 1440495361}
   _playerEgoBarBelow: {fileID: 1440495360}
   _audioSource: {fileID: 8410061}
+  _onHeal: {fileID: 8300000, guid: a1f0a3994a6239d40be98228b244f3ea, type: 3}
   _hitParticlesInsult: {fileID: 1025334162}
   _hitParticlesStrike: {fileID: 27584904}
   _exclamations:
@@ -191,6 +192,7 @@ MonoBehaviour:
   _initialSelectionMenuCanvas: {fileID: 1655778717}
   _insultMenuCanvas: {fileID: 1716701539}
   _endBoss: {fileID: 1451417646648548203, guid: 357faea739e6422449e945112ce4147a, type: 3}
+  _onCoinsEarned: {fileID: 0}
   _enemiesDay: []
   _enemiesNight: []
   _guard: {fileID: 0}

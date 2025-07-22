@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EndingManager : Manager
+public class BeforeBossFightManager : Manager
 {
     [SerializeField] private GameObject[] _animations;
     [SerializeField] private VoiceLines _lines;

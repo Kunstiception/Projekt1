@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class CombatManager : Manager, ISelectable
 {
-    [SerializeField] protected AudioSource _audioSource;
     [SerializeField] protected GameObject _hitParticlesInsult;
     [SerializeField] protected GameObject _hitParticlesStrike;
     [SerializeField] protected GameObject[] _exclamations;
@@ -22,6 +21,7 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] protected Canvas _initialSelectionMenuCanvas;
     [SerializeField] protected Canvas _insultMenuCanvas;
     [SerializeField] protected GameObject _endBoss;
+    [SerializeField] private AudioClip _onCoinsEarned;
     [SerializeField] private GameObject[] _enemiesDay;
     [SerializeField] private GameObject[] _enemiesNight;
     [SerializeField] private GameObject _guard;
@@ -1221,6 +1221,8 @@ public class CombatManager : Manager, ISelectable
         }
 
         InventoryManager.Instance.ManageInventory(_coin, randomAmount, true);
+
+        _audioSource.PlayOneShot(_onCoinsEarned);
 
         _currentLine = $"You have received {randomAmount} coins.";
         yield return HandleTextOutput(_currentLine, false);

@@ -14,6 +14,8 @@ public class Manager : MonoBehaviour
     [SerializeField] protected Canvas _statsCanvas;
     [SerializeField] protected Slider _playerHealthBarBelow;
     [SerializeField] protected Slider _playerEgoBarBelow;
+    [SerializeField] protected AudioSource _audioSource;
+    [SerializeField] protected AudioClip _onHeal;
     protected Coroutine _textCoroutine;
     protected Coroutine _waitForContinueCoroutine;
     protected Item _currentItem;
@@ -191,6 +193,8 @@ public class Manager : MonoBehaviour
     // Visualisiert Heilung von Health oder Ego in den Leisten
     protected IEnumerator UpdateUIHeal(int healAmount, bool isHealthChange, int initialAmount)
     {
+        _audioSource.PlayOneShot(_onHeal);
+        
         float healValue = 0;
         Slider slider = null;
 

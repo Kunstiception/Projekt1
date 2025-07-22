@@ -8,7 +8,6 @@ public class InteractionManager : Manager, ISelectable
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] public Canvas InitialMenuCanvas;
     [SerializeField] public Canvas DialogueCanvas;
-    [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _merchantEntrance;
     [SerializeField] private DialogueManager _dialogueManager;
     [SerializeField] private GameObject _merchant;
