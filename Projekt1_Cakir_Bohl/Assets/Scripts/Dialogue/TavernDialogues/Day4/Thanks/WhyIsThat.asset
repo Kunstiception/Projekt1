@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: WhyIsThat
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - The Dark King has eyes and ears everywhere.
+  - Ever since he usurped the throne it all went downhill from there.
+  - Makes you think, doesn't it?
+  SpeakerIndex: 000000000000000000000000
+  PlayerOptions:
+  - Are you really suggesting a conspiracy?
+  - I think we would all be better off with him one head shorter.
+  BranchingLines:
+  - {fileID: 11400000, guid: 64d92863068cc2f488a66feb35a52a39, type: 2}
+  - {fileID: 11400000, guid: f0f3d757c68901f42829bf0b2304631f, type: 2}
+  positionInDialogue: 1

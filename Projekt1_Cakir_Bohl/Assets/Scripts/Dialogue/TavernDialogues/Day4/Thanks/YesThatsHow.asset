@@ -10,19 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
-  m_Name: Day1InitialOptions
+  m_Name: YesThatsHow
   m_EditorClassIdentifier: 
-  Speakers:
-  - Patron
+  Speakers: []
   Lines:
-  - Hey, you could have a conversation here!
+  - Good to know I'm not the only one then.
   SpeakerIndex: 00000000
-  PlayerOptions:
-  - Really, that is insane!!!
-  - Crazy!!!
-  - Please leave me alone... (skip dialogue)
-  BranchingLines:
-  - {fileID: 11400000, guid: 2e0ec131dfe9a5e428f3a2470485c103, type: 2}
-  - {fileID: 11400000, guid: 2e0ec131dfe9a5e428f3a2470485c103, type: 2}
-  - {fileID: 11400000}
-  positionInDialogue: 0
+  PlayerOptions: []
+  BranchingLines: []
+  positionInDialogue: 2

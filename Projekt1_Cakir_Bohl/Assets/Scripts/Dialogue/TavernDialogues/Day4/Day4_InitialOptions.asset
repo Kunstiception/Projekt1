@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: Day4_InitialOptions
+  m_EditorClassIdentifier: 
+  Speakers:
+  - Barmaid
+  Lines:
+  - (A barmaid walks past you.)
+  - (You feel something wet seeping into your armor.)
+  - Oh my! Did I spill some mead on you, dear?
+  - Take this one. It's on the house, alright?
+  SpeakerIndex: 00000000000000000000000000000000
+  PlayerOptions:
+  - Thanks!
+  - I can't accept that, please do take some coin for it.
+  - Just don't spill any more mead on me... (skip dialogue)
+  BranchingLines:
+  - {fileID: 11400000, guid: ab81fc7be97ebbc41978b3d45944018d, type: 2}
+  - {fileID: 11400000, guid: 2e8b4ecd4c09d3c4d8a88e404ee519ba, type: 2}
+  - {fileID: 11400000}
+  positionInDialogue: 0

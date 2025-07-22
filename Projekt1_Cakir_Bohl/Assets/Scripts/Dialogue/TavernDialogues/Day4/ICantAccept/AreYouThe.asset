@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: AreYouThe
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - Indeed, that's me.
+  - I inherited it from my father, who inherited it from his father... and I'm sure
+    there's one or two more fathers there.
+  - This inn is where the whole town has always communed for far over a century now.
+  - But back then there was more travel coming through, over the mountain pass especially.
+  - Nowadays it's mostly misfits... No offense.
+  SpeakerIndex: 0000000000000000000000000000000000000000
+  PlayerOptions:
+  - None taken. (return)
+  - It sounds like you're struggling.
+  BranchingLines:
+  - {fileID: 11400000, guid: 24829122392accf479d672e40a25d4da, type: 2}
+  - {fileID: 11400000, guid: 3b89157f913096a48a309f4040ed7985, type: 2}
+  positionInDialogue: 1
