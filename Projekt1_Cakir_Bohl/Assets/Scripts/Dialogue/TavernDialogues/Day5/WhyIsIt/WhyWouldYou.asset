@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: WhyWouldYou
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - Ambition? To prove to myself that I can do anything I set out to accomplish?
+  - Of course, now I see it was a foolish idea.
+  SpeakerIndex: 0000000000000000
+  PlayerOptions:
+  - I agree. (return)
+  - But you seem to have succeeded.
+  BranchingLines:
+  - {fileID: 11400000, guid: 07c8f9b6bdb1c144b9267b1b55b8f483, type: 2}
+  - {fileID: 11400000, guid: 2361dee71e78f014597b4c07a2180985, type: 2}
+  positionInDialogue: 1

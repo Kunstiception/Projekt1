@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: ButHowDid
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - It was never my intention to release this potion into the wild.
+  - But thanks to this little guy here it happened anyway.
+  - He escaped with one vial, which was enough.
+  - It's highly potent and gets easily spread by the wind.
+  - The avian fellow is the real genius to hallow
+  - He was the first I tried it on... well, the first one who survived.
+  - I thought trying it on such an intelligent animal would be interesting.
+  - But I hadn't perfected the formula yet - unlike the one of the vial he carried
+    out the window.
+  - And now he constantly talks in rhymes! It's infuriating!
+  - The shallow mind can't comprehend the genius of my kind.
+  SpeakerIndex: 00000000000000000000000000000000010000000000000000000000000000000000000001000000
+  PlayerOptions:
+  - So I guess he came back and started following you ever since?
+  - Have fun. (return)
+  BranchingLines:
+  - {fileID: 11400000, guid: 51ae90a877eca9f4497ded2a7f49489a, type: 2}
+  - {fileID: 11400000, guid: 07c8f9b6bdb1c144b9267b1b55b8f483, type: 2}
+  positionInDialogue: 1

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: Day5_InitialOptions
+  m_EditorClassIdentifier: 
+  Speakers:
+  - Alchemist
+  - Crow
+  Lines:
+  - (A crow sits down on your table. An old man follows it.)
+  - Don't pick on the knight's food!
+  - I don't just stand and stare. Life's not fair, so I'd rather take my share!
+  - By the gods! Just shut up you flapping demon!
+  SpeakerIndex: 00000000000000000100000000000000
+  PlayerOptions:
+  - Why is it that animals talk around here?
+  - (Offer the crow a bit of your food.)
+  BranchingLines:
+  - {fileID: 11400000, guid: 0fc84262a41e31d42864a4c5483cfdb0, type: 2}
+  - {fileID: 11400000, guid: f7857157b03c39e41b17451f614ddb89, type: 2}
+  positionInDialogue: 0

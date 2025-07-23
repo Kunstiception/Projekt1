@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: TheCrowInstigated
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - I'm the reason of course! Don't be ridiculous!
+  - What he says, it is true, although he may seem a fool.
+  - My achievements in the study of alchemy have led me to believe I could do anything.
+  - Even to make an animal talk like a person.
+  SpeakerIndex: 00000000010000000000000000000000
+  PlayerOptions:
+  - How did you do that?
+  - Why would you do that?
+  BranchingLines:
+  - {fileID: 11400000, guid: 648c7d8d4d9d59a499f2a5feaef3a26e, type: 2}
+  - {fileID: 11400000, guid: 1e36484331f3e2d429da56cf0d3771e1, type: 2}
+  positionInDialogue: 1

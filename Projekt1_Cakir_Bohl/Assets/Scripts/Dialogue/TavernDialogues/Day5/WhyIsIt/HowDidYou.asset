@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: HowDidYou
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - Using a variety of ingredients.
+  - "Bay leaves, roots of a young chestnut tree, the wings of the great terror beetle\_
+    - and an awful lot of black magic."
+  SpeakerIndex: 0000000000000000
+  PlayerOptions:
+  - Black magic?
+  - But how did you infect all the animals with it?
+  BranchingLines:
+  - {fileID: 11400000, guid: 0958f639a807b6d4d97c3739dbe210bb, type: 2}
+  - {fileID: 11400000, guid: 3ede57db21f3607458752fae007f9cd9, type: 2}
+  positionInDialogue: 1

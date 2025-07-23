@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: WhyIsIt
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - The reason is right infront of you.
+  SpeakerIndex: 00000000
+  PlayerOptions:
+  - You?
+  - The crow instigated this, makes sense.
+  BranchingLines:
+  - {fileID: 11400000, guid: 9834ac649315bcb49ab7d37b92c13fbe, type: 2}
+  - {fileID: 11400000, guid: e354964f0ffd29640b9ff7ece313b5fa, type: 2}
+  positionInDialogue: 1
