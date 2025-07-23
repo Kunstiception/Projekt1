@@ -8,7 +8,6 @@ public class LootManager : Manager
     [SerializeField] private Item[] _possibleEquipment;
     [SerializeField] private AudioClip _onLoot1;
     [SerializeField] private AudioClip _onLoot2;
-    private AudioSource _audioSource;
 
     private Item _item;
 

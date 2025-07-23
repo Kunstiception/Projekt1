@@ -368,6 +368,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &361714243 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4151828651104656589, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+  m_PrefabInstance: {fileID: 361714238}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &426919260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1299,6 +1304,7 @@ MonoBehaviour:
   _playerEgoBarBelow: {fileID: 426919263}
   _audioSource: {fileID: 1856468662}
   _onHeal: {fileID: 0}
+  _autoArrows: {fileID: 361714243}
   _possibleItems:
   - {fileID: 7636313497080733404, guid: 0b5235ee86cddaa4a8e91344b3e9762a, type: 3}
   - {fileID: 6130178259746579057, guid: 2d7400668fecd4b4683e6e9e95c2c2ce, type: 3}

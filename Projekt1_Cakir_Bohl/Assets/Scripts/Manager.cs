@@ -16,6 +16,7 @@ public class Manager : MonoBehaviour
     [SerializeField] protected Slider _playerEgoBarBelow;
     [SerializeField] protected AudioSource _audioSource;
     [SerializeField] protected AudioClip _onHeal;
+    [SerializeField] protected SpriteRenderer _autoArrows;
     protected Coroutine _textCoroutine;
     protected Coroutine _waitForContinueCoroutine;
     protected Item _currentItem;
@@ -41,6 +42,8 @@ public class Manager : MonoBehaviour
 
             if (PlayerManager.Instance.IsAuto)
             {
+                _autoArrows.enabled = false;
+
                 PlayerManager.Instance.IsAuto = false;
             }
         }
@@ -49,6 +52,8 @@ public class Manager : MonoBehaviour
         {
             if (PlayerManager.Instance.IsAuto == true)
             {
+                _autoArrows.enabled = false;
+
                 PlayerManager.Instance.IsAuto = false;
 
                 if (_currentLine != "")
@@ -58,6 +63,8 @@ public class Manager : MonoBehaviour
             }
             else
             {
+                _autoArrows.enabled = true;
+
                 PlayerManager.Instance.IsAuto = true;
 
                 _promptSkip.enabled = false;
@@ -346,10 +353,12 @@ public class Manager : MonoBehaviour
     {
         if (PlayerManager.Instance.IsAuto)
         {
+            _autoArrows.enabled = true;
             _promptSkip.enabled = false;
         }
         else
         {
+            _autoArrows.enabled = false;
             _promptSkip.enabled = true;       
         }
         

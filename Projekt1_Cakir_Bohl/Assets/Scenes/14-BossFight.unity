@@ -178,6 +178,7 @@ MonoBehaviour:
   _playerEgoBarBelow: {fileID: 1440495360}
   _audioSource: {fileID: 8410061}
   _onHeal: {fileID: 8300000, guid: a1f0a3994a6239d40be98228b244f3ea, type: 3}
+  _autoArrows: {fileID: 617395820}
   _hitParticlesInsult: {fileID: 1025334162}
   _hitParticlesStrike: {fileID: 27584904}
   _exclamations:
@@ -1427,6 +1428,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &617395820 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4151828651104656589, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+  m_PrefabInstance: {fileID: 617395815}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &679381717
 GameObject:
   m_ObjectHideFlags: 0

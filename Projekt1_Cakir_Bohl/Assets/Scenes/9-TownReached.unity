@@ -573,6 +573,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &518382064 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4151828651104656589, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+  m_PrefabInstance: {fileID: 518382059}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &520246812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,6 +1293,9 @@ MonoBehaviour:
   _statsCanvas: {fileID: 953575578}
   _playerHealthBarBelow: {fileID: 953575577}
   _playerEgoBarBelow: {fileID: 953575576}
+  _audioSource: {fileID: 0}
+  _onHeal: {fileID: 0}
+  _autoArrows: {fileID: 518382064}
   SelectionMenuCanvas: {fileID: 1490195565}
 --- !u!1001 &1138869679
 PrefabInstance:

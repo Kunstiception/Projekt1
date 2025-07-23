@@ -1434,6 +1434,7 @@ MonoBehaviour:
   _playerEgoBarBelow: {fileID: 217618189}
   _audioSource: {fileID: 500892712}
   _onHeal: {fileID: 8300000, guid: a1f0a3994a6239d40be98228b244f3ea, type: 3}
+  _autoArrows: {fileID: 1647918674}
   _hitParticlesInsult: {fileID: 9156820866719904538}
   _hitParticlesStrike: {fileID: 1784966547}
   _exclamations:
@@ -3974,6 +3975,11 @@ MonoBehaviour:
 --- !u!224 &1647918673 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5688818620958266870, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+  m_PrefabInstance: {fileID: 1647918669}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1647918674 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4151828651104656589, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
   m_PrefabInstance: {fileID: 1647918669}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1654769280

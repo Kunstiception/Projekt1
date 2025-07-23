@@ -20,8 +20,9 @@ public class BossFightManager : CombatManager, ISelectable
 
     IEnumerator Start()
     {
-        Instantiate(_endBoss);
-        _enemy = _endBoss.GetComponent<Combatant>();
+        GameObject enemyObject = Instantiate(_endBoss);
+        _enemy = enemyObject.GetComponent<Combatant>();
+        //_enemyAnimator = enemyObject.GetComponent<Animator>();
 
         SetPrompts();
 
@@ -276,6 +277,8 @@ public class BossFightManager : CombatManager, ISelectable
 
         _currentLine = $"{_enemy.Name} takes {_enemy.HealthPoints} health damage!";
         yield return HandleTextOutput(_currentLine, false);
+
+        //_enemyAnimator.SetTrigger("OnDefeat");
 
         yield return PrintMultipleLines(UIDialogueStorage.BossDefeatedLines);
 

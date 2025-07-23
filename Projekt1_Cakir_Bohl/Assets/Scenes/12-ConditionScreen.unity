@@ -348,6 +348,7 @@ MonoBehaviour:
   _playerEgoBarBelow: {fileID: 0}
   _audioSource: {fileID: 919720130}
   _onHeal: {fileID: 0}
+  _autoArrows: {fileID: 2124248411}
   _sleepDeprivedText: {fileID: 3784989534687983191, guid: 3d8b8992ff4b1c74a9c1dc04f7ad52b8, type: 3}
   _zombieText: {fileID: 3346056810496872483, guid: f35e24107b1571a4db5863bd8eead685, type: 3}
   _werewolfText: {fileID: 4703404049014851626, guid: 84299f3b54b8cd0448696b278ef416b2, type: 3}
@@ -867,6 +868,11 @@ MonoBehaviour:
 --- !u!224 &2124248410 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5688818620958266870, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+  m_PrefabInstance: {fileID: 2124248406}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &2124248411 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4151828651104656589, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
   m_PrefabInstance: {fileID: 2124248406}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

@@ -55,6 +55,7 @@ public class CombatManager : Manager, ISelectable
     protected Combatant _combatant2;
     protected Coroutine _turnCoroutine;
     protected Coroutine _insultTurn;
+    protected Animator _enemyAnimator;
     protected Dictionary<string, int> _playerInsultsAndValues = new Dictionary<string, int>();
     private Dictionary<string, int> _enemyInsultsAndValues = new Dictionary<string, int>();
     private Dictionary<string, int> _enemyCurrentInsultsAndValues = new Dictionary<string, int>();
@@ -63,6 +64,7 @@ public class CombatManager : Manager, ISelectable
     private int _bossCounter;
     private bool _hasDisadvantage;
     private List<Item> _healingItems = new List<Item>();
+
     public static event Action OnFightFinished;
 
     IEnumerator Start()
@@ -95,6 +97,8 @@ public class CombatManager : Manager, ISelectable
 
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
 
+        GameObject enemyObject = null;
+
         if (!PlayerManager.Instance.GotCaught)
         {
             if (!PlayerManager.Instance.HasReachedBoss)
@@ -104,29 +108,30 @@ public class CombatManager : Manager, ISelectable
                 if (MainManager.Instance.IsDay)
                 {
                     var randomIndex = UnityEngine.Random.Range(0, _enemiesDay.Length);
-                    Instantiate(_enemiesDay[randomIndex]);
-                    _enemy = _enemiesDay[randomIndex].GetComponent<Combatant>();
+                    enemyObject = Instantiate(_enemiesDay[randomIndex]);
                 }
                 else
                 {
                     var randomIndex = UnityEngine.Random.Range(0, _enemiesNight.Length);
-                    Instantiate(_enemiesNight[randomIndex]);
-                    _enemy = _enemiesNight[randomIndex].GetComponent<Combatant>();
+                    enemyObject = Instantiate(_enemiesNight[randomIndex]);
                 }
             }
             else
             {
                 _bossfightBackground.SetActive(true);
 
-                Instantiate(_endBoss);
-
-                _enemy = _endBoss.GetComponent<Combatant>();
+                enemyObject = Instantiate(_endBoss);
             }
         }
         else
         {
-            Instantiate(_guard);
-            _enemy = _guard.GetComponent<Combatant>();
+            enemyObject = Instantiate(_guard);
+        }
+
+        if (enemyObject != null)
+        {
+            _enemy = enemyObject.GetComponent<Combatant>();
+            _enemyAnimator = enemyObject.GetComponent<Animator>();        
         }
 
         // Alle Insult Lines und Values des jeweiligen Gegners holen
@@ -767,6 +772,11 @@ public class CombatManager : Manager, ISelectable
                 {
                     if (!isRetreat)
                     {
+                        if (_enemyAnimator.gameObject.activeSelf)
+                        {
+                            _enemyAnimator.SetTrigger("OnDefeat");                         
+                        }
+
                         MainManager.Instance.NumberOfDefeatedEnemies++;
 
                         yield return StartCoroutine(ManageLoot());
@@ -794,7 +804,7 @@ public class CombatManager : Manager, ISelectable
                     _currentLine = "You have died. Your quest has ended.";
                     yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-                    SceneManager.LoadScene("StartMenu");
+                    SceneManager.LoadScene(0);
                     yield break;
                 }
             }

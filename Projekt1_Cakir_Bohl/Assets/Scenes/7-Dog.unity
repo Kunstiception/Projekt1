@@ -822,6 +822,9 @@ MonoBehaviour:
   _statsCanvas: {fileID: 364088642}
   _playerHealthBarBelow: {fileID: 364088641}
   _playerEgoBarBelow: {fileID: 364088640}
+  _audioSource: {fileID: 599785206}
+  _onHeal: {fileID: 0}
+  _autoArrows: {fileID: 1647918674}
   _initialSelectionMenuCanvas: {fileID: 356002288}
   _dialogueCanvas: {fileID: 6418808802938281775}
   _firstMeetingLines: {fileID: 11400000, guid: a618e1afa7133b642b21f8e66058d7fa, type: 2}
@@ -833,7 +836,6 @@ MonoBehaviour:
   - {fileID: 6130178259746579057, guid: 2d7400668fecd4b4683e6e9e95c2c2ce, type: 3}
   - {fileID: 7636313497080733404, guid: 0b5235ee86cddaa4a8e91344b3e9762a, type: 3}
   _dialogueManager: {fileID: 1700114078}
-  _audioSource: {fileID: 599785206}
   _dogEntrance: {fileID: 8300000, guid: f44beb870852b3f40862e2ca09a0f1e8, type: 3}
 --- !u!82 &599785206
 AudioSource:
@@ -1883,6 +1885,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5688818620958266870, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
   m_PrefabInstance: {fileID: 1647918669}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &1647918674 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4151828651104656589, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+  m_PrefabInstance: {fileID: 1647918669}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1700114076
 GameObject:
   m_ObjectHideFlags: 0
@@ -1935,6 +1942,9 @@ MonoBehaviour:
   _statsCanvas: {fileID: 364088642}
   _playerHealthBarBelow: {fileID: 364088641}
   _playerEgoBarBelow: {fileID: 364088640}
+  _audioSource: {fileID: 0}
+  _onHeal: {fileID: 0}
+  _autoArrows: {fileID: 1647918674}
   InitialOptions: {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}
   _followingMenuOptions: {fileID: 6418808802938281776}
   _initialMenuOptions: {fileID: 6418808802938281777}

@@ -20,7 +20,6 @@ public class TavernManager : Manager, ISelectable
 
     private Item _coinsItem;
     private Coroutine _vampireBiteCoroutine;
-    private AudioSource _audioSource;
     private int _currentCoinAmount;
     private bool _hasChosenToBite;
 
