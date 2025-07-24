@@ -1287,13 +1287,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1546242617}
     m_Modifications:
+    - target: {fileID: 1267496678208271498, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267496678208271498, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267496678208271498, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1314558285831581213, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1511122450719025953, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1511122450719025953, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1646987391445346808, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
       propertyPath: m_Name
       value: Canvas_Pause_Settings
+      objectReference: {fileID: 0}
+    - target: {fileID: 1646987391445346808, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651472819656317555, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651472819656317555, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3276854959443536752, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
       propertyPath: m_Pivot.x
@@ -1373,6 +1405,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3276854959443536752, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5275313521430120314, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5275313521430120314, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5275313521430120314, guid: d69d54df3986b1b408c362b7bf1e0404, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
