@@ -313,7 +313,7 @@ public class CombatManager : Manager, ISelectable
             }
         }
 
-        if (ConditionManager.Instance.IsZombie)
+        if (ConditionManager.Instance.IsZombie && _enemy.Name != ConditionManager.Instance.ZombieTerm)
         {
             if (DiceUtil.D10() < GameConfig.EnemyFleeChance)
             {

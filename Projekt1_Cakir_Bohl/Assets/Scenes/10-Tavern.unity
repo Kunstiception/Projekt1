@@ -3031,6 +3031,11 @@ MonoBehaviour:
   DialogueCanvas: {fileID: 415699332}
   _initialLines:
   - {fileID: 11400000, guid: d7a9384ed47847a4293be02eefa03f29, type: 2}
+  - {fileID: 11400000, guid: 3a56b75f215096147b5ac1e0f3e1ce54, type: 2}
+  - {fileID: 11400000, guid: c2bd306737e9b4748867529ddb098ab9, type: 2}
+  - {fileID: 11400000, guid: 24829122392accf479d672e40a25d4da, type: 2}
+  - {fileID: 11400000, guid: 07c8f9b6bdb1c144b9267b1b55b8f483, type: 2}
+  - {fileID: 11400000, guid: 877125c031a38244283b6f41c6d328f1, type: 2}
   _dialogueManager: {fileID: 1889256790}
   _roomText: {fileID: 1913504127}
   _coinsText: {fileID: 1324165013}

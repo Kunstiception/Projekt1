@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: IThoughtYou
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - We do... in a way.
+  - It's where the voice-followers go, never to be seen again.
+  - 'To put it simply: We are afraid the townsfolk will be next.'
+  - Imagine people would just get up at night, walk there, guided by some mysterious
+    voice - and then simply vanish.
+  - Imagine the whole town deserted.
+  - Gone to wherever they are taken.
+  - That, dear knight, is why we speak the sermon and gift our offerings.
+  - It has kept us safe ever since.
+  SpeakerIndex: 0000000000000000000000000000000000000000000000000000000000000000
+  PlayerOptions: []
+  BranchingLines: []
+  positionInDialogue: 2

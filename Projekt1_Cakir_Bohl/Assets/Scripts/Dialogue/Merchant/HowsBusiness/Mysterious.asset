@@ -16,7 +16,7 @@ MonoBehaviour:
   Lines:
   - My profession requires a certain amount of... discretion.
   - I hope you understand.
-  SpeakerIndex: 00000000
+  SpeakerIndex: 0000000000000000
   PlayerOptions:
   - I do and I will not ask any more questions. (Return)
   - Are these stolen goods?

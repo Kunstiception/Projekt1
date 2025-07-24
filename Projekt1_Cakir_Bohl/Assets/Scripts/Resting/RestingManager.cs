@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +14,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     [SerializeField] private AudioClip _atmoOutside;
     [SerializeField] private AudioClip _atmoInside;
     [SerializeField] private AudioSource _atmoSource;
+    [SerializeField] private TextMeshProUGUI _continueText;
     private InventoryDisplayer _inventoryDisplayer;
     private bool _isAmbush;
     private int _currentIndex;
@@ -22,10 +24,19 @@ public class RestingManager : Manager, ISelectable, ICondition
         ToggleCursorState(true);
 
         _textBox.enabled = false;
-
-        SetPrompts();
+        _promptContinue.enabled = false;
+        _promptSkip.enabled = false;
 
         _inventoryDisplayer = InventoryCanvas.GetComponent<InventoryDisplayer>();
+
+        if (MainManager.Instance.IsDay)
+        {
+            _continueText.text = "Venture into the night";
+        }
+        else
+        {
+            _continueText.text = "Stay up till morning";
+        }
 
         if (PlayerManager.Instance.HasRoom)
         {
@@ -140,9 +151,12 @@ public class RestingManager : Manager, ISelectable, ICondition
         _currentLine = $"You discard {_currentItem.Name}.";
         yield return HandleTextOutput(_currentLine, false);
 
-        var iEquipable = _currentItem as IEquipable;
+        if (_currentItem is Equipment)
+        {
+            var iEquipable = _currentItem as IEquipable;
 
-        iEquipable.EquipItem(false);
+            iEquipable.EquipItem(false);       
+        }
 
         InventoryManager.Instance.ManageInventory(_currentItem, 1, false, _currentIndex);
 

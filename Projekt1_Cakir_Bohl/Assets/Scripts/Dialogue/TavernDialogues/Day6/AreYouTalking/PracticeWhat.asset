@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: PracticeWhat
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - The sermon, of course!
+  - Isn't it obv-
+  - (She takes a closer look at you, heavily squinting her eyes.)
+  - Oh, you're a traveller. How would you know?
+  - I'm the town's elder priestess, I conduct the yearly sermon for the King's Crown.
+  - Now you know.. do stay silent, please. I need to practice.
+  SpeakerIndex: 000000000000000000000000000000000000000000000000
+  PlayerOptions:
+  - Isn't it the same sermon every year?
+  - (Stay silent.)
+  BranchingLines:
+  - {fileID: 11400000, guid: f749d085d737cdd45bdd5bb57b235938, type: 2}
+  - {fileID: 11400000, guid: 19789bd1dc795bc4781486e1b1c7d150, type: 2}
+  positionInDialogue: 1

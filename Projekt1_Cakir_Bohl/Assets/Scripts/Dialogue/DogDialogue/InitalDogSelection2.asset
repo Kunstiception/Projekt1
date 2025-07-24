@@ -17,7 +17,7 @@ MonoBehaviour:
   Lines:
   - Good to see that you're still alive!
   - I didn't think you'd make it.
-  SpeakerIndex: 00000000
+  SpeakerIndex: 0000000000000000
   PlayerOptions:
   - You thought I would die?
   - Errr... thanks?

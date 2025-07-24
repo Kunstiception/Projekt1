@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
+  m_Name: StaySilent
+  m_EditorClassIdentifier: 
+  Speakers: []
+  Lines:
+  - (She mumbles on for a while, hands pressed together and head hung low.)
+  - That's it. I thank you for your silence, dear knight.
+  - And now I need a drink!
+  SpeakerIndex: 000000000000000000000000
+  PlayerOptions:
+  - So what is the sermon for?
+  - (Offer to buy her a drink.)
+  BranchingLines:
+  - {fileID: 11400000, guid: ae357367b808c20409d72a4b02bdf016, type: 2}
+  - {fileID: 11400000, guid: 586961b239dbf334b95311a94b91c79a, type: 2}
+  positionInDialogue: 1

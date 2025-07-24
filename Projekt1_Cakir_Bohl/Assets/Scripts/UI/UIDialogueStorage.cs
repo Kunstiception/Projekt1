@@ -57,8 +57,9 @@ public static class UIDialogueStorage
         "Somewhere a dog barks behind the town's walls.",
         "It's cold, but you light a fire to keep warm."};
     public static string[] ReachedTavernLines =
-        {"You enter and sit down at a table.",
-        "Shortly after, you hear someone approaching."};
+        {"You enter and sit down at a table."};
+    public static string[] AfterTavernDialogue =
+        {"You are alone again."};
     public static string[] GettingCaughtAtTheGateLines =
         {"He looks at you for a long while, studying you.",
         "For a moment he seems unsure, but then he shouts at the top of his lungs:"};
@@ -101,8 +102,7 @@ public static class UIDialogueStorage
     public static string[] EnemyFleeLines =
         {"I don't want to be a zombie!",
         "Screw this! This is not worth it!",
-        "Good luck to you, I'm out of here!",
-        "You are one cursed soul..."};
+        "Good luck to you, I'm out of here!"};
     public static string[] PondReachedLines =
         {"You reach a small pond.",
         "The world around you is silent."};

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -112,6 +111,11 @@ public class InventoryManager : MonoBehaviour
             EquippedItems.Remove(i - 1);
 
             EquippedItems.Add(kvp.Key, kvp.Value);
+        }
+        
+        if (index != EquippedItems.Count + 1)
+        {
+            EquippedItems.Remove(EquippedItems.Count - 1);
         }
     }
 

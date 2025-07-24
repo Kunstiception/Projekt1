@@ -60,8 +60,7 @@ public class TavernManager : Manager, ISelectable
 
         ToggleCanvas(DialogueCanvas, true);
 
-        //_dialogueManager.InitialOptions = _initialLines[MainManager.Instance.CurrentDay];
-        _dialogueManager.InitialOptions = _initialLines[0];
+        _dialogueManager.InitialOptions = _initialLines[MainManager.Instance.CurrentDay];
 
         _dialogueManager.StartDialogue();
 
@@ -160,11 +159,18 @@ public class TavernManager : Manager, ISelectable
 
     private void DialogueEnded()
     {
+        StartCoroutine(AfterDialogueCoroutine());
+    }
+
+    private IEnumerator AfterDialogueCoroutine()
+    {
+        yield return PrintMultipleLines(UIDialogueStorage.ReachedTavernLines);
+
         if (ConditionManager.Instance.IsVampire)
         {
             _vampireBiteCoroutine = StartCoroutine(VampireBiteCoroutine());
 
-            return;
+            yield break;
         }
 
         ShowSleepDecision();
