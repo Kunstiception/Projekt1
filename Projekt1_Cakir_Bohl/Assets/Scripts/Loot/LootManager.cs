@@ -92,7 +92,7 @@ public class LootManager : Manager
 
             InventoryManager.Instance.ManageInventory(_item, 1, true);
 
-            if (i == 0)
+            if (i == 1)
             {
                 _audioSource.PlayOneShot(_onLoot1);
             }

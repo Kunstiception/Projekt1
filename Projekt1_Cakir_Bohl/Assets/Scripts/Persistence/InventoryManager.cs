@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -79,11 +80,12 @@ public class InventoryManager : MonoBehaviour
                 if (item is Equipment)
                 {
                     ManageEquipment(item, false, index);
-
-                    UpdateEquipBools(index);
                 }
 
-                InventoryAmounts.Remove(InventoryAmounts[InventoryItems.IndexOf(item)]);
+                int itemIndex = InventoryAmounts[InventoryItems.IndexOf(item)];
+
+                UpdateEquipBools(index);
+                InventoryAmounts.Remove(itemIndex);
                 InventoryItems.Remove(item);
             }
 

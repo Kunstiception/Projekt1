@@ -10,6 +10,9 @@ public class RestingManager : Manager, ISelectable, ICondition
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] private GameObject _outsideBackground;
     [SerializeField] private GameObject _roomBackground;
+    [SerializeField] private AudioClip _atmoOutside;
+    [SerializeField] private AudioClip _atmoInside;
+    [SerializeField] private AudioSource _atmoSource;
     private InventoryDisplayer _inventoryDisplayer;
     private bool _isAmbush;
     private int _currentIndex;
@@ -28,12 +31,16 @@ public class RestingManager : Manager, ISelectable, ICondition
         {
             _roomBackground.SetActive(true);
             _outsideBackground.SetActive(false);
+            _atmoSource.clip = _atmoInside;
         }
         else
         {
             _roomBackground.SetActive(false);
-            _outsideBackground.SetActive(true);          
+            _outsideBackground.SetActive(true);
+            _atmoSource.clip = _atmoOutside;
         }
+
+        _atmoSource.Play();
 
         ToggleCanvas(InventoryCanvas, false);
         ToggleCanvas(ItemToDoCanvas, false);

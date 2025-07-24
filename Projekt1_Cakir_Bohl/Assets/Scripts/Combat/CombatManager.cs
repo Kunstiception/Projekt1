@@ -756,6 +756,14 @@ public class CombatManager : Manager, ISelectable
                 }
                 else
                 {
+                    if (winner == PlayerManager.Instance)
+                    {
+                        if (_enemyAnimator.gameObject.activeSelf)
+                        {
+                            _enemyAnimator.SetTrigger("OnDefeat");                         
+                        }
+                    }
+                    
                     if (!_hasEnemyFled)
                     {
                         _currentLine = DialogueUtil.CreateCombatLog(winner, "has", "won the fight!");
@@ -772,11 +780,6 @@ public class CombatManager : Manager, ISelectable
                 {
                     if (!isRetreat)
                     {
-                        if (_enemyAnimator.gameObject.activeSelf)
-                        {
-                            _enemyAnimator.SetTrigger("OnDefeat");                         
-                        }
-
                         MainManager.Instance.NumberOfDefeatedEnemies++;
 
                         yield return StartCoroutine(ManageLoot());
