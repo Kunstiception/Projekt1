@@ -22,7 +22,9 @@ MonoBehaviour:
   PlayerOptions:
   - Are you talking to me?
   - (Listen more closely.)
+  - I don't have time for this. (skip dialogue)
   BranchingLines:
   - {fileID: 11400000, guid: 23882f86fff51b742b58a0fabd3fdc7e, type: 2}
   - {fileID: 11400000, guid: cd82297162f1853478a6039200d5cdcd, type: 2}
+  - {fileID: 11400000}
   positionInDialogue: 0

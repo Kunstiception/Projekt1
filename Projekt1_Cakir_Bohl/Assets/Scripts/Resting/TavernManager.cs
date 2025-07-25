@@ -159,12 +159,14 @@ public class TavernManager : Manager, ISelectable
 
     private void DialogueEnded()
     {
+        ToggleCanvas(DialogueCanvas, false);
+
         StartCoroutine(AfterDialogueCoroutine());
     }
 
     private IEnumerator AfterDialogueCoroutine()
     {
-        yield return PrintMultipleLines(UIDialogueStorage.ReachedTavernLines);
+        yield return PrintMultipleLines(UIDialogueStorage.AfterTavernDialogue);
 
         if (ConditionManager.Instance.IsVampire)
         {

@@ -69,4 +69,7 @@ public static class GameConfig
 
     // Ending
     public static float AnimationTime = 2f;
+
+    // Sound
+    public static float EffectsLoudness = 1.25f;
 }

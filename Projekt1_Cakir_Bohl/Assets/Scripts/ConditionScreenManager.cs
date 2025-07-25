@@ -117,18 +117,18 @@ public class ConditionScreenManager : Manager
             }
 
             if (conditionName == null)
-                {
-                    continue;
-                }
+            {
+                continue;
+            }
 
             if (conditionNames.Count == 0)
             {
-                conditionNames.Add($" {conditionName}");
+                conditionNames.Add($"{conditionName}");
 
                 continue;
             }
 
-            conditionNames.Add($" -{conditionName}");
+            conditionNames.Add($"-{conditionName}");
         }
 
         foreach (string name in conditionNames)

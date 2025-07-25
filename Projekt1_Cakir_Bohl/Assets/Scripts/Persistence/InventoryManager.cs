@@ -112,7 +112,7 @@ public class InventoryManager : MonoBehaviour
 
             EquippedItems.Add(kvp.Key, kvp.Value);
         }
-        
+
         if (index != EquippedItems.Count + 1)
         {
             EquippedItems.Remove(EquippedItems.Count - 1);
@@ -203,5 +203,20 @@ public class InventoryManager : MonoBehaviour
         InventoryItems.Clear();
         InventoryAmounts.Clear();
         EquippedItems.Clear();
+    }
+
+    public bool CheckIfEquipped(Item item)
+    {
+        if (item is not Equipment)
+        {
+            return false;
+        }
+
+        if (EquippedItems[InventoryItems.IndexOf(item)] == true)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

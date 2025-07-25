@@ -151,7 +151,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         _currentLine = $"You discard {_currentItem.Name}.";
         yield return HandleTextOutput(_currentLine, false);
 
-        if (_currentItem is Equipment)
+        if (_currentItem is Equipment && InventoryManager.Instance.CheckIfEquipped(_currentItem))
         {
             var iEquipable = _currentItem as IEquipable;
 

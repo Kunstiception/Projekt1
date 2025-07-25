@@ -50,6 +50,11 @@ public class Manager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt))
         {
+            if (_textCoroutine == null)
+            {
+                return;
+            }
+            
             if (PlayerManager.Instance.IsAuto == true)
             {
                 _autoArrows.enabled = false;
@@ -58,7 +63,7 @@ public class Manager : MonoBehaviour
 
                 if (_currentLine != "")
                 {
-                    _promptSkip.enabled = true;                  
+                    _promptSkip.enabled = true;
                 }
             }
             else
