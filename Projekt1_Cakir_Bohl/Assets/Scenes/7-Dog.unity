@@ -823,6 +823,7 @@ MonoBehaviour:
   _playerHealthBarBelow: {fileID: 364088641}
   _playerEgoBarBelow: {fileID: 364088640}
   _audioSource: {fileID: 599785206}
+  _playerHealthHit: {fileID: 8300000, guid: 288525ce8a659c8418f124867498d925, type: 3}
   _onHeal: {fileID: 0}
   _autoArrows: {fileID: 1647918674}
   _initialSelectionMenuCanvas: {fileID: 356002288}
@@ -1943,6 +1944,7 @@ MonoBehaviour:
   _playerHealthBarBelow: {fileID: 364088641}
   _playerEgoBarBelow: {fileID: 364088640}
   _audioSource: {fileID: 0}
+  _playerHealthHit: {fileID: 0}
   _onHeal: {fileID: 0}
   _autoArrows: {fileID: 1647918674}
   InitialOptions: {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}

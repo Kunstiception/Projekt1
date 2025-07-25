@@ -14,6 +14,7 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] protected GameObject[] _exclamations;
     [SerializeField] protected AudioClip _insultHit;
     [SerializeField] protected AudioClip _strikeHit;
+    [SerializeField] protected AudioClip _playerInsultHit;
     [SerializeField] protected TextMeshProUGUI _enemyUIHealth;
     [SerializeField] protected TextMeshProUGUI _enemyUIEgo;
     [SerializeField] protected Slider _enemyHealthBarBelow;
@@ -1044,6 +1045,17 @@ public class CombatManager : Manager, ISelectable
             StartCoroutine(PlayHitParticlesAndAudio(isHealthDamage));
             StartCoroutine(PlayExclamation());
         }
+        else
+        {
+            if (isHealthDamage)
+            {
+                _audioSource.PlayOneShot(_playerHealthHit);
+            }
+            else
+            {
+                _audioSource.PlayOneShot(_playerInsultHit);
+            }
+        }
 
         while (lerpValue <= 1 && lerpValue >= 0)
         {
@@ -1191,13 +1203,13 @@ public class CombatManager : Manager, ISelectable
 
         if (isHealthDamage)
         {
-            _audioSource.PlayOneShot(_strikeHit);
+            _audioSource.PlayOneShot(_strikeHit, GameConfig.EffectsLoudness);
             
             hitParticles = _hitParticlesStrike;
         }
         else
         {
-            _audioSource.PlayOneShot(_insultHit);
+            _audioSource.PlayOneShot(_insultHit, GameConfig.EffectsLoudness);
 
             hitParticles = _hitParticlesInsult;
         }

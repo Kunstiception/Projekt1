@@ -1440,8 +1440,10 @@ MonoBehaviour:
   _exclamations:
   - {fileID: 654358091}
   - {fileID: 629279530}
-  _insultHit: {fileID: 8300000, guid: bad1822dee59fe642bf98046ee4c8758, type: 3}
+  _insultHit: {fileID: 8300000, guid: bed20fa593e75ee4c9ab064daab5fc17, type: 3}
   _strikeHit: {fileID: 8300000, guid: 8ba24e3a093bb4b448703e0ae90f474d, type: 3}
+  _playerHealthHit: {fileID: 8300000, guid: 288525ce8a659c8418f124867498d925, type: 3}
+  _playerInsultHit: {fileID: 8300000, guid: fb4999584d3637c4fa8c24e0b0e24d9b, type: 3}
   _enemyUIHealth: {fileID: 3622441544289599739}
   _enemyUIEgo: {fileID: 3622441544289599738}
   _enemyHealthBarBelow: {fileID: 3622441544289599737}

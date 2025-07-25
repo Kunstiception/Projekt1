@@ -15,6 +15,7 @@ public class Manager : MonoBehaviour
     [SerializeField] protected Slider _playerHealthBarBelow;
     [SerializeField] protected Slider _playerEgoBarBelow;
     [SerializeField] protected AudioSource _audioSource;
+    [SerializeField] protected AudioClip _playerHealthHit;
     [SerializeField] protected AudioClip _onHeal;
     [SerializeField] protected SpriteRenderer _autoArrows;
     protected Coroutine _textCoroutine;
@@ -140,6 +141,8 @@ public class Manager : MonoBehaviour
 
             _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+            _audioSource.PlayOneShot(_playerHealthHit);
 
             StartCoroutine(UpdateUIDamage(GameConfig.VampireSunDamage, PlayerManager.Instance.HealthPoints));
 

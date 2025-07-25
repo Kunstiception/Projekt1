@@ -176,6 +176,7 @@ MonoBehaviour:
   _playerHealthBarBelow: {fileID: 364088642}
   _playerEgoBarBelow: {fileID: 364088640}
   _audioSource: {fileID: 0}
+  _playerHealthHit: {fileID: 0}
   _onHeal: {fileID: 0}
   _autoArrows: {fileID: 1647918674}
   InitialOptions: {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}
@@ -1015,6 +1016,7 @@ MonoBehaviour:
   _playerHealthBarBelow: {fileID: 364088642}
   _playerEgoBarBelow: {fileID: 364088640}
   _audioSource: {fileID: 1719405264}
+  _playerHealthHit: {fileID: 0}
   _onHeal: {fileID: 0}
   _autoArrows: {fileID: 1647918674}
   MerchantInventoryCanvas: {fileID: 132518831}
@@ -3593,6 +3595,7 @@ MonoBehaviour:
   _playerHealthBarBelow: {fileID: 364088642}
   _playerEgoBarBelow: {fileID: 364088640}
   _audioSource: {fileID: 1719405264}
+  _playerHealthHit: {fileID: 8300000, guid: 288525ce8a659c8418f124867498d925, type: 3}
   _onHeal: {fileID: 0}
   _autoArrows: {fileID: 1647918674}
   MerchantInventoryCanvas: {fileID: 132518831}
