@@ -14,7 +14,8 @@ public class Manager : MonoBehaviour
     [SerializeField] protected Canvas _statsCanvas;
     [SerializeField] protected Slider _playerHealthBarBelow;
     [SerializeField] protected Slider _playerEgoBarBelow;
-    [SerializeField] protected AudioSource _audioSource;
+    [SerializeField] protected AudioSource _mainEffectsAudioSource;
+    [SerializeField] protected AudioSource _dialogueAudioSource;
     [SerializeField] protected AudioClip _playerHealthHit;
     [SerializeField] protected AudioClip _onHeal;
     [SerializeField] protected SpriteRenderer _autoArrows;
@@ -24,10 +25,10 @@ public class Manager : MonoBehaviour
     protected int _currentStringIndex = 0;
     protected string _currentLine;
 
-    // void Update()
-    // {
-    //     ListenForSkipOrAuto();
-    // }
+    void Update()
+    {
+        ListenForSkipOrAuto();
+    }
 
     // Hört darauf, ob die aktuelle Zeile übersprungen wird oder ob der Auto-Modus aktiviert/deaktiviert wurde
     public virtual void ListenForSkipOrAuto()
@@ -81,12 +82,22 @@ public class Manager : MonoBehaviour
     }
 
     // Umfasst mehrere Methoden der Dalogue.Util-Klasse, händelt z.B. auch das Beenden eines Abschnitts wenn isLastLine == true
-    protected IEnumerator HandleTextOutput(string line, bool isLastLine)
+    protected IEnumerator HandleTextOutput(string line, bool isLastLine, bool isDialogue = false)
     {
+        if (isDialogue)
+        {
+            _dialogueAudioSource.Play();        
+        }
+
         _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _textBox, _promptSkip, _promptContinue));
 
         //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/WaitUntil.html
         yield return new WaitUntil(() => line == _textBox.text);
+
+        if (isDialogue)
+        {
+            _dialogueAudioSource.Stop();        
+        }
 
         if (!PlayerManager.Instance.IsAuto)
         {
@@ -146,7 +157,7 @@ public class Manager : MonoBehaviour
             _currentLine = UIDialogueStorage.VampireSunDamageLines[0];
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
-            _audioSource.PlayOneShot(_playerHealthHit);
+            _mainEffectsAudioSource.PlayOneShot(_playerHealthHit);
 
             StartCoroutine(UpdateUIDamage(GameConfig.VampireSunDamage, PlayerManager.Instance.HealthPoints));
 
@@ -213,7 +224,7 @@ public class Manager : MonoBehaviour
     // Visualisiert Heilung von Health oder Ego in den Leisten
     protected IEnumerator UpdateUIHeal(int healAmount, bool isHealthChange, int initialAmount)
     {
-        _audioSource.PlayOneShot(_onHeal);
+        _mainEffectsAudioSource.PlayOneShot(_onHeal);
         
         float healValue = 0;
         Slider slider = null;

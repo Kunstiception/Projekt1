@@ -30,7 +30,7 @@ public class InteractionManager : Manager, ISelectable
 
         yield return StartCoroutine(EvaluateVampire());
 
-        _audioSource.PlayOneShot(_merchantEntrance);
+        _mainEffectsAudioSource.PlayOneShot(_merchantEntrance);
 
         _currentLine = "Feel free to take a look at my merchandise, dear knight.";
         yield return StartCoroutine(HandleTextOutput(_currentLine, false));

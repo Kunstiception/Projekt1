@@ -35,7 +35,7 @@ public class DogManager : Manager, ISelectable
             _dialogueManager.InitialOptions = _secondMeetingLines;
         }
 
-        _audioSource.PlayOneShot(_dogEntrance);
+        _mainEffectsAudioSource.PlayOneShot(_dogEntrance);
 
         if (!MainManager.Instance.HasBefriendedDog)
         {

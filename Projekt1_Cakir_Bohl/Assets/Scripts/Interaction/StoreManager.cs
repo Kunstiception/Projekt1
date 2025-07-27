@@ -69,7 +69,7 @@ public class StoreManager : Manager, ISelectable
 
                 UpdateCoinsText();
 
-                _audioSource.PlayOneShot(_merchantSold);
+                _mainEffectsAudioSource.PlayOneShot(_merchantSold);
 
                 _currentLine = $"You have purchased {_currentItem.Name} for {_currentItem.StorePrice} coins.";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));

@@ -1302,7 +1302,8 @@ MonoBehaviour:
   _statsCanvas: {fileID: 1570577746}
   _playerHealthBarBelow: {fileID: 426919264}
   _playerEgoBarBelow: {fileID: 426919263}
-  _audioSource: {fileID: 1856468662}
+  _mainEffectsAudioSource: {fileID: 1856468662}
+  _dialogueAudioSource: {fileID: 0}
   _playerHealthHit: {fileID: 8300000, guid: 288525ce8a659c8418f124867498d925, type: 3}
   _onHeal: {fileID: 0}
   _autoArrows: {fileID: 361714243}

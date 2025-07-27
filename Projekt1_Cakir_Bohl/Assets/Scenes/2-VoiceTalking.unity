@@ -176,7 +176,9 @@ MonoBehaviour:
   _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
-  _audioSource: {fileID: 107781143}
+  _mainEffectsAudioSource: {fileID: 107781143}
+  _dialogueAudioSource: {fileID: 0}
+  _playerHealthHit: {fileID: 0}
   _onHeal: {fileID: 0}
   _autoArrows: {fileID: 1351162748}
   _voiceLines:
@@ -205,7 +207,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 5600375932135016366, guid: 50a5d80083b5f744ebf0f5588ecac33c, type: 2}
   m_audioClip: {fileID: 8300000, guid: ff729065d942b1e4e8814577f30ce3f4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.35
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0

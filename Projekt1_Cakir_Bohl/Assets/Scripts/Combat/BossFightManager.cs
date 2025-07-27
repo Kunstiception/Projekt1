@@ -212,7 +212,7 @@ public class BossFightManager : CombatManager, ISelectable
             yield return HandleTextOutput(_currentLine, false);
 
             _currentLine = line;
-            yield return HandleTextOutput(_currentLine, false);
+            yield return HandleTextOutput(_currentLine, false, true);
 
             PlayerManager.Instance.EgoPoints -= value;
 
@@ -228,7 +228,7 @@ public class BossFightManager : CombatManager, ISelectable
             }
 
             _currentLine = _egoHitLine;
-            yield return HandleTextOutput(_currentLine, false);
+            yield return HandleTextOutput(_currentLine, false, true);
         }
 
         if (PlayerManager.Instance.EgoPoints <= 0)

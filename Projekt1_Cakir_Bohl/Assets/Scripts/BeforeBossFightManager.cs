@@ -40,6 +40,11 @@ public class BeforeBossFightManager : Manager
                 _animations[i - 1].SetActive(false);
             }
 
+            if (i == 1)
+            {
+                _mainEffectsAudioSource.PlayOneShot(_onHeal);
+            }
+
             _animations[i].SetActive(true);
 
             _currentLine = _lines.Lines[i];

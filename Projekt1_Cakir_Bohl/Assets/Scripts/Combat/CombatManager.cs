@@ -23,6 +23,7 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] protected Canvas _insultMenuCanvas;
     [SerializeField] protected GameObject _endBoss;
     [SerializeField] private AudioClip _onCoinsEarned;
+    [SerializeField] private AudioSource _musicSource;
     [SerializeField] private GameObject[] _enemiesDay;
     [SerializeField] private GameObject[] _enemiesNight;
     [SerializeField] private GameObject _guard;
@@ -190,7 +191,7 @@ public class CombatManager : Manager, ISelectable
 
         if (_enemy.EntrySound != null)
         {
-            _audioSource.PlayOneShot(_enemy.EntrySound, 1f);           
+            _mainEffectsAudioSource.PlayOneShot(_enemy.EntrySound, 1f);           
         }
 
         _currentLine = $"You encounter a {_enemy.Name}!";
@@ -416,24 +417,6 @@ public class CombatManager : Manager, ISelectable
 
         _textBox.enabled = true;
 
-        if (defenderEgoPoints <= 0)
-        {
-            ToggleCanvas(_insultMenuCanvas, false);
-
-            _currentLine = DialogueUtil.CreateCombatLog(defender, "has", $"no ego left to damage!");
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-
-            if (attacker != _enemy)
-            {
-                _currentLine = "There is no need for cruelty.";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
-            }
-
-            ResetInsultTurn();
-
-            yield break;
-        }
-
         if (attacker == PlayerManager.Instance)
         {
             if (ConditionManager.Instance.IsZombie)
@@ -516,6 +499,24 @@ public class CombatManager : Manager, ISelectable
             _currentLine = DialogueUtil.CreateCombatLog(attacker, "attempts", $"to insult {defender.Name}!");
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
+            if (defenderEgoPoints <= 0)
+            {
+                ToggleCanvas(_insultMenuCanvas, false);
+
+                _currentLine = DialogueUtil.CreateCombatLog(defender, "has", $"no ego left to damage!");
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+                if (attacker != _enemy)
+                {
+                    _currentLine = "There is no need for cruelty.";
+                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                }
+
+                ResetInsultTurn();
+
+                yield break;
+            }
+
             int attackRoll = 0;
             if (attacker is PlayerManager)
             {
@@ -527,7 +528,7 @@ public class CombatManager : Manager, ISelectable
             }
 
             _currentLine = line;
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false, true));
 
             if (defender is PlayerManager)
             {
@@ -555,7 +556,7 @@ public class CombatManager : Manager, ISelectable
             if (_finalDamage > 0)
             {
                 _currentLine = $"{defender.Name}: '{_egoHitLine}'";
-                yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false, true));
 
                 defenderEgoPoints -= _finalDamage;
 
@@ -575,7 +576,7 @@ public class CombatManager : Manager, ISelectable
                 else
                 {
                     _currentLine = $"{defender.Name}: '{_egoResistLine}'";
-                    yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                    yield return StartCoroutine(HandleTextOutput(_currentLine, false, true));
                 }
 
                 _currentLine = DialogueUtil.CreateCombatLog(defender, "has", "resisted the insult!");
@@ -725,6 +726,8 @@ public class CombatManager : Manager, ISelectable
         {
             if (_bossCounter >= GameConfig.TurnsBeforeSecondStage)
             {
+                _musicSource.Stop();
+
                 _textBox.enabled = true;
 
                 _currentLine = $"You realize you cannot win this way.";
@@ -1049,11 +1052,11 @@ public class CombatManager : Manager, ISelectable
         {
             if (isHealthDamage)
             {
-                _audioSource.PlayOneShot(_playerHealthHit);
+                _mainEffectsAudioSource.PlayOneShot(_playerHealthHit);
             }
             else
             {
-                _audioSource.PlayOneShot(_playerInsultHit);
+                _mainEffectsAudioSource.PlayOneShot(_playerInsultHit);
             }
         }
 
@@ -1203,13 +1206,13 @@ public class CombatManager : Manager, ISelectable
 
         if (isHealthDamage)
         {
-            _audioSource.PlayOneShot(_strikeHit, GameConfig.EffectsLoudness);
+            _mainEffectsAudioSource.PlayOneShot(_strikeHit, GameConfig.EffectsLoudness);
             
             hitParticles = _hitParticlesStrike;
         }
         else
         {
-            _audioSource.PlayOneShot(_insultHit, GameConfig.EffectsLoudness);
+            _mainEffectsAudioSource.PlayOneShot(_insultHit, GameConfig.EffectsLoudness);
 
             hitParticles = _hitParticlesInsult;
         }
@@ -1247,7 +1250,7 @@ public class CombatManager : Manager, ISelectable
 
         InventoryManager.Instance.ManageInventory(_coin, randomAmount, true);
 
-        _audioSource.PlayOneShot(_onCoinsEarned);
+        _mainEffectsAudioSource.PlayOneShot(_onCoinsEarned);
 
         _currentLine = $"You have received {randomAmount} coins.";
         yield return HandleTextOutput(_currentLine, false);

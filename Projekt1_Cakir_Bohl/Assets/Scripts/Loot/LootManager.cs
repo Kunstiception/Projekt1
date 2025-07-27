@@ -13,7 +13,7 @@ public class LootManager : Manager
 
     IEnumerator Start()
     {
-        _audioSource = GetComponent<AudioSource>();
+        _mainEffectsAudioSource = GetComponent<AudioSource>();
 
         ToggleCursorState(true);
 
@@ -22,8 +22,6 @@ public class LootManager : Manager
         SetPrompts();
 
         InitializePlayerStats();
-
-        yield return StartCoroutine(EvaluateVampire());
 
         if (InventoryManager.Instance.InventoryItems.Count >= GameConfig.MaxInventorySlots)
         {
@@ -37,6 +35,8 @@ public class LootManager : Manager
 
         _currentLine = UIDialogueStorage.FoundLoot;
         yield return HandleTextOutput(_currentLine, false);
+
+        yield return StartCoroutine(EvaluateVampire());
 
         StartCoroutine(SelectRandomItems(CreateLootCount()));
     }
@@ -94,11 +94,11 @@ public class LootManager : Manager
 
             if (i == 1)
             {
-                _audioSource.PlayOneShot(_onLoot1);
+                _mainEffectsAudioSource.PlayOneShot(_onLoot1);
             }
             else
             {
-                _audioSource.PlayOneShot(_onLoot2); 
+                _mainEffectsAudioSource.PlayOneShot(_onLoot2); 
             }
 
             _currentLine = _currentLine = $"You have found one {_item.Name}!";

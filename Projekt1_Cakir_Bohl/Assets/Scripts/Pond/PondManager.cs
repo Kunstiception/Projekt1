@@ -115,7 +115,7 @@ public class PondManager : Manager, ISelectable
     // Visualisiert Heilung von Health oder Ego in den Leisten
     private IEnumerator UpdateUI(int healAmount, bool isHealthChange, int initialAmount)
     {
-        _audioSource.PlayOneShot(_onHeal);
+        _mainEffectsAudioSource.PlayOneShot(_onHeal);
         
         float healValue = 0;
         Slider slider = null;

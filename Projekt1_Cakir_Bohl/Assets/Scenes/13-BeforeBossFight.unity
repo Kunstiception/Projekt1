@@ -1032,7 +1032,9 @@ MonoBehaviour:
   _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
-  _audioSource: {fileID: 1213573325}
+  _mainEffectsAudioSource: {fileID: 1213573325}
+  _dialogueAudioSource: {fileID: 0}
+  _playerHealthHit: {fileID: 0}
   _onHeal: {fileID: 8300000, guid: a1f0a3994a6239d40be98228b244f3ea, type: 3}
   _autoArrows: {fileID: 1303803412011209712}
   _animations:

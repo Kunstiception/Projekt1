@@ -184,13 +184,15 @@ public class DialogueManager : Manager, ISelectable
             if (lines[i].StartsWith("("))
             {
                 _currentLine = lines[i];
+                
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false, false));
             }
             else
             {
-                _currentLine = $"{InitialOptions.Speakers[_currentDialogueLines.SpeakerIndex[i]]}: '{lines[i]}'";             
-            }
+                _currentLine = $"{InitialOptions.Speakers[_currentDialogueLines.SpeakerIndex[i]]}: '{lines[i]}'";
 
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+                yield return StartCoroutine(HandleTextOutput(_currentLine, false, true));
+            }
 
             _textBox.text = "";
         }

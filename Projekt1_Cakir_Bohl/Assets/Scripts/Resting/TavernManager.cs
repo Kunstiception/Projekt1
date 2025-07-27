@@ -25,7 +25,7 @@ public class TavernManager : Manager, ISelectable
 
     IEnumerator Start()
     {
-        _audioSource = GetComponent<AudioSource>();
+        _mainEffectsAudioSource = GetComponent<AudioSource>();
 
         ToggleCursorState(true);
 
@@ -315,7 +315,7 @@ public class TavernManager : Manager, ISelectable
 
         yield return AnticipationTextCoroutine(true);
 
-        _audioSource.PlayOneShot(_vampireBite, 1f);
+        _mainEffectsAudioSource.PlayOneShot(_vampireBite, 1f);
 
         yield return PrintMultipleLines(UIDialogueStorage.VampireBiteLines);
 
