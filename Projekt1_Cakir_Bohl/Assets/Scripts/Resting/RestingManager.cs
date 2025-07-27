@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RestingManager : Manager, ISelectable, ICondition
 {
@@ -220,19 +221,22 @@ public class RestingManager : Manager, ISelectable, ICondition
     // Verbraucht das Item (was eine Liste an strings zurückgibt, um die Aktion zu beschreiben)
     public override IEnumerator UseSelectedItem()
     {
+        ToggleCanvas(ItemToDoCanvas, false);
+
         yield return base.UseSelectedItem();
+
+        Item previousItem = _currentItem;
 
         _inventoryDisplayer.ShowItemDescriptionAndSetPrompt(_currentItem);
         _inventoryDisplayer.UpdateDisplayedInventory(_currentItem);
 
-        if (InventoryManager.Instance.InventoryItems.Count > 0)
+        if (!InventoryManager.Instance.InventoryItems.Contains(previousItem) || InventoryManager.Instance.InventoryItems.Count <= 0)
         {
-            ToggleCanvas(ItemToDoCanvas, true);
+            ToggleCanvas(InventoryCanvas, true);
         }
         else
         {
-            ToggleCanvas(ItemToDoCanvas, false);
-            ToggleCanvas(InventoryCanvas, true);
+            ToggleCanvas(ItemToDoCanvas, true);
         }
     }
 

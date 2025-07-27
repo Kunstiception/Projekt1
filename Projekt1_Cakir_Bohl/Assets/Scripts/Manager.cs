@@ -24,11 +24,12 @@ public class Manager : MonoBehaviour
     protected int _currentStringIndex = 0;
     protected string _currentLine;
 
-    void Update()
-    {
-        ListenForSkipOrAuto();
-    }
+    // void Update()
+    // {
+    //     ListenForSkipOrAuto();
+    // }
 
+    // Hört darauf, ob die aktuelle Zeile übersprungen wird oder ob der Auto-Modus aktiviert/deaktiviert wurde
     public virtual void ListenForSkipOrAuto()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -55,7 +56,7 @@ public class Manager : MonoBehaviour
             {
                 return;
             }
-            
+
             if (PlayerManager.Instance.IsAuto == true)
             {
                 _autoArrows.enabled = false;
@@ -102,6 +103,7 @@ public class Manager : MonoBehaviour
         _currentLine = "";
     }
 
+    // Schaltet einen Canvas ein und aus und setzt das darauf gelegende Menü zurück
     public void ToggleCanvas(Canvas canvas, bool isActive)
     {
         canvas.enabled = isActive;
@@ -120,6 +122,7 @@ public class Manager : MonoBehaviour
         }
     }
 
+    // Erweiterung von HandleTextOutput für ein ganzes String-Array
     protected IEnumerator PrintMultipleLines(string[] lines)
     {
         _textBox.enabled = true;
@@ -133,6 +136,7 @@ public class Manager : MonoBehaviour
         }
     }
 
+    // Überprüft zu Anfang einer Szene, ob der Player ein Vampir ist und wendet den enstsprechenden Schaden an
     protected IEnumerator EvaluateVampire()
     {
         if (ConditionManager.Instance.IsVampire && MainManager.Instance.IsDay)
@@ -166,6 +170,7 @@ public class Manager : MonoBehaviour
         yield break;
     }
 
+    // Druckt die entsprechenden Zeilen, wenn der Player als Zombie nicht eine Konversation anfangen kann
     public virtual IEnumerator ZombieConversationAttempt()
     {
         yield return PrintMultipleLines(UIDialogueStorage.ZombieCantSpeakLines);
@@ -248,6 +253,7 @@ public class Manager : MonoBehaviour
         childSlider.value = nextValue;
     }
 
+    // Setzt die PlayerStats (Health- und Ego-Anzeige sowie Slider)
     protected void InitializePlayerStats()
     {
         _playerUIHealth.text = $"{PlayerManager.Instance.HealthPoints}/{PlayerManager.Instance.GetStartingHealth()}";
@@ -263,6 +269,7 @@ public class Manager : MonoBehaviour
         childSlider.GetComponent<Slider>().value = (float)PlayerManager.Instance.EgoPoints / (float)PlayerManager.Instance.GetStartingEgo();
     }
 
+    // Zögert kurz heraus ob eine Aktion erfolreich war oder nicht
     protected IEnumerator AnticipationTextCoroutine(bool isGoodOutcome)
     {
         float counter = 0f;
@@ -294,6 +301,7 @@ public class Manager : MonoBehaviour
 
     }
 
+    // Druckt die entsprechenden Zeilen beim Tag/Nacht-Wechsel, wenn der Player ein Vampir ist
     protected IEnumerator EvaluateWerewolfCondition(bool turnsToNight)
     {
         if (turnsToNight)
@@ -320,6 +328,7 @@ public class Manager : MonoBehaviour
         MainManager.Instance.IsDay = isDay;
     }
 
+    // Schaltet den Cursor sichtbar oder unsichtbar, je nach Szene
     protected void ToggleCursorState(bool isLocked)
     {
         if (isLocked)
@@ -332,6 +341,7 @@ public class Manager : MonoBehaviour
         }
     }
 
+    // Holt sich das IUsable-Interface des entsprechenden Items und führt die UseItem-Methode aus, die ein String-Array zurückgibt
     public virtual IEnumerator UseSelectedItem()
     {
         if (_currentItem is not IUsable)
@@ -357,6 +367,7 @@ public class Manager : MonoBehaviour
         }
     }
 
+    // Aktiviert die Continue/Skip-Prompts am Anfang einer Szene je nachdem ob der Auto-Modus aktiviert ist oder nicht
     protected void SetPrompts()
     {
         if (PlayerManager.Instance.IsAuto)
@@ -367,9 +378,9 @@ public class Manager : MonoBehaviour
         else
         {
             _autoArrows.enabled = false;
-            _promptSkip.enabled = true;       
+            _promptSkip.enabled = true;
         }
-        
+
         _promptContinue.enabled = false;
     }
 }

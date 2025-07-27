@@ -1433,6 +1433,7 @@ MonoBehaviour:
   _playerHealthBarBelow: {fileID: 217618192}
   _playerEgoBarBelow: {fileID: 217618189}
   _audioSource: {fileID: 500892712}
+  _playerHealthHit: {fileID: 8300000, guid: 288525ce8a659c8418f124867498d925, type: 3}
   _onHeal: {fileID: 8300000, guid: a1f0a3994a6239d40be98228b244f3ea, type: 3}
   _autoArrows: {fileID: 1647918674}
   _hitParticlesInsult: {fileID: 9156820866719904538}
@@ -1440,9 +1441,8 @@ MonoBehaviour:
   _exclamations:
   - {fileID: 654358091}
   - {fileID: 629279530}
-  _insultHit: {fileID: 8300000, guid: bed20fa593e75ee4c9ab064daab5fc17, type: 3}
+  _insultHit: {fileID: 8300000, guid: 694e7b6516cc27b419b16ec563bd2d42, type: 3}
   _strikeHit: {fileID: 8300000, guid: 8ba24e3a093bb4b448703e0ae90f474d, type: 3}
-  _playerHealthHit: {fileID: 8300000, guid: 288525ce8a659c8418f124867498d925, type: 3}
   _playerInsultHit: {fileID: 8300000, guid: fb4999584d3637c4fa8c24e0b0e24d9b, type: 3}
   _enemyUIHealth: {fileID: 3622441544289599739}
   _enemyUIEgo: {fileID: 3622441544289599738}

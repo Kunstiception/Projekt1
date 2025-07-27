@@ -95,6 +95,14 @@ public class InventoryDisplayer : SelectionMenu
                 itemSelection?.Invoke(InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint), _currentMenuPoint);
             }
         }
+
+        _textBox.text = InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint).Description;
+
+        if (!InventoryManager.Instance.InventoryItems.Contains(item))
+        {
+            UpdateEquipIndicators();
+            InitializeMenu();
+        }
     }
 
     public override void InitializeMenu()

@@ -81,9 +81,9 @@ public class InventoryManager : MonoBehaviour
                     ManageEquipment(item, false, index);
                 }
 
-                int itemIndex = InventoryAmounts[InventoryItems.IndexOf(item)];
+                int itemIndex = InventoryItems.IndexOf(item);
 
-                UpdateEquipBools(index);
+                UpdateEquipBools(itemIndex);
                 InventoryAmounts.Remove(itemIndex);
                 InventoryItems.Remove(item);
             }

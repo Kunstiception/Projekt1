@@ -640,7 +640,7 @@ public class CombatManager : Manager, ISelectable
 
         if (_finalDamage <= 0)
         {
-            _currentLine = $"The attack does not pierce throught the ego.";
+            _currentLine = $"The attack does not pierce through the ego.";
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
 

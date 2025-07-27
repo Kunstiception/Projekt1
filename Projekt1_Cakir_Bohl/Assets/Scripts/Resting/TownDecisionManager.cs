@@ -62,6 +62,8 @@ public class TownDecisionManager : Manager, ISelectable
     // Lädt die Resting-Szene mit dem entsprechenden Hintergrund
     private IEnumerator LoadOutside()
     {
+        PlayerManager.Instance.HasRoom = false;
+        
         string[] stayingOutsideLines = UIDialogueStorage.StayingOutsideOfTownLines;
 
         // Erste Line immer zeigen, auswürfeln ob auch eine zweite angezeigt wird (eine Art Easter Egg)
