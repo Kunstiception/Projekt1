@@ -5869,6 +5869,11 @@ MonoBehaviour:
   _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
+  _mainEffectsAudioSource: {fileID: 0}
+  _dialogueAudioSource: {fileID: 0}
+  _playerHealthHit: {fileID: 0}
+  _onHeal: {fileID: 0}
+  _autoArrows: {fileID: 0}
   _player: {fileID: 439538100}
   _firstWaypoints:
   - {fileID: 931179231}
@@ -8163,7 +8168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &772440672
 Transform:
   m_ObjectHideFlags: 0
@@ -8846,11 +8851,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4346103381761523394, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.31
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4346103381761523394, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6274575640566886213, guid: e374de6328e9b6141846094666594672, type: 3}
       propertyPath: wayPointCategory
@@ -8864,6 +8869,10 @@ PrefabInstance:
       propertyPath: AdjacentWaypoints.Array.data[0]
       value: 
       objectReference: {fileID: 150869170}
+    - target: {fileID: 7712861900381335912, guid: e374de6328e9b6141846094666594672, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10116,7 +10125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1016516671
 Transform:
   m_ObjectHideFlags: 0
