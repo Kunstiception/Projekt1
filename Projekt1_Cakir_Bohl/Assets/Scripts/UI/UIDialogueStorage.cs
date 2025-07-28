@@ -119,22 +119,22 @@ public static class UIDialogueStorage
         "You have finished your quest!"};
     public static string[] MeetingDogLines =
         {"You see a dog coming towards you.",
-        "He stops infront of you, eyeing you curiously.",
+        "He stops in front of you, eyeing you curiously.",
         "What will you do?"};
     public static string[] MeetingDogAgainLines =
-        {"You see the dog again.",
+        {"You see the dog from before again.",
         "What will you do?"};
     public static string[] PetDogLines =
         {"You pet the dog slowly.",
-        "His fur is rough and bit dirty.",
+        "His fur is rough and slightly dirty.",
         "His expression is hard to read, so you can't really tell if he's actually enjoying it."};
     public static string[] PetDogAgainLines =
         {"You should know by now that I'm not that kind of dog."};
     public static string[] ZombieCantSpeakLines =
-        {"You growl a bit in an embarassing attempt to make conversation."};
+        {"You growl awkwardly in an embarrassing attempt to make conversation."};
     public static string[] DogSaveLines =
         {"You hear barking just as the ominous shadow is about to attack you.",
-        "The dog you met earlier takes a brave stand infront of you, barking ferociously.",
+        "The dog you met earlier takes a brave stand in front of you, barking ferociously.",
         "The shadow vanishes and the dog chases it into the bushes.",
         "It seems you've made a friend."};
     public static string[] EndLines =
