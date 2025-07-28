@@ -96,7 +96,10 @@ public class InventoryDisplayer : SelectionMenu
             }
         }
 
-        _textBox.text = InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint).Description;
+        if (_currentMenuPoint <= InventoryManager.Instance.InventoryItems.Count -1)
+        {
+            _textBox.text = InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint).Description;
+        }
 
         if (!InventoryManager.Instance.InventoryItems.Contains(item))
         {
@@ -174,6 +177,8 @@ public class InventoryDisplayer : SelectionMenu
 
     public override void ChangePosition(bool isUp)
     {
+        _audioSource.PlayOneShot(_menuSound);
+
         if (isUp)
         {
             if (_currentMenuPoint == 0)

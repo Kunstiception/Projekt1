@@ -84,7 +84,7 @@ public class InventoryManager : MonoBehaviour
                 int itemIndex = InventoryItems.IndexOf(item);
 
                 UpdateEquipBools(itemIndex);
-                InventoryAmounts.Remove(itemIndex);
+                InventoryAmounts.RemoveAt(itemIndex);
                 InventoryItems.Remove(item);
             }
 

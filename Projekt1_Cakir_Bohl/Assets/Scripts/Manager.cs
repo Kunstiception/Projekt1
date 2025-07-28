@@ -96,7 +96,7 @@ public class Manager : MonoBehaviour
 
         if (isDialogue)
         {
-            _dialogueAudioSource.Stop();        
+            _dialogueAudioSource.Stop();
         }
 
         if (!PlayerManager.Instance.IsAuto)

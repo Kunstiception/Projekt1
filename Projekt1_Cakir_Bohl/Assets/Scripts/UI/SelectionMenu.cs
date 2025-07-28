@@ -16,6 +16,8 @@ public class SelectionMenu : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI[] _menuPoints;
     [SerializeField] protected Image[] _pointers;
     [SerializeField] protected GameObject _connectedScript;
+    [SerializeField] protected AudioSource _audioSource;
+    [SerializeField] protected AudioClip _menuSound;
 
     protected int _currentMenuPoint;
     protected ISelectable _iSelectable;
@@ -136,6 +138,8 @@ public class SelectionMenu : MonoBehaviour
 
     public virtual void ChangePosition(bool isUpOrLeft)
     {
+        _audioSource.PlayOneShot(_menuSound);
+
         if (isUpOrLeft)
         {
             _currentMenuPoint--;

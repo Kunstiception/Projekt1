@@ -38,9 +38,12 @@ public static class DialogueUtil
 
         promptContinue.enabled = true;
 
-        while (!Input.GetKeyDown(KeyCode.Space) && !Input.GetKeyDown(KeyCode.LeftAlt) && !Input.GetKeyDown(KeyCode.RightAlt))
+        if (!PlayerManager.Instance.IsAuto)
         {
-            yield return null;
+            while (!Input.GetKeyDown(KeyCode.Space) && !Input.GetKeyDown(KeyCode.LeftAlt) && !Input.GetKeyDown(KeyCode.RightAlt))
+            {
+                yield return null;
+            }        
         }
 
         promptContinue.enabled = false;
