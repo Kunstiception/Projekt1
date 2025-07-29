@@ -152,13 +152,16 @@ public class CombatManager : Manager, ISelectable
         yield return StartCoroutine(RollInitiative(_hasDisadvantage));
     }
 
-    void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
         HealingItem.onHeal += SetUIUpdate;
     }
 
-    void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
+
         StopAllCoroutines();
 
         HealingItem.onHeal -= SetUIUpdate;

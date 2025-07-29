@@ -72,13 +72,17 @@ public class TavernManager : Manager, ISelectable
         ListenForSkipOrAuto();
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
         DialogueManager.onDialogueFinished += DialogueEnded;
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
+        
         DialogueManager.onDialogueFinished -= DialogueEnded;
 
         StopAllCoroutines();

@@ -40,13 +40,17 @@ public class InteractionManager : Manager, ISelectable
         ToggleCanvas(InitialMenuCanvas, true);
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
         DialogueManager.onDialogueFinished += ResetMenus;
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
+        
         DialogueManager.onDialogueFinished -= ResetMenus;
 
         StopAllCoroutines();

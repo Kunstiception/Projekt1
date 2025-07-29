@@ -27,6 +27,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         _textBox.enabled = false;
         _promptContinue.enabled = false;
         _promptSkip.enabled = false;
+        _autoArrows.enabled = false;
 
         _inventoryDisplayer = InventoryCanvas.GetComponent<InventoryDisplayer>();
 

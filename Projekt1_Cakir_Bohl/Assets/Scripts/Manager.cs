@@ -24,6 +24,19 @@ public class Manager : MonoBehaviour
     protected Item _currentItem;
     protected int _currentStringIndex = 0;
     protected string _currentLine;
+    private bool _wasPlaying = false;
+
+    public virtual void OnEnable()
+    {
+        PauseMenu.OnPausedToggled += ToggleDialogueSound;
+        PauseMenu.OnPausedToggled += SwitchCursorToggle;
+    }
+
+    public virtual void OnDisable()
+    {
+        PauseMenu.OnPausedToggled -= ToggleDialogueSound;
+        PauseMenu.OnPausedToggled -= SwitchCursorToggle;
+    }
 
     void Update()
     {
@@ -81,12 +94,36 @@ public class Manager : MonoBehaviour
         }
     }
 
+    private void ToggleDialogueSound(bool isPaused)
+    {
+        if (_dialogueAudioSource == null)
+        {
+            return;
+        }
+        
+        if (!isPaused && _wasPlaying)
+        {
+            _dialogueAudioSource.Play();
+
+            _wasPlaying = false;
+
+            return;
+        }
+        
+        if (isPaused && _dialogueAudioSource.isPlaying)
+        {
+            _wasPlaying = true;
+
+            _dialogueAudioSource.Pause();
+        }
+    }
+
     // Umfasst mehrere Methoden der Dalogue.Util-Klasse, händelt z.B. auch das Beenden eines Abschnitts wenn isLastLine == true
     protected IEnumerator HandleTextOutput(string line, bool isLastLine, bool isDialogue = false)
     {
         if (isDialogue)
         {
-            _dialogueAudioSource.Play();        
+            _dialogueAudioSource.Play();
         }
 
         _textCoroutine = StartCoroutine(DialogueUtil.DisplayTextOverTime(line, _textBox, _promptSkip, _promptContinue));
@@ -339,9 +376,19 @@ public class Manager : MonoBehaviour
         MainManager.Instance.IsDay = isDay;
     }
 
+    private void SwitchCursorToggle(bool isPaused)
+    {
+        ToggleCursorState(!isPaused);
+    }
+
     // Schaltet den Cursor sichtbar oder unsichtbar, je nach Szene
     protected void ToggleCursorState(bool isLocked)
     {
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(2))
+        {
+            return;
+        }
+
         if (isLocked)
         {
             Cursor.visible = false;

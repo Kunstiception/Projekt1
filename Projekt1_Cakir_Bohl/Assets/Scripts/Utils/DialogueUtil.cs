@@ -26,10 +26,8 @@ public static class DialogueUtil
             }
         }
 
-        if (!PlayerManager.Instance.IsAuto)
-        {
-            promptSkip.enabled = false;
-        }
+        promptSkip.enabled = false;
+
     }
 
     public static IEnumerator WaitForContinue(TextMeshProUGUI promptContinue)

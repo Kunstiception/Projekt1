@@ -58,14 +58,18 @@ public class DogManager : Manager, ISelectable
         }
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
         DialogueManager.onDialogueFinished += ResetMenus;
         DialogueManager.onDialogueFinished += CheckForFriend;
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
+        
         DialogueManager.onDialogueFinished -= ResetMenus;
         DialogueManager.onDialogueFinished -= CheckForFriend;
 
