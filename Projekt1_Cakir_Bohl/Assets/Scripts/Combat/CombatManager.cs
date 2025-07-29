@@ -1293,7 +1293,7 @@ public class CombatManager : Manager, ISelectable
 
             ToggleCanvas(_itemUseCanvas, false);
 
-            _currentLine = "You don't carry any potions with you.";
+            _currentLine = "You're not carrying any potions.";
             yield return HandleTextOutput(_currentLine, false);
 
             _textBox.text = "";

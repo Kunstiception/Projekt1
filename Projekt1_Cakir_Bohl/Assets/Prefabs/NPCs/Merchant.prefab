@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2969145640008592711}
   - component: {fileID: 7349820037120821691}
   - component: {fileID: 7588185341881332512}
+  - component: {fileID: 520470242099911322}
   m_Layer: 0
   m_Name: Merchant
   m_TagString: Untagged
@@ -46,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsultLines: {fileID: 0}
-  DialogueLines: {fileID: 11400000, guid: 3147839000adb87499882539d229127c, type: 2}
+  EntrySound: {fileID: 0}
   Name: Merchant
   HealthPoints: 0
   EgoPoints: 0
@@ -109,3 +110,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &520470242099911322
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3231285286566686845}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5a7c613d421921e4896d174b48ad3309, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
