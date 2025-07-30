@@ -15,12 +15,12 @@ public class StoreManager : Manager, ISelectable
         UpdateCoinsText();
     }
 
-    private void OnEnable()
+    new private void OnEnable()
     {
         InventoryDisplayer.itemSelection += OnItemSelected;
     }
 
-    void OnDisable()
+    new void OnDisable()
     {
         StopAllCoroutines();
         InventoryDisplayer.itemSelection -= OnItemSelected;

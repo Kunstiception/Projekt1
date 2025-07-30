@@ -129,7 +129,7 @@ public static class UIDialogueStorage
         "His fur is rough and slightly dirty.",
         "His expression is hard to read, so you can't really tell if he's actually enjoying it."};
     public static string[] PetDogAgainLines =
-        {"You should know by now that I'm not that kind of dog."};
+        {"Dog: 'You should know by now that I'm not that kind of dog.'"};
     public static string[] ZombieCantSpeakLines =
         {"You growl awkwardly in an embarrassing attempt to make conversation."};
     public static string[] DogSaveLines =

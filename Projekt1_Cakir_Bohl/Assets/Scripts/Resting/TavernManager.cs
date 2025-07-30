@@ -64,11 +64,18 @@ public class TavernManager : Manager, ISelectable
 
         _dialogueManager.StartDialogue();
 
+        PlayerManager.Instance.IsTalking = true;
+
         MainManager.Instance.NumberOfVillagersMet++;
     }
 
     void Update()
     {
+        if (PlayerManager.Instance.IsTalking)
+        {
+            return;
+        }
+
         ListenForSkipOrAuto();
     }
 
@@ -163,6 +170,8 @@ public class TavernManager : Manager, ISelectable
 
     private void DialogueEnded()
     {
+        PlayerManager.Instance.IsTalking = false;
+
         ToggleCanvas(DialogueCanvas, false);
 
         StartCoroutine(AfterDialogueCoroutine());

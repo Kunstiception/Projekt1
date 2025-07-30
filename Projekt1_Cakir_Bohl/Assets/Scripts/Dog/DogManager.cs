@@ -12,6 +12,7 @@ public class DogManager : Manager, ISelectable
     [SerializeField] private Item[] _possibleItems;
     [SerializeField] private DialogueManager _dialogueManager;
     [SerializeField] private AudioClip _dogEntrance;
+    [SerializeField] private AudioClip _onLoot;
 
     IEnumerator Start()
     {
@@ -76,6 +77,16 @@ public class DogManager : Manager, ISelectable
         StopAllCoroutines();
     }
 
+    void Update()
+    {
+        if (PlayerManager.Instance.IsTalking)
+        {
+            return;
+        }
+
+        ListenForSkipOrAuto();
+    }
+
     private void CheckForFriend()
     {
         foreach (DialogueLines lines in _hasBefriendedLines)
@@ -91,6 +102,8 @@ public class DogManager : Manager, ISelectable
 
     private void ResetMenus()
     {
+        PlayerManager.Instance.IsTalking = false;
+        
         ToggleCanvas(_initialSelectionMenuCanvas, true);
         ToggleCanvas(_dialogueCanvas, false);
     }
@@ -104,6 +117,8 @@ public class DogManager : Manager, ISelectable
         _currentLine = $"Look! The dog brings you something!";
         yield return HandleTextOutput(_currentLine, false);
 
+        _mainEffectsAudioSource.PlayOneShot(_onLoot);
+        
         _currentLine = $"You have received {item.Name}.";
         yield return HandleTextOutput(_currentLine, false);
 
@@ -142,6 +157,8 @@ public class DogManager : Manager, ISelectable
 
                 _dialogueManager.StartDialogue();
 
+                PlayerManager.Instance.IsTalking = true;
+
                 break;
 
             case 2:
@@ -159,7 +176,7 @@ public class DogManager : Manager, ISelectable
         }
         else
         {
-            yield return PrintMultipleLines(UIDialogueStorage.PetDogAgainLines);
+            yield return PrintMultipleLines(UIDialogueStorage.PetDogAgainLines, true);
         }
 
         _textBox.text = "";
@@ -181,12 +198,4 @@ public class DogManager : Manager, ISelectable
 
         ResetMenus();
     }
-    
-    // public override void ListenForSkipOrAuto()
-    // {
-    //     if (!_dialogueCanvas.isActiveAndEnabled)
-    //     {
-    //         base.ListenForSkipOrAuto();
-    //     }
-    // }
 }

@@ -66,10 +66,10 @@ public class Manager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt))
         {
-            if (_textCoroutine == null)
-            {
-                return;
-            }
+            // if (_textCoroutine == null)
+            // {
+            //     return;
+            // }
 
             if (PlayerManager.Instance.IsAuto == true)
             {
@@ -171,14 +171,14 @@ public class Manager : MonoBehaviour
     }
 
     // Erweiterung von HandleTextOutput für ein ganzes String-Array
-    protected IEnumerator PrintMultipleLines(string[] lines)
+    protected IEnumerator PrintMultipleLines(string[] lines, bool isDialogue = false)
     {
         _textBox.enabled = true;
 
         foreach (string line in lines)
         {
             _currentLine = line;
-            yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+            yield return StartCoroutine(HandleTextOutput(_currentLine, false, isDialogue));
 
             _textBox.text = "";
         }

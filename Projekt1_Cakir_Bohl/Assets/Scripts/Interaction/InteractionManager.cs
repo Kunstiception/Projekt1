@@ -24,16 +24,17 @@ public class InteractionManager : Manager, ISelectable
 
         _merchant.SetActive(true);
 
-        _textBox.enabled = true;
-        _promptSkip.enabled = false;
-        _promptContinue.enabled = false;
+        SetPrompts();
 
         yield return StartCoroutine(EvaluateVampire());
 
         _mainEffectsAudioSource.PlayOneShot(_merchantEntrance);
 
-        _currentLine = "Feel free to take a look at my merchandise, dear knight.";
-        yield return StartCoroutine(HandleTextOutput(_currentLine, false));
+
+        _textBox.enabled = true;
+
+        _currentLine = "Merchant: 'Feel free to take a look at my merchandise, dear knight.'";
+        yield return StartCoroutine(HandleTextOutput(_currentLine, false, true));
 
         _textBox.text = "";
 
@@ -56,6 +57,16 @@ public class InteractionManager : Manager, ISelectable
         StopAllCoroutines();
     }
 
+    void Update()
+    {
+        if (PlayerManager.Instance.IsTalking)
+        {
+            return;
+        }
+
+        ListenForSkipOrAuto();
+    }
+
     public void HandleSelectedMenuPoint(int index)
     {
         switch (index)
@@ -68,7 +79,7 @@ public class InteractionManager : Manager, ISelectable
 
             case 1:
                 ToggleCanvas(InitialMenuCanvas, false);
-                
+
                 if (ConditionManager.Instance.IsZombie)
                 {
                     StartCoroutine(ZombieConversationAttempt());
@@ -79,6 +90,8 @@ public class InteractionManager : Manager, ISelectable
                 ToggleCanvas(DialogueCanvas, true);
 
                 _dialogueManager.StartDialogue();
+
+                PlayerManager.Instance.IsTalking = true;
 
                 break;
 
@@ -91,6 +104,8 @@ public class InteractionManager : Manager, ISelectable
 
     private void ResetMenus()
     {
+        PlayerManager.Instance.IsTalking = false;
+
         ToggleCanvas(InitialMenuCanvas, true);
         ToggleCanvas(DialogueCanvas, false);
     }

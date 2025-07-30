@@ -170,7 +170,38 @@ public class DialogueManager : Manager, ISelectable
 
             if (PlayerManager.Instance.IsAuto)
             {
+                _autoArrows.enabled = false;
+                
                 PlayerManager.Instance.IsAuto = false;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt))
+        {
+            if (_textCoroutine == null)
+            {
+                return;
+            }
+
+            if (PlayerManager.Instance.IsAuto == true)
+            {
+                _autoArrows.enabled = false;
+
+                PlayerManager.Instance.IsAuto = false;
+
+                if (_currentLine != "")
+                {
+                    _promptSkip.enabled = true;
+                }
+            }
+            else
+            {
+                _autoArrows.enabled = true;
+
+                PlayerManager.Instance.IsAuto = true;
+
+                _promptSkip.enabled = false;
+                _promptContinue.enabled = false;
             }
         }
     }

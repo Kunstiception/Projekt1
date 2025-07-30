@@ -34,7 +34,7 @@ public class MapManager : Manager
             throw new NullReferenceException("MainManager not set to an instance of an object.");
         }
 
-        ToggleCursorState(false);
+        Cursor.visible = true;
 
         foreach (GameObject day in _days)
         {
@@ -82,13 +82,17 @@ public class MapManager : Manager
         //_daysCounter.text = $"Day: {MainManager.Instance.CurrentDay + 1}";
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
         WayPoint.clickAction += SetNextPosition;
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
+
         WayPoint.clickAction -= SetNextPosition;
     }
 
@@ -362,7 +366,7 @@ public class MapManager : Manager
     private int ChooseInteractionType()
     {
         List<int> indexPool = new List<int> { 6, 12, 14 };
-
+        return 14;
         if (MainManager.Instance.CurrentDay == 0)
         {
             return indexPool[2];
