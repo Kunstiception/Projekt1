@@ -27,6 +27,10 @@ public class DialogueManager : Manager, ISelectable
 
     void Update()
     {
+        if (!PlayerManager.Instance.IsTalking)
+        {
+            return;
+        }
         ListenForSkipOrAuto();
     }
 
@@ -166,23 +170,18 @@ public class DialogueManager : Manager, ISelectable
                 StopCoroutine(_textCoroutine);
                 _textCoroutine = null;
                 DialogueUtil.ShowFullLine(_currentLine, _textBox, _promptSkip);
-            }
-
-            if (PlayerManager.Instance.IsAuto)
-            {
-                _autoArrows.enabled = false;
                 
-                PlayerManager.Instance.IsAuto = false;
+                if (PlayerManager.Instance.IsAuto)
+                {
+                    _autoArrows.enabled = false;
+
+                    PlayerManager.Instance.IsAuto = false;
+                }
             }
         }
 
         if (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt))
         {
-            if (_textCoroutine == null)
-            {
-                return;
-            }
-
             if (PlayerManager.Instance.IsAuto == true)
             {
                 _autoArrows.enabled = false;
@@ -215,7 +214,7 @@ public class DialogueManager : Manager, ISelectable
             if (lines[i].StartsWith("("))
             {
                 _currentLine = lines[i];
-                
+
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false, false));
             }
             else
@@ -227,5 +226,7 @@ public class DialogueManager : Manager, ISelectable
 
             _textBox.text = "";
         }
+
+        _promptSkip.enabled = false;
     }
 }

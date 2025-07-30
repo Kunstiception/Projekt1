@@ -24,7 +24,8 @@ public static class GameConfig
     public static float HitParticlesLength = 0.5f;
     public static float ExclamationLength = 1f;
     public static int EnemyFleeChance = 5;
-    public static int TurnsBeforeSecondStage = 3;
+    public static int TurnsBeforeSecondStage = 2;
+    public static int ZombieMaxInsultCount = 2;
 
     // Resting
     public static int AmbushChance = 4;

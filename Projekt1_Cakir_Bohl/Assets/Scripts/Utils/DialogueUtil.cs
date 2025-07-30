@@ -27,7 +27,6 @@ public static class DialogueUtil
         }
 
         promptSkip.enabled = false;
-
     }
 
     public static IEnumerator WaitForContinue(TextMeshProUGUI promptContinue)

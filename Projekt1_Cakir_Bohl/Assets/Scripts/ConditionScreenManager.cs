@@ -10,6 +10,7 @@ public class ConditionScreenManager : Manager
     [SerializeField] private GameObject _werewolfText;
     [SerializeField] private GameObject _vampireText;
     private string _conditionName;
+    private bool _isTextDisplayed = false;
 
     IEnumerator Start()
     {
@@ -18,6 +19,7 @@ public class ConditionScreenManager : Manager
         _textBox.text = "";
         _promptSkip.enabled = false;
         _promptContinue.enabled = false;
+        _autoArrows.enabled = false;
 
         SetConditionName();
 
@@ -27,6 +29,13 @@ public class ConditionScreenManager : Manager
 
         if (_currentLine != null)
         {
+            _isTextDisplayed = true;
+
+            if (PlayerManager.Instance.IsAuto)
+            {
+                _autoArrows.enabled = true;
+            }
+
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));
         }
         else
@@ -46,6 +55,11 @@ public class ConditionScreenManager : Manager
 
     void Update()
     {
+        if (!_isTextDisplayed)
+        {
+            return;
+        }
+
         ListenForSkipOrAuto();
     }
 

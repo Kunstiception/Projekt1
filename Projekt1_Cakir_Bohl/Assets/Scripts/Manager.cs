@@ -54,23 +54,18 @@ public class Manager : MonoBehaviour
                 StopCoroutine(_textCoroutine);
                 _textCoroutine = null;
                 DialogueUtil.ShowFullLine(_currentLine, _textBox, _promptSkip);
-            }
 
-            if (PlayerManager.Instance.IsAuto)
-            {
-                _autoArrows.enabled = false;
+                if (PlayerManager.Instance.IsAuto)
+                {
+                    _autoArrows.enabled = false;
 
-                PlayerManager.Instance.IsAuto = false;
+                    PlayerManager.Instance.IsAuto = false;
+                }
             }
         }
 
         if (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt))
         {
-            // if (_textCoroutine == null)
-            // {
-            //     return;
-            // }
-
             if (PlayerManager.Instance.IsAuto == true)
             {
                 _autoArrows.enabled = false;
@@ -149,6 +144,8 @@ public class Manager : MonoBehaviour
         }
 
         _currentLine = "";
+
+        _textCoroutine = null;
     }
 
     // Schaltet einen Canvas ein und aus und setzt das darauf gelegende Menü zurück

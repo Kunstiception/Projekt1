@@ -124,7 +124,7 @@ public class DogManager : Manager, ISelectable
 
         InventoryManager.Instance.ManageInventory(item, 1, true);
 
-        SceneManager.LoadScene(2);
+        ToggleCanvas(_initialSelectionMenuCanvas, true);
 
         yield break;
     }

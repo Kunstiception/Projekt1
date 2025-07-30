@@ -366,7 +366,7 @@ public class MapManager : Manager
     private int ChooseInteractionType()
     {
         List<int> indexPool = new List<int> { 6, 12, 14 };
-        return 14;
+
         if (MainManager.Instance.CurrentDay == 0)
         {
             return indexPool[2];

@@ -64,6 +64,7 @@ public class CombatManager : Manager, ISelectable
     private bool _hasEnemyFled;
     private int _intitialPlayerHealth;
     private int _bossCounter;
+    private int _zombieInsultCounter;
     private bool _hasDisadvantage;
     private List<Item> _healingItems = new List<Item>();
 
@@ -304,6 +305,8 @@ public class CombatManager : Manager, ISelectable
 
             ToggleCanvas(_initialSelectionMenuCanvas, true);
 
+            _promptSkip.enabled = false;
+
             _isFighting = true;
             _hasFightStarted = true;
 
@@ -343,20 +346,21 @@ public class CombatManager : Manager, ISelectable
             }
         }
 
-        var randomIndex = 0;
+        var turnIndex = 0;
 
         // wenn keine Insults mehr übrig, bleibt nur Angriff
         // der Endboss greift nur die Lebenspunkte an
-        if (_playerInsultsAndValues.Count < 1 || _enemy.Name == "Voice")
+        // Zombie soll nur begrenzt oft einen Insult ausführen
+        if (_playerInsultsAndValues.Count < 1 || _enemy.Name == "Voice" || _zombieInsultCounter >= GameConfig.ZombieMaxInsultCount)
         {
-            randomIndex = UnityEngine.Random.Range(1, 2);
+            turnIndex = 1;
         }
         else
         {
-            randomIndex = UnityEngine.Random.Range(0, 2);
+            turnIndex = UnityEngine.Random.Range(0, 2);
         }
 
-        switch (randomIndex)
+        switch (turnIndex)
         {
             case 0:
                 _turnCoroutine = StartCoroutine(InsultTurn(attacker: _enemy, defender: PlayerManager.Instance, _defenderEgoPoints));
@@ -482,6 +486,8 @@ public class CombatManager : Manager, ISelectable
             }
             else
             {
+                _zombieInsultCounter++;
+
                 _currentLine = $"The zombie can't think of anything to insult you with.";
                 yield return StartCoroutine(HandleTextOutput(_currentLine, false));
 
