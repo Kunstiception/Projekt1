@@ -114,7 +114,7 @@ public class DogManager : Manager, ISelectable
 
         Item item = _possibleItems[randomIndex];
 
-        _currentLine = $"Look! The dog brings you something!";
+        _currentLine = $"Look! The dog brought you something!";
         yield return HandleTextOutput(_currentLine, false);
 
         _mainEffectsAudioSource.PlayOneShot(_onLoot);

@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speakers: []
   Lines:
-  - Believe it or not but I used to work at the gate you passed when you came in
+  - Believe it or not, but I used to work at the gate you passed when you came in
     here.
   - A loyal and proud member of the "Order of Guards", to be exact.
   - Oh, how I hated it!
   - Standing around all day, not moving an inch... pure hell, I tell you!
   - But you learn about monsters, their strengths and weaknesses.
-  - So I quit and here I am, much much happier.
+  - So I quit and here I am, a whole lot happier.
   SpeakerIndex: 000000000000000000000000000000000000000000000000
   PlayerOptions: []
   BranchingLines: []

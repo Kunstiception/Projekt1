@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speakers: []
   Lines:
-  - Don't you ever feel like you are not actually... in the saddle?
-  - Like something is guiding you through life, your decisions only seeming like
+  - Don't you ever feel like you're not actually... holding the reins?
+  - Like something else is taking control over you, your decisions only seeming like
     they are your own?
   SpeakerIndex: 0000000000000000
   PlayerOptions:

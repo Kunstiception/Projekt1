@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speakers: []
   Lines:
-  - I would tell you to turn around right now and get back to where you came from.
+  - I would tell you to turn around right now and go back to where you came from.
   - But that's not going to happen, is it?
   - So try not to get ambushed would be my best advice.
-  - You are safe in a town, but outside... you never know who is lurking in the shadows,
+  - You're safe in a town, but outside... you never know who is lurking in the shadows,
     just waiting for you to fall asleep to make their move.
   SpeakerIndex: 00000000000000000000000000000000
   PlayerOptions:

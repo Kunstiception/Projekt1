@@ -15,10 +15,10 @@ MonoBehaviour:
   Speakers: []
   Lines:
   - I am shocked.
-  - But I guess it makes sense with so many people living close to each other.
-  - Yet, I still wish I could see the cities someday... and smell the open sea nearby.
+  - But I guess it makes sense with so many people living so close to each other.
+  - Yet, I still wish I could see the cities someday... and smell the vast sea.
   - To not stand in the shade of these mountain ranges, to be truly free.
-  - Oh how marvelous it must be.
+  - Oh, how marvelous it must be.
   SpeakerIndex: 0000000000000000000000000000000000000000
   PlayerOptions: []
   BranchingLines: []

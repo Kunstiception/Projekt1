@@ -16,10 +16,11 @@ MonoBehaviour:
   - Alchemist
   - Crow
   Lines:
-  - (A crow sits down on your table. An old man follows it.)
-  - Don't pick on the knight's food!
+  - (A crow, flapping its wings, settles down on your table. An old man follows right
+    behind.)
+  - Don't pick at the knight's food!
   - I don't just stand and stare. Life's not fair, so I'd rather take my share!
-  - By the gods! Just shut up you flapping demon!
+  - By the gods! Just shut up, you flapping demon!
   SpeakerIndex: 00000000000000000100000000000000
   PlayerOptions:
   - Why is it that animals talk around here?

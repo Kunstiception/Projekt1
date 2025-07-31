@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speakers: []
   Lines:
-  - The reason is right infront of you.
+  - The reason is right in front of you.
   SpeakerIndex: 00000000
   PlayerOptions:
   - You?

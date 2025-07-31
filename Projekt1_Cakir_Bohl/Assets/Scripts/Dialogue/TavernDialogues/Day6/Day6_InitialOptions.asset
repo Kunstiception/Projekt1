@@ -16,8 +16,8 @@ MonoBehaviour:
   - Priestess
   Lines:
   - (An old woman wearing a bright red hood sits down at your table.)
-  - (She seems to be saying something but it's hard to make out if she is talking
-    to you or to herself.)
+  - (She seems to be saying something, but it's hard to make out if she's talking
+    to you or herself.)
   SpeakerIndex: 0000000000000000
   PlayerOptions:
   - Are you talking to me?
