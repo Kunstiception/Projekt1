@@ -122,6 +122,8 @@ public class DogManager : Manager, ISelectable
         _currentLine = $"You have received {item.Name}.";
         yield return HandleTextOutput(_currentLine, false);
 
+        _textBox.text = "";
+
         InventoryManager.Instance.ManageInventory(item, 1, true);
 
         ToggleCanvas(_initialSelectionMenuCanvas, true);

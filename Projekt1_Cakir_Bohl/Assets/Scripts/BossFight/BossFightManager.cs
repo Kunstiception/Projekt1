@@ -14,22 +14,18 @@ public class BossFightManager : CombatManager, ISelectable
     [SerializeField] private VoiceLines _retreatLines;
     [SerializeField] private VoiceLines _noMoreEgoLines;
     [SerializeField] private InsultLines _selfInsultLines;
+    [SerializeField] private GameObject _tree;
     private bool _isAbleToAttack = false;
 
     private Dictionary<string, int> _currentPlayerInsultsAndValues = new Dictionary<string, int>();
 
     IEnumerator Start()
     {
-        GameObject enemyObject = Instantiate(_endBoss);
-        _enemy = enemyObject.GetComponent<Combatant>();
-        _enemyAnimator = enemyObject.GetComponent<Animator>();
+        ToggleCanvas(_statsCanvas, false);
+        ToggleCanvas(_initialSelectionMenuCanvas, false);
+        ToggleCanvas(_insultMenuCanvas, false);
 
-        SetPrompts();
-
-        SetCombatants();
-
-        SetInitialStats();
-
+        _tree.SetActive(false);
         _hitParticlesInsult.SetActive(false);
         _hitParticlesStrike.SetActive(false);
 
@@ -38,16 +34,34 @@ public class BossFightManager : CombatManager, ISelectable
             exclamation.SetActive(false);
         }
 
+        SetPrompts();
+
+        _currentLine = $"You realize you cannot win this way.";
+        yield return HandleTextOutput(_currentLine, false);
+
+        GameObject enemyObject = Instantiate(_endBoss);
+        _enemy = enemyObject.GetComponent<Combatant>();
+        _enemyAnimator = enemyObject.GetComponent<Animator>();
+
+        _tree.SetActive(true);
+
+        ToggleCanvas(_statsCanvas, true);
+
+        SetPrompts();
+
+        SetCombatants();
+
+        SetInitialStats();
+
         for (int i = 0; i < _selfInsultLines.Insults.Length; i++)
         {
             _playerInsultsAndValues.Add(_selfInsultLines.Insults[i], PlayerManager.Instance.InsultLines.Values[i]);
         }
 
-        ToggleCanvas(_initialSelectionMenuCanvas, false);
-        ToggleCanvas(_insultMenuCanvas, false);
+        _musicSource.Play();
 
-        _currentLine = $"{_enemy.Name}: Give me all your ego!";
-        yield return HandleTextOutput(_currentLine, false);
+        _currentLine = $"{_enemy.Name}: Give yourself to me!";
+        yield return HandleTextOutput(_currentLine, false, true);
 
         _textBox.text = "";
 
@@ -166,7 +180,7 @@ public class BossFightManager : CombatManager, ISelectable
     private IEnumerator SelfInsultTurn(int optionIndex = 0)
     {
         string line = "";
-        int value = 0;
+        int damageValue = 0;
 
         _textBox.enabled = true;
 
@@ -174,7 +188,7 @@ public class BossFightManager : CombatManager, ISelectable
         {
             case 0:
                 line = $"{PlayerManager.Instance.Name}: '{_currentPlayerInsultsAndValues.ElementAt(0).Key}'";
-                value = _currentPlayerInsultsAndValues.ElementAt(0).Value;
+                damageValue = _currentPlayerInsultsAndValues.ElementAt(0).Value;
 
                 _egoHitLine = $"{_enemy.Name}: '{_selfInsultLines.AnswersWhenHit[Array.IndexOf(_selfInsultLines.Insults, _currentPlayerInsultsAndValues.ElementAt(0).Key)]}'";
 
@@ -184,7 +198,7 @@ public class BossFightManager : CombatManager, ISelectable
 
             case 1:
                 line = $"{PlayerManager.Instance.Name}: '{_currentPlayerInsultsAndValues.ElementAt(1).Key}'";
-                value = _currentPlayerInsultsAndValues.ElementAt(1).Value;
+                damageValue = _currentPlayerInsultsAndValues.ElementAt(1).Value;
 
                 _egoHitLine = $"{_enemy.Name}: '{_selfInsultLines.AnswersWhenHit[Array.IndexOf(_selfInsultLines.Insults, _currentPlayerInsultsAndValues.ElementAt(1).Key)]}'";
 
@@ -214,21 +228,32 @@ public class BossFightManager : CombatManager, ISelectable
             _currentLine = line;
             yield return HandleTextOutput(_currentLine, false, true);
 
-            PlayerManager.Instance.EgoPoints -= value;
+            PlayerManager.Instance.EgoPoints -= damageValue;
 
-            StartCoroutine(UpdateUI(PlayerManager.Instance, value, false, currentEgo: PlayerManager.Instance.EgoPoints));
+            StartCoroutine(UpdateUI(PlayerManager.Instance, damageValue, false, currentEgo: PlayerManager.Instance.EgoPoints));
 
-            _currentLine = $"{PlayerManager.Instance.Name} take {value} ego damage!";
+            _currentLine = $"{PlayerManager.Instance.Name} take {damageValue} ego damage!";
             yield return HandleTextOutput(_currentLine, false);
 
 
-            if (PlayerManager.Instance.EgoPoints < 0)
+            if (PlayerManager.Instance.EgoPoints <= 0)
             {
                 PlayerManager.Instance.EgoPoints = 0;
             }
+            else
+            {
+                _currentLine = _egoHitLine;
+                yield return HandleTextOutput(_currentLine, false, true);
 
-            _currentLine = _egoHitLine;
-            yield return HandleTextOutput(_currentLine, false, true);
+                int healValue = damageValue / 2;
+
+                StartCoroutine(UpdateUIHeal(healValue, false, PlayerManager.Instance.EgoPoints));
+
+                PlayerManager.Instance.EgoPoints += healValue;
+
+                _currentLine = $"You have recovered {healValue} ego.";
+                yield return HandleTextOutput(_currentLine, false);         
+            }
         }
 
         if (PlayerManager.Instance.EgoPoints <= 0)

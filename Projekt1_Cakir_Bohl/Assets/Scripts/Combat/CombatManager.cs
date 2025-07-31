@@ -15,6 +15,7 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] protected AudioClip _insultHit;
     [SerializeField] protected AudioClip _strikeHit;
     [SerializeField] protected AudioClip _playerInsultHit;
+    [SerializeField] protected AudioSource _musicSource;
     [SerializeField] protected TextMeshProUGUI _enemyUIHealth;
     [SerializeField] protected TextMeshProUGUI _enemyUIEgo;
     [SerializeField] protected Slider _enemyHealthBarBelow;
@@ -23,7 +24,6 @@ public class CombatManager : Manager, ISelectable
     [SerializeField] protected Canvas _insultMenuCanvas;
     [SerializeField] protected GameObject _endBoss;
     [SerializeField] private AudioClip _onCoinsEarned;
-    [SerializeField] private AudioSource _musicSource;
     [SerializeField] private GameObject[] _enemiesDay;
     [SerializeField] private GameObject[] _enemiesNight;
     [SerializeField] private GameObject _guard;
@@ -735,13 +735,6 @@ public class CombatManager : Manager, ISelectable
         {
             if (_bossCounter >= GameConfig.TurnsBeforeSecondStage)
             {
-                _musicSource.Stop();
-
-                _textBox.enabled = true;
-
-                _currentLine = $"You realize you cannot win this way.";
-                yield return HandleTextOutput(_currentLine, false);
-
                 SceneManager.LoadScene(13);
             }
 
@@ -1004,7 +997,7 @@ public class CombatManager : Manager, ISelectable
         }
     }
 
-        // Nimmt die nötigen Infos für das UI-Update auf und startet Coroutine
+    // Nimmt die nötigen Infos für das UI-Update auf und startet Coroutine
     private void SetUIUpdate(bool isHealthHeal, int initialAmount, int healingAmount)
     {
         StartCoroutine(UpdateUIHeal(healingAmount, isHealthHeal, initialAmount));

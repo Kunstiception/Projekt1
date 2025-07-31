@@ -189,6 +189,7 @@ MonoBehaviour:
   _insultHit: {fileID: 8300000, guid: bad1822dee59fe642bf98046ee4c8758, type: 3}
   _strikeHit: {fileID: 8300000, guid: 877b4a4b74e750b49ada7a66cb3a696a, type: 3}
   _playerInsultHit: {fileID: 8300000, guid: fb4999584d3637c4fa8c24e0b0e24d9b, type: 3}
+  _musicSource: {fileID: 1468451499}
   _enemyUIHealth: {fileID: 2029064258}
   _enemyUIEgo: {fileID: 2029064257}
   _enemyHealthBarBelow: {fileID: 2029064256}
@@ -197,7 +198,6 @@ MonoBehaviour:
   _insultMenuCanvas: {fileID: 1716701539}
   _endBoss: {fileID: 1451417646648548203, guid: 5c75e0f9589ee0349a4ed7d90903ca40, type: 3}
   _onCoinsEarned: {fileID: 0}
-  _musicSource: {fileID: 0}
   _enemiesDay: []
   _enemiesNight: []
   _guard: {fileID: 0}
@@ -211,6 +211,7 @@ MonoBehaviour:
   _retreatLines: {fileID: 11400000, guid: 0b0b450c70a279e41ba4cd130f46d298, type: 2}
   _noMoreEgoLines: {fileID: 11400000, guid: fd7476ee8ecc13041a35cd6c457e885a, type: 2}
   _selfInsultLines: {fileID: 11400000, guid: 9f49b4a6706cf774dbe286d14a211511, type: 2}
+  _tree: {fileID: 696180123}
 --- !u!82 &8410061
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2967,7 +2968,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -999
-  m_Sprite: {fileID: 21300000, guid: ebdb4fd3607c9fa46ab6a041b8cfee64, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d7d68d29ec84ce7458eb87d28d514e87, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3416,6 +3417,10 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: de145c8b942a63e408a67d4098c9d80a, type: 3}
+    - target: {fileID: 1908749468764316573, guid: 258cf94f185a628419f03e6f06e47b62, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2399942088740170249, guid: 258cf94f185a628419f03e6f06e47b62, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.008597998
@@ -3468,6 +3473,11 @@ PrefabInstance:
 --- !u!4 &1468451498 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2399942088740170249, guid: 258cf94f185a628419f03e6f06e47b62, type: 3}
+  m_PrefabInstance: {fileID: 1468451497}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1468451499 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1908749468764316573, guid: 258cf94f185a628419f03e6f06e47b62, type: 3}
   m_PrefabInstance: {fileID: 1468451497}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1636510695
@@ -4480,6 +4490,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 718308312}
     m_Modifications:
+    - target: {fileID: 2432858179252645117, guid: ee1886e9fca8b1d44b1a4a3c3f7b9231, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 845
+      objectReference: {fileID: 0}
+    - target: {fileID: 2432858179252645117, guid: ee1886e9fca8b1d44b1a4a3c3f7b9231, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 3789061294272035256, guid: ee1886e9fca8b1d44b1a4a3c3f7b9231, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
