@@ -17,6 +17,7 @@ public class PlayerManager: Combatant
     public bool HasReachedBoss = false;
     public bool IsAuto = false;
     public bool IsTalking = false;
+    public bool HasLoadedGame = false;
     public ConditionManager.Conditions LatestCondition;
 
     private void Awake()

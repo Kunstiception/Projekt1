@@ -9,6 +9,7 @@ public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
 
+    public bool IsDevelopment = false;
     public int PlayerHealthPoints;
     public int PlayerEgoPoints;
     public int HealthPointsModifier;
@@ -288,10 +289,10 @@ public class MainManager : MonoBehaviour
 
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-        if (data.CurrentDay == 0)
-        {
-            return false;
-        }
+        // if (data.CurrentDay == 0)
+        // {
+        //     return false;
+        // }
 
         return true;
     }

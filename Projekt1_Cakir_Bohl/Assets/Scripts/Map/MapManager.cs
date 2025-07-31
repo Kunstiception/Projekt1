@@ -62,7 +62,10 @@ public class MapManager : Manager
             PlayerManager.Instance.InitializePlayerStats();
         }
 
-        MainManager.Instance.SaveAll();
+        if (MainManager.Instance.IsDevelopment)
+        {
+            MainManager.Instance.SaveAll();        
+        }
 
         if (MainManager.Instance.IsDay == true)
         {
@@ -79,7 +82,6 @@ public class MapManager : Manager
         SetNextWayPointsTag();
 
         PlayerManager.Instance.HasFinishedDay = false;
-        //_daysCounter.text = $"Day: {MainManager.Instance.CurrentDay + 1}";
     }
 
     public override void OnEnable()
@@ -230,6 +232,11 @@ public class MapManager : Manager
         else
         {
             _currentWaypoint = GameObject.Find(MainManager.Instance.LastWayPoint).transform;
+        }
+
+        if (MainManager.Instance.IsDevelopment && _currentWaypoint.GetComponent<WayPoint>().wayPointCategory == WayPoint.WayPointCategory.IsResting)
+        {
+            SceneManager.LoadScene(7);
         }
 
         _player.position = _currentWaypoint.position;

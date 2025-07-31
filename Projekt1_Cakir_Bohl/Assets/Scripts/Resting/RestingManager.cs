@@ -59,16 +59,28 @@ public class RestingManager : Manager, ISelectable, ICondition
         ToggleCanvas(ItemToDoCanvas, false);
 
         InitializePlayerStats();
+
+        if (!MainManager.Instance.IsDevelopment && !PlayerManager.Instance.HasLoadedGame)
+        {
+            MainManager.Instance.SaveAll();
+            Debug.Log("Saved game!");
+
+            PlayerManager.Instance.HasLoadedGame = false;
+        }
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
         InventoryDisplayer.itemSelection += SetCurrentItemAndIndex;
         HealingItem.onHeal += SetUIUpdate;
     }
 
-    void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
+
         StopAllCoroutines();
         InventoryDisplayer.itemSelection -= SetCurrentItemAndIndex;
         HealingItem.onHeal -= SetUIUpdate;

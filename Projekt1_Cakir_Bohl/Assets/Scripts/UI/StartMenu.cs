@@ -23,7 +23,17 @@ public class StartMenu : Manager
     {
         MainManager.Instance.LoadAll();
 
-        SceneManager.LoadScene(2);
+        if (MainManager.Instance.IsDevelopment)
+        {
+            SceneManager.LoadScene(2);
+        }
+        else
+        {
+            PlayerManager.Instance.HasLoadedGame = true;
+
+            SceneManager.LoadScene(7);
+        }
+
     }
 
     public void LoadNew()
