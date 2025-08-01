@@ -3402,7 +3402,9 @@ MonoBehaviour:
   _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
-  _audioSource: {fileID: 0}
+  _mainEffectsAudioSource: {fileID: 0}
+  _dialogueAudioSource: {fileID: 0}
+  _playerHealthHit: {fileID: 0}
   _onHeal: {fileID: 0}
   _autoArrows: {fileID: 0}
   _loadButton: {fileID: 1625363744}
@@ -4499,6 +4501,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2118519474}
     m_Modifications:
+    - target: {fileID: 1908749468764316573, guid: 258cf94f185a628419f03e6f06e47b62, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1908749468764316573, guid: 258cf94f185a628419f03e6f06e47b62, type: 3}
       propertyPath: m_audioClip
       value: 

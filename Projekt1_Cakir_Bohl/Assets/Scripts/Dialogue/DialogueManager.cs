@@ -36,7 +36,7 @@ public class DialogueManager : Manager, ISelectable
 
     private IEnumerator DialogueCoroutine()
     {
-        yield return ShowLinesAndHandleSelection(InitialOptions);
+        yield return ShowLinesAndHandleSelection(InitialOptions, false);
 
         do
         {
@@ -49,18 +49,21 @@ public class DialogueManager : Manager, ISelectable
                 break;
             }
 
-            yield return ShowLinesAndHandleSelection(_currentDialogueLines);
+            yield return ShowLinesAndHandleSelection(_currentDialogueLines, false);
 
         } while (_isRunning);
     }
 
-    private IEnumerator ShowLinesAndHandleSelection(DialogueLines dialogueLines)
+    private IEnumerator ShowLinesAndHandleSelection(DialogueLines dialogueLines, bool wasReturned)
     {
-        ToggleCanvas(_dialogueCanvas, false);
+        if (!wasReturned)
+        {
+            ToggleCanvas(_dialogueCanvas, false);
 
-        _promptSkip.enabled = false;
+            _promptSkip.enabled = false;
 
-        yield return PrintDialogueLines(dialogueLines.Lines);
+            yield return PrintDialogueLines(dialogueLines.Lines);        
+        }
 
         _textBox.text = "";
 
@@ -111,11 +114,20 @@ public class DialogueManager : Manager, ISelectable
             return;
         }
 
+        DialogueLines previousDialogueLines = _currentDialogueLines;
+
         _currentDialogueLines = _currentDialogueLines.BranchingLines[index];
+
+        if (_currentDialogueLines == InitialOptions && previousDialogueLines == InitialOptions)
+        {
+            EndDialogue();
+
+            return;
+        }
 
         if (_currentDialogueLines == InitialOptions)
         {
-            EndDialogue();
+            StartCoroutine(ShowLinesAndHandleSelection(_currentDialogueLines, true));
 
             return;
         }

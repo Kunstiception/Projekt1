@@ -17,7 +17,7 @@ MonoBehaviour:
   - They vanish into thin air! Poof! Gone!
   - Without a trace. It's like they were never here.
   - I don't know about you, but that makes my skin crawl.
-  SpeakerIndex: 
+  SpeakerIndex: 000000000000000000000000
   PlayerOptions: []
   BranchingLines: []
   positionInDialogue: 2

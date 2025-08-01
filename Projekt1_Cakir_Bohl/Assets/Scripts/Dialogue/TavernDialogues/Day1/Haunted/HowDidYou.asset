@@ -23,4 +23,4 @@ MonoBehaviour:
   BranchingLines:
   - {fileID: 11400000, guid: 8f930e03ed8758247a22c0a66244ffcf, type: 2}
   - {fileID: 11400000, guid: d7a9384ed47847a4293be02eefa03f29, type: 2}
-  positionInDialogue: 0
+  positionInDialogue: 1
