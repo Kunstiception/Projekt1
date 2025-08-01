@@ -81,7 +81,7 @@ public static class UIDialogueStorage
     public static string[] VampireBiteLines =
         {"The taste of blood overwhelms you.",
         "You enjoy every drop while you feel your body grow stronger.",
-        "With the back of your hand you wipe the blood off your lips",
+        "With the back of your hand you wipe the blood off your lips.",
         "You head back to the main room of the tavern with a big, satisfied grin on your face."};
     public static string[] VampireBoostLossLines =
         {"The effects of your last blood feast seem to vanish.",

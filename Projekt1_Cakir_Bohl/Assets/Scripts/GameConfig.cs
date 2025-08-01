@@ -31,7 +31,6 @@ public static class GameConfig
     public static int AmbushChance = 4;
     public static int RoomCost = 10;
     public static int VampireCaughtChance = 3;
-    public static int DogSaveChance = 5;
     public static float AnticipationLength = 3.5f;
 
     // Looting

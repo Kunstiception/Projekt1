@@ -3,7 +3,6 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class RestingManager : Manager, ISelectable, ICondition
 {
@@ -12,6 +11,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     [SerializeField] public Canvas ItemToDoCanvas;
     [SerializeField] private GameObject _outsideBackground;
     [SerializeField] private GameObject _roomBackground;
+    [SerializeField] private GameObject _savingPrompt;
     [SerializeField] private AudioClip _atmoOutside;
     [SerializeField] private AudioClip _atmoInside;
     [SerializeField] private AudioSource _atmoSource;
@@ -64,9 +64,13 @@ public class RestingManager : Manager, ISelectable, ICondition
         {
             MainManager.Instance.SaveAll();
             Debug.Log("Saved game!");
-
-            PlayerManager.Instance.HasLoadedGame = false;
         }
+        else
+        {
+            _savingPrompt.SetActive(false);
+        }
+
+        PlayerManager.Instance.HasLoadedGame = false;
     }
 
     public override void OnEnable()
@@ -371,7 +375,7 @@ public class RestingManager : Manager, ISelectable, ICondition
                 yield return EvaluateWerewolfCondition(true);
             }
 
-            if (DiceUtil.D10() <= GameConfig.DogSaveChance)
+            if (MainManager.Instance.HasBefriendedDog)
             {
                 yield return PrintMultipleLines(UIDialogueStorage.DogSaveLines);
 

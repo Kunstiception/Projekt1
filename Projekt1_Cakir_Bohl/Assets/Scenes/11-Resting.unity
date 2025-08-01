@@ -4532,6 +4532,7 @@ MonoBehaviour:
   ItemToDoCanvas: {fileID: 1318539852}
   _outsideBackground: {fileID: 1969544557}
   _roomBackground: {fileID: 1420496112}
+  _savingPrompt: {fileID: 115102793}
   _atmoOutside: {fileID: 8300000, guid: e3a1bfb003e2e6149a6e0038fc4c171b, type: 3}
   _atmoInside: {fileID: 8300000, guid: 8ce14771433d6b54da5fd9fedfbe0583, type: 3}
   _atmoSource: {fileID: 235169865}

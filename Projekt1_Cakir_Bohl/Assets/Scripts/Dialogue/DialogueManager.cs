@@ -44,7 +44,8 @@ public class DialogueManager : Manager, ISelectable
             {
                 yield return PrintDialogueLines(_currentDialogueLines.Lines);
 
-                EndDialogue();
+                _currentDialogueLines = InitialOptions;
+                StartCoroutine(ShowLinesAndHandleSelection(_currentDialogueLines, true));
 
                 break;
             }
