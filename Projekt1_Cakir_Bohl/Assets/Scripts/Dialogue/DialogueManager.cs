@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -15,8 +16,8 @@ public class DialogueManager : Manager, ISelectable
     private bool _isRunning;
     private Canvas _dialogueCanvas;
 
-    public delegate void OnDialogueFinished();
-    public static OnDialogueFinished onDialogueFinished;
+    public static event Action OnDialogueFinished;
+    public static event Action <DialogueLines> CheckIfConditionMet;
 
     void Start()
     {
@@ -45,12 +46,13 @@ public class DialogueManager : Manager, ISelectable
                 yield return PrintDialogueLines(_currentDialogueLines.Lines);
 
                 _currentDialogueLines = InitialOptions;
-                StartCoroutine(ShowLinesAndHandleSelection(_currentDialogueLines, true));
-
-                break;
+                yield return StartCoroutine(ShowLinesAndHandleSelection(_currentDialogueLines, true));
+            }
+            else
+            {
+                yield return ShowLinesAndHandleSelection(_currentDialogueLines, false);         
             }
 
-            yield return ShowLinesAndHandleSelection(_currentDialogueLines, false);
 
         } while (_isRunning);
     }
@@ -119,6 +121,8 @@ public class DialogueManager : Manager, ISelectable
 
         _currentDialogueLines = _currentDialogueLines.BranchingLines[index];
 
+        CheckIfConditionMet?.Invoke(_currentDialogueLines);
+
         if (_currentDialogueLines == InitialOptions && previousDialogueLines == InitialOptions)
         {
             EndDialogue();
@@ -140,7 +144,7 @@ public class DialogueManager : Manager, ISelectable
     {
         StopCoroutine(_dialogueCoroutine);
 
-        onDialogueFinished?.Invoke();
+        OnDialogueFinished?.Invoke();
 
         _isRunning = false;
         _textBox.text = "";
@@ -148,13 +152,13 @@ public class DialogueManager : Manager, ISelectable
 
     private void ToggleMenus(bool isInitialMenu)
     {
-        SelectionMenu _nextSelectionMenu;
+        SelectionMenu nextSelectionMenu;
 
         if (isInitialMenu)
         {
             _initialMenuOptions.SetActive(true);
-            _nextSelectionMenu = _initialMenuOptions.GetComponent<SelectionMenu>();
-            _nextSelectionMenu.InitializeMenu();
+            nextSelectionMenu = _initialMenuOptions.GetComponent<SelectionMenu>();
+            nextSelectionMenu.InitializeMenu();
 
             _followingMenuOptions.SetActive(false);
 
@@ -163,9 +167,8 @@ public class DialogueManager : Manager, ISelectable
         else
         {
             _followingMenuOptions.SetActive(true);
-            _nextSelectionMenu = _followingMenuOptions.GetComponent<SelectionMenu>();
-            _nextSelectionMenu.InitializeMenu();
-
+            nextSelectionMenu = _followingMenuOptions.GetComponent<SelectionMenu>();
+            nextSelectionMenu.InitializeMenu();
 
             _initialMenuOptions.SetActive(false);
 

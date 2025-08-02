@@ -36,8 +36,7 @@ public class BossFightManager : CombatManager, ISelectable
 
         SetPrompts();
 
-        _currentLine = $"You realize you cannot win this way.";
-        yield return HandleTextOutput(_currentLine, false);
+        yield return PrintMultipleLines(UIDialogueStorage.SecondPhaseEntryLines);
 
         GameObject enemyObject = Instantiate(_endBoss);
         _enemy = enemyObject.GetComponent<Combatant>();

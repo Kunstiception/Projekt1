@@ -45,14 +45,14 @@ public class InteractionManager : Manager, ISelectable
     {
         base.OnEnable();
 
-        DialogueManager.onDialogueFinished += ResetMenus;
+        DialogueManager.OnDialogueFinished += ResetMenus;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
         
-        DialogueManager.onDialogueFinished -= ResetMenus;
+        DialogueManager.OnDialogueFinished -= ResetMenus;
 
         StopAllCoroutines();
     }

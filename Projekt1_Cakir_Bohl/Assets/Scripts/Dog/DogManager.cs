@@ -27,25 +27,20 @@ public class DogManager : Manager, ISelectable
 
         yield return EvaluateVampire();
 
-        if (MainManager.Instance.CurrentDay == 0)
-        {
-            _dialogueManager.InitialOptions = _firstMeetingLines;
-        }
-        else
-        {
-            _dialogueManager.InitialOptions = _secondMeetingLines;
-        }
-
         _mainEffectsAudioSource.PlayOneShot(_dogEntrance);
 
         if (!MainManager.Instance.HasBefriendedDog)
         {
             if (MainManager.Instance.CurrentDay == 0)
             {
+                _dialogueManager.InitialOptions = _firstMeetingLines;
+
                 yield return PrintMultipleLines(UIDialogueStorage.MeetingDogLines);
             }
             else
             {
+                _dialogueManager.InitialOptions = _secondMeetingLines;
+
                 yield return PrintMultipleLines(UIDialogueStorage.MeetingDogAgainLines);
             }
 
@@ -63,16 +58,16 @@ public class DogManager : Manager, ISelectable
     {
         base.OnEnable();
 
-        DialogueManager.onDialogueFinished += ResetMenus;
-        DialogueManager.onDialogueFinished += CheckForFriend;
+        DialogueManager.OnDialogueFinished += ResetMenus;
+        DialogueManager.CheckIfConditionMet += CheckForFriend;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
         
-        DialogueManager.onDialogueFinished -= ResetMenus;
-        DialogueManager.onDialogueFinished -= CheckForFriend;
+        DialogueManager.OnDialogueFinished -= ResetMenus;
+        DialogueManager.CheckIfConditionMet -= CheckForFriend;
 
         StopAllCoroutines();
     }
@@ -87,11 +82,11 @@ public class DogManager : Manager, ISelectable
         ListenForSkipOrAuto();
     }
 
-    private void CheckForFriend()
+    private void CheckForFriend(DialogueLines dialogueLines)
     {
         foreach (DialogueLines lines in _hasBefriendedLines)
         {
-            if (lines == _dialogueManager.ReturnCurrentDialogueLines())
+            if (lines == dialogueLines)
             {
                 MainManager.Instance.HasBefriendedDog = true;
 

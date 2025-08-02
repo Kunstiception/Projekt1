@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304db515984015c43a64e425ffa65cf4, type: 3}
   m_Name: StolenGoods
   m_EditorClassIdentifier: 
-  Speaker: []
+  Speakers: []
   Lines:
   - Not necessarily.
   - Some of their previous owners simply didn't need them anymore.
   - These are dangerous paths you tread, knight. Never forget that.
-  SpeakerIndex: 00000000
+  SpeakerIndex: 000000000000000000000000
   PlayerOptions:
   - How reassuring... (return)
   - I shouldn't inquire any further, should I?

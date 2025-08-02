@@ -83,14 +83,14 @@ public class TavernManager : Manager, ISelectable
     {
         base.OnEnable();
 
-        DialogueManager.onDialogueFinished += DialogueEnded;
+        DialogueManager.OnDialogueFinished += DialogueEnded;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
         
-        DialogueManager.onDialogueFinished -= DialogueEnded;
+        DialogueManager.OnDialogueFinished -= DialogueEnded;
 
         StopAllCoroutines();
     }
@@ -183,9 +183,7 @@ public class TavernManager : Manager, ISelectable
 
         if (ConditionManager.Instance.IsVampire)
         {
-            _vampireBiteCoroutine = StartCoroutine(VampireBiteCoroutine());
-
-            yield break;
+            yield return _vampireBiteCoroutine = StartCoroutine(VampireBiteCoroutine());
         }
 
         ShowSleepDecision();
@@ -244,13 +242,7 @@ public class TavernManager : Manager, ISelectable
                     break;
 
                 case 1:
-                    StopCoroutine(_vampireBiteCoroutine);
-
-                    _vampireBiteCoroutine = null;
-                    
-                    ToggleCanvas(VampireSelectionCanvas, false);
-                    ToggleCanvas(SleepingSelectionCanvas, true);
-                    ShowSleepDecision();
+                    StartCoroutine(VampireNotBitingCoroutine());
 
                     break;
 
@@ -285,6 +277,19 @@ public class TavernManager : Manager, ISelectable
             ToggleCanvas(SleepingSelectionCanvas, true);
         }
     }
+    private IEnumerator VampireNotBitingCoroutine()
+    {
+        StopCoroutine(_vampireBiteCoroutine);
+        _vampireBiteCoroutine = null;
+
+        ToggleCanvas(VampireSelectionCanvas, false);
+
+        yield return PrintMultipleLines(UIDialogueStorage.VampireNotBitingTodayLines);
+   
+        ToggleCanvas(VampireSelectionCanvas, false);
+        ToggleCanvas(SleepingSelectionCanvas, true);
+        ShowSleepDecision();
+}
 
     private IEnumerator VampireBiteCoroutine()
     {
@@ -338,6 +343,8 @@ public class TavernManager : Manager, ISelectable
         MainManager.Instance.NumberOfPeopleBitten++;
 
         _textBox.text = "";
+
+        InitializePlayerStats();
 
         ToggleCanvas(SleepingSelectionCanvas, true);
     }

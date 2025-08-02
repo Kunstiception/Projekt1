@@ -69,6 +69,8 @@ public static class UIDialogueStorage
         "Drinking some of that tasty scarlet nectar would surely boost your vitality for some time.",
         "Should you do it?",
         "Bite someone?"};
+    public static string[] VampireNotBitingTodayLines =
+        {"You decide you are not going to bite anyone today."};
     public static string[] VampireLookingForVictimLines =
         {"In this room you can hear the loud snoring of someone in deep slumber.",
         "The room at the end of the hall on the first floor is quite secluded.",
@@ -110,6 +112,10 @@ public static class UIDialogueStorage
         {"You take off your armor.",
         "Carefully, you enter the pond, step by step, until the cool water covers most of your body.",
         "You feel your ailments wash away."};
+    public static string[] SecondPhaseEntryLines =
+        {"You realize you can't win this way.",
+        "You must find another way to defeat the voice.",
+        "Or otherwise your quest was for nothing."};
     public static string[] ReadyToAttackBossLines =
         {"You have rid yourself of all your ego.",
         "The voice seems confused.",
