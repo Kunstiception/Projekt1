@@ -1578,6 +1578,7 @@ MonoBehaviour:
   _insultHit: {fileID: 8300000, guid: 694e7b6516cc27b419b16ec563bd2d42, type: 3}
   _strikeHit: {fileID: 8300000, guid: 877b4a4b74e750b49ada7a66cb3a696a, type: 3}
   _playerInsultHit: {fileID: 8300000, guid: fb4999584d3637c4fa8c24e0b0e24d9b, type: 3}
+  _musicSource: {fileID: 211535148}
   _enemyUIHealth: {fileID: 3622441544289599739}
   _enemyUIEgo: {fileID: 3622441544289599738}
   _enemyHealthBarBelow: {fileID: 3622441544289599737}
@@ -1586,7 +1587,6 @@ MonoBehaviour:
   _insultMenuCanvas: {fileID: 1713258031}
   _endBoss: {fileID: 1451417646648548203, guid: 357faea739e6422449e945112ce4147a, type: 3}
   _onCoinsEarned: {fileID: 8300000, guid: 734fbee456e8466498d6c86d74b110d6, type: 3}
-  _musicSource: {fileID: 211535148}
   _enemiesDay:
   - {fileID: 1451417646648548203, guid: 4d378f172deb5f244807c26d1937af75, type: 3}
   - {fileID: 1451417646648548203, guid: e627dbcfbfabefe459e90621cb0a5924, type: 3}
@@ -4364,7 +4364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6776629171315490909, guid: 0e0dfb518773e9342810cbfd735953a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.1
+      value: 0.66
       objectReference: {fileID: 0}
     - target: {fileID: 6776629171315490909, guid: 0e0dfb518773e9342810cbfd735953a1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6237,6 +6237,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1137210556}
     m_Modifications:
     - target: {fileID: 2432858179252645117, guid: ee1886e9fca8b1d44b1a4a3c3f7b9231, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 845
+      objectReference: {fileID: 0}
+    - target: {fileID: 2432858179252645117, guid: ee1886e9fca8b1d44b1a4a3c3f7b9231, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -3
       objectReference: {fileID: 0}
@@ -6550,7 +6554,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5246751381431433005, guid: 2cbbdb4abc422db48bdb3bd9d2c00f19, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.11
+      value: 0.67
       objectReference: {fileID: 0}
     - target: {fileID: 5246751381431433005, guid: 2cbbdb4abc422db48bdb3bd9d2c00f19, type: 3}
       propertyPath: m_LocalPosition.y

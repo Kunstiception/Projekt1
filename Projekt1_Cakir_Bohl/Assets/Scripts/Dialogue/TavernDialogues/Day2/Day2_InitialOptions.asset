@@ -22,7 +22,7 @@ MonoBehaviour:
   PlayerOptions:
   - Why would you say that?
   - I'm exactly where I should be.
-  - Pleas leave me alone. (skip dialogue)
+  - Please leave me alone. (skip dialogue)
   BranchingLines:
   - {fileID: 11400000, guid: 26f9b307c3ef39c4691022dc8cca5bb6, type: 2}
   - {fileID: 11400000, guid: 16c611e0e6ec79540b9595e47596b04b, type: 2}

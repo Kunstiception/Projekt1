@@ -432,7 +432,7 @@ public class RestingManager : Manager, ISelectable, ICondition
             }
             else
             {
-                _currentLine = "You have slept throught the night.";
+                _currentLine = "You have slept through the night.";
             }
 
             yield return HandleTextOutput(_currentLine, false);

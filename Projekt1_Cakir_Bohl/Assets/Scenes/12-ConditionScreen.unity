@@ -346,7 +346,9 @@ MonoBehaviour:
   _statsCanvas: {fileID: 0}
   _playerHealthBarBelow: {fileID: 0}
   _playerEgoBarBelow: {fileID: 0}
-  _audioSource: {fileID: 919720130}
+  _mainEffectsAudioSource: {fileID: 0}
+  _dialogueAudioSource: {fileID: 0}
+  _playerHealthHit: {fileID: 0}
   _onHeal: {fileID: 0}
   _autoArrows: {fileID: 2124248411}
   _sleepDeprivedText: {fileID: 3784989534687983191, guid: 3d8b8992ff4b1c74a9c1dc04f7ad52b8, type: 3}
@@ -826,6 +828,18 @@ PrefabInstance:
     - target: {fileID: 5688818620958266870, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837346378745813366, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 450100405}
+    - target: {fileID: 5837346378745813366, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837346378745813366, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

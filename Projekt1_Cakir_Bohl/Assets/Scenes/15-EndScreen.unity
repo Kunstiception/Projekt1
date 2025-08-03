@@ -765,6 +765,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5837346378745813366, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 620059402}
+    - target: {fileID: 5837346378745813366, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837346378745813366, guid: 8305c0e73f79f1148b6f245073760e51, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1089,7 +1101,7 @@ PrefabInstance:
     - target: {fileID: 1908749468764316573, guid: 258cf94f185a628419f03e6f06e47b62, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 5c1ede3c96bfe464198ac090eca28a0c, type: 3}
+      objectReference: {fileID: 8300000, guid: 050a5d9486cbc0a4cb54ffb0429a4746, type: 3}
     - target: {fileID: 2399942088740170249, guid: 258cf94f185a628419f03e6f06e47b62, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.008597998
