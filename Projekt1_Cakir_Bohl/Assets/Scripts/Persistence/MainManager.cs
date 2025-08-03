@@ -44,6 +44,7 @@ public class MainManager : MonoBehaviour
     public bool IsWerewolf;
     public bool IsZombie;
     public bool HasBefriendedDog;
+    public bool HasSavedOnce;
 
     private void Awake()
     {
@@ -93,6 +94,7 @@ public class MainManager : MonoBehaviour
         public bool IsWerewolf;
         public bool IsZombie;
         public bool HasBefriendedDog;
+        public bool HasSavedOnce;
     }
 
     public void SaveAll()
@@ -120,6 +122,7 @@ public class MainManager : MonoBehaviour
         data.IsWerewolf = ConditionManager.Instance.IsWerewolf;
         data.IsZombie = ConditionManager.Instance.IsZombie;
         data.HasBefriendedDog = HasBefriendedDog;
+        data.HasSavedOnce = HasSavedOnce;
         data.ObtainedConditions = ObtainedConditions;
         data.NumberOfDefeatedEnemies = NumberOfDefeatedEnemies;
         data.NumberOfNightsSlept = NumberOfNightsSlept;
@@ -197,6 +200,7 @@ public class MainManager : MonoBehaviour
             IsWerewolf = data.IsWerewolf;
             IsZombie = data.IsZombie;
             HasBefriendedDog = data.HasBefriendedDog;
+            HasSavedOnce = data.HasSavedOnce;
             ObtainedConditions = data.ObtainedConditions;
             NumberOfDefeatedEnemies = data.NumberOfDefeatedEnemies;
             NumberOfNightsSlept = data.NumberOfNightsSlept;
@@ -289,10 +293,10 @@ public class MainManager : MonoBehaviour
 
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-        // if (data.CurrentDay == 0)
-        // {
-        //     return false;
-        // }
+        if (data.HasSavedOnce == false)
+        {
+            return false;
+        }
 
         return true;
     }

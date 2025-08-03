@@ -150,16 +150,16 @@ public class TavernManager : Manager, ISelectable
 
         yield return PrintMultipleLines(UIDialogueStorage.GettingCaughtAtTheGateLines);
 
-        _currentLine = "It's a";
+        _currentLine = "'It's a";
 
         foreach (string line in lines)
         {
             _currentLine += line;
         }
 
-        _currentLine += ". Catch it!";
+        _currentLine += ". Catch it!'";
 
-        yield return HandleTextOutput(_currentLine, false);
+        yield return HandleTextOutput(_currentLine, false, true);
 
         _textBox.enabled = false;
 

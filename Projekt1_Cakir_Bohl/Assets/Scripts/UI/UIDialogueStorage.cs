@@ -44,13 +44,9 @@ public static class UIDialogueStorage
         "All the anger vanishes, just like the fur on your body.",
         "You seem to be your normal non-werewolf self again."};
     public static string[] ZombieInsultAttemptLines =
-        {"You: 'Grrrrr!!!!!'",
-        "This seems to be all your vocal chords can produce.",
-        "A rotting brain doesn't think very well.",
-        "You shouldn't try this again."};
+        {"This seems to be all your vocal chords can produce."};
     public static string[] ZombieInsultResistLines =
-        {"You don't understand a word.",
-        "Ignorance truly is bliss."};
+        {"You don't understand a word."};
     public static string[] StayingOutsideOfTownLines =
         {"You make camp just outside of town.",
         "The sky is clear and a million stars twinkle in the sky.",

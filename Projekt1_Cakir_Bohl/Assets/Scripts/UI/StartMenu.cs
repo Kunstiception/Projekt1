@@ -11,6 +11,11 @@ public class StartMenu : Manager
     {
         if (!MainManager.Instance.CheckForSaveFile())
         {
+            if (MainManager.Instance.IsDevelopment)
+            {
+                return;
+            }
+
             _loadButton.interactable = false;
         }
 

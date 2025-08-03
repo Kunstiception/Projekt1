@@ -62,6 +62,11 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         if (!MainManager.Instance.IsDevelopment && !PlayerManager.Instance.HasLoadedGame)
         {
+            if (!MainManager.Instance.HasSavedOnce)
+            {
+                MainManager.Instance.HasSavedOnce = true;
+            }
+
             MainManager.Instance.SaveAll();
             Debug.Log("Saved game!");
         }
@@ -294,15 +299,9 @@ public class RestingManager : Manager, ISelectable, ICondition
 
         InitializePlayerStats();
 
-        if (InventoryManager.Instance.InventoryItems.Count > 0)
-        {
-            ToggleCanvas(ItemToDoCanvas, true);
-        }
-        else
-        {
-            ToggleCanvas(ItemToDoCanvas, false);
-            ToggleCanvas(InventoryCanvas, true);
-        }
+        ToggleCanvas(ItemToDoCanvas, false);
+        ToggleCanvas(InventoryCanvas, true);
+
     }
 
     // Hier wird festegelegt, ob der Player in der Nacht in einen Kampf gezwungen wird

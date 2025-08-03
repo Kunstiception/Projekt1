@@ -204,7 +204,7 @@ public class CombatManager : Manager, ISelectable
         if (PlayerManager.Instance.GotCaught)
         {
             _currentLine = UIDialogueStorage.GuardAppearsLines[UnityEngine.Random.Range(0, UIDialogueStorage.GuardAppearsLines.Length)];
-            yield return HandleTextOutput(_currentLine, false);
+            yield return HandleTextOutput(_currentLine, false, true);
         }
 
         yield return StartCoroutine(EvaluateVampire());
@@ -331,7 +331,7 @@ public class CombatManager : Manager, ISelectable
                 foreach (string line in UIDialogueStorage.EnemyFleeLines)
                 {
                     _currentLine = $"{_enemy.Name}: " + "'" + line + "'";
-                    yield return HandleTextOutput(_currentLine, false);
+                    yield return HandleTextOutput(_currentLine, false, true);
                 }
 
                 _hasEnemyFled = true;
@@ -429,6 +429,9 @@ public class CombatManager : Manager, ISelectable
             if (ConditionManager.Instance.IsZombie)
             {
                 ToggleCanvas(_insultMenuCanvas, false);
+
+                _currentLine = $"{PlayerManager.Instance.Name}: 'Grrrrr!!!!!'";
+                yield return HandleTextOutput(_currentLine, false, true);
 
                 yield return StartCoroutine(PrintMultipleLines(UIDialogueStorage.ZombieInsultAttemptLines));
 
@@ -793,7 +796,14 @@ public class CombatManager : Manager, ISelectable
 
                     if (PlayerManager.Instance.GotCaught)
                     {
-                        yield return PrintMultipleLines(UIDialogueStorage.SlayedGuardLines);
+                        if (_hasEnemyFled)
+                        {
+                            yield return PrintMultipleLines(UIDialogueStorage.EscapedGuardLines);
+                        }
+                        else
+                        {
+                            yield return PrintMultipleLines(UIDialogueStorage.SlayedGuardLines);                           
+                        }
 
                         _textBox.text = "";
 
