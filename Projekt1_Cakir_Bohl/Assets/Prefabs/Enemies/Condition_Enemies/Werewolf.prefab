@@ -51,12 +51,12 @@ MonoBehaviour:
   Name: Werewolf
   HealthPoints: 12
   EgoPoints: 12
-  MinAttackStrength: 4
+  MinAttackStrength: 3
   MaxAttackStrength: 6
   ArmorStrength: 0
   Initiative: 7
   Accuracy: 7
-  Evasion: 6
+  Evasion: 5
   InsultResistance: 5
 --- !u!212 &1091708616443416226
 SpriteRenderer:

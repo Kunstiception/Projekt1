@@ -276,6 +276,7 @@ public class MainManager : MonoBehaviour
 
         ConditionManager.Instance.ResetStats();
         InventoryManager.Instance.ResetStats();
+        PlayerManager.Instance.ResetPlayer();
 
         SaveAll();
     }

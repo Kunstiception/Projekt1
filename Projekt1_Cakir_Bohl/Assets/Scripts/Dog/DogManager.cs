@@ -105,12 +105,23 @@ public class DogManager : Manager, ISelectable
 
     private IEnumerator GiveItem()
     {
+        
         int randomIndex = UnityEngine.Random.Range(0, _possibleItems.Length);
 
         Item item = _possibleItems[randomIndex];
 
         _currentLine = $"Look! The dog brought you something!";
         yield return HandleTextOutput(_currentLine, false);
+        
+        if (InventoryManager.Instance.InventoryItems.Count >= GameConfig.MaxInventorySlots)
+        {
+            _currentLine = UIDialogueStorage.InventoryFull;
+            yield return HandleTextOutput(_currentLine, false);
+
+            SceneManager.LoadScene(2);
+
+            yield break;
+        }
 
         _mainEffectsAudioSource.PlayOneShot(_onLoot);
         

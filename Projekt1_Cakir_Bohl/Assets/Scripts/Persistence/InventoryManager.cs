@@ -42,6 +42,9 @@ public class InventoryManager : MonoBehaviour
         InventoryItems.Clear();
         InventoryAmounts.Clear();
         EquippedItems.Clear();
+        NumberOfRings = 0;
+        NumberOfAmulets = 0;
+        NumberofSwords = 0;
     }
 
     public void ManageInventory(Item item, int amount, bool isAdding, int index = 0)

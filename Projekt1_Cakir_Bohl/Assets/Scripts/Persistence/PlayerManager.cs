@@ -46,6 +46,17 @@ public class PlayerManager: Combatant
         EgoPoints = MainManager.Instance.PlayerEgoPoints + EgoPointsModifier;
     }
 
+    public void ResetPlayer()
+    {
+        HasReachedBoss = false;
+        HasLoadedGame = false;
+        HasRoom = false;
+        GotCaught = false;
+        HasFinishedDay = false;
+        IsAuto = false;
+        IsTalking = false;
+    }
+
     public void SetStatsAfterChange()
     {
         if (HealthPoints > GetStartingHealth())

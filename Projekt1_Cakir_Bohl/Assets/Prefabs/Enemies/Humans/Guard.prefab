@@ -52,7 +52,7 @@ MonoBehaviour:
   HealthPoints: 12
   EgoPoints: 10
   MinAttackStrength: 4
-  MaxAttackStrength: 7
+  MaxAttackStrength: 6
   ArmorStrength: 0
   Initiative: 7
   Accuracy: 6

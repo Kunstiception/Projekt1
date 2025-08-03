@@ -59,7 +59,7 @@ public class InteractionManager : Manager, ISelectable
 
     void Update()
     {
-        if (PlayerManager.Instance.IsTalking)
+        if (PlayerManager.Instance.IsTalking || MerchantInventoryCanvas.isActiveAndEnabled)
         {
             return;
         }

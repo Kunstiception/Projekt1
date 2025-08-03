@@ -26,6 +26,14 @@ public class StoreManager : Manager, ISelectable
         InventoryDisplayer.itemSelection -= OnItemSelected;
     }
 
+    void Update()
+    {
+        if (MerchantInventoryCanvas.isActiveAndEnabled)
+        {
+            ListenForSkipOrAuto();         
+        }
+    }
+
     private void OnItemSelected(Item item, int index)
     {
         MerchantInventoryCanvas.GetComponent<Merchant>().IsActive = false;
@@ -63,7 +71,7 @@ public class StoreManager : Manager, ISelectable
         {
             if (currentCoins >= _currentItem.StorePrice)
             {
-                InventoryManager.Instance.InventoryAmounts[InventoryManager.Instance.InventoryItems.IndexOf(_coinsItem)] = currentCoins - _currentItem.StorePrice;
+                InventoryManager.Instance.ManageInventory(_coinsItem, _currentItem.StorePrice, false);
 
                 InventoryManager.Instance.ManageInventory(_currentItem, 1, true);
 
@@ -121,10 +129,5 @@ public class StoreManager : Manager, ISelectable
         }
 
         _coinsText.text = $"Coins: {InventoryUtil.ReturnItemAmount(_coinsItem)}";
-    }
-
-    public override void ListenForSkipOrAuto()
-    {
-        return;
     }
 }

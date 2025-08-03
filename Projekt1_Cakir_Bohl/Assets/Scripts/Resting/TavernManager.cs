@@ -260,7 +260,7 @@ public class TavernManager : Manager, ISelectable
         {
             PlayerManager.Instance.HasRoom = true;
 
-            InventoryManager.Instance.InventoryAmounts[InventoryManager.Instance.InventoryItems.IndexOf(_coinsItem)] = _currentCoinAmount - GameConfig.RoomCost;
+            InventoryManager.Instance.ManageInventory(_coinsItem, GameConfig.RoomCost, false);
 
             _currentLine = $"You are led to a warm and cozy room on the first floor of the inn.";
             yield return StartCoroutine(HandleTextOutput(_currentLine, false));

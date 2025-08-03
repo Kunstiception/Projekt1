@@ -405,7 +405,7 @@ public class CombatManager : Manager, ISelectable
         {
             for (int i = 0; i < options.Length - 1; i++)
             {
-                int randomIndex = UnityEngine.Random.Range(0, _enemyInsultsAndValues.Count - 1);
+                int randomIndex = UnityEngine.Random.Range(0, _enemyInsultsAndValues.Count);
 
                 options[i].text = _enemyInsultsAndValues.ElementAt(randomIndex).Key;
 
@@ -1177,8 +1177,10 @@ public class CombatManager : Manager, ISelectable
             if (_hasDisadvantage)
             {
                 if (!ConditionManager.Instance.GetCurrentConditions().Contains(ConditionManager.Conditions.SleepDeprived))
-                {              
+                {
                     ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true);
+                    
+                    PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.SleepDeprived;
                 }
 
                 PlayerManager.Instance.HasDisadvantage = false;
@@ -1193,6 +1195,8 @@ public class CombatManager : Manager, ISelectable
         {
             yield return StartCoroutine(PrintMultipleLines(ConditionManager.Instance.ApplyCondition(ConditionManager.Conditions.SleepDeprived, true)));
 
+            PlayerManager.Instance.LatestCondition = ConditionManager.Conditions.SleepDeprived;
+            
             PlayerManager.Instance.HasDisadvantage = false;
 
             SceneManager.LoadScene(8);
