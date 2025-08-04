@@ -95,6 +95,8 @@ public class TavernManager : Manager, ISelectable
         StopAllCoroutines();
     }
 
+    // Überprüft ob der Player mit seinen Zuständen die Stadt betreten darf
+    // Wenn nicht, dann wird die Reaktion der Wache zusammengesetzt
     private IEnumerator CheckConditionsCoroutine()
     {
         var conditions = ConditionManager.Instance.GetCurrentConditions();
@@ -168,6 +170,7 @@ public class TavernManager : Manager, ISelectable
         SceneManager.LoadScene(4);
     }
 
+    // Setzt die Szene nach Ende des Dialogs fort
     private void DialogueEnded()
     {
         PlayerManager.Instance.IsTalking = false;
@@ -177,6 +180,8 @@ public class TavernManager : Manager, ISelectable
         StartCoroutine(AfterDialogueCoroutine());
     }
 
+    // Shießt Dialog-Sequenz ab und führt zu Vampir-Sequenz hin wenn zutreffend
+    // Oder zeigt Schlaf-Auswahlmenü an
     private IEnumerator AfterDialogueCoroutine()
     {
         yield return PrintMultipleLines(UIDialogueStorage.AfterTavernDialogue);
@@ -189,6 +194,7 @@ public class TavernManager : Manager, ISelectable
         ShowSleepDecision();
     }
 
+    // Wenn genügend Coins vorhanden, kann ein Zimmer für die Nacht gekauft werden
     private void ShowSleepDecision()
     {
         _roomText.text = $"Take a room in the inn. (costs {GameConfig.RoomCost} G)";
@@ -222,7 +228,7 @@ public class TavernManager : Manager, ISelectable
                     break;
 
                 case 1:
-                    PlayerManager.Instance.HasRoom = false;
+                    MainManager.Instance.HasRoom = false;
 
                     SceneManager.LoadScene(7);
 
@@ -252,13 +258,15 @@ public class TavernManager : Manager, ISelectable
         }
     }
 
+    // Zieht die nötigen Coins aus dem Inventar ab
+    // Oder zeigt an, ob nicht genügend Geld vorhanden
     private IEnumerator PurchaseRoomCoroutine()
     {
         ToggleCanvas(SleepingSelectionCanvas, false);
 
         if (_currentCoinAmount >= GameConfig.RoomCost)
         {
-            PlayerManager.Instance.HasRoom = true;
+            MainManager.Instance.HasRoom = true;
 
             InventoryManager.Instance.ManageInventory(_coinsItem, GameConfig.RoomCost, false);
 
@@ -277,6 +285,8 @@ public class TavernManager : Manager, ISelectable
             ToggleCanvas(SleepingSelectionCanvas, true);
         }
     }
+    
+    // Stoppt Vampir-Sequenz und führt zur Schlaf-Auswahl
     private IEnumerator VampireNotBitingCoroutine()
     {
         StopCoroutine(_vampireBiteCoroutine);
@@ -285,12 +295,16 @@ public class TavernManager : Manager, ISelectable
         ToggleCanvas(VampireSelectionCanvas, false);
 
         yield return PrintMultipleLines(UIDialogueStorage.VampireNotBitingTodayLines);
-   
+
         ToggleCanvas(VampireSelectionCanvas, false);
         ToggleCanvas(SleepingSelectionCanvas, true);
         ShowSleepDecision();
-}
+    }
 
+    // Lässt den Playe als Vampir versuchen eine Person zu beißen
+    // Wird automatisch ausgewürfelt und aus zufälligen Sätzen zusammengesetzt
+    // Wenn erfolgreich: Gibt für einen Tag Vampir-Boost
+    // Sonst triggert der Kampf mit der Wache
     private IEnumerator VampireBiteCoroutine()
     {
         ToggleCanvas(DialogueCanvas, false);

@@ -10,7 +10,6 @@ public class PlayerManager: Combatant
     public int InsultResistanceModifier;
     public int AccuracyModifier;
     public int InsultDamageModifier;
-    public bool HasRoom = false;
     public bool HasDisadvantage = false;
     public bool GotCaught = false;
     public bool HasFinishedDay = false;
@@ -32,6 +31,7 @@ public class PlayerManager: Combatant
         DontDestroyOnLoad(gameObject);
     }
 
+    // Setzt alle Stats nach dem Laden
     public void InitializePlayerStats()
     {
         HealthPointsModifier = MainManager.Instance.HealthPointsModifier;
@@ -46,17 +46,19 @@ public class PlayerManager: Combatant
         EgoPoints = MainManager.Instance.PlayerEgoPoints + EgoPointsModifier;
     }
 
+    // Setzte alle Bools im Skript zurück
     public void ResetPlayer()
     {
         HasReachedBoss = false;
         HasLoadedGame = false;
-        HasRoom = false;
         GotCaught = false;
         HasFinishedDay = false;
         IsAuto = false;
         IsTalking = false;
     }
 
+    // Setzt Werte wieder korrekt, nachdem diese angehoben wurden 
+    // verhindert z.B. das Heilen, in dem man Ausrüstung mehrfach an- und ablegt
     public void SetStatsAfterChange()
     {
         if (HealthPoints > GetStartingHealth())
@@ -70,6 +72,7 @@ public class PlayerManager: Combatant
         }
     }
 
+    // Folgende Methoden geben wie im Combatant-Skript (nur auf den Player angepasst) die nötigen Werte (z.B. für den Kampf) zurück
     public int GetStartingHealth()
     {
         return GameConfig.PlayerStartingHealth + HealthPointsModifier;

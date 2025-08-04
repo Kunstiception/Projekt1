@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Dieses Skript händelt die Basis-Funktionen der Merchant-Szene insofern man nicht einkauft oder mit ihr spricht
 public class InteractionManager : Manager, ISelectable
 {
     [SerializeField] public Canvas MerchantInventoryCanvas;
@@ -30,7 +31,6 @@ public class InteractionManager : Manager, ISelectable
 
         _mainEffectsAudioSource.PlayOneShot(_merchantEntrance);
 
-
         _textBox.enabled = true;
 
         _currentLine = "Merchant: 'Feel free to take a look at my merchandise, dear knight.'";
@@ -51,12 +51,13 @@ public class InteractionManager : Manager, ISelectable
     public override void OnDisable()
     {
         base.OnDisable();
-        
+
         DialogueManager.OnDialogueFinished -= ResetMenus;
 
         StopAllCoroutines();
     }
 
+    // Nur auf Eingabe prüfen, wenn kein Dialog und kein Shopping
     void Update()
     {
         if (PlayerManager.Instance.IsTalking || MerchantInventoryCanvas.isActiveAndEnabled)
@@ -109,7 +110,7 @@ public class InteractionManager : Manager, ISelectable
         ToggleCanvas(InitialMenuCanvas, true);
         ToggleCanvas(DialogueCanvas, false);
     }
-    
+
     public override IEnumerator ZombieConversationAttempt()
     {
         yield return base.ZombieConversationAttempt();

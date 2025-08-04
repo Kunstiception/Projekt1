@@ -35,6 +35,7 @@ public class ConditionManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    // Setzt alle Zustände zurück
     public void ResetStats()
     {
         foreach (Conditions condition in GetCurrentConditions())
@@ -48,6 +49,7 @@ public class ConditionManager : MonoBehaviour
         }
     }
 
+    // Wendet Zustand an oder nimmt ihn zurück
     public string[] ApplyCondition(Conditions condition, bool isAffected)
     {
         switch (condition)
@@ -131,6 +133,7 @@ public class ConditionManager : MonoBehaviour
         return null;
     }
 
+    // Gibt alle aktuellen Zustände zurück
     public List<Conditions> GetCurrentConditions()
     {
         List<Conditions> conditions = new List<Conditions>();
@@ -196,6 +199,7 @@ public class ConditionManager : MonoBehaviour
         }
     }
 
+    // Der Vampir-Boost kann in beim Beißen in der Taverne freigeschalten werden und gilt nur für einen Tag
     public void ApplyVampireBiteBoost(bool isAffected)
     {
         if (isAffected)
@@ -267,6 +271,7 @@ public class ConditionManager : MonoBehaviour
         }
     }
 
+    // Setzt die Zustände nach Neuladen
     public void InitializeConditions()
     {
         IsSleepDeprived = MainManager.Instance.IsSleepDeprived;

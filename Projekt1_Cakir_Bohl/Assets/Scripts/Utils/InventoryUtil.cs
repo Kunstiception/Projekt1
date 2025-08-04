@@ -1,9 +1,8 @@
-using System;
 using System.Linq;
-using Unity.VisualScripting;
 
 public static class InventoryUtil
 {
+    // Gibt die Anzahl des Items im Inventar zurück
     public static int ReturnItemAmount(Item givenItem)
     {
         if (!InventoryManager.Instance.InventoryItems.Contains(givenItem))
@@ -14,6 +13,7 @@ public static class InventoryUtil
         return InventoryManager.Instance.InventoryAmounts[InventoryManager.Instance.InventoryItems.IndexOf(givenItem)];
     }
 
+    // Gibt zurück, ob ein Ausrüstungsgegenstand ausgerüstet werden kann
     public static bool CheckIfEquipable(int currentIndex)
     {
         if (currentIndex > InventoryManager.Instance.InventoryItems.Count)
@@ -24,6 +24,7 @@ public static class InventoryUtil
         return !InventoryManager.Instance.EquippedItems[currentIndex];
     }
 
+    // Übeprüft ob der Player Münzen im Inventar hat und gibt das Item zurück
     public static Item ReturnCoinItem()
     {
         // https://learn.microsoft.com/de-de/dotnet/api/system.linq.enumerable.firstordefault?view=net-8.0

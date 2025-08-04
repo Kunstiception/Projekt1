@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class RestingManager : Manager, ISelectable, ICondition
+public class RestingManager : Manager, ISelectable
 {
     [SerializeField] public Canvas SelectionMenuCanvas;
     [SerializeField] public Canvas InventoryCanvas;
@@ -40,7 +40,7 @@ public class RestingManager : Manager, ISelectable, ICondition
             _continueText.text = "Stay up till morning";
         }
 
-        if (PlayerManager.Instance.HasRoom)
+        if (MainManager.Instance.HasRoom)
         {
             _roomBackground.SetActive(true);
             _outsideBackground.SetActive(false);
@@ -167,6 +167,8 @@ public class RestingManager : Manager, ISelectable, ICondition
         }
     }
 
+    // Legt das Item ab und löscht es aus dem Inventar bzw. verringert die Anzahl um 1
+    // Löst die nötigen Methoden zum Refreshen der Inventar-Anzeige aus
     private IEnumerator DiscardItem()
     {
         ToggleCanvas(ItemToDoCanvas, false);
@@ -178,7 +180,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         {
             var iEquipable = _currentItem as IEquipable;
 
-            iEquipable.EquipItem(false);       
+            iEquipable.EquipItem(false);
         }
 
         InventoryManager.Instance.ManageInventory(_currentItem, 1, false, _currentIndex);
@@ -307,7 +309,7 @@ public class RestingManager : Manager, ISelectable, ICondition
     // Hier wird festegelegt, ob der Player in der Nacht in einen Kampf gezwungen wird
     private bool DecideIfAmbush()
     {
-        if (PlayerManager.Instance.HasRoom)
+        if (MainManager.Instance.HasRoom)
         {
             return false;
         }
@@ -467,6 +469,7 @@ public class RestingManager : Manager, ISelectable, ICondition
         StartCoroutine(UpdateUIHeal(healingAmount, isHealthHeal, initialAmount));
     }
 
+    // Entscheidet was passiert, wenn der Player den Tag ohne Schlaf beendet und setzt wennn nötig den Sleep-Deprived-Zustand
     private IEnumerator EndWithoutSleep()
     {
         bool becameSleepDeprived = false;
@@ -496,11 +499,11 @@ public class RestingManager : Manager, ISelectable, ICondition
             if (ConditionManager.Instance.IsWerewolf)
             {
                 yield return EvaluateWerewolfCondition(false);
-            }         
+            }
         }
 
         PlayerManager.Instance.HasFinishedDay = true;
-        
+
         _textBox.enabled = false;
 
         if (becameSleepDeprived)

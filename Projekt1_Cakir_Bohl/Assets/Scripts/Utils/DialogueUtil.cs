@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class DialogueUtil
 {
+    // Zeigt Text Zeichen für Zeichen an
     public static IEnumerator DisplayTextOverTime(string line, TextMeshProUGUI uiElement, TextMeshProUGUI promptSkip, TextMeshProUGUI promptContinue)
     {
         char[] chars = line.ToCharArray();
@@ -29,8 +30,10 @@ public static class DialogueUtil
         promptSkip.enabled = false;
     }
 
+    // Wartet auf Player-Input um fortzufahren
+    // Insofern der Auto-Modus nicht aktiv ist
     public static IEnumerator WaitForContinue(TextMeshProUGUI promptContinue)
-    {      
+    {
         yield return new WaitForSeconds(GameConfig.TimeBeforeNextLine);
 
         promptContinue.enabled = true;
@@ -40,18 +43,20 @@ public static class DialogueUtil
             while (!Input.GetKeyDown(KeyCode.Space) && !Input.GetKeyDown(KeyCode.LeftAlt) && !Input.GetKeyDown(KeyCode.RightAlt))
             {
                 yield return null;
-            }        
+            }
         }
 
         promptContinue.enabled = false;
     }
 
+    // Zeigt nach Betätigen der Leertaste die volle Line auf einmal
     public static void ShowFullLine(string line, TextMeshProUGUI uiElement, TextMeshProUGUI promptSkip)
     {
         uiElement.text = line;
         promptSkip.enabled = false;
     }
 
+    // Setzt im Kampf die korrekte Grammatik des Satzes je nachdem wer die Aktion ausführt
     public static string CreateCombatLog(Combatant combatant, string verb, string lineEnding)
     {
         string name = combatant.Name != PlayerManager.Instance.Name ? combatant.Name : PlayerManager.Instance.Name;
@@ -69,8 +74,9 @@ public static class DialogueUtil
         return name + " " + newVerb + " " + lineEnding;
     }
 
+    // Setzt das korrekte Verb
     public static string ManageVerb(string verb)
-    {       
+    {
         switch (verb)
         {
             case "has":
@@ -84,12 +90,14 @@ public static class DialogueUtil
         }
     }
 
+    // Setzt das Plural "S" wenn nötig
     public static string AddEnding(string line, int count)
     {
-        if(count > 1)
+        if (count > 1)
         {
             return line + "s";
         }
-         return line;
+        
+        return line;
     }
 }

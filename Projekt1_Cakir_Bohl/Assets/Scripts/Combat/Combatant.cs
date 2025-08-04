@@ -15,6 +15,8 @@ public class Combatant : MonoBehaviour
     public int Evasion;
     public int InsultResistance;
 
+    // Diese Methoden geben ähnlich wie in Tabletop-Rollenspielen einen Wert zurück
+    // der sich aus einem Basis-Wert und einem Würfelwurf zusammensetzt
     public virtual int RollInitiative()
     {
         return Initiative + DiceUtil.D10();

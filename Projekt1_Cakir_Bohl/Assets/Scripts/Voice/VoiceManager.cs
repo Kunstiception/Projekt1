@@ -46,6 +46,7 @@ public class VoiceManager : Manager
         ListenForSkipOrAuto();
     }
 
+    // Überprüft, wie viele Zustände der Player gerade hat und passt den Kommentar daran an
     private IEnumerator CheckConditionAmount()
     {
         int conditionAmount = ConditionManager.Instance.GetCurrentConditions().Count;

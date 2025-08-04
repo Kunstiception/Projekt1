@@ -45,6 +45,7 @@ public class MainManager : MonoBehaviour
     public bool IsZombie;
     public bool HasBefriendedDog;
     public bool HasSavedOnce;
+    public bool HasRoom;
 
     private void Awake()
     {
@@ -95,6 +96,7 @@ public class MainManager : MonoBehaviour
         public bool IsZombie;
         public bool HasBefriendedDog;
         public bool HasSavedOnce;
+        public bool HasRoom;
     }
 
     public void SaveAll()
@@ -123,6 +125,7 @@ public class MainManager : MonoBehaviour
         data.IsZombie = ConditionManager.Instance.IsZombie;
         data.HasBefriendedDog = HasBefriendedDog;
         data.HasSavedOnce = HasSavedOnce;
+        data.HasRoom = HasRoom;
         data.ObtainedConditions = ObtainedConditions;
         data.NumberOfDefeatedEnemies = NumberOfDefeatedEnemies;
         data.NumberOfNightsSlept = NumberOfNightsSlept;
@@ -201,6 +204,7 @@ public class MainManager : MonoBehaviour
             IsZombie = data.IsZombie;
             HasBefriendedDog = data.HasBefriendedDog;
             HasSavedOnce = data.HasSavedOnce;
+            HasRoom = data.HasRoom;
             ObtainedConditions = data.ObtainedConditions;
             NumberOfDefeatedEnemies = data.NumberOfDefeatedEnemies;
             NumberOfNightsSlept = data.NumberOfNightsSlept;
@@ -239,6 +243,7 @@ public class MainManager : MonoBehaviour
         }
     }
 
+    // Setzt alle Parameter zurück
     public void RevertAll()
     {
         PlayerHealthPoints = GameConfig.PlayerStartingHealth;
@@ -268,6 +273,7 @@ public class MainManager : MonoBehaviour
         IsWerewolf = false;
         IsZombie = false;
         HasBefriendedDog = false;
+        HasRoom = false;
         ObtainedConditions.Clear();
         NumberOfNightsSlept = 0;
         NumberOfDefeatedEnemies = 0;
@@ -281,6 +287,8 @@ public class MainManager : MonoBehaviour
         SaveAll();
     }
 
+    // Überprüft, ob ein Savefile angelegt ist und wenn ja, ob in dieses bereits einmal korrekt gespeichert wurde
+    // (im Release-Speichersystem, nicht Development)
     public bool CheckForSaveFile()
     {
         string path = Application.persistentDataPath + "/savefile.json";

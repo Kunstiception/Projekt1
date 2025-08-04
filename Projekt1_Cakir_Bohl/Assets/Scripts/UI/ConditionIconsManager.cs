@@ -20,6 +20,7 @@ public class ConditionIconsManager : MonoBehaviour
         SetIcons();
     }
 
+    // Setzt am Anfang jeder Szene die Icons je nach vorhandenen Zuständen
     public void SetIcons()
     {
         var _conditions = ConditionManager.Instance.GetCurrentConditions();

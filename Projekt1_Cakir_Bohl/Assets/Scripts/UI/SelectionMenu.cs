@@ -51,18 +51,19 @@ public class SelectionMenu : MonoBehaviour
         IsActive = true;
     }
 
+    // Hört auf Inputs und setzt diese im Menü um
     public virtual void ListenForInputs()
     {
-        while(!IsActive)
+        while (!IsActive)
         {
             return;
         }
-        
-        if(_isVertical)
+
+        if (_isVertical)
         {
-            if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
-                if(_currentMenuPoint == _menuPoints.Length - 1)
+                if (_currentMenuPoint == _menuPoints.Length - 1)
                 {
                     return;
                 }
@@ -70,7 +71,7 @@ public class SelectionMenu : MonoBehaviour
                 ChangePosition(isUpOrLeft: false);
             }
             else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-                {
+            {
                 if (_currentMenuPoint == 0)
                 {
                     return;
@@ -78,7 +79,7 @@ public class SelectionMenu : MonoBehaviour
 
                 ChangePosition(isUpOrLeft: true);
             }
-            else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+            else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
             {
                 _iSelectable.HandleSelectedMenuPoint(_currentMenuPoint);
 
@@ -87,9 +88,9 @@ public class SelectionMenu : MonoBehaviour
         }
         else
         {
-            if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                if(_currentMenuPoint == _menuPoints.Length - 1)
+                if (_currentMenuPoint == _menuPoints.Length - 1)
                 {
                     return;
                 }
@@ -97,7 +98,7 @@ public class SelectionMenu : MonoBehaviour
                 ChangePosition(isUpOrLeft: false);
             }
             else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-                {
+            {
                 if (_currentMenuPoint == 0)
                 {
                     return;
@@ -105,20 +106,22 @@ public class SelectionMenu : MonoBehaviour
 
                 ChangePosition(isUpOrLeft: true);
             }
-            else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+            else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
             {
                 HandleSelection(_currentMenuPoint);
 
                 IsActive = false;
             }
-        }      
+        }
     }
 
+    // Übergibt dem ISelectable den ausgewählten Menüpunkt
     public virtual void HandleSelection(int menuPoint)
     {
         _iSelectable.HandleSelectedMenuPoint(menuPoint);
     }
 
+    // Setzt den Pointer zu Szenenanfang oder nach dem Zurücksetzen des Menüs nach an erster Stelle
     public void SetInitialPointer()
     {
         if (_menuPoints[0] == null || _pointers[0] == null)
@@ -129,13 +132,14 @@ public class SelectionMenu : MonoBehaviour
 
         _currentMenuPoint = 0;
         _pointers[_currentMenuPoint].gameObject.SetActive(true);
-        
-        for(int i = 1;  i < _pointers.Length; i++)
+
+        for (int i = 1; i < _pointers.Length; i++)
         {
             _pointers[i].gameObject.SetActive(false);
         }
     }
 
+    // Setzt den Pointer zum derzeitigen Menüpunkt und spielt den dazugehörigen Sound ab
     public virtual void ChangePosition(bool isUpOrLeft)
     {
         _audioSource.PlayOneShot(_menuSound);

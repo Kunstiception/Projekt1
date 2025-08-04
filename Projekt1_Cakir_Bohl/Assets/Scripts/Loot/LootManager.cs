@@ -46,6 +46,9 @@ public class LootManager : Manager
         ListenForSkipOrAuto();
     }
 
+    // Die Maximalanzahl an Loot wird ermittelt
+    // Am Tag ist diese immer 1, Nachts bis zu 2
+    // Abhängig auch davon, wieviel Platz noch im Inventar ist
     private int CreateLootCount()
     {
         int lootCount;
@@ -71,6 +74,8 @@ public class LootManager : Manager
         return lootCount;
     }
 
+    // Wählt je nach Tageszeit zufällige Items aus
+    // Nachts auch Ausrüstung möglich
     private IEnumerator SelectRandomItems(int lootCount)
     {
         int randomIndex;
@@ -84,7 +89,7 @@ public class LootManager : Manager
                 _item = _possibleEquipment[randomIndex];
             }
             else
-            {         
+            {
                 randomIndex = UnityEngine.Random.Range(0, _possibleItems.Length);
 
                 _item = _possibleItems[randomIndex];
@@ -98,7 +103,7 @@ public class LootManager : Manager
             }
             else
             {
-                _mainEffectsAudioSource.PlayOneShot(_onLoot2); 
+                _mainEffectsAudioSource.PlayOneShot(_onLoot2);
             }
 
             _currentLine = _currentLine = $"You have found one {_item.Name}!";

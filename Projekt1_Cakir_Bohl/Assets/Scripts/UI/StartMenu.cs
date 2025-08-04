@@ -9,6 +9,8 @@ public class StartMenu : Manager
 
     private void Start()
     {
+        // Falls kein korrektes Savefile vorhanden, wird der Continue-Button ausgegraut
+        // Im Development-Modus ist er aber akitv
         if (!MainManager.Instance.CheckForSaveFile())
         {
             if (MainManager.Instance.IsDevelopment)
@@ -24,6 +26,7 @@ public class StartMenu : Manager
         ToggleCursorState(false);
     }
 
+    // Lädt je nach aktivem Speichersystem den letzten Spielstand
     public void LoadSave()
     {
         MainManager.Instance.LoadAll();
@@ -41,6 +44,7 @@ public class StartMenu : Manager
 
     }
 
+    // Lädt einen neuen Spielstand und setzt alle Paramter im MainManager zurück
     public void LoadNew()
     {
         MainManager.Instance.RevertAll();
@@ -53,6 +57,7 @@ public class StartMenu : Manager
         Application.Quit();
     }
 
+    // Schaltet den Infoscreen ein und aus
     public void ToggleInfoScreen()
     {
         _infoScreen.SetActive(_infoScreen.activeSelf ? false : true);

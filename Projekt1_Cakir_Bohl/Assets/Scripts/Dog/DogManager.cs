@@ -29,6 +29,8 @@ public class DogManager : Manager, ISelectable
 
         _mainEffectsAudioSource.PlayOneShot(_dogEntrance);
 
+        // Setzen des Korrekten Dialogs
+        // Abhängig von Tag und ob man sich bereits mit dem Hund angefreundet hat
         if (!MainManager.Instance.HasBefriendedDog)
         {
             if (MainManager.Instance.CurrentDay == 0)
@@ -50,6 +52,8 @@ public class DogManager : Manager, ISelectable
         }
         else
         {
+            _dialogueManager.InitialOptions = _secondMeetingLines;
+            
             StartCoroutine(GiveItem());
         }
     }
@@ -72,6 +76,7 @@ public class DogManager : Manager, ISelectable
         StopAllCoroutines();
     }
 
+    // Nicht auf Eingaben hören wenn gerade der DialogManager spielt
     void Update()
     {
         if (PlayerManager.Instance.IsTalking)
@@ -82,6 +87,8 @@ public class DogManager : Manager, ISelectable
         ListenForSkipOrAuto();
     }
 
+    // Überprüfen, ob das derzeitige Dialog-Element den hier hinterlegten entspricht
+    // Wenn ja, dann hat man sich mit dem Hund angefreundet
     private void CheckForFriend(DialogueLines dialogueLines)
     {
         foreach (DialogueLines lines in _hasBefriendedLines)
@@ -103,16 +110,16 @@ public class DogManager : Manager, ISelectable
         ToggleCanvas(_dialogueCanvas, false);
     }
 
+    // Bei drittem Treffen (insofern angefreundet) gibt der Hund dem Player ein zufälliges Item
     private IEnumerator GiveItem()
     {
-        
         int randomIndex = UnityEngine.Random.Range(0, _possibleItems.Length);
 
         Item item = _possibleItems[randomIndex];
 
         _currentLine = $"Look! The dog brought you something!";
         yield return HandleTextOutput(_currentLine, false);
-        
+
         if (InventoryManager.Instance.InventoryItems.Count >= GameConfig.MaxInventorySlots)
         {
             _currentLine = UIDialogueStorage.InventoryFull;
@@ -124,7 +131,7 @@ public class DogManager : Manager, ISelectable
         }
 
         _mainEffectsAudioSource.PlayOneShot(_onLoot);
-        
+
         _currentLine = $"You have received {item.Name}.";
         yield return HandleTextOutput(_currentLine, false);
 
@@ -176,6 +183,7 @@ public class DogManager : Manager, ISelectable
         }
     }
 
+    // Der Hund kann stets gestreichelt werden und gibt je nach Treffen eine Reaktion oder nicht
     private IEnumerator PetCoroutine()
     {
         if (MainManager.Instance.CurrentDay == 0)

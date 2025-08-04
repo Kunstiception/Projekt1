@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
+// Inventory-Displayer auf die Merchant-Szene angepasst
 public class Merchant : InventoryDisplayer
 {
     [SerializeField] private List<Item> _availabeItems = new List<Item>();
@@ -72,23 +73,23 @@ public class Merchant : InventoryDisplayer
     }
 
     public override void UpdateDisplayedInventory(Item item)
-    {            
-        if(_availabeItems.Count <= 0)
+    {
+        if (_availabeItems.Count <= 0)
         {
             _menuPoints[0].text = "Return";
             _priceTexts[0].text = "";
         }
-        
-        if(InventoryManager.Instance.InventoryItems.Contains(item))
+
+        if (InventoryManager.Instance.InventoryItems.Contains(item))
         {
             _price = _availabeItems[_currentMenuPoint].StorePrice;
             _priceTexts[_currentMenuPoint].text = $"{_price} G";
         }
         else
         {
-            for(int i = _currentMenuPoint; i < _menuPoints.Length; i++)
+            for (int i = _currentMenuPoint; i < _menuPoints.Length; i++)
             {
-                if(_menuPoints[i].text == "")
+                if (_menuPoints[i].text == "")
                 {
                     break;
                 }
@@ -101,14 +102,14 @@ public class Merchant : InventoryDisplayer
 
     public override void ListenForInputs()
     {
-        while(!IsActive)
+        while (!IsActive)
         {
             return;
         }
-        
-        if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if(_currentMenuPoint == _menuPoints.Length - 1)
+            if (_currentMenuPoint == _menuPoints.Length - 1)
             {
                 return;
             }
@@ -116,7 +117,7 @@ public class Merchant : InventoryDisplayer
             ChangePosition(isUp: false);
         }
         else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-            {
+        {
             if (_currentMenuPoint == 0)
             {
                 return;
@@ -124,9 +125,9 @@ public class Merchant : InventoryDisplayer
 
             ChangePosition(isUp: true);
         }
-        else if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+        else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            if(_currentMenuPoint == _availabeItems.Count || _availabeItems.Count == 0)
+            if (_currentMenuPoint == _availabeItems.Count || _availabeItems.Count == 0)
             {
                 _interactionManager.ToggleCanvas(_interactionManager.InitialMenuCanvas, true);
                 _interactionManager.ToggleCanvas(_interactionManager.MerchantInventoryCanvas, false);
@@ -137,7 +138,7 @@ public class Merchant : InventoryDisplayer
                 SetInitialPointer();
 
                 return;
-            } 
+            }
 
             itemSelection?.Invoke(_availabeItems.ElementAt(_currentMenuPoint), _currentMenuPoint);
 
@@ -147,9 +148,9 @@ public class Merchant : InventoryDisplayer
 
     public override void ChangePosition(bool isUp)
     {
-        if(isUp)
+        if (isUp)
         {
-            if(_currentMenuPoint == 0)
+            if (_currentMenuPoint == 0)
             {
                 return;
             }
@@ -158,7 +159,7 @@ public class Merchant : InventoryDisplayer
         }
         else
         {
-            if(_currentMenuPoint == _availabeItems.Count)
+            if (_currentMenuPoint == _availabeItems.Count)
             {
                 return;
             }
@@ -168,7 +169,7 @@ public class Merchant : InventoryDisplayer
 
         for (int i = 0; i < _pointers.Length; i++)
         {
-            if(i == _currentMenuPoint)
+            if (i == _currentMenuPoint)
             {
                 _pointers[i].gameObject.SetActive(true);
                 continue;
@@ -176,14 +177,14 @@ public class Merchant : InventoryDisplayer
 
             _pointers[i].gameObject.SetActive(false);
         }
-        
-        if(_currentMenuPoint == _availabeItems.Count)
+
+        if (_currentMenuPoint == _availabeItems.Count)
         {
             _textBox.text = "Select no item and go back.";
 
             return;
         }
-        
+
         ShowItemDescriptionAndSetPrompt(_availabeItems[_currentMenuPoint]);
     }
 

@@ -60,6 +60,7 @@ public class WayPoint : MonoBehaviour
         }
     }
 
+    // Wenn geklickt, dann werden Events getriggert, der Wegpunkt als Ziel gesetzt und alle anderen Wegpunkte inaktiv geschalten
     private void OnMouseDown()
     {
         if (gameObject.CompareTag(_interactableTag))

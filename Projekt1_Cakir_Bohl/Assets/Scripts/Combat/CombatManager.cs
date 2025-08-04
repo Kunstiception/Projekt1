@@ -100,6 +100,7 @@ public class CombatManager : Manager, ISelectable
 
         _hasDisadvantage = PlayerManager.Instance.HasDisadvantage;
 
+        // Gegner initiieren, abhängig von Tag oder Nacht
         GameObject enemyObject = null;
 
         if (!PlayerManager.Instance.GotCaught)
@@ -261,7 +262,7 @@ public class CombatManager : Manager, ISelectable
     }
 
     // Legt Angreifer und Vertreidiger fest
-    // Gibt falls Player an der Reihe die Auswahlmöglichkeit, wenn Enemy wird Aktion zufälig ausgewürfelt
+    // Gibt falls Player an der Reihe ist die Auswahlmöglichkeit, wenn Enemy wird Aktion zufälig ausgewürfelt
     private IEnumerator CreateTurn()
     {
         ToggleCanvas(_initialSelectionMenuCanvas, false);
@@ -1164,7 +1165,7 @@ public class CombatManager : Manager, ISelectable
 
     }
 
-    // Überpürfen, ob SleepDeprived-Condition angewendet werden soll
+    // Überprüfen, ob SleepDeprived-Condition angewendet werden soll
     IEnumerator CheckForSleepDeprived()
     {
         if (_hasDisadvantage)
@@ -1216,6 +1217,7 @@ public class CombatManager : Manager, ISelectable
         }
     }
 
+    // Hit-Feedback (Animationen und Sound)
     protected IEnumerator PlayHitParticlesAndAudio(bool isHealthDamage)
     {
         GameObject hitParticles;
@@ -1223,7 +1225,7 @@ public class CombatManager : Manager, ISelectable
         if (isHealthDamage)
         {
             _mainEffectsAudioSource.PlayOneShot(_strikeHit, GameConfig.EffectsLoudness);
-            
+
             hitParticles = _hitParticlesStrike;
         }
         else
@@ -1240,6 +1242,7 @@ public class CombatManager : Manager, ISelectable
         hitParticles.SetActive(false);
     }
 
+    // Gegner-Ausrufe abspielen
     protected IEnumerator PlayExclamation()
     {
         var randomIndex = UnityEngine.Random.Range(0, _exclamations.Length);
@@ -1251,6 +1254,7 @@ public class CombatManager : Manager, ISelectable
         _exclamations[randomIndex].SetActive(false);
     }
 
+    // Abhängig von Tag oder Nacht wird ausgewürfelt, wie viele Münzen der Player für den Sieg erhält
     private IEnumerator ManageLoot()
     {
         int randomAmount = 0;
@@ -1272,6 +1276,7 @@ public class CombatManager : Manager, ISelectable
         yield return HandleTextOutput(_currentLine, false);
     }
 
+    // Zeigt verfügbare Items an
     private IEnumerator SetItemDisplay()
     {
         _healingItems.Clear();
@@ -1354,6 +1359,7 @@ public class CombatManager : Manager, ISelectable
         }
     }
 
+    // Ausgewähltes Item wird genutzt und somit verbraucht
     public override IEnumerator UseSelectedItem()
     {
         _textBox.enabled = true;
@@ -1377,32 +1383,32 @@ public class CombatManager : Manager, ISelectable
         if (healthAfter > healthBefore)
         {
             isHealthHeal = true;
-        }     
+        }
 
         if (_combatant1 == PlayerManager.Instance)
+        {
+            if (isHealthHeal)
             {
-                if (isHealthHeal)
-                {
-                    _combatant1Health = PlayerManager.Instance.HealthPoints;               
-                }
-
-                if (isEgoHeal)
-                {
-                    _combatant1EgoPoints = PlayerManager.Instance.EgoPoints;           
-                }
+                _combatant1Health = PlayerManager.Instance.HealthPoints;
             }
-            else
+
+            if (isEgoHeal)
             {
-                if (isHealthHeal)
-                {
-                    _combatant2Health = PlayerManager.Instance.HealthPoints;               
-                }
-
-                if (isEgoHeal)
-                {
-                    _combatant2EgoPoints = PlayerManager.Instance.EgoPoints;           
-                }
+                _combatant1EgoPoints = PlayerManager.Instance.EgoPoints;
             }
+        }
+        else
+        {
+            if (isHealthHeal)
+            {
+                _combatant2Health = PlayerManager.Instance.HealthPoints;
+            }
+
+            if (isEgoHeal)
+            {
+                _combatant2EgoPoints = PlayerManager.Instance.EgoPoints;
+            }
+        }
 
         StartCoroutine(EndFight(null));
     }

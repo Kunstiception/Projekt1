@@ -37,6 +37,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // Setzt das gesamte Inventar zurück
     public void ResetStats()
     {
         InventoryItems.Clear();
@@ -47,6 +48,7 @@ public class InventoryManager : MonoBehaviour
         NumberofSwords = 0;
     }
 
+    // Fügt dem Inventar ein Item hinzu oder löscht es heraus bzw verringert die Anzahl
     public void ManageInventory(Item item, int amount, bool isAdding, int index = 0)
     {
         if (InventoryItems.Contains(item))
@@ -105,6 +107,7 @@ public class InventoryManager : MonoBehaviour
         EquippedItems.Add(InventoryItems.Count - 1, false);
     }
 
+    // Speichert, ob ein Ausrüstungsgegenstand ausgerüstet ist, damit diese korrekt im Inventar angezeigt werden können
     public void UpdateEquipBools(int index)
     {
         for (int i = index + 1; i < EquippedItems.Count; i++)
@@ -122,6 +125,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // Rüstet ein Equipment aus und überprüft, ob dies möglich ist (nur 2 Ringe gleichzeitg tragbar)
     public bool ManageEquipment(Item selectedEquipment, bool isEquip, int inventoryIndex)
     {
         Equipment equipment = (Equipment)selectedEquipment;
@@ -193,7 +197,7 @@ public class InventoryManager : MonoBehaviour
 
         return true;
     }
-
+     // Setzt die derzeitigen Ausrüstungsmengen bei Neustart
     public void InitializeNumberOfEquippedItems()
     {
         NumberOfRings = MainManager.Instance.NumberOfRings;
@@ -201,6 +205,7 @@ public class InventoryManager : MonoBehaviour
         NumberofSwords = MainManager.Instance.NumberofSwords;
     }
 
+    // Leert das Inventar damit es beim Laden eines Spielstands neu befüllt werden kann
     public void ClearInventory()
     {
         InventoryItems.Clear();
@@ -208,6 +213,7 @@ public class InventoryManager : MonoBehaviour
         EquippedItems.Clear();
     }
 
+    // Überprüft, ob ein Item ein Equipemtn ist und ob dieses gerade ausgerüstet ist
     public bool CheckIfEquipped(Item item)
     {
         if (item is not Equipment)

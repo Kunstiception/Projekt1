@@ -16,12 +16,13 @@ public class PauseMenu : MonoBehaviour
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
         {
             _resumeButton.interactable = false;
-            _mainMenuButton.interactable = false;    
+            _mainMenuButton.interactable = false;
         }
 
         _pauseMenu.SetActive(false);
     }
 
+    // Hält Spielgeschehen an, wenn Pausemenü aktiv ist
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -33,11 +34,6 @@ public class PauseMenu : MonoBehaviour
                 _pauseMenu.SetActive(false);
 
                 Time.timeScale = 1;
-
-                // if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
-                // {
-                //     Cursor.visible = false;
-                // }
             }
             else
             {
@@ -46,8 +42,6 @@ public class PauseMenu : MonoBehaviour
                 _pauseMenu.SetActive(true);
 
                 Time.timeScale = 0;
-
-                // Cursor.visible = true;
             }
         }
     }

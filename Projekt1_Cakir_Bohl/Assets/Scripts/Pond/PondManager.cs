@@ -55,6 +55,8 @@ public class PondManager : Manager, ISelectable
         }
     }
 
+    // Spielt das gesamte Einsteigen in den Teich ab
+    // Heilt Players Health und Ego sowie Zustände
     private IEnumerator PondCoroutine()
     {
         bool wasHurt = false;
@@ -94,6 +96,7 @@ public class PondManager : Manager, ISelectable
         SceneManager.LoadScene(2);
     }
 
+    // Die Zustände werden geheilt und ihre Heiltexte ausgegeben
     private IEnumerator CleanseConditions()
     {
         ConditionManager.Conditions[] conditions = ConditionManager.Instance.GetCurrentConditions().ToArray();

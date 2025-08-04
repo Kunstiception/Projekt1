@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -39,6 +38,7 @@ public class InventoryDisplayer : SelectionMenu
         ListenForInputs();
     }
 
+    // Zeigt das Inventar an
     private void InitializeInventory()
     {
         for (int i = 0; i < InventoryManager.Instance.InventoryItems.Count; i++)
@@ -63,6 +63,7 @@ public class InventoryDisplayer : SelectionMenu
         }
     }
 
+    // Refresht die Inventar-Anzeige
     public virtual void UpdateDisplayedInventory(Item item)
     {
         if (InventoryManager.Instance.InventoryItems.Count <= 0)
@@ -96,7 +97,7 @@ public class InventoryDisplayer : SelectionMenu
             }
         }
 
-        if (_currentMenuPoint <= InventoryManager.Instance.InventoryItems.Count -1)
+        if (_currentMenuPoint <= InventoryManager.Instance.InventoryItems.Count - 1)
         {
             _textBox.text = InventoryManager.Instance.InventoryItems.ElementAt(_currentMenuPoint).Description;
         }
@@ -108,6 +109,8 @@ public class InventoryDisplayer : SelectionMenu
         }
     }
 
+    // Setzt Pointer und den Beschreibungstext des ersten Elements
+    // Oder gibt an, dass das Inventar leer ist
     public override void InitializeMenu()
     {
         base.InitializeMenu();
@@ -219,6 +222,7 @@ public class InventoryDisplayer : SelectionMenu
         ShowItemDescriptionAndSetPrompt(InventoryManager.Instance.InventoryItems[_currentMenuPoint]);
     }
 
+    // Zeigt Item-Beschreibung und setzt, welche Auswahlmöglichkeiten es für dieses Item gibt
     public virtual void ShowItemDescriptionAndSetPrompt(Item item)
     {
         _textBox.text = item.Description;
@@ -250,12 +254,12 @@ public class InventoryDisplayer : SelectionMenu
         }
     }
 
+    // Refresht die Ausürstungs-Anzeige nach Änderungen im Inventar
     public void UpdateEquipIndicators()
     {
-
         for (int i = 0; i < _equipIndicators.Length; i++)
         {
-            if (!InventoryManager.Instance.EquippedItems.ContainsKey(i) || 
+            if (!InventoryManager.Instance.EquippedItems.ContainsKey(i) ||
                 i >= InventoryManager.Instance.InventoryItems.Count)
             {
                 _equipIndicators[i].text = "";

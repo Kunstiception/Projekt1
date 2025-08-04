@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-
+// Nach diesem Tutorial gebaut:
 // https://www.youtube.com/watch?v=G-JUp8AMEx0
 public class VolumeSettings : MonoBehaviour
 {

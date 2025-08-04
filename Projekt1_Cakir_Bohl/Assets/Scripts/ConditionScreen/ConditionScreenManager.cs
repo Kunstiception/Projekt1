@@ -63,6 +63,7 @@ public class ConditionScreenManager : Manager
         ListenForSkipOrAuto();
     }
 
+    // Sucht anhand des letzten erlangten Zustands den passenden animierten Text
     private void SetConditionName()
     {
         switch (PlayerManager.Instance.LatestCondition)
@@ -93,6 +94,8 @@ public class ConditionScreenManager : Manager
         }
     }
 
+    // Setzt den passenden Text zusammen, der unter dem animierten Text erscheinen soll
+    // Dies passiert aber nur, wenn noch weitere Zustände vorliegen
     private string CreateConditionLine()
     {
         string line = "... a ";
@@ -108,7 +111,7 @@ public class ConditionScreenManager : Manager
         {
             line += "sleep deprived ";
         }
-        
+
         List<string> conditionNames = new List<string>();
 
         foreach (ConditionManager.Conditions condition in conditions)

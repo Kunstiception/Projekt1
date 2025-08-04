@@ -26,6 +26,8 @@ public class DialogueManager : Manager, ISelectable
         ToggleMenus(true);
     }
 
+    // Nur auf Eingaben prüfen, wenn wirklich ein Dialog läuft
+    // Verhindert doppelte Eingaben
     void Update()
     {
         if (!PlayerManager.Instance.IsTalking)
@@ -35,6 +37,7 @@ public class DialogueManager : Manager, ISelectable
         ListenForSkipOrAuto();
     }
 
+    // Die Hauptcoroutine des Dialogs
     private IEnumerator DialogueCoroutine()
     {
         yield return ShowLinesAndHandleSelection(InitialOptions, false);
@@ -50,13 +53,15 @@ public class DialogueManager : Manager, ISelectable
             }
             else
             {
-                yield return ShowLinesAndHandleSelection(_currentDialogueLines, false);         
+                yield return ShowLinesAndHandleSelection(_currentDialogueLines, false);
             }
 
 
         } while (_isRunning);
     }
 
+    // Zeigt Lines nacheinander an, danach die Auswahlmöglichkeiten und wartet auf Eingabe
+    // Falls man davor vom Ende eines Dialogstrangs zurückkam, sollen die Lines zu Anfang nicht noch einmal angezeigt werden
     private IEnumerator ShowLinesAndHandleSelection(DialogueLines dialogueLines, bool wasReturned)
     {
         if (!wasReturned)
@@ -65,7 +70,7 @@ public class DialogueManager : Manager, ISelectable
 
             _promptSkip.enabled = false;
 
-            yield return PrintDialogueLines(dialogueLines.Lines);        
+            yield return PrintDialogueLines(dialogueLines.Lines);
         }
 
         _textBox.text = "";
@@ -94,6 +99,7 @@ public class DialogueManager : Manager, ISelectable
         ToggleCanvas(_dialogueCanvas, false);
     }
 
+    // Setzt die inititalen Optionen als erstes Element und startet Coroutine
     public void StartDialogue()
     {
         _currentDialogueLines = InitialOptions;
@@ -101,11 +107,7 @@ public class DialogueManager : Manager, ISelectable
         _isRunning = true;
     }
 
-    public DialogueLines ReturnCurrentDialogueLines()
-    {
-        return _currentDialogueLines;
-    }
-
+    // Nimmt index der Auswahl entgegen und setzt so das nächste Diaog-Element
     public void HandleSelectedMenuPoint(int index)
     {
         if (_currentDialogueLines == null)
@@ -150,6 +152,7 @@ public class DialogueManager : Manager, ISelectable
         _textBox.text = "";
     }
 
+    // Wechselt zwischen den zwei Menüs (anderes Menü mit Return-Option immer bei der initialen Auswahl)
     private void ToggleMenus(bool isInitialMenu)
     {
         SelectionMenu nextSelectionMenu;
@@ -221,6 +224,8 @@ public class DialogueManager : Manager, ISelectable
         }
     }
 
+    // Angepasste Version von PrintMultipleLines für Dialoge
+    // Kein Dialog-Sound bei beschreibenden Lines
     private IEnumerator PrintDialogueLines(string[] lines)
     {
         _textBox.enabled = true;

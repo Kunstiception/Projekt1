@@ -19,6 +19,7 @@ public class BossFightManager : CombatManager, ISelectable
 
     private Dictionary<string, int> _currentPlayerInsultsAndValues = new Dictionary<string, int>();
 
+    // Zu Anfang werden praktisch alle UI_Elemente ausgeblendet und nur der Text erscheint unten
     IEnumerator Start()
     {
         ToggleCanvas(_statsCanvas, false);
@@ -35,6 +36,8 @@ public class BossFightManager : CombatManager, ISelectable
         }
 
         SetPrompts();
+
+        _mainEffectsAudioSource.PlayOneShot(_playerInsultHit);
 
         yield return PrintMultipleLines(UIDialogueStorage.SecondPhaseEntryLines);
 
@@ -156,6 +159,7 @@ public class BossFightManager : CombatManager, ISelectable
         }
     }
 
+    // Zufällige Line ausgeben, um zu erklären wieso eine Aktion gerade nicht ausgeführt werden kann
     private IEnumerator PrintRandomLine(VoiceLines possibleLines)
     {
         _textBox.enabled = true;
@@ -176,6 +180,7 @@ public class BossFightManager : CombatManager, ISelectable
         _combatant2 = PlayerManager.Instance;
     }
 
+    // Führt Selbstbeleidigung aus und zeigt danach sogleich die Reaktion des Gegners und führt eine Gegenheilung aus (50% des Schadens)
     private IEnumerator SelfInsultTurn(int optionIndex = 0)
     {
         string line = "";
@@ -251,7 +256,7 @@ public class BossFightManager : CombatManager, ISelectable
                 PlayerManager.Instance.EgoPoints += healValue;
 
                 _currentLine = $"You have recovered {healValue} ego.";
-                yield return HandleTextOutput(_currentLine, false);         
+                yield return HandleTextOutput(_currentLine, false);
             }
         }
 
@@ -292,6 +297,7 @@ public class BossFightManager : CombatManager, ISelectable
         ToggleCanvas(_insultMenuCanvas, true);
     }
 
+    // Nachdem die Kampf-Option freigeschalten wurde, kann dieser geskriptete Schlag ausgeführt werden
     private IEnumerator PerformFinishingBlow()
     {
         _currentLine = "You prepare to strike!";

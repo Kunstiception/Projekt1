@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Diese Methoden addieren Würelwürfe zu den gegebenen Werten
 public static class DiceUtil
 {
     public static int D10()

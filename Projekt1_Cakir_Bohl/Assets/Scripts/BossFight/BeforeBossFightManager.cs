@@ -9,8 +9,7 @@ public class BeforeBossFightManager : Manager
 
     void Start()
     {
-        _promptSkip.enabled = false;
-        _promptContinue.enabled = false;
+        SetPrompts();
 
         foreach (GameObject animation in _animations)
         {
@@ -19,10 +18,9 @@ public class BeforeBossFightManager : Manager
 
         StartCoroutine(PlayEnding());
 
+        // Heilt den Player einmal vollkommen vor dem Bosskampf
         ConditionManager.Instance.ResetStats();
-
         PlayerManager.Instance.HealthPoints = PlayerManager.Instance.GetStartingHealth();
-
         PlayerManager.Instance.EgoPoints = PlayerManager.Instance.GetStartingEgo();
     }
 
@@ -31,6 +29,7 @@ public class BeforeBossFightManager : Manager
         ListenForSkipOrAuto();
     }
 
+    // Speilt nacheinander verknüpft mit dem Text die Baum-Animationen ab
     private IEnumerator PlayEnding()
     {
         for (int i = 0; i < _animations.Length; i++)

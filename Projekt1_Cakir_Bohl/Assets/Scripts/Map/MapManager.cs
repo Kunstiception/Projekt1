@@ -11,7 +11,6 @@ public class MapManager : Manager
     [SerializeField] private Transform[] _firstWaypoints;
     [SerializeField] private GameObject[] _days;
     [SerializeField] private WayPoint _dogFirstDay;
-    //[SerializeField] private TextMeshProUGUI _daysCounter;
     [SerializeField] private SpriteRenderer _timeOfDayIcon;
     [SerializeField] private Sprite _dayIcon;
     [SerializeField] private Sprite _nightIcon;
@@ -368,21 +367,26 @@ public class MapManager : Manager
 
         SceneManager.LoadScene(_nextSceneIndex);
     }
-
+    
+    // Wählt zufällig eine Interaktionsszene aus (Merchant, Pond, Dog)
+    // Szenen werden aus dem Pool gelöscht, falls sie gerade nicht angelaufen werden können
     private int ChooseInteractionType()
     {
         List<int> indexPool = new List<int> { 6, 12, 14 };
 
+        // Bei Tag 1 immer Hund für den Tutorial-Dialog
         if (MainManager.Instance.CurrentDay == 0)
         {
             return indexPool[2];
         }
 
-        if (InventoryManager.Instance.InventoryItems.Count >= GameConfig.MaxInventorySlots)
+        // Kein drittes Hund-Treffen, wenn Inventar schon voll
+        if (InventoryManager.Instance.InventoryItems.Count >= GameConfig.MaxInventorySlots && MainManager.Instance.HasBefriendedDog)
         {
-            indexPool.Remove(13);
+            indexPool.Remove(14);
         }
 
+        // Kein Teich, wenn keine Zustände vorhanden
         if (ConditionManager.Instance.GetCurrentConditions().Count == 0)
         {
             indexPool.Remove(12);

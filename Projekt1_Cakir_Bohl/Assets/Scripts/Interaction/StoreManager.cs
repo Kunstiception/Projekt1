@@ -43,6 +43,7 @@ public class StoreManager : Manager, ISelectable
         _currentItem = item;
     }
 
+    // Wenn genug Münzen vorhanden und genug Platz im Iventar, wird der Kauf ausgeführt
     private IEnumerator TryPurchase()
     {
         if (_coinsItem == null)
@@ -117,6 +118,7 @@ public class StoreManager : Manager, ISelectable
         }
     }
 
+    // Setzt die Münzen-Anzeige nach einem Kauf
     private void UpdateCoinsText()
     {
         _coinsItem = InventoryUtil.ReturnCoinItem();
