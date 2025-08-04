@@ -1,5 +1,3 @@
-using UnityEditor.Experimental.GraphView;
-
 public static class UIDialogueStorage
 {
     public static string FoundLoot = "There is a treasure chest!";

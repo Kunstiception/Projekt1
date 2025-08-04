@@ -148,6 +148,8 @@ public class Merchant : InventoryDisplayer
 
     public override void ChangePosition(bool isUp)
     {
+        _audioSource.PlayOneShot(_menuSound);
+        
         if (isUp)
         {
             if (_currentMenuPoint == 0)

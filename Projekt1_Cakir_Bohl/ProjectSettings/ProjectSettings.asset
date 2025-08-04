@@ -161,7 +161,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DefaultCompany.Projekt1-Cakir-Bohl
+    Standalone: com.Pushel-Studio.King-s-Crown--A-Fool-s-Errand
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -286,7 +286,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 505f9a71fc46fe04cb932bdd8aaa2379, type: 3}
+      m_Icon: {fileID: 2800000, guid: 1999e1832b3d1b048887a7034a848d39, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0

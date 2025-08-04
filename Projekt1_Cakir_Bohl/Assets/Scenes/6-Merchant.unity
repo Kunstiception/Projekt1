@@ -393,6 +393,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &322226988 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2167749980040309061, guid: 188d878cd651a054b8a7db44d14fd706, type: 3}
+  m_PrefabInstance: {fileID: 1229493840}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &356002284
 GameObject:
   m_ObjectHideFlags: 0
@@ -5058,8 +5063,8 @@ MonoBehaviour:
   - {fileID: 1229493854}
   - {fileID: 1229493853}
   _connectedScript: {fileID: 1719405261}
-  _audioSource: {fileID: 0}
-  _menuSound: {fileID: 0}
+  _audioSource: {fileID: 322226988}
+  _menuSound: {fileID: 8300000, guid: 6465a7c79e46bfa48978b400318cae92, type: 3}
   _amountTexts: []
   _equipIndicators: []
   _textBox: {fileID: 1647918672}
