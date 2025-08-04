@@ -31,6 +31,8 @@ public class StartMenu : Manager
     {
         MainManager.Instance.LoadAll();
 
+        PlayerManager.Instance.ResetPlayer();
+
         if (MainManager.Instance.IsDevelopment)
         {
             SceneManager.LoadScene(2);
