@@ -62,7 +62,7 @@ public class BossFightManager : CombatManager, ISelectable
 
         _musicSource.Play();
 
-        _currentLine = $"{_enemy.Name}: Give yourself to me!";
+        _currentLine = $"{_enemy.Name}: Stop this! Give yourself to me!";
         yield return HandleTextOutput(_currentLine, false, true);
 
         _textBox.text = "";

@@ -1,3 +1,5 @@
+using UnityEditor.Experimental.GraphView;
+
 public static class UIDialogueStorage
 {
     public static string FoundLoot = "There is a treasure chest!";
@@ -109,9 +111,13 @@ public static class UIDialogueStorage
         "Carefully, you enter the pond, step by step, until the cool water covers most of your body.",
         "You feel your ailments wash away."};
     public static string[] SecondPhaseEntryLines =
-        {"You realize you can't win this way.",
-        "You must find another way to defeat the voice.",
-        "Or otherwise your quest was for nothing."};
+        {"You can't win like this!",
+        "You have to find another way to defeat the voice...",
+        "... that agitating, grating voice that's been gnawing at you all this time.",
+        "Think about what you really need to say.",
+        "Don't lose yourself.",
+        "Don't let it win.",
+        "Otherwise all of this will have been for nothing."};
     public static string[] ReadyToAttackBossLines =
         {"You have rid yourself of all your ego.",
         "The voice seems confused.",

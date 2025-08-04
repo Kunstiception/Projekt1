@@ -24,7 +24,7 @@ MonoBehaviour:
   SpeakerIndex: 00000000000000000100000000000000
   PlayerOptions:
   - Why is it that animals talk around here?
-  - (Offer the crow a bit of your food.)
+  - (Offer the crow a bite of your food.)
   - Please take your crow and leave, old man. (skip dialogue)
   BranchingLines:
   - {fileID: 11400000, guid: 0fc84262a41e31d42864a4c5483cfdb0, type: 2}

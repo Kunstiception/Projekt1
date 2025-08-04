@@ -30,7 +30,8 @@ MonoBehaviour:
   - Accidents happen!
   - These tax rates are outrageous!
   - Damn, do you really think so?
-  - No need for armor when you've got abs of STEEL!
+  - They've been passed down from my father... and passed down to him by his father...
+    and passed down to him-
   AnswersWhenResisted:
   - "Come find out how scary I really am!\_"
   - I'm sorry it's not the rotten, tasteless crumbs you're used to!
@@ -39,5 +40,4 @@ MonoBehaviour:
   - I think your helmet would make a much better one!
   - I'm sure your head will pay for the entire next year.
   - Not when I drive it through your face!
-  - They've been passed down from my father... and passed down to him by his father...
-    and passed down to him-
+  - No need for armor when you've got abs of STEEL!
