@@ -19,7 +19,9 @@ MonoBehaviour:
   - I was such an idiot for listening to you.
   - Being a knight never truly made me happy.
   - I am so pathetic. I'll never account to anything.
-  Values: 040000000400000005000000050000000500000004000000
+  - When did I stop thinking for myself?
+  - What would my mom say if she saw me like this?
+  Values: 0400000004000000050000000500000005000000040000000400000005000000
   AnswersWhenHit:
   - NONSENSE! There is no doubt. We're made for greatness.
   - For m- For your own sake! Can't you see?
@@ -27,4 +29,6 @@ MonoBehaviour:
   - You are an idiot for not listening NOW!
   - But you can look down on other people! Isn't that great?
   - Just give yourself to me and stop this already!
+  - It's always been me! You've never been alone!
+  - What does that matter?! You don't answer to anyone!
   AnswersWhenResisted: []
